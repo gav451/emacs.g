@@ -28,6 +28,8 @@
 
 (progn ;    `use-package'
   (require  'use-package)
+  (setq use-package-enable-imenu-support t)
+  (setq use-package-minimum-reported-time 0.001)
   (setq use-package-verbose t))
 
 (use-package subr-x
@@ -117,6 +119,11 @@
     (setq indent-tabs-mode nil))
   (add-hook 'lisp-interaction-mode-hook #'indent-spaces-mode))
 
+(use-package macrostep
+  :bind*
+  ("C-c e" . macrostep-expand)
+  :config (use-package use-package))
+
 (use-package magit
   :defer t
   :bind (("C-x g"   . magit-status)
@@ -126,10 +133,17 @@
                           'magit-insert-modules
                           'magit-insert-stashes
                           'append))
-
 (use-package man
   :defer t
   :config (setq Man-width 80))
+
+(use-package markdown-mode
+  :custom
+  (markdown-command "pandoc -f markdown -t html5 -s --self-contained --smart")
+  :mode
+  (("README\\.md\\'" . gfm-mode)
+   ("\\.md\\'" . markdown-mode)
+   ("\\.markdown\\'" . markdown-mode)))
 
 (use-package org
   :defer t
@@ -138,6 +152,17 @@
 
 (use-package paren
   :config (show-paren-mode))
+
+(use-package pdf-tools
+  :custom
+  (pdf-annot-activate-created-annotations t)
+  (pdf-view-display-size 'fit-page)
+  (pdf-view-use-imagemagick t)
+  :magic ("%PDF" . pdf-view-mode)
+  :config (pdf-tools-install t)
+  (bind-keys :map pdf-view-mode-map
+             ("C-r" . isearch-backward)
+             ("C-s" . isearch-forward)))
 
 (use-package prog-mode
   :config (global-prettify-symbols-mode)
