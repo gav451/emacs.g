@@ -61,6 +61,9 @@
 	build-step = make
 	build-step = borg-byte-compile
 	build-step = borg-update-autoloads
+[submodule "tablist"]
+	path = lib/tablist
+	url = git@github.com:politza/tablist.git
 [submodule "use-package"]
 	path = lib/use-package
 	url = git@github.com:jwiegley/use-package.git
