@@ -382,11 +382,10 @@ In that case, insert the number."
   :init
   (use-package pyvenv
     :commands
-    pyvenv-activate
-    :config
-    (pyvenv-activate "~/3.6"))
+    pyvenv-activate)
   :config
   (use-package elpy
+    :demand t
     :custom
     (elpy-rpc-ignored-buffer-size (lsh 1 18))
     (elpy-modules '(elpy-module-sane-defaults
@@ -402,6 +401,7 @@ In that case, insert the number."
     elpy-rpc
     elpy-rpc--buffer-contents
     :init
+    (pyvenv-activate "~3.6")
     (elpy-enable)
     (defcustom elpy-no-get-completions-rx
       "-?\\([0-9]+\\.?[0-9]*\\|0[Bb][01]+\\|0[Oo][0-8]+\\|0[Xx][0-9A-Fa-f]+\\)"
