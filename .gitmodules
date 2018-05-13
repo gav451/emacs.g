@@ -30,6 +30,9 @@
 [submodule "diff-hl"]
 	path = lib/diff-hl
 	url = git@github.com:dgutov/diff-hl.git
+[submodule "elpy"]
+	path = lib/elpy
+	url = git@github.com:jorgenschaefer/elpy.git
 [submodule "emacsql"]
 	path = lib/emacsql
 	url = git@github.com:skeeto/emacsql.git
@@ -37,12 +40,24 @@
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git
+[submodule "epl"]
+	path = lib/epl
+	url = git@github.com:cask/epl.git
+[submodule "find-file-in-project"]
+	path = lib/find-file-in-project
+	url = git@github.com:technomancy/find-file-in-project.git
 [submodule "ghub"]
 	path = lib/ghub
 	url = git@github.com:magit/ghub.git
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
+[submodule "highlight-indentation"]
+	path = lib/highlight-indentation
+	url = git@github.com:antonj/Highlight-Indentation-for-Emacs.git
+[submodule "htmlize"]
+	path = lib/htmlize
+	url = git@github.com:hniksic/emacs-htmlize.git
 [submodule "ivy"]
 	path = lib/ivy
 	url = git@github.com:abo-abo/swiper.git
@@ -80,6 +95,18 @@
 	build-step = make
 	build-step = borg-byte-compile
 	build-step = borg-update-autoloads
+[submodule "pkg-info"]
+	path = lib/pkg-info
+	url = git@github.com:lunaryorn/pkg-info.el.git
+[submodule "projectile"]
+	path = lib/projectile
+	url = git@github.com:bbatsov/projectile.git
+[submodule "pyvenv"]
+	path = lib/pyvenv
+	url = git@github.com:jorgenschaefer/pyvenv.git
+[submodule "s"]
+	path = lib/s
+	url = git@github.com:magnars/s.el.git
 [submodule "tablist"]
 	path = lib/tablist
 	url = git@github.com:politza/tablist.git
