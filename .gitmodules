@@ -1,6 +1,12 @@
 [borg]
 	pushDefault = locutus
 	collective = emacsg
+[submodule "ace-link"]
+	path = lib/ace-link
+	url = git@github.com:abo-abo/ace-link.git
+[submodule "ace-window"]
+	path = lib/ace-window
+	url = git@github.com:abo-abo/ace-window.git
 [submodule "async"]
 	path = lib/async
 	url = git@github.com:jwiegley/emacs-async.git
@@ -14,6 +20,12 @@
 [submodule "auto-compile"]
 	path = lib/auto-compile
 	url = git@github.com:emacscollective/auto-compile.git
+[submodule "avy"]
+	path = lib/avy
+	url = git@github.com:abo-abo/avy.git
+[submodule "biblio"]
+	path = lib/biblio
+	url = git@github.com:cpitclaudel/biblio.el.git
 [submodule "borg"]
 	path = lib/borg
 	url = git@github.com:emacscollective/borg.git
@@ -27,9 +39,15 @@
 	path = lib/dash
 	url = git@github.com:magnars/dash.el.git
 	no-makeinfo = dash-template.texi
+[submodule "delight"]
+	path = lib/delight
+	url = https://git.savannah.nongnu.org/git/delight.git
 [submodule "diff-hl"]
 	path = lib/diff-hl
 	url = git@github.com:dgutov/diff-hl.git
+[submodule "dired-hacks"]
+	path = lib/dired-hacks
+	url = git@github.com:Fuco1/dired-hacks.git
 [submodule "elpy"]
 	path = lib/elpy
 	url = git@github.com:jorgenschaefer/elpy.git
@@ -43,21 +61,36 @@
 [submodule "epl"]
 	path = lib/epl
 	url = git@github.com:cask/epl.git
+[submodule "f"]
+	path = lib/f
+	url = git@github.com:rejeep/f.el.git
 [submodule "find-file-in-project"]
 	path = lib/find-file-in-project
 	url = git@github.com:technomancy/find-file-in-project.git
+[submodule "flx"]
+	path = lib/flx
+	url = git@github.com:lewang/flx.git
 [submodule "ghub"]
 	path = lib/ghub
 	url = git@github.com:magit/ghub.git
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
+[submodule "helm"]
+	path = lib/helm
+	url = git@github.com:emacs-helm/helm.git
+[submodule "helm-bibtex"]
+	path = lib/helm-bibtex
+	url = git@github.com:tmalsburg/helm-bibtex.git
 [submodule "highlight-indentation"]
 	path = lib/highlight-indentation
 	url = git@github.com:antonj/Highlight-Indentation-for-Emacs.git
 [submodule "htmlize"]
 	path = lib/htmlize
 	url = git@github.com:hniksic/emacs-htmlize.git
+[submodule "hydra"]
+	path = lib/hydra
+	url = git@github.com:abo-abo/hydra.git
 [submodule "ivy"]
 	path = lib/ivy
 	url = git@github.com:abo-abo/swiper.git
@@ -85,9 +118,15 @@
 	load-path = lisp
 	load-path = contrib/lisp
 	info-path = doc
+[submodule "org-ref"]
+	path = lib/org-ref
+	url = git@github.com:jkitchin/org-ref.git
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git
+[submodule "parsebib"]
+	path = lib/parsebib
+	url = git@github.com:joostkremers/parsebib.git
 [submodule "pdf-tools"]
 	path = lib/pdf-tools
 	url = git@github.com:politza/pdf-tools.git
@@ -95,6 +134,9 @@
 	build-step = make
 	build-step = borg-byte-compile
 	build-step = borg-update-autoloads
+[submodule "peep-dired"]
+	path = lib/peep-dired
+	url = git@github.com:asok/peep-dired.git
 [submodule "pkg-info"]
 	path = lib/pkg-info
 	url = git@github.com:lunaryorn/pkg-info.el.git
@@ -104,18 +146,33 @@
 [submodule "pyvenv"]
 	path = lib/pyvenv
 	url = git@github.com:jorgenschaefer/pyvenv.git
+[submodule "rainbow-delimiters"]
+	path = lib/rainbow-delimiters
+	url = git@github.com:Fanael/rainbow-delimiters.git
 [submodule "s"]
 	path = lib/s
 	url = git@github.com:magnars/s.el.git
+[submodule "smex"]
+	path = lib/smex
+	url = git@github.com:nonsequitur/smex.git
 [submodule "tablist"]
 	path = lib/tablist
 	url = git@github.com:politza/tablist.git
 [submodule "use-package"]
 	path = lib/use-package
 	url = git@github.com:jwiegley/use-package.git
+[submodule "wgrep"]
+	path = lib/wgrep
+	url = git@github.com:mhayashi1120/Emacs-wgrep.git
+[submodule "which-key"]
+	path = lib/which-key
+	url = git@github.com:justbur/emacs-which-key.git
 [submodule "with-editor"]
 	path = lib/with-editor
 	url = git@github.com:magit/with-editor.git
+[submodule "writegood-mode"]
+	path = lib/writegood-mode
+	url = git@github.com:bnbeckwith/writegood-mode.git
 [submodule "yasnippet"]
 	path = lib/yasnippet
 	url = git@github.com:joaotavora/yasnippet.git
