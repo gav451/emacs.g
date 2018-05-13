@@ -258,6 +258,38 @@ In that case, insert the number."
   :bind (("C-c l"   . org-store-link)
          ("C-c C-l" . org-insert-link-global)))
 
+(use-package org-ref
+  :after org
+  :custom
+  (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
+  (bibtex-completion-library-path "~/VCS/research/papers")
+  (bibtex-completion-notes-path "~/VCS/research/notes/notes.org")
+  (org-ref-bibliography-notes "~/VCS/research/notes/notes.org")
+  (org-ref-completion-liberary 'org-ref-ivy-cite)
+  (org-ref-default-bibliography '("~/tmpfs/refs.bib" "~/VCS/research/refs.bib"))
+  (org-ref-pdf-directory "~/VCS/research/papers"))
+
+(use-package org-ref-glossary
+  :after org-ref
+  :commands
+  or-follow-glossary)
+
+(use-package org-ref-utils
+  :after org-ref-glossary
+  :functions
+  org-ref-link-set-parameters
+  :config
+  (org-ref-link-set-parameters "ac*"
+    :follow #'or-follow-glossary
+    :face 'org-ref-glossary-face
+    :help-echo 'or-glossary-tooltip
+    :export (lambda (path _ format)
+              (cond
+               ((eq format 'latex)
+                (format "\\gls*{%s}" path))
+               (t
+                (format "%s" path))))))
+
 (use-package paren
   :config (show-paren-mode))
 
