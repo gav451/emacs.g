@@ -88,7 +88,32 @@
            (float-time (time-subtract (current-time)
                                       before-user-init-time))))
 
-;;; Long tail
+(use-package auctex
+  ;; AuCTeX is better than the built in tex mode; let's use it.
+  :load tex-site
+  :mode ("\\.tex\\'" . TeX-latex-mode)
+  :custom
+  (TeX-auto-local ".auctex-auto-local")
+  (TeX-auto-save t)
+  (TeX-clean-confirm nil)
+  (TeX-electric-escape t)
+  (TeX-electric-math '("\\(" . "\\)"))
+  (TeX-electric-sub-and-superscript t)
+  (TeX-parse-self t)
+  (TeX-source-correlate-method 'synctex)
+  (TeX-source-correlate-mode t)
+  (reftex-plug-into-AUCTeX t)
+  ;; (TeX-data-directory (expand-file-name "lib/auctex" user-emacs-directory))
+  ;; (TeX-lisp-directory (expand-file-name "lib/auctex" user-emacs-directory))
+  :hook
+  (LaTeX-mode . LaTeX-math-mode)
+  (LaTeX-mode . reftex-mode)
+  (LaTeX-mode . TeX-PDF-mode)
+  (TeX-after-compilation-finished-functions . TeX-revert-document-buffer)
+  :config
+  (use-package latex
+    :hook
+    (LaTeX-mode . LaTeX-math-mode)))
 
 (use-package dash
   :config (dash-enable-font-lock))
