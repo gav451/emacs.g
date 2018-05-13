@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+# name: SI units
+# key: si
+# --
+\si{$1}$0

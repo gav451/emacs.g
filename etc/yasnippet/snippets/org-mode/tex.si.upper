@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+# name: SI magnitude units
+# key: SI
+# --
+\SI{${1:magnitude}}{${2:units}}$0

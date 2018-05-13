@@ -1,0 +1,16 @@
+# -*- coding: utf-8 -*-
+# name : class
+# key  : class
+# expand-env: ((yas-indent-line 'fixed))
+# --
+class ${1:ClassName}(${2:object}):
+    """${3:XXX}.
+    ${4:$(python-arguments-to-doc-string)}
+    """
+
+    def __init__(self, $4):
+        ${4:$(python-arguments-to-self-init-string)}$0pass
+    # __init__()
+
+# class $1
+

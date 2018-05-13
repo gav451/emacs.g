@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+# name: physical quantity sub text
+# key: pqbt
+# --
+\\(${1:pq}_{\text{${2:text}}}\\)$0

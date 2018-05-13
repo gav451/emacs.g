@@ -1,0 +1,125 @@
+# -*- coding: utf-8 -*-
+# name: \documentclass{beamer}
+# key: beamer
+# expand-env: ((yas-indent-line 'fixed))
+# --
+\documentclass[svgnames]{beamer}
+%\usepackage{pgfpages}
+%\pgfpagesuselayout{2 on 1}[a4paper,border shrink=5mm]
+
+% Inner theme + color:
+\useinnertheme{rounded}
+\usecolortheme{rose}
+% Outer theme + color:
+\usecolortheme{dolphin}
+\useoutertheme{infolines}
+
+\setbeamertemplate{headline}[default]
+\setbeamerfont{button}{size=\footnotesize}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{textcomp}  % \texttimes
+\usepackage{pifont}    % check marks (\ding{52}) and cross marks (\ding{56})
+\usepackage{wasysym}   % \diameter
+
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{comment}
+\usepackage{colortbl}
+
+\usepackage{standalone}
+
+\usepackage[load-configurations=abbreviations]{siunitx}
+\sisetup{
+  range-phrase = \ensuremath{\text{\,\textendash\,}},
+  range-units = brackets,
+  separate-uncertainty,
+}
+% \DeclareSIUnit\dollar{\$}
+\DeclareSIUnit\mK{\milli\kelvin}
+\DeclareSIUnit\mbar{\milli\bar}
+\DeclareSIUnit\micron{\micro\meter}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,backgrounds,patterns,plotmarks}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\def\axisdefaultwidth{57.5mm}
+\def\axisdefaultheight{40mm}
+
+\usepackage{marvosym}
+\usepackage[marvosym]{tikzsymbols}
+
+\hypersetup{
+  unicode=true,
+  colorlinks=true,
+  filecolor=blue,
+  linkcolor=blue,
+  urlcolor=blue,
+}
+
+\graphicspath{
+  {../2015-03-09/TEX/}
+  {../2015-04-13/TEX/}
+}
+
+
+\newcommand*\He[1]{\ensuremath{^{{#1}}\text{He}}}
+\newcommand*\PQ[2]{\ensuremath{#1_{\text{#2}}}}
+\newcommand*\dPQ[2]{\ensuremath{\dot{#1}_{\text{#2}}}}
+\newcommand*\T[1]{\ensuremath{T_{\text{#1}}}}
+\newcommand*\Z[1]{\ensuremath{Z_{\text{#1}}}}
+\newcommand*\dQ[1]{\ensuremath{\dot{Q}_{\text{#1}}}}
+\newcommand*\dn[1]{\ensuremath{\dot{n}_{\text{#1}}}}
+\newcommand*\p[1]{\ensuremath{p_{\text{#1}}}}
+
+\newcommand{\cmark}{{\color{Green} \ding{52}}}%
+\newcommand{\xmark}{{\color{Red} \ding{56}}}%
+
+\newcommand{\Reynolds}{\mbox{\textit{Re}}}
+\newcommand{\Nusselt}{\mbox{\textit{Nu}}}
+
+\title{
+  ${1:Closed Cycle Dilution Refrigerator}
+}
+\subtitle{
+  ${2:CCDR and LiteBIRD}
+}
+\author{
+  Gerard Vermeulen \and
+  Ariel Haziot \and
+  Sébastien Triqueneaux \and
+  Pierre-Fréderic Sibeud
+}
+\institute[Néel Institute]{
+  Néel Institute (CNRS)
+}
+\date[Paris, 2017-10-23]{LiteBIRD-Europe, Paris, 2017-10-23}
+\AtBeginSection[]{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,hideallsubsections]
+  \end{frame}}
+\AtBeginSubsection[]{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[
+    currentsection,
+    sectionstyle=show/hide,
+    subsectionstyle=show/shaded/hide]
+  \end{frame}}
+
+
+\begin{document}
+\frame{\titlepage}
+$0
+%\input{section-1}
+%\input{section-2}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% compile-command: "latexmk -pvc ${3:`(file-name-nondirectory (buffer-file-name))`}"
+%%% TeX-master: t
+%%% End:

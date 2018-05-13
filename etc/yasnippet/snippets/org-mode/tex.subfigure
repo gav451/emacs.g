@@ -1,0 +1,39 @@
+# name : subfigure
+# key  : subfigure
+# expand-env : ((yas-indent-line 'fixed))
+# --
+#+BEGIN_SRC latex
+  \begin{figure}
+    \begin{subfigure}[b]{.5\linewidth}
+      \centering
+      \includegraphics[width=65mm]{XXX}
+      \subcaption{
+        XXX
+      }\label{fig:${1:XXX}-a}
+    \end{subfigure}%
+    \begin{subfigure}[b]{.5\linewidth}
+      \centering
+      \includegraphics[width=65mm]{XXX}
+      \subcaption{
+        XXX
+      }\label{fig:`yas-selected-text`$1-b}
+    \end{subfigure}\\\\
+    \begin{subfigure}[b]{.5\linewidth}
+      \centering
+      \includegraphics[width=65mm]{XXX}
+      \subcaption{
+        XXX
+      }\label{fig:`yas-selected-text`$1-c}
+    \end{subfigure}%
+    \begin{subfigure}[b]{.5\linewidth}
+      \centering
+      \includegraphics[width=65mm]{XXX}
+      \subcaption{
+        XXX
+      }\label{fig:`yas-selected-text`$1-d}
+    \end{subfigure}\\\\
+    \caption[XXX}]{
+        XXX
+    }\label{fig:`yas-selected-text`$1}
+  \end{figure}
+#+END_SRC

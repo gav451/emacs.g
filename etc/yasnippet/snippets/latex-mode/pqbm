@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+# name: physical quantity sub math
+# key: pqbm
+# --
+\ensuremath{${1:pq}_{${2:text}}}$0

@@ -1,0 +1,10 @@
+# -*- coding: utf-8 -*-
+# name: \begin{columns} ... \end{columns}
+# key: columns
+# --
+\begin{columns}[T]
+  \column{0.5\textwidth}
+  $1
+  \column{0.5\textwidth}
+  $0
+\end{columns}

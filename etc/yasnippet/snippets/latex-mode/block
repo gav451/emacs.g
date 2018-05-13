@@ -1,0 +1,7 @@
+# -*- coding: utf-8 -*-
+# name: \begin{block} ... \end{block}
+# key: block
+# --
+\begin{block}{${1:Block Title}}
+  $0
+\end{block}

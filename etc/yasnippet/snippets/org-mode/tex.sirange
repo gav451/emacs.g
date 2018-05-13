@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+# name: SI range lower upper units
+# key: sirange
+# --
+\SIrange{${1:lower}}{${2:upper}}{${3:units}}$0

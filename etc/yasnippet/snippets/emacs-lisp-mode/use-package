@@ -1,0 +1,7 @@
+# -*- coding: utf-8 -*-
+# name: use-package
+# key: up
+# --
+;;; Setup `${1:package-name}'.
+(use-package $1
+  :load-path "git/$1"$0)

@@ -1,0 +1,7 @@
+# -*- coding: utf-8 -*-
+# name: \begin{alertblock} ... \end{alertblock}
+# key: alertblock
+# --
+\begin{alertblock}{${1:Block Title}}
+  $0
+\end{alertblock}

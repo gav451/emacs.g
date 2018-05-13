@@ -1,0 +1,42 @@
+# -*- coding: utf-8 -*-
+# name: \documentclass[options]{standalone}
+# key: standalone
+# expand-env: ((yas/indent-line 'fixed))
+# --
+\documentclass[${1:12pt},svgnames]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{beamerarticle}	% Convert beamer commands into no-operations.
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+
+\usepackage{hyperref}
+\hypersetup{
+  unicode=true,
+  colorlinks=true,
+  citecolor=blue,
+  filecolor=blue,
+  linkcolor=blue,
+  urlcolor=blue,
+}
+
+\usepackage[load-configurations=abbreviations]{siunitx}
+\sisetup{range-phrase = \ensuremath{\text{\,\textendash\,}}}
+\DeclareSIUnit\mK{\milli\kelvin}
+\DeclareSIUnit\mbar{\milli\bar}
+\DeclareSIUnit\micron{\micro\meter}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,backgrounds,patterns,plotmarks}
+
+\begin{document}
+$0
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

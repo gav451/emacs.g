@@ -1,0 +1,35 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: conference or workshop abstract
+# key: abstract
+# binding: direct-keybinding
+# --
+\documentclass[12pt,a4paper,svgnames,notitlepage]{article}
+\setlength{\textwidth}{160mm}\setlength{\textheight}{240mm}
+\setlength{\oddsidemargin}{0mm}\setlength{\evensidemargin}{0mm}
+\setlength{\topmargin}{-10mm}
+\setlength{\parindent}{0mm}
+\pagestyle{empty}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[load-configurations=abbreviations]{siunitx}
+\sisetup{
+  range-phrase = \ensuremath{\text{\,\textendash\,}},
+  range-units = brackets,
+  separate-uncertainty,
+}
+\newcommand*\He[1]{\(^{#1}\)He}
+
+\begin{document}
+
+{\bf ${1:Title}}\\\\
+
+${2:Authors}\\\\
+
+${0:Text}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

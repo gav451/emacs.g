@@ -1,0 +1,31 @@
+# -*- coding: utf-8 -*-
+# name : program
+# key  : program
+# expand-env : ((yas-indent-line 'fixed))
+# --
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+${1:XXX}
+"""
+
+from __future__ import absolute_import, division, print_function
+
+import numpy
+
+
+def main():
+    """
+    ${2:XXX}
+    """
+    $0pass
+
+# main()
+
+
+if __name__ == '__main__':
+    main()
+
+# Local Variables:
+# mode: python
+# End:

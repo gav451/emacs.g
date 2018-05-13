@@ -374,6 +374,58 @@ In that case, insert the number."
   :config
   (global-prettify-symbols-mode))
 
+(use-package python
+  :custom
+  (python-shell-interpreter-args "-E -i")
+  :interpreter ("python" . python-mode)
+  :mode ("\\.pyw?\\'" . python-mode)
+  :init
+  (use-package pyvenv
+    :commands
+    pyvenv-activate
+    :config
+    (pyvenv-activate "~/3.6"))
+  :config
+  (use-package elpy
+    :custom
+    (elpy-rpc-ignored-buffer-size (lsh 1 18))
+    (elpy-modules '(elpy-module-sane-defaults
+                    elpy-module-company
+                    elpy-module-eldoc
+                    elpy-module-flymake
+                    elpy-module-pyvenv))
+    (elpy-company-post-completion-function
+     #'elpy-company-post-complete-parens)
+    :commands
+    elpy-company-post-complete-parens
+    elpy-enable
+    elpy-rpc
+    elpy-rpc--buffer-contents
+    :init
+    (elpy-enable)
+    (defcustom elpy-no-get-completions-rx
+      "-?\\([0-9]+\\.?[0-9]*\\|0[Bb][01]+\\|0[Oo][0-8]+\\|0[Xx][0-9A-Fa-f]+\\)"
+      "Let `elpy-rpc-get-completions' skip text matching this regexp.
+Sometimes the jedi backend returns completions that confuse elpy, e.g.
+for numbers.  Extend the regexp in case you find other similar cases
+and file a bug report."
+      :type 'string
+      :group 'elpy)
+
+    (defun elpy-rpc-get-completions (&optional success error)
+      "Call the get_completions API function.
+
+Returns a list of possible completions for the Python symbol at
+point."
+      (when (and (< (buffer-size) elpy-rpc-ignored-buffer-size)
+                 (not (thing-at-point-looking-at elpy-no-get-completions-rx 32)))
+        (elpy-rpc "get_completions"
+                  (list buffer-file-name
+                        (elpy-rpc--buffer-contents)
+                        (- (point)
+                           (point-min)))
+                  success error)))))
+
 (use-package recentf
   :demand t
   :config
@@ -421,6 +473,28 @@ In that case, insert the number."
                (float-time (time-subtract (current-time)
                                           before-user-init-time))))
             t))
+
+(use-package yasnippet
+  :preface
+  (defun yas-ivy-prompt (prompt choices &optional display-fn)
+    (yas-completing-prompt prompt choices display-fn #'ivy-completing-read))
+  :custom
+  (yas-prompt-functions
+   '(yas-ivy-prompt yas-completing-prompt))
+  (yas-snippet-dirs
+   (list (expand-file-name "yasnippet/snippets" no-littering-etc-directory)))
+  :commands
+  yas-expand-from-trigger-key
+  yas-global-mode
+  yas-next-field-or-maybe-expand
+  yas-completing-prompt
+  :demand t
+  ;; I fail to use alternative keys in yas-keymap and yas-minor-mode-map as explained in
+  ;; https://github.com/capitaomorte/yasnippet/blob/master/doc/faq.org.
+  ;; However, everything works fine, sofar.
+  :config
+  (yas-global-mode 1)
+  (delight 'yas-minor-mode " ✀"))
 
 (progn ;     personalize
   (let ((file (expand-file-name (concat (user-real-login-name) ".el")

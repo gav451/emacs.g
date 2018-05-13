@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+# name: dot physical quantity
+# key: dpq
+# --
+\\(\dot{${1:pq}}\\)$0
