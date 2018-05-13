@@ -69,9 +69,6 @@
 
 (use-package counsel
   :demand t
-  :bind (("M-x"     . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)
-         ("C-x C-l" . counsel-find-library))
   :config (counsel-mode))
 
 (use-package ivy
@@ -87,6 +84,30 @@
   (message "Loading early birds...done (%.3fs)"
            (float-time (time-subtract (current-time)
                                       before-user-init-time))))
+
+(use-package ace-link
+  :after avy
+  :init
+  (ace-link-setup-default))
+
+(use-package ace-window
+  :custom
+  (aw-ignored-buffers '("*Calc Trail*"))
+  (aw-leading-char-style 'path)
+  (aw-keys '(?0 ?1 ?2 ?3 ?4 ?5 ?6 ?7 ?8 ?9))
+  (aw-reverse-frame-list t)
+  :bind* ("C-x o" . ace-window)         ; was `other-window'.
+  :after avy
+  :init
+  ;; C-h i: Elisp -> Display -> Faces -> Defining Faces.
+  (face-spec-set 'aw-leading-char-face
+                 '((((class color) (background dark))
+                    :background "gold" :foreground "purple3" :height 2.0)
+                   (((class color) (background light))
+                    :background "purple3" :foreground "gold" :height 2.0)
+                   (t :foreground "gray100" :underline nil))
+                 'face-defface-spec)
+  (ace-window-display-mode))
 
 (use-package auctex
   ;; AuCTeX is better than the built in tex mode; let's use it.
@@ -115,6 +136,56 @@
     :hook
     (LaTeX-mode . LaTeX-math-mode)))
 
+(use-package avy
+  :custom
+  (avy-all-windows t)
+  :bind*
+  ("C-:" . avy-goto-word-1)
+  ("C-;" . avy-goto-char)
+  :init
+  (avy-setup-default))
+
+(use-package company
+  :preface
+  (defun my-company-complete-number ()
+    "Forward to `company-complete-number'.
+
+Unless the number is potentially part of the candidate.
+In that case, insert the number."
+    (interactive)
+    (let* ((k (this-command-keys))
+           (re (concat "^" company-prefix k)))
+      (if (cl-find-if (lambda (s) (string-match re s))
+                      company-candidates)
+          (self-insert-command 1)
+        (company-complete-number
+         (if (equal k "0")
+             10
+           (string-to-number k))))))
+  (defun my-company-insert-abort ()
+    (interactive)
+    (company-abort)
+    (self-insert-command 1))
+  :custom
+  (company-show-numbers t)
+  :bind (:map company-active-map
+              ("C-i" . yas-expand-from-trigger-key)
+              ("C-j" . company-complete-selection)
+              ("C-k" . company-complete-common)
+              (" " . my-company-insert-abort)
+              ("0" . my-company-complete-number)
+              ("1" . my-company-complete-number)
+              ("2" . my-company-complete-number)
+              ("3" . my-company-complete-number)
+              ("4" . my-company-complete-number)
+              ("5" . my-company-complete-number)
+              ("6" . my-company-complete-number)
+              ("7" . my-company-complete-number)
+              ("8" . my-company-complete-number)
+              ("9" . my-company-complete-number))
+  :hook
+  ((LaTeX-mode emacs-lisp-mode org-mode) . company-mode))
+
 (use-package dash
   :config (dash-enable-font-lock))
 
@@ -131,6 +202,18 @@
 (use-package eldoc
   :when (version< "25" emacs-version)
   :config (global-eldoc-mode))
+
+(use-package elec-pair
+  :config
+  (electric-pair-mode))
+
+(use-package epa
+  :defer t
+  :custom
+  (epa-pinentry-mode 'loopback)
+  :config
+  (when (eq system-type 'darwin)
+    (setq epg-gpg-program "gpg2")))
 
 (use-package help
   :defer t
