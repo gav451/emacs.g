@@ -48,6 +48,8 @@
   (add-hook 'auto-compile-inhibit-compile-hook
             'auto-compile-inhibit-compile-detached-git-head))
 
+(use-package no-littering)
+
 (use-package epkg
   :defer t
   :init (setq epkg-repository
