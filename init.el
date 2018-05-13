@@ -39,6 +39,9 @@
 
 (use-package auto-compile
   :demand t
+  :commands
+  auto-compile-on-load-mode
+  auto-compile-on-save-mode
   :config
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode)
@@ -54,8 +57,8 @@
 
 (use-package epkg
   :defer t
-  :init (setq epkg-repository
-              (expand-file-name "var/epkgs/" user-emacs-directory)))
+  :custom
+  (epkg-repository (expand-file-name "var/epkgs/" user-emacs-directory)))
 
 (use-package custom
   :no-require t
@@ -65,20 +68,10 @@
     (load custom-file)))
 
 (use-package server
+  :commands
+  server-mode
+  server-running-p
   :config (or (server-running-p) (server-mode)))
-
-(use-package counsel
-  :demand t
-  :config (counsel-mode))
-
-(use-package ivy
-  :demand t
-  :bind (("C-c C-r" . ivy-resume))
-  :config (ivy-mode))
-
-(use-package swiper
-  :defer t
-  :bind (("C-s" . swiper)))
 
 (progn ;     startup
   (message "Loading early birds...done (%.3fs)"
@@ -87,6 +80,8 @@
 
 (use-package ace-link
   :after avy
+  :commands
+  ace-link-setup-default
   :init
   (ace-link-setup-default))
 
@@ -96,6 +91,8 @@
   (aw-leading-char-style 'path)
   (aw-keys '(?0 ?1 ?2 ?3 ?4 ?5 ?6 ?7 ?8 ?9))
   (aw-reverse-frame-list t)
+  :commands
+  ace-window-display-mode
   :bind* ("C-x o" . ace-window)         ; was `other-window'.
   :after avy
   :init
@@ -133,12 +130,16 @@
   (TeX-after-compilation-finished-functions . TeX-revert-document-buffer)
   :config
   (use-package latex
+    :commands
+    TeX-latex-mode
     :hook
     (LaTeX-mode . LaTeX-math-mode)))
 
 (use-package avy
   :custom
   (avy-all-windows t)
+  :commands
+  avy-setup-default
   :bind*
   ("C-:" . avy-goto-word-1)
   ("C-;" . avy-goto-char)
@@ -168,6 +169,9 @@ In that case, insert the number."
     (self-insert-command 1))
   :custom
   (company-show-numbers t)
+  :commands
+  company-abort
+  company-complete-number
   :bind (:map company-active-map
               ("C-i" . yas-expand-from-trigger-key)
               ("C-j" . company-complete-selection)
@@ -186,24 +190,51 @@ In that case, insert the number."
   :hook
   ((LaTeX-mode emacs-lisp-mode org-mode) . company-mode))
 
+(use-package counsel
+  :custom
+  (counsel-find-file-at-point t)
+  (counsel-find-file-ignore-regexp (concat
+                                    ;; file names beginning with # or .
+                                    "\\(?:\\`[#\\.]\\)"
+                                    ;; file names ending with # or ~
+                                    "\\|\\(?:\\`.+?[#~]\\'\\)"))
+  (counsel-grep-swiper-limit (lsh 1 20))
+  :bind
+  ("C-r" . counsel-grep-or-swiper) ;; Was `isearch-backward'.
+  ("C-s" . counsel-grep-or-swiper) ;; Was `isearch-forward'.
+  :bind*
+  ("C-h S" . counsel-info-lookup-symbol) ;; Was `info-lookup-symbol'.
+  ("C-h f" . counsel-describe-function)  ;; Was `describe-function'.
+  ("C-h v" . counsel-describe-variable)  ;; Was `describe-variable'.
+  ("C-x C-f" . counsel-find-file)        ;; Was `find-file'.
+  ("M-x" . counsel-M-x)                  ;; Was `execute-extended-command'.
+  ("M-y" . counsel-yank-pop)             ;; Was `yank-pop'.
+  ("C-c C-f" . counsel-recentf)
+  ("C-c C-g" . counsel-rg)
+  ("C-c u" . counsel-unicode-char))
+
 (use-package dash
+  :commands
+  dash-enable-font-lock
   :config (dash-enable-font-lock))
 
 (use-package diff-hl
+  :custom
+  (diff-hl-draw-borders nil)
+  :commands
+  global-diff-hl-mode
   :config
-  (setq diff-hl-draw-borders nil)
   (global-diff-hl-mode)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh t))
 
 (use-package dired
   :defer t
-  :config (setq dired-listing-switches "-alh"))
-
-(use-package eldoc
-  :when (version< "25" emacs-version)
-  :config (global-eldoc-mode))
+  :custom
+  (dired-listing-switches "-alh"))
 
 (use-package elec-pair
+  :commands
+  electric-pair-mode
   :config
   (electric-pair-mode))
 
@@ -217,7 +248,25 @@ In that case, insert the number."
 
 (use-package help
   :defer t
+  :commands
+  temp-buffer-resize-mode
   :config (temp-buffer-resize-mode))
+
+(use-package ivy
+  :demand t
+  :custom
+  (ivy-case-fold-search-default 'auto)
+  (ivy-count-format "(%d/%d) ")
+  (ivy-height 10)
+  (ivy-use-ignore-default t)
+  (ivy-use-virtual-buffers t)
+  :bind* ("C-c C-r" . ivy-resume)
+  :commands
+  ivy-completing-read
+  ivy-mode
+  ivy-read
+  :config (ivy-mode)
+  :delight ivy-mode " 𝝓")
 
 (use-package lisp-mode
   :config
@@ -233,14 +282,16 @@ In that case, insert the number."
   :config (use-package use-package))
 
 (use-package magit
-  :defer t
+  :custom
+  (magit-completing-read-function 'ivy-completing-read)
   :bind (("C-x g"   . magit-status)
          ("C-x M-g" . magit-dispatch-popup))
-  :config
-  (magit-add-section-hook 'magit-status-sections-hook
-                          'magit-insert-modules
-                          'magit-insert-stashes
-                          'append))
+  :hook
+  (magit-add-section . magit-status-sections-hook)
+  (magit-add-section . magit-insert-modules)
+  (magit-add-section . magit-insert-stashes)
+  (magit-add-section . append))
+
 (use-package man
   :defer t
   :config (setq Man-width 80))
@@ -256,7 +307,9 @@ In that case, insert the number."
 (use-package org
   :defer t
   :bind (("C-c l"   . org-store-link)
-         ("C-c C-l" . org-insert-link-global)))
+         ("C-c C-l" . org-insert-link-global))
+  :commands
+  org-link-set-parameters)
 
 (use-package org-ref
   :after org
@@ -291,6 +344,8 @@ In that case, insert the number."
                 (format "%s" path))))))
 
 (use-package paren
+  :commands
+  show-paren-mode
   :config (show-paren-mode))
 
 (use-package pdf-tools
@@ -298,31 +353,51 @@ In that case, insert the number."
   (pdf-annot-activate-created-annotations t)
   (pdf-view-display-size 'fit-page)
   (pdf-view-use-imagemagick t)
-  :magic ("%PDF" . pdf-view-mode)
-  :config (pdf-tools-install t)
+  :commands
+  pdf-tools-install
+  :magic
+  ("%PDF" . pdf-view-mode)
+  :config
+  (pdf-tools-install t)
   (bind-keys :map pdf-view-mode-map
              ("C-r" . isearch-backward)
              ("C-s" . isearch-forward)))
 
 (use-package prog-mode
-  :config (global-prettify-symbols-mode)
+  :preface
   (defun indicate-buffer-boundaries-left ()
     (setq indicate-buffer-boundaries 'left))
-  (add-hook 'prog-mode-hook #'indicate-buffer-boundaries-left))
+  :hook
+  (prog-mode . indicate-buffer-boundaries-left)
+  :commands
+  global-prettify-symbols-mode
+  :config
+  (global-prettify-symbols-mode))
 
 (use-package recentf
   :demand t
-  :config (add-to-list 'recentf-exclude "^/\\(?:ssh\\|su\\|sudo\\)?:"))
+  :config
+  (add-to-list 'recentf-exclude "^/\\(?:ssh\\|su\\|sudo\\)?:"))
 
 (use-package savehist
+  :commands
+  savehist-mode
   :config (savehist-mode))
 
 (use-package saveplace
-  :when (version< "25" emacs-version)
+  :commands
+  save-place-mode
   :config (save-place-mode))
 
 (use-package simple
+  :commands
+  column-number-mode
   :config (column-number-mode))
+
+(use-package swiper
+  :custom
+  (swiper-action-recenter t)
+  :bind (("C-s" . swiper)))
 
 (progn ;    `text-mode'
   (add-hook 'text-mode-hook #'indicate-buffer-boundaries-left))
