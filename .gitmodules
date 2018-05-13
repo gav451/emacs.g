@@ -113,11 +113,11 @@
 	url = git@github.com:emacscollective/no-littering.git
 [submodule "org"]
 	path = lib/org
-	url = git@code.orgmode.org:bzg/org-mode.git
-	build-step = make
 	load-path = lisp
 	load-path = contrib/lisp
 	info-path = doc
+	url = git@code.orgmode.org:bzg/org-mode.git
+	build-step = make compile autoloads info
 [submodule "org-ref"]
 	path = lib/org-ref
 	url = git@github.com:jkitchin/org-ref.git
@@ -130,8 +130,8 @@
 [submodule "pdf-tools"]
 	path = lib/pdf-tools
 	url = git@github.com:politza/pdf-tools.git
-	# build-step = sudo dnf install make automake autoconf gcc gcc-c++ ImageMagick libpng-devel zlib-devel poppler-glib-devel
-	build-step = make
+	build-step = make install-server-deps
+	build-step = make -s
 	build-step = borg-byte-compile
 	build-step = borg-update-autoloads
 [submodule "peep-dired"]
@@ -149,6 +149,9 @@
 [submodule "rainbow-delimiters"]
 	path = lib/rainbow-delimiters
 	url = git@github.com:Fanael/rainbow-delimiters.git
+[submodule "rainbow-mode"]
+	path = lib/rainbow-mode
+	url = git@github.com:emacsmirror/rainbow-mode.git
 [submodule "s"]
 	path = lib/s
 	url = git@github.com:magnars/s.el.git
