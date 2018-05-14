@@ -40,3 +40,22 @@ You might also want to adjust this description.
 [Borg]:    https://gitlab.com/tarsius/borg
 [manual]:  https://emacsmirror.net/manual/borg
 [Github]:  https://github.com/emacscollective/emacs.g
+
+Bootstrapping branch GAV
+------------------------
+
+``` shell
+git clone git@github.com:gav451/emacs.g.git -b GAV
+cd emacs.g
+make bootstrap-borg
+make bootstrap
+emacs -Q --load init.elc&
+```
+
+Pushing to branch GAV
+---------------------
+
+``` shell
+git push --set-upstream origin GAV 
+```
+
