@@ -228,9 +228,103 @@ In that case, insert the number."
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh t))
 
 (use-package dired
-  :defer t
+  :preface
+  (defun my-dired-eww-find-file ()
+    "Visit dired file with eww."
+    (interactive)
+    (eww-open-file (dired-get-file-for-visit)))
+  (defun my-dired-rsync (target)
+    "Copy marked files with `rsync' to TARGET directory."
+    (interactive
+     (list (expand-file-name
+            (read-file-name "Rsync to:" (dired-dwim-target-directory)))))
+    ;; Store all selected files into "files" list.
+    (let ((files (dired-get-marked-files nil current-prefix-arg))
+          ;; the rsync command
+          (rsync-command "rsync -av --progress "))
+      ;; Add all marked files as arguments to the rsync command
+      (dolist (file files)
+        (setq rsync-command
+              (concat rsync-command
+                      (if (string-match "^/ssh:\\(.*\\)$" file)
+                          (format " -e ssh %s" (match-string 1 file))
+                        (shell-quote-argument file)) " ")))
+      ;; Append the target.
+      (setq rsync-command
+            (concat rsync-command
+                    (if (string-match "^/ssh:\\(.*\\)$" target)
+                        (format " -e ssh %s" (match-string 1 target))
+                      (shell-quote-argument target))))
+      ;; Run the async shell command.
+      (async-shell-command rsync-command)
+      ;; Finally, switch to that window.
+      (other-window 1)))
   :custom
-  (dired-listing-switches "-alh"))
+  (dired-listing-switches "-aGlhv1 --group-directories-first")
+  (dired-recursive-copies 'always)
+  (dired-recursive-deletes 'always)
+  (dired-dwim-target t)
+  (wdired-allow-to-change-permissions t)
+  :bind (:map dired-mode-map
+              ("E" . my-dired-eww-find-file)
+              ("M-s y" . my-dired-rsync))
+  :hook
+  (dired-mode . auto-revert-mode)
+  :commands
+  dired-get-file-for-visit
+  dired-get-marked-files)
+
+(use-package dired-aux
+  :after dired
+  :commands
+  dired-dwim-target-directory)
+
+(use-package dired-filter
+  :after dired
+  :custom
+  (dired-filter-mark-prefix "\\")
+  (dired-filter-prefix "/")
+  (dired-filter-saved-filters
+   '(("program files"
+      (extension "el" "py"))
+     ("org-mode files"
+      (extension . "org"))
+     ("latex files"
+      (extension "bib" "tex"))
+     ("document viewer files"
+      (extension "djvu" "dvi" "epub" "pdf" "ps"))
+     ("image files"
+      (extension "gif" "jpg" "png" "tiff"))
+     ("document editor files"
+      (extension "doc" "docx" "odt" "ppt" "pptx" "xls" "xlsx"))
+     ("multimedia files"
+      (extension "avi" "mk4" "mkv" "mp4"))))
+  (dired-filter-group-saved-groups
+   '(("default"
+      ("Directories" (directory))
+      ("Program Files" "program files")
+      ("Org-mode Files" "org-mode files")
+      ("LaTeX Files" "latex files")
+      ("Document Viewer Files" "document viewer files")
+      ("Image Files" "image files")
+      ("Document Editor Files" "document editor files")
+      ("Multimedia Files" "multimedia files"))))
+  :bind (:map dired-mode-map
+              ("M-s g" . dired-filter-group-mode)))
+
+(use-package dired-narrow
+  :after dired
+  :bind (:map dired-mode-map
+              ("M-s n" . dired-narrow)))
+
+(use-package dired-subtree
+  :after dired
+  :bind (:map dired-mode-map
+              (":" . dired-subtree-insert)
+              (";" . dired-subtree-remove)))
+
+(use-package dired-x
+  :after dired)
 
 (use-package elec-pair
   :commands
@@ -245,6 +339,65 @@ In that case, insert the number."
   :config
   (when (eq system-type 'darwin)
     (setq epg-gpg-program "gpg2")))
+
+;; http://ergoemacs.org/emacs/emacs_eww_web_browser.html
+;; https://emacs.stackexchange.com/questions/36284/how-to-open-eww-in-readable-mode
+(use-package eww
+  :preface
+  (defcustom eww-readable-sites
+    '("www.cnrtl.fr"
+      "www.thefreedictionary.com"
+      "www.woorden.org")
+    "Customized with use-package eww"
+    :type '(repeat string)
+    :group 'eww)
+  (defun my-eww-rename-buffer ()
+    (rename-buffer "eww" t))
+  (defun my-eww-readable ()
+    (let ((url (eww-current-url)))
+      (when (catch 'found
+              (mapc (lambda (site)
+                      (when (string-match (regexp-quote site) url)
+                        (throw 'found site)))
+                    eww-readable-sites)
+              nil)
+        (eww-readable))))
+  ;; https://www.reddit.com/r/emacs/comments/54kczj/reddit_client_for_emacs/.
+  (defun reddit-browser ()
+    (interactive)
+    (eww-browse-url (format "https://www.reddit.com/r/%s/.mobile"
+                            (completing-read "sub-reddit: "
+                                             '("emacs"
+                                               "i3wm"
+                                               "orgmode")
+                                             nil t))))
+  ;; https://github.com/chubin/wttr.in
+  (defun weather (place)
+    "Get a weather report."
+    (interactive
+     (list (if (use-region-p)
+               (buffer-substring (region-beginning) (region-end))
+             (read-string "Get weather from http://wttr.in/ (:help for help) for: "
+                          (thing-at-point 'word)))))
+    (browse-url (concat "http://wttr.in/" place)))
+  :defines
+  eww-link-keymap
+  eww-mode-map
+  :custom
+  (browse-url-browser-function
+   '((".*google.*" . browse-url-generic)
+     (".*reddit.com" . browse-url-generic)
+     (".*youtube.*" . browse-url-generic)
+     ("." . eww-browse-url)))
+  (browse-url-generic-program (executable-find "firefox"))
+  :hook
+  ((eww-mode . my-eww-rename-buffer)
+   (eww-after-render . my-eww-readable))
+  :commands
+  eww-browse-url
+  eww-current-url
+  eww-open-file
+  eww-readable)
 
 (use-package help
   :defer t
@@ -363,6 +516,12 @@ In that case, insert the number."
              ("C-r" . isearch-backward)
              ("C-s" . isearch-forward)))
 
+(use-package peep-dired
+  :after dired
+  :custom (peep-dired-cleanup-on-disable t)
+  :bind (:map dired-mode-map
+              ("M-s p" . peep-dired)))
+
 (use-package prog-mode
   :preface
   (defun indicate-buffer-boundaries-left ()
@@ -386,6 +545,15 @@ In that case, insert the number."
   :config
   (use-package elpy
     :demand t
+    :preface
+    (defcustom elpy-no-get-completions-rx
+      "-?\\([0-9]+\\.?[0-9]*\\|0[Bb][01]+\\|0[Oo][0-8]+\\|0[Xx][0-9A-Fa-f]+\\)"
+      "Let `elpy-rpc-get-completions' skip text matching this regexp.
+Sometimes the jedi backend returns completions that confuse elpy, e.g.
+for numbers.  Extend the regexp in case you find other similar cases
+and file a bug report."
+      :type 'string
+      :group 'elpy)
     :custom
     (elpy-rpc-ignored-buffer-size (lsh 1 18))
     (elpy-modules '(elpy-module-sane-defaults
@@ -403,15 +571,6 @@ In that case, insert the number."
     :init
     (pyvenv-activate "~3.6")
     (elpy-enable)
-    (defcustom elpy-no-get-completions-rx
-      "-?\\([0-9]+\\.?[0-9]*\\|0[Bb][01]+\\|0[Oo][0-8]+\\|0[Xx][0-9A-Fa-f]+\\)"
-      "Let `elpy-rpc-get-completions' skip text matching this regexp.
-Sometimes the jedi backend returns completions that confuse elpy, e.g.
-for numbers.  Extend the regexp in case you find other similar cases
-and file a bug report."
-      :type 'string
-      :group 'elpy)
-
     (defun elpy-rpc-get-completions (&optional success error)
       "Call the get_completions API function.
 
