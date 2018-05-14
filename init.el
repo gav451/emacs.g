@@ -638,18 +638,6 @@ point."
   (add-to-list 'tramp-default-proxies-alist
                (list (regexp-quote (system-name)) nil nil)))
 
-(progn ;     startup
-  (message "Loading %s...done (%.3fs)" user-init-file
-           (float-time (time-subtract (current-time)
-                                      before-user-init-time)))
-  (add-hook 'after-init-hook
-            (lambda ()
-              (message
-               "Loading %s...done (%.3fs) [after-init]" user-init-file
-               (float-time (time-subtract (current-time)
-                                          before-user-init-time))))
-            t))
-
 (use-package yasnippet
   :preface
   (defun yas-ivy-prompt (prompt choices &optional display-fn)
@@ -671,6 +659,18 @@ point."
   :config
   (yas-global-mode 1)
   (delight 'yas-minor-mode " ✀"))
+
+(progn ;     startup
+  (message "Loading %s...done (%.3fs)" user-init-file
+           (float-time (time-subtract (current-time)
+                                      before-user-init-time)))
+  (add-hook 'after-init-hook
+            (lambda ()
+              (message
+               "Loading %s...done (%.3fs) [after-init]" user-init-file
+               (float-time (time-subtract (current-time)
+                                          before-user-init-time))))
+            t))
 
 (progn ;     personalize
   (let ((file (expand-file-name (concat (user-real-login-name) ".el")
