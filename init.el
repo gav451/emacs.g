@@ -228,6 +228,7 @@ In that case, insert the number."
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh t))
 
 (use-package dired
+  :defer t
   :preface
   (defun my-dired-eww-find-file ()
     "Visit dired file with eww."
@@ -324,6 +325,7 @@ In that case, insert the number."
               (";" . dired-subtree-remove)))
 
 (use-package dired-x
+  :defer t
   :after dired)
 
 (use-package elec-pair
@@ -340,8 +342,6 @@ In that case, insert the number."
   (when (eq system-type 'darwin)
     (setq epg-gpg-program "gpg2")))
 
-;; http://ergoemacs.org/emacs/emacs_eww_web_browser.html
-;; https://emacs.stackexchange.com/questions/36284/how-to-open-eww-in-readable-mode
 (use-package eww
   :preface
   (defcustom eww-readable-sites
@@ -351,8 +351,7 @@ In that case, insert the number."
     "Customized with use-package eww"
     :type '(repeat string)
     :group 'eww)
-  (defun my-eww-rename-buffer ()
-    (rename-buffer "eww" t))
+  ;; https://emacs.stackexchange.com/questions/36284/how-to-open-eww-in-readable-mode
   (defun my-eww-readable ()
     (let ((url (eww-current-url)))
       (when (catch 'found
@@ -362,6 +361,9 @@ In that case, insert the number."
                     eww-readable-sites)
               nil)
         (eww-readable))))
+  ;; http://ergoemacs.org/emacs/emacs_eww_web_browser.html
+  (defun my-eww-rename-buffer ()
+    (rename-buffer "eww" t))
   ;; https://www.reddit.com/r/emacs/comments/54kczj/reddit_client_for_emacs/.
   (defun reddit-browser ()
     (interactive)
@@ -398,6 +400,21 @@ In that case, insert the number."
   eww-current-url
   eww-open-file
   eww-readable)
+
+(use-package flymake
+  :bind
+  (:map flymake-mode-map
+        ("M-n" . flymake-goto-next-error)
+        ("M-p" . flymake-goto-prev-error)))
+
+(use-package goto-addr
+  :preface
+  (defun my-enable-goto-address-mode ()
+    (goto-address-mode 1))
+  :commands
+  goto-address-mode
+  :hook
+  (prog-mode . my-enable-goto-address-mode))
 
 (use-package help
   :defer t
