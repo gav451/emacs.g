@@ -475,11 +475,115 @@ In that case, insert the number."
    ("\\.markdown\\'" . markdown-mode)))
 
 (use-package org
-  :defer t
-  :bind (("C-c l"   . org-store-link)
-         ("C-c C-l" . org-insert-link-global))
+  :preface
+  (defun find-broken-org-file-links ()
+    "Find broken org-mode file links in an org-mode buffer."
+    (interactive)
+    (if (eq major-mode 'org-mode)
+        (let ((paths
+               (org-element-map (org-element-parse-buffer 'object) 'link
+                 (lambda (link)
+                   (let ((path (org-element-property :path link))
+                         (type (org-element-property :type link)))
+                     (when (equal type "file")
+                       (unless (file-exists-p path) path)))))))
+          (if paths
+              (message "Found broken org-mode file links:\n%s"
+                       (mapconcat #'identity paths "\n"))
+            (message "Found no broken org-mode file links")))
+      (message "Failed to find broken links (major mode is not org-mode)")))
+  (defun my-org-mode-hook-eval-blocks ()
+    "Evaluate all org-mode source blocks named `org-mode-hook-eval-block'."
+    (interactive)
+    (if (eq major-mode 'org-mode)
+        (let ((blocks
+               (org-element-map (org-element-parse-buffer) 'src-block
+                 (lambda (element)
+                   (when (string= "org-mode-hook-eval-block"
+                                  (org-element-property :name element))
+                     element)))))
+          (dolist (block blocks)
+            (goto-char (org-element-property :begin block))
+            (org-babel-execute-src-block)))))
+  (defun my-org-mode-hook-completion-at-point ()
+    (setq completion-at-point-functions '(my-org-ref-completion-at-point-ref
+                                          t)))
+  (defun my-org-ref-completion-at-point-ref ()
+    (when (looking-back "\\(\\|C\\|auto\\|c\\|eq\\|name\\|page\\)ref:" 8)
+      (let ((label (ivy-read "label: " (org-ref-get-labels) :require-match t)))
+        (insert label))))
+  :custom
+  (org-capture-templates
+   '(("t" "Task" entry (file+headline "~/tmpfs/tasks.org" "Tasks")
+      "* TODO %?\n  %u\n  %a")
+     ("p" "Protocol" entry (file+headline "~/tmpfs/notes.org" "Inbox")
+      "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+     ("L" "Protocol Link" entry (file+headline "~/tmpfs/notes.org" "Inbox")
+      "* %? [[%:link][%:description]] \nCaptured On: %U")))
+  (org-catch-invisible-edits 'show-and-error)
+  (org-export-with-sub-superscripts '{})
+  (org-src-fontify-natively t)
+  (org-todo-keywords (quote ((sequence "TODO" "|" "DONE" "DEFERRED"))))
+  (org-use-sub-superscripts '{})
+  (org-file-apps '((auto-mode . emacs)
+                   ("\\.mm\\'" . default)
+                   ("\\.x?html?\\'" . (lambda (path link)
+                                        (message "Open %s" link)
+                                        (eww-open-file path)))
+                   ("\\.pdf\\'" . emacs)))
+  (org-agenda-exporter-settings '((ps-landscape-mode t)
+                                  (ps-number-of-columns 2)
+                                  (ps-paper-type 'a4)
+                                  (ps-print-color-p nil)
+                                  (ps-print-header nil)))
+  (org-agenda-files '("~/VCS/pim/jobs.org"))
+  (org-agenda-span 70)
+  (org-babel-python-command "python -E")
+  (org-confirm-babel-evaluate nil)
+
+  (org-latex-caption-above nil)
+  (org-latex-default-packages-alist
+   '(("AUTO" "inputenc"  t ("pdflatex"))
+     ("T1"   "fontenc"   t ("pdflatex"))
+     (""     "graphicx"  t)
+     (""     "grffile"   t)
+     (""     "longtable" nil)
+     (""     "wrapfig"   nil)
+     (""     "rotating"  nil)
+     ("normalem" "ulem"  t)
+     (""     "amsmath"   t)
+     (""     "textcomp"  t)
+     (""     "amssymb"   t)
+     (""     "capt-of"   nil)
+     ("hyperfootnotes=false" "hyperref"  nil)))
+  (org-latex-hyperref-template nil)
+  (org-latex-logfiles-extensions '("blg" "lof" "log" "lot" "out" "toc"))
+  (org-latex-pdf-process
+   '("pdflatex -interaction nonstopmode -output-directory %o %f"
+     "bibtex %b.aux"
+     "pdflatex -interaction nonstopmode -output-directory %o %f"
+     "pdflatex -interaction nonstopmode -output-directory %o %f"))
+  ;; Requires CUSTOM_ID property to suppress LaTeX section labels.
+  (org-latex-prefer-user-labels t)
+  :bind
+  (("C-c a"   . org-agenda)
+   ("C-c c"   . org-capture)
+   ("C-c l"   . org-store-link)
+   ("C-c C-l" . org-insert-link-global))
+  :mode
+  ("\\.org\\'" . org-mode)
+  :hook
+  (org-mode . my-org-mode-hook-eval-blocks)
+  (org-mode . my-org-mode-hook-completion-at-point)
   :commands
   org-link-set-parameters)
+
+(use-package org-element
+  :defer t
+  :functions
+  org-element-map
+  org-element-parse-buffer
+  org-element-property)
 
 (use-package org-ref
   :after org
@@ -488,17 +592,25 @@ In that case, insert the number."
   (bibtex-completion-library-path "~/VCS/research/papers")
   (bibtex-completion-notes-path "~/VCS/research/notes/notes.org")
   (org-ref-bibliography-notes "~/VCS/research/notes/notes.org")
-  (org-ref-completion-liberary 'org-ref-ivy-cite)
+  (org-ref-completion-library 'org-ref-ivy-cite)
   (org-ref-default-bibliography '("~/tmpfs/refs.bib" "~/VCS/research/refs.bib"))
   (org-ref-pdf-directory "~/VCS/research/papers"))
 
+(use-package org-ref-core
+  :defer t
+  :commands
+  org-ref-get-labels)
+
 (use-package org-ref-glossary
-  :after org-ref
+  :defer t
   :commands
   or-follow-glossary)
 
+;; (use-package org-ref-ivy
+;;   :after org-ref)
+
 (use-package org-ref-utils
-  :after org-ref-glossary
+  :defer t
   :functions
   org-ref-link-set-parameters
   :config
@@ -624,8 +736,7 @@ point."
 
 (use-package swiper
   :custom
-  (swiper-action-recenter t)
-  :bind (("C-s" . swiper)))
+  (swiper-action-recenter t))
 
 (progn ;    `text-mode'
   (add-hook 'text-mode-hook #'indicate-buffer-boundaries-left))
