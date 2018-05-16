@@ -28,6 +28,7 @@
 
 (progn ;    `use-package'
   (require  'use-package)
+  (require  'delight)
   (setq use-package-enable-imenu-support t)
   (setq use-package-minimum-reported-time 0.001)
   (setq use-package-verbose t))
@@ -105,35 +106,6 @@
                    (t :foreground "gray100" :underline nil))
                  'face-defface-spec)
   (ace-window-display-mode))
-
-(use-package auctex
-  ;; AuCTeX is better than the built in tex mode; let's use it.
-  :load tex-site
-  :mode ("\\.tex\\'" . TeX-latex-mode)
-  :custom
-  (TeX-auto-local ".auctex-auto-local")
-  (TeX-auto-save t)
-  (TeX-clean-confirm nil)
-  (TeX-electric-escape t)
-  (TeX-electric-math '("\\(" . "\\)"))
-  (TeX-electric-sub-and-superscript t)
-  (TeX-parse-self t)
-  (TeX-source-correlate-method 'synctex)
-  (TeX-source-correlate-mode t)
-  (reftex-plug-into-AUCTeX t)
-  ;; (TeX-data-directory (expand-file-name "lib/auctex" user-emacs-directory))
-  ;; (TeX-lisp-directory (expand-file-name "lib/auctex" user-emacs-directory))
-  :hook
-  (LaTeX-mode . LaTeX-math-mode)
-  (LaTeX-mode . reftex-mode)
-  (LaTeX-mode . TeX-PDF-mode)
-  (TeX-after-compilation-finished-functions . TeX-revert-document-buffer)
-  :config
-  (use-package latex
-    :commands
-    TeX-latex-mode
-    :hook
-    (LaTeX-mode . LaTeX-math-mode)))
 
 (use-package avy
   :custom
@@ -576,7 +548,30 @@ In that case, insert the number."
   (org-mode . my-org-mode-hook-eval-blocks)
   (org-mode . my-org-mode-hook-completion-at-point)
   :commands
-  org-link-set-parameters)
+  org-babel-do-load-languages
+  org-link-set-parameters
+  :config
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               '((calc . t)
+                                 (ditaa . t)
+                                 (dot . t)
+                                 (emacs-lisp . t)
+                                 (gnuplot . t)
+                                 (latex . t)
+                                 (org . t)
+                                 (python . t)
+                                 (shell . t)))
+  (mapc #'(lambda (element) (add-to-list 'org-link-abbrev-alist element))
+        '(;; Google.
+          ("gg-fr" . "https://www.google.fr/search?ie=UTF-8&oe=UTF-8&q=")
+          ("gg-nl" . "https://www.google.nl/search?ie=UTF-8&oe=UTF-8&q=")
+          ("gg-us" . "https://encrypted.google.com/search?ie=UTF-8&oe=UTF-8&q=")
+          ;; Google maps.
+          ("gm-fr" . "https://maps.google.fr/maps?q=%s")
+          ("gm-nl" . "https://maps.google.nl/maps?q=%s")
+          ("gm-us" . "https://maps.google.com/maps?q=%s")
+          ;; Open street map.
+          ("omap" . "http://nominatim.openstreetmap.org/search?q=%s&polygon=1"))))
 
 (use-package org-element
   :defer t
@@ -605,9 +600,6 @@ In that case, insert the number."
   :defer t
   :commands
   or-follow-glossary)
-
-;; (use-package org-ref-ivy
-;;   :after org-ref)
 
 (use-package org-ref-utils
   :defer t
@@ -737,6 +729,48 @@ point."
 (use-package swiper
   :custom
   (swiper-action-recenter t))
+
+(use-package tex-site
+  ;; AuCTeX is better than the built in tex mode; let's use it.
+  ;; Tweak .gitmodules to make the git repository resemble the elpa package.
+  :mode ("\\.tex\\'" . TeX-latex-mode)
+  :custom
+  (TeX-after-compilation-finished-functions 'TeX-revert-document-buffer)
+  (TeX-auto-local ".auctex-auto-local")
+  (TeX-auto-save t)
+  (TeX-clean-confirm nil)
+  (TeX-electric-escape t)
+  (TeX-electric-math '("\\(" . "\\)"))
+  (TeX-electric-sub-and-superscript t)
+  (TeX-parse-self t)
+  (TeX-source-correlate-method 'synctex)
+  (TeX-source-correlate-mode t)
+  (reftex-plug-into-AUCTeX t)
+  ;; (TeX-data-directory (expand-file-name "lib/auctex" user-emacs-directory))
+  ;; (TeX-lisp-directory (expand-file-name "lib/auctex" user-emacs-directory))
+  :init
+  (use-package reftex
+    :custom
+    (reftex-default-bibliography "~/VCS/research/refs.bib")
+    :commands
+    turn-on-reftex
+    :delight reftex-mode " 📑")
+  :config
+  (use-package bibtex
+    :demand t
+    :custom
+    (bibtex-user-optional-fields
+     '(("abstract")
+       ("doi" "Digital Object Identifier")
+       ("url" "Universal Ressource Locator"))))
+  (use-package latex
+    :demand t
+    :commands
+    TeX-latex-mode
+    :hook
+    (LaTeX-mode . LaTeX-math-mode)
+    (LaTeX-mode . TeX-PDF-mode)
+    (LaTeX-mode . turn-on-reftex)))
 
 (progn ;    `text-mode'
   (add-hook 'text-mode-hook #'indicate-buffer-boundaries-left))
