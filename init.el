@@ -69,10 +69,21 @@
     (load custom-file)))
 
 (use-package server
+  :if window-system
+  :preface
+  (defun my-server-switch ()
+    (when (current-local-map)
+      (use-local-map (copy-keymap (current-local-map))))
+    (when server-buffer-clients
+      (local-set-key (kbd "C-x k") #'server-edit)))
+  :hook
+  (server-switch . my-server-switch)
   :commands
-  server-mode
   server-running-p
-  :config (or (server-running-p) (server-mode)))
+  server-start
+  :init
+  (unless (or (daemonp) (server-running-p))
+    (server-start)))
 
 (progn ;     startup
   (message "Loading early birds...done (%.3fs)"
