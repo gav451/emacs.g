@@ -79,6 +79,7 @@
   :hook
   (server-switch . my-server-switch)
   :commands
+  server-edit
   server-running-p
   server-start
   :init
