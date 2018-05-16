@@ -803,7 +803,7 @@ point."
   ;; However, everything works fine, sofar.
   :config
   (yas-global-mode 1)
-  (delight 'yas-minor-mode " ✀"))
+  :delight yas-minor-mode " ✀")
 
 (progn ;     startup
   (message "Loading %s...done (%.3fs)" user-init-file
