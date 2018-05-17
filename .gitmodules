@@ -33,6 +33,9 @@
 [submodule "borg"]
 	path = lib/borg
 	url = git@github.com:emacscollective/borg.git
+[submodule "buttercup"]
+	path = lib/buttercup
+	url = git@github.com:jorgenschaefer/emacs-buttercup.git
 [submodule "closql"]
 	path = lib/closql
 	url = git@github.com:emacscollective/closql.git
@@ -52,6 +55,12 @@
 [submodule "dired-hacks"]
 	path = lib/dired-hacks
 	url = git@github.com:Fuco1/dired-hacks.git
+[submodule "eimp"]
+	path = lib/eimp
+	url = git@github.com:nicferrier/eimp.git
+[submodule "elfeed"]
+	path = lib/elfeed
+	url = git@github.com:skeeto/elfeed.git
 [submodule "elpy"]
 	path = lib/elpy
 	url = git@github.com:jorgenschaefer/elpy.git
@@ -59,12 +68,19 @@
 	path = lib/emacsql
 	url = git@github.com:skeeto/emacsql.git
 	no-byte-compile = emacsql-pg.el
+[submodule "emms"]
+	path = lib/emms
+	info-path = doc
+	url = https://git.savannah.gnu.org/git/emms.git
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git
 [submodule "epl"]
 	path = lib/epl
 	url = git@github.com:cask/epl.git
+[submodule "exwm"]
+	path = lib/exwm
+	url = git@github.com:ch11ng/exwm.git
 [submodule "f"]
 	path = lib/f
 	url = git@github.com:rejeep/f.el.git
@@ -74,6 +90,9 @@
 [submodule "flx"]
 	path = lib/flx
 	url = git@github.com:lewang/flx.git
+[submodule "flycheck"]
+	path = lib/flycheck
+	url = git@github.com:flycheck/flycheck.git
 [submodule "ghub"]
 	path = lib/ghub
 	url = git@github.com:magit/ghub.git
@@ -95,10 +114,16 @@
 [submodule "hydra"]
 	path = lib/hydra
 	url = git@github.com:abo-abo/hydra.git
+[submodule "iedit"]
+	path = lib/iedit
+	url = git@github.com:victorhge/iedit.git
 [submodule "ivy"]
 	path = lib/ivy
 	url = git@github.com:abo-abo/swiper.git
 	info-path = doc
+[submodule "lispy"]
+	path = lib/lispy
+	url = git@github.com:abo-abo/lispy.git
 [submodule "macrostep"]
 	path = lib/macrostep
 	url = git@github.com:joddie/macrostep.git
@@ -112,6 +137,9 @@
 [submodule "markdown-mode"]
 	path = lib/markdown-mode
 	url = git@github.com:jrblevin/markdown-mode.git
+[submodule "multiple-cursors"]
+	path = lib/multiple-cursors
+	url = git@github.com:magnars/multiple-cursors.el.git
 [submodule "no-littering"]
 	path = lib/no-littering
 	url = git@github.com:emacscollective/no-littering.git
@@ -159,6 +187,9 @@
 [submodule "s"]
 	path = lib/s
 	url = git@github.com:magnars/s.el.git
+[submodule "simple-httpd"]
+	path = lib/simple-httpd
+	url = git@github.com:skeeto/emacs-web-server.git
 [submodule "smex"]
 	path = lib/smex
 	url = git@github.com:nonsequitur/smex.git
@@ -180,6 +211,9 @@
 [submodule "writegood-mode"]
 	path = lib/writegood-mode
 	url = git@github.com:bnbeckwith/writegood-mode.git
+[submodule "xelb"]
+	path = lib/xelb
+	url = git@github.com:ch11ng/xelb.git
 [submodule "yasnippet"]
 	path = lib/yasnippet
 	url = git@github.com:joaotavora/yasnippet.git

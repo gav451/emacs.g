@@ -40,19 +40,21 @@
 
 (use-package auto-compile
   :demand t
+  :custom
+  (auto-compile-display-buffer               nil)
+  (auto-compile-mode-line-counter            t)
+  (auto-compile-source-recreate-deletes-dest t)
+  (auto-compile-toggle-deletes-nonlib-dest   t)
+  (auto-compile-update-autoloads             t)
+  :hook
+  (auto-compile-inhibit-compile
+   . auto-compile-inhibit-compile-detached-git-head)
   :commands
   auto-compile-on-load-mode
   auto-compile-on-save-mode
   :config
   (auto-compile-on-load-mode)
-  (auto-compile-on-save-mode)
-  (setq auto-compile-display-buffer               nil)
-  (setq auto-compile-mode-line-counter            t)
-  (setq auto-compile-source-recreate-deletes-dest t)
-  (setq auto-compile-toggle-deletes-nonlib-dest   t)
-  (setq auto-compile-update-autoloads             t)
-  (add-hook 'auto-compile-inhibit-compile-hook
-            'auto-compile-inhibit-compile-detached-git-head))
+  (auto-compile-on-save-mode))
 
 (use-package no-littering)
 
@@ -312,12 +314,6 @@ In that case, insert the number."
   :defer t
   :after dired)
 
-(use-package elec-pair
-  :commands
-  electric-pair-mode
-  :config
-  (electric-pair-mode))
-
 (use-package epa
   :defer t
   :custom
@@ -385,6 +381,125 @@ In that case, insert the number."
   eww-open-file
   eww-readable)
 
+(use-package exwm
+  :preface
+  (defun my-exwm-invoke (command)
+    (interactive (list (read-shell-command "$ ")))
+    (start-process-shell-command command nil command))
+  (defun my-exwm-update-class ()
+    (exwm-workspace-rename-buffer exwm-class-name))
+  (defun my-exwm-manage-finish ()
+    (when (string= exwm-class-name "XTerm")
+      (call-interactively #'exwm-input-release-keyboard)))
+  :when (getenv "EXWM")
+  :custom
+  (display-time-string-forms '((format-time-string "%F %R")))
+  (exwm-layout-show-all-buffers t)
+  (exwm-workspace-number 2)
+  (exwm-workspace-show-all-buffers t)
+  ;; Line-editing shortcuts
+  (exwm-input-simulation-keys
+   '(([?\C-b] . left)
+     ([?\C-f] . right)
+     ([?\C-p] . up)
+     ([?\C-n] . down)
+     ([?\C-a] . home)
+     ([?\C-e] . end)
+     ([?\M-v] . prior)
+     ([?\C-v] . next)
+     ([?\C-d] . delete)
+     ([?\C-k] . (S-end delete))))
+  :hook
+  (exwm-update-class . my-exwm-update-class)
+  (exwm-manage-finish . my-exwm-manage-finish)
+  :commands
+  exwm-enable
+  exwm-input-release-keyboard
+  exwm-input-set-key
+  exwm-input-toggle-keyboard
+  exwm-reset
+  exwm-workspace-rename-buffer
+  exwm-workspace-switch
+  exwm-workspace-switch-create
+  :init
+  (exwm-enable)
+  :config
+  ;; Bind 's-' prefix exwm specific keys when exwm gets configured,
+  ;; since those key-bindings may conflict with other window managers.
+  (exwm-input-set-key (kbd "s-o") #'ace-window)
+  (exwm-input-set-key (kbd "s-r") #'exwm-reset)
+  (exwm-input-set-key (kbd "s-x") #'exwm-input-toggle-keyboard)
+  (exwm-input-set-key (kbd "s-w") #'exwm-workspace-switch)
+  (dotimes (i 10)
+    ;; 's-0', 's-1', ..., 's-9'.
+    (exwm-input-set-key (kbd (format "s-%d" i))
+                        `(lambda ()
+                           (interactive)
+                           (exwm-workspace-switch-create ,i))))
+  ;; 's-i' and "s-&" : Invoke application.
+  (exwm-input-set-key (kbd "s-i") #'my-exwm-invoke)
+  (exwm-input-set-key (kbd "s-&") #'my-exwm-invoke)
+  (fringe-mode 4)
+  (display-time-mode 1))
+
+;;; Setup `exwm-randr'.
+(use-package exwm-randr
+  :preface
+  ;; https://emacs.stackexchange.com/questions/7148/get-all-regexp-matches-in-buffer-as-a-list
+  ;; https://github.com/ch11ng/exwm/wiki
+  (defun exwm-auto-toggle-screen ()
+    (with-temp-buffer
+      (call-process "xrandr" nil t nil)
+      (goto-char (point-min))
+      (if (search-forward "VGA1 connected" nil 'noerror)
+          (start-process-shell-command
+           "xrandr" nil "xrandr --output VGA1 --primary --auto --output LVDS1 --off")
+        (start-process-shell-command
+         "xrandr" nil "xrandr --output LVDS1 --auto"))))
+  (defun my-exwm-randr-connected-monitors ()
+    (with-temp-buffer
+      (call-process "xrandr" nil t nil)
+      (goto-char (point-min))
+      (save-match-data
+        (let (matches)
+          (while (re-search-forward
+                  "\\(eDP1\\|DP1\\|HDMI1\\|VIRTUAL1\\) connected" nil t)
+            (push (match-string-no-properties 1) matches))
+          (nreverse matches)))))
+  (defun my-exwm-randr-screen-change ()
+    (let* ((monitors (my-exwm-randr-connected-monitors))
+           (count (length monitors))
+           (wop)
+           (command
+            (cond
+             ((eq count 2)
+              (dotimes (i 10)
+                (if (cl-evenp i)
+                    (setq wop (plist-put wop i (car monitors)))
+                  (setq wop (plist-put wop i (cadr monitors)))))
+              (message "Exwm-randr: 2 monitors")
+              (format "xrandr --output %s --auto --above %s"
+                      (cadr monitors) (car monitors)))
+             ((eq count 1)
+              (dotimes (i 10)
+                (setq wop (plist-put wop i (car monitors))))
+              (message "Exwm-randr: 1 monitor")
+              "xrandr"))))
+      (setq exwm-randr-workspace-output-plist wop)
+      (start-process-shell-command "xrandr" nil command)))
+  :when (and (getenv "EXWM")
+             (string= (system-name) "venus"))
+  :hook
+  (exwm-randr-screen-change . my-exwm-randr-screen-change)
+  :commands
+  exwm-randr-enable
+  :init
+  (exwm-randr-enable))
+
+(use-package flycheck
+  :commands
+  flycheck-mode)
+
 (use-package flymake
   :bind
   (:map flymake-mode-map
@@ -406,6 +521,99 @@ In that case, insert the number."
   temp-buffer-resize-mode
   :config (temp-buffer-resize-mode))
 
+(use-package hydra
+  :defer t
+  :preface
+  (bind-key*
+   "C-z C-r"
+   (defhydra hydra-rectangle (:body-pre (rectangle-mark-mode 1)
+                                        :color pink
+                                        :post (deactivate-mark))
+     "
+^^^^        [_k_] kill               [_c_] clear    [_N_] number-lines
+  ^_p_^     [_w_] copy-as-kill       [_d_] delete   [_m_] toggle-mark
+_b_   _f_   [_y_] yank               [_o_] open     [_x_] exchange-point-mark
+  ^_n_^     [_r_] copy-to-register   [_t_] string
+^^^^        [_g_] insert-register    [_u_] undo     [_q_] quit
+"
+     ("b" backward-char nil)
+     ("f" forward-char nil)
+     ("p" previous-line nil)
+     ("n" next-line nil)
+     
+     ("k" kill-rectangle nil)             ;; C-x r k
+     ("w" copy-rectangle-as-kill nil)     ;; C-x r M-w
+     ("y" yank-rectangle nil)             ;; C-x r y
+     ("r" copy-rectangle-to-register nil) ;; C-x r r
+     ("g" insert-register nil)            ;; C-x r g
+     
+     ("c" clear-rectangle nil)  ;; C-x r c
+     ("d" delete-rectangle nil) ;; C-x r d
+     ("o" open-rectangle nil)   ;; C-x r o
+     ("t" string-rectangle nil) ;; C-x r t
+     ("u" undo nil)
+     
+     ("N" rectangle-number-lines nil) ;; C-x r N
+     ("m" (if (region-active-p)
+              (deactivate-mark)
+            (rectangle-mark-mode 1)) nil)
+     ("x" exchange-point-and-mark nil) ;; C-x C-x
+     
+     ("q" nil nil)))
+
+  (bind-key*
+   "C-z C-t"
+   (defhydra hydra-toggle-mode (:hint none)
+     "
+Toggle mode:
+_a_  ?a? auto-fill             _i_ ?i? iimage         _v_  ?v? view
+_c_  ?c? column-number         _o_ ?o? org-table      _wg_ ?wg? writegood
+_d_  ?d? display-line-numbers  _p_ ?p? electric-pair  _wk_ ?wk? which-key
+_fc_ ?fc? flycheck                                   _ws_ ?ws? white-space
+_fl_ ?fl? font-lock
+_fs_ ?fs? flyspell              _r_ ?r? read-only
+_g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
+"
+     ("a" #'auto-fill-mode
+      (if (bound-and-true-p auto-fill-function) "[X]" "[ ]"))
+     ("c" #'column-number-mode
+      (if (bound-and-true-p column-number-mode) "[X]" "[ ]"))
+     ("d" #'display-line-numbers-mode
+      (if (bound-and-true-p display-line-numbers-mode) "[X]" "[ ]"))
+     ("fc" #'flycheck-mode
+      (if (bound-and-true-p flycheck-mode) "[X]" "[ ]"))
+     ("fl" #'font-lock-mode
+      (if (bound-and-true-p font-lock-mode) "[X]" "[ ]"))
+     ("fs" #'flyspell-mode
+      (if (bound-and-true-p flyspell-mode) "[X]" "[ ]"))
+     ("g" #'goto-address-mode
+      (if (bound-and-true-p goto-address-mode) "[X]" "[ ]"))
+     ("i" #'iimage-mode
+      (if (bound-and-true-p iimage-mode) "[X]" "[ ]"))
+     ("o" #'orgtbl-mode
+      (if (bound-and-true-p orgtbl-mode) "[X]" "[ ]"))
+     ("p" #'electric-pair-mode
+      (if (bound-and-true-p electric-pair-mode) "[X]" "[ ]"))
+     ("r" #'read-only-mode
+      (if (bound-and-true-p buffer-read-only) "[X]" "[ ]"))
+     ("t" (setq indent-tabs-mode (not (bound-and-true-p indent-tabs-mode)))
+      (if (bound-and-true-p indent-tabs-mode) "[X]" "[ ]"))
+     ("v" #'view-mode
+      (if (bound-and-true-p view-mode) "[X]" "[ ]"))
+     ("wg" #'writegood-mode
+      (if (bound-and-true-p writegood-mode) "[X]" "[ ]"))
+     ("wk" #'which-key-mode
+      (if (bound-and-true-p which-key-mode) "[X]" "[ ]"))
+     ("ws" #'whitespace-mode
+      (if (bound-and-true-p whitespace-mode) "[X]" "[ ]"))
+     ("z" (message "Abort") :exit t)))
+  :commands
+  hydra--call-interactively-remap-maybe
+  hydra-default-pre
+  hydra-keyboard-quit
+  hydra-set-transient-map
+  hydra-show-hint)
+
 (use-package ivy
   :demand t
   :custom
@@ -423,12 +631,19 @@ In that case, insert the number."
   :delight ivy-mode " 𝝓")
 
 (use-package lisp-mode
-  :config
-  (add-hook 'emacs-lisp-mode-hook 'outline-minor-mode)
-  (add-hook 'emacs-lisp-mode-hook 'reveal-mode)
-  (defun indent-spaces-mode ()
+  :preface
+  (defun my-indent-spaces-mode ()
     (setq indent-tabs-mode nil))
-  (add-hook 'lisp-interaction-mode-hook #'indent-spaces-mode))
+  :hook
+  (emacs-lisp-mode . lispy-mode)
+  (emacs-lisp-mode . outline-minor-mode)
+  (emacs-lisp-mode . reveal-mode)
+  (lisp-interaction-mode . my-indent-spaces-mode))
+
+(use-package lispy
+  :commands
+  lispy-mode
+  :delight lispy-mode " 🗘")
 
 (use-package macrostep
   :bind*
@@ -466,11 +681,11 @@ In that case, insert the number."
     (if (eq major-mode 'org-mode)
         (let ((paths
                (org-element-map (org-element-parse-buffer 'object) 'link
-                 (lambda (link)
-                   (let ((path (org-element-property :path link))
-                         (type (org-element-property :type link)))
-                     (when (equal type "file")
-                       (unless (file-exists-p path) path)))))))
+                                (lambda (link)
+                                  (let ((path (org-element-property :path link))
+                                        (type (org-element-property :type link)))
+                                    (when (equal type "file")
+                                      (unless (file-exists-p path) path)))))))
           (if paths
               (message "Found broken org-mode file links:\n%s"
                        (mapconcat #'identity paths "\n"))
@@ -482,10 +697,10 @@ In that case, insert the number."
     (if (eq major-mode 'org-mode)
         (let ((blocks
                (org-element-map (org-element-parse-buffer) 'src-block
-                 (lambda (element)
-                   (when (string= "org-mode-hook-eval-block"
-                                  (org-element-property :name element))
-                     element)))))
+                                (lambda (element)
+                                  (when (string= "org-mode-hook-eval-block"
+                                                 (org-element-property :name element))
+                                    element)))))
           (dolist (block blocks)
             (goto-char (org-element-property :begin block))
             (org-babel-execute-src-block)))))
