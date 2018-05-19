@@ -1,6 +1,6 @@
 ;;; init.el --- user-init-file                    -*- lexical-binding: t -*-
 ;;; Early birds
-(progn ;     startup
+(progn                                  ; startup
   (defvar before-user-init-time (current-time)
     "Value of `current-time' when Emacs begins loading `user-init-file'.")
   (message "Loading Emacs...done (%.3fs)"
@@ -21,14 +21,14 @@
   (tool-bar-mode 0)
   (menu-bar-mode 0))
 
-(progn ;    `borg'
+(progn                                  ; `borg'
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
   (require  'borg)
   (borg-initialize))
 
-(progn ;    `use-package'
-  (require  'use-package)
-  (require  'delight)
+(progn                                  ; `use-package' and `delight'
+  (require 'use-package)
+  (require 'delight)
   (setq use-package-enable-imenu-support t)
   (setq use-package-minimum-reported-time 0.001)
   (setq use-package-verbose t))
@@ -132,6 +132,64 @@
   :init
   (avy-setup-default))
 
+(use-package browse-url
+  :defer t
+  :preface
+  (defun dict-en (word)
+    "Look up a word in the dictionary at 'http://thefreedictionary.com'."
+    (interactive
+     (list (if (use-region-p)
+               (buffer-substring (region-beginning) (region-end))
+             (read-string "Search 'http://www.thefreedictionary.com' for: "
+                          (thing-at-point 'word)))))
+    (browse-url (concat "http://www.thefreedictionary.com/" word)))
+
+  (defun dict-nl (word)
+    "Look up a word in the dictionary at 'http://www.woorden.org'."
+    (interactive
+     (list (if (use-region-p)
+               (buffer-substring (region-beginning) (region-end))
+             (read-string "Search 'http://www.woorden.org' for: "
+                          (thing-at-point 'word)))))
+    (browse-url (concat "http://www.woorden.org/zoek/php?woord=" word)))
+
+  (defun dict-fr (word)
+    "Look up a word in the dictionary at 'http://www.cnrtl.fr'."
+    (interactive
+     (list (if (use-region-p)
+               (buffer-substring (region-beginning) (region-end))
+             (read-string "Search http://www.cnrtl.fr for: "
+                          (thing-at-point 'word)))))
+    (browse-url (concat "http://www.cnrtl.fr/definition/academie9/" word)))
+
+  (defun webster (word)
+    "Look up a word in the dictionary at 'http://webster-dictionary.org'."
+    (interactive
+     (list (if (use-region-p)
+               (buffer-substring (region-beginning) (region-end))
+             (read-string "Search 'http://webster-dictionary.org' for: "
+                          (thing-at-point 'word)))))
+    (browse-url (concat "http://webster-dictionary.org/definition/" word)))
+
+  ;; https://github.com/chubin/wttr.in
+  (defun weather (place)
+    "Get a weather report."
+    (interactive
+     (list (if (use-region-p)
+               (buffer-substring (region-beginning) (region-end))
+             (read-string "Get weather from http://wttr.in/ (:help for help) for: "
+                          (thing-at-point 'word)))))
+    (browse-url (concat "http://wttr.in/" place)))
+  :custom
+  (browse-url-browser-function
+   '((".*google.*" . browse-url-generic)
+     (".*reddit.com" . browse-url-generic)
+     (".*youtube.*" . browse-url-generic)
+     ("." . eww-browse-url)))
+  (browse-url-generic-program (executable-find "firefox"))
+  :commands
+  browse-url)
+
 (use-package company
   :preface
   (defun my-company-complete-number ()
@@ -149,6 +207,7 @@ In that case, insert the number."
          (if (equal k "0")
              10
            (string-to-number k))))))
+
   (defun my-company-insert-abort ()
     (interactive)
     (company-abort)
@@ -174,7 +233,8 @@ In that case, insert the number."
               ("8" . my-company-complete-number)
               ("9" . my-company-complete-number))
   :hook
-  ((LaTeX-mode emacs-lisp-mode org-mode) . company-mode))
+  ((LaTeX-mode emacs-lisp-mode org-mode) . company-mode)
+  :delight " 𝍎")
 
 (use-package counsel
   :custom
@@ -353,25 +413,9 @@ In that case, insert the number."
                                                "i3wm"
                                                "orgmode")
                                              nil t))))
-  ;; https://github.com/chubin/wttr.in
-  (defun weather (place)
-    "Get a weather report."
-    (interactive
-     (list (if (use-region-p)
-               (buffer-substring (region-beginning) (region-end))
-             (read-string "Get weather from http://wttr.in/ (:help for help) for: "
-                          (thing-at-point 'word)))))
-    (browse-url (concat "http://wttr.in/" place)))
   :defines
   eww-link-keymap
   eww-mode-map
-  :custom
-  (browse-url-browser-function
-   '((".*google.*" . browse-url-generic)
-     (".*reddit.com" . browse-url-generic)
-     (".*youtube.*" . browse-url-generic)
-     ("." . eww-browse-url)))
-  (browse-url-generic-program (executable-find "firefox"))
   :hook
   ((eww-mode . my-eww-rename-buffer)
    (eww-after-render . my-eww-readable))
@@ -386,11 +430,14 @@ In that case, insert the number."
   (defun my-exwm-invoke (command)
     (interactive (list (read-shell-command "$ ")))
     (start-process-shell-command command nil command))
+
   (defun my-exwm-update-class ()
     (exwm-workspace-rename-buffer exwm-class-name))
+
   (defun my-exwm-manage-finish ()
     (when (string= exwm-class-name "XTerm")
       (call-interactively #'exwm-input-release-keyboard)))
+
   :when (getenv "EXWM")
   :custom
   (display-time-string-forms '((format-time-string "%F %R")))
@@ -456,6 +503,7 @@ In that case, insert the number."
            "xrandr" nil "xrandr --output VGA1 --primary --auto --output LVDS1 --off")
         (start-process-shell-command
          "xrandr" nil "xrandr --output LVDS1 --auto"))))
+
   (defun my-exwm-randr-connected-monitors ()
     (with-temp-buffer
       (call-process "xrandr" nil t nil)
@@ -466,6 +514,7 @@ In that case, insert the number."
                   "\\(eDP1\\|DP1\\|HDMI1\\|VIRTUAL1\\) connected" nil t)
             (push (match-string-no-properties 1) matches))
           (nreverse matches)))))
+
   (defun my-exwm-randr-screen-change ()
     (let* ((monitors (my-exwm-randr-connected-monitors))
            (count (length monitors))
@@ -487,6 +536,7 @@ In that case, insert the number."
               "xrandr"))))
       (setq exwm-randr-workspace-output-plist wop)
       (start-process-shell-command "xrandr" nil command)))
+
   :when (and (getenv "EXWM")
              (string= (system-name) "venus"))
   :hook
@@ -540,25 +590,25 @@ _b_   _f_   [_y_] yank               [_o_] open     [_x_] exchange-point-mark
      ("f" forward-char nil)
      ("p" previous-line nil)
      ("n" next-line nil)
-     
+
      ("k" kill-rectangle nil)             ;; C-x r k
      ("w" copy-rectangle-as-kill nil)     ;; C-x r M-w
      ("y" yank-rectangle nil)             ;; C-x r y
      ("r" copy-rectangle-to-register nil) ;; C-x r r
      ("g" insert-register nil)            ;; C-x r g
-     
+
      ("c" clear-rectangle nil)  ;; C-x r c
      ("d" delete-rectangle nil) ;; C-x r d
      ("o" open-rectangle nil)   ;; C-x r o
      ("t" string-rectangle nil) ;; C-x r t
      ("u" undo nil)
-     
+
      ("N" rectangle-number-lines nil) ;; C-x r N
      ("m" (if (region-active-p)
               (deactivate-mark)
             (rectangle-mark-mode 1)) nil)
      ("x" exchange-point-and-mark nil) ;; C-x C-x
-     
+
      ("q" nil nil)))
 
   (bind-key*
@@ -681,36 +731,40 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
     (if (eq major-mode 'org-mode)
         (let ((paths
                (org-element-map (org-element-parse-buffer 'object) 'link
-                                (lambda (link)
-                                  (let ((path (org-element-property :path link))
-                                        (type (org-element-property :type link)))
-                                    (when (equal type "file")
-                                      (unless (file-exists-p path) path)))))))
+                 (lambda (link)
+                   (let ((path (org-element-property :path link))
+                         (type (org-element-property :type link)))
+                     (when (equal type "file")
+                       (unless (file-exists-p path) path)))))))
           (if paths
               (message "Found broken org-mode file links:\n%s"
                        (mapconcat #'identity paths "\n"))
             (message "Found no broken org-mode file links")))
       (message "Failed to find broken links (major mode is not org-mode)")))
+
   (defun my-org-mode-hook-eval-blocks ()
     "Evaluate all org-mode source blocks named `org-mode-hook-eval-block'."
     (interactive)
     (if (eq major-mode 'org-mode)
         (let ((blocks
                (org-element-map (org-element-parse-buffer) 'src-block
-                                (lambda (element)
-                                  (when (string= "org-mode-hook-eval-block"
-                                                 (org-element-property :name element))
-                                    element)))))
+                 (lambda (element)
+                   (when (string= "org-mode-hook-eval-block"
+                                  (org-element-property :name element))
+                     element)))))
           (dolist (block blocks)
             (goto-char (org-element-property :begin block))
             (org-babel-execute-src-block)))))
+
   (defun my-org-mode-hook-completion-at-point ()
-    (setq completion-at-point-functions '(my-org-ref-completion-at-point-ref
-                                          t)))
+    (setq completion-at-point-functions
+          '(my-org-ref-completion-at-point-ref t)))
+
   (defun my-org-ref-completion-at-point-ref ()
     (when (looking-back "\\(\\|C\\|auto\\|c\\|eq\\|name\\|page\\)ref:" 8)
       (let ((label (ivy-read "label: " (org-ref-get-labels) :require-match t)))
         (insert label))))
+
   :custom
   (org-capture-templates
    '(("t" "Task" entry (file+headline "~/tmpfs/tasks.org" "Tasks")
@@ -807,6 +861,9 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   org-element-parse-buffer
   org-element-property)
 
+(use-package org-protocol
+  :after org)
+
 (use-package org-ref
   :after org
   :custom
@@ -845,9 +902,11 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
                 (format "%s" path))))))
 
 (use-package paren
+  :demand t
   :commands
   show-paren-mode
-  :config (show-paren-mode))
+  :config
+  (show-paren-mode))
 
 (use-package pdf-tools
   :custom
@@ -934,9 +993,17 @@ point."
                   success error)))))
 
 (use-package recentf
-  :demand t
+  :after no-littering
+  :custom
+  (recentf-max-saved-items 100)
   :config
-  (add-to-list 'recentf-exclude "^/\\(?:ssh\\|su\\|sudo\\)?:"))
+  (mapc #'(lambda (element) (add-to-list 'recentf-exclude element))
+        `(no-littering-etc-directory
+          no-littering-var-directory
+         ,(expand-file-name "~/.orhc-bibtex-cache")
+          "/\\.git/.*\\'"
+          "/\\.hg/.*\\'"
+          "^/\\(?:ssh\\|su\\|sudo\\)?:")))
 
 (use-package savehist
   :commands
@@ -999,8 +1066,12 @@ point."
     (LaTeX-mode . TeX-PDF-mode)
     (LaTeX-mode . turn-on-reftex)))
 
-(progn ;    `text-mode'
-  (add-hook 'text-mode-hook #'indicate-buffer-boundaries-left))
+(use-package text-mode
+  :no-require t
+  :hook
+  (text-mode . turn-on-auto-fill)
+  (text-mode . turn-on-flyspell)
+  (text-mode . indicate-buffer-boundaries-left))
 
 (use-package tramp
   :defer t
@@ -1032,7 +1103,7 @@ point."
   (yas-global-mode 1)
   :delight yas-minor-mode " ✀")
 
-(progn ;     startup
+(progn                                  ; startup
   (message "Loading %s...done (%.3fs)" user-init-file
            (float-time (time-subtract (current-time)
                                       before-user-init-time)))
@@ -1044,7 +1115,7 @@ point."
                                           before-user-init-time))))
             t))
 
-(progn ;     personalize
+(progn                                  ; personalize
   (let ((file (expand-file-name (concat (user-real-login-name) ".el")
                                 user-emacs-directory)))
     (when (file-exists-p file)
