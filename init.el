@@ -11,6 +11,7 @@
   (message "Loading %s..." user-init-file)
   (setq package-enable-at-startup nil)
   ;; (package-initialize)
+  (setq cursor-type 'box)
   (setq inhibit-startup-buffer-menu t)
   (setq inhibit-startup-screen t)
   (setq inhibit-startup-echo-area-message "locutus")
@@ -29,6 +30,7 @@
 (progn                                  ; `use-package' and `delight'
   (require 'use-package)
   (require 'delight)
+  (setq use-package-always-defer t)
   (setq use-package-enable-imenu-support t)
   (setq use-package-minimum-reported-time 0.001)
   (setq use-package-verbose t))
@@ -56,10 +58,10 @@
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
 
-(use-package no-littering)
+(use-package no-littering
+  :demand t)
 
 (use-package epkg
-  :defer t
   :custom
   (epkg-repository (expand-file-name "var/epkgs/" user-emacs-directory)))
 
@@ -133,7 +135,6 @@
   (avy-setup-default))
 
 (use-package browse-url
-  :defer t
   :preface
   (defun dict-en (word)
     "Look up a word in the dictionary at 'http://thefreedictionary.com'."
@@ -262,19 +263,21 @@ In that case, insert the number."
 (use-package dash
   :commands
   dash-enable-font-lock
-  :config (dash-enable-font-lock))
+  :config
+  (dash-enable-font-lock))
 
 (use-package diff-hl
   :custom
   (diff-hl-draw-borders nil)
   :commands
   global-diff-hl-mode
+  :hook
+  (magit-post-refresh . diff-hl-magit-post-refresh)
   :config
-  (global-diff-hl-mode)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh t))
+  (global-diff-hl-mode))
 
 (use-package dired
-  :defer t
+  :no-require t
   :preface
   (defun my-dired-eww-find-file ()
     "Visit dired file with eww."
@@ -367,15 +370,13 @@ In that case, insert the number."
 (use-package dired-subtree
   :after dired
   :bind (:map dired-mode-map
-              (":" . dired-subtree-insert)
-              (";" . dired-subtree-remove)))
+              ("M-s i" . dired-subtree-insert)
+              ("M-s r" . dired-subtree-remove)))
 
 (use-package dired-x
-  :defer t
   :after dired)
 
 (use-package epa
-  :defer t
   :custom
   (epa-pinentry-mode 'loopback)
   :config
@@ -566,13 +567,20 @@ In that case, insert the number."
   (prog-mode . my-enable-goto-address-mode))
 
 (use-package help
-  :defer t
+  :no-require t
   :commands
   temp-buffer-resize-mode
-  :config (temp-buffer-resize-mode))
+  :init
+  (temp-buffer-resize-mode))
+
+(use-package hl-line
+  :no-require t
+  :commands
+  global-hl-line-mode
+  :init
+  (global-hl-line-mode))
 
 (use-package hydra
-  :defer t
   :preface
   (bind-key*
    "C-z C-r"
@@ -681,6 +689,7 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   :delight ivy-mode " 𝝓")
 
 (use-package lisp-mode
+  :no-require t
   :preface
   (defun my-indent-spaces-mode ()
     (setq indent-tabs-mode nil))
@@ -712,7 +721,6 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   (magit-add-section . append))
 
 (use-package man
-  :defer t
   :config (setq Man-width 80))
 
 (use-package markdown-mode
@@ -855,7 +863,6 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
           ("omap" . "http://nominatim.openstreetmap.org/search?q=%s&polygon=1"))))
 
 (use-package org-element
-  :defer t
   :functions
   org-element-map
   org-element-parse-buffer
@@ -876,17 +883,14 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   (org-ref-pdf-directory "~/VCS/research/papers"))
 
 (use-package org-ref-core
-  :defer t
   :commands
   org-ref-get-labels)
 
 (use-package org-ref-glossary
-  :defer t
   :commands
   or-follow-glossary)
 
 (use-package org-ref-utils
-  :defer t
   :functions
   org-ref-link-set-parameters
   :config
@@ -1074,12 +1078,15 @@ point."
   (text-mode . indicate-buffer-boundaries-left))
 
 (use-package tramp
-  :defer t
   :config
   (add-to-list 'tramp-default-proxies-alist '(nil "\\`root\\'" "/ssh:%h:"))
   (add-to-list 'tramp-default-proxies-alist '("localhost" nil nil))
   (add-to-list 'tramp-default-proxies-alist
                (list (regexp-quote (system-name)) nil nil)))
+
+(use-package unfill
+  :bind
+  ("M-q" . unfill-toggle))
 
 (use-package yasnippet
   :preface
