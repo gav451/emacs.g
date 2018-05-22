@@ -426,6 +426,17 @@ In that case, insert the number."
   eww-open-file
   eww-readable)
 
+(use-package exec-path-from-shell
+  :demand t
+  :if (and (eq system-type 'darwin) (display-graphic-p))
+  :custom
+  (exec-path-from-shell-arguments '("-l"))
+  (exec-path-from-shell-variables '("PATH" "MANPATH" "GPG_AGENT_INFO"))
+  :commands
+  exec-path-from-shell-initialize
+  :init
+  (exec-path-from-shell-initialize))
+
 (use-package exwm
   :preface
   (defun my-exwm-invoke (command)
@@ -719,6 +730,12 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   (magit-add-section . magit-insert-modules)
   (magit-add-section . magit-insert-stashes)
   (magit-add-section . append))
+
+(use-package mailcap
+  :if (eq system-type 'darwin)
+  :commands mailcap-add
+  :config
+  (mailcap-add "application/pdf" #'pdf-view-mode #'window-system))
 
 (use-package man
   :config (setq Man-width 80))

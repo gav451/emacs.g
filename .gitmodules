@@ -81,6 +81,9 @@
 [submodule "epl"]
 	path = lib/epl
 	url = git@github.com:cask/epl.git
+[submodule "exec-path-from-shell"]
+	path = lib/exec-path-from-shell
+	url = git@github.com:purcell/exec-path-from-shell.git
 [submodule "expand-region"]
 	path = lib/expand-region
 	url = git@github.com:magnars/expand-region.el.git
