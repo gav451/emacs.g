@@ -376,6 +376,15 @@ In that case, insert the number."
 (use-package dired-x
   :after dired)
 
+(use-package elec-pair
+  :preface
+  (defun my-enable-electric-pair-mode ()
+    (electric-pair-mode 1))
+  :commands
+  electric-pair-mode
+  :hook
+  (prog-mode . my-enable-electric-pair-mode))
+
 (use-package epa
   :custom
   (epa-pinentry-mode 'loopback)
@@ -705,7 +714,6 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   (defun my-indent-spaces-mode ()
     (setq indent-tabs-mode nil))
   :hook
-  (emacs-lisp-mode . lispy-mode)
   (emacs-lisp-mode . outline-minor-mode)
   (emacs-lisp-mode . reveal-mode)
   (lisp-interaction-mode . my-indent-spaces-mode))
@@ -713,6 +721,8 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
 (use-package lispy
   :commands
   lispy-mode
+  :hook
+  ((emacs-lisp-mode ielm-mode lisp-interaction-mode) . lispy-mode)
   :delight lispy-mode " 🗘")
 
 (use-package macrostep
