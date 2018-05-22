@@ -997,7 +997,7 @@ and file a bug report."
     elpy-rpc
     elpy-rpc--buffer-contents
     :init
-    (pyvenv-activate "~3.6")
+    (pyvenv-activate "~2.7")
     (elpy-enable)
     (defun elpy-rpc-get-completions (&optional success error)
       "Call the get_completions API function.
