@@ -41,6 +41,7 @@
 \DeclareSIUnit\mK{\milli\kelvin}
 \DeclareSIUnit\mbar{\milli\bar}
 \DeclareSIUnit\micron{\micro\meter}
+\DeclareSIUnit\umole{\micro\mole}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,backgrounds,patterns,plotmarks}
