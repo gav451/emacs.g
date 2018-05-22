@@ -1055,47 +1055,44 @@ point."
   :custom
   (swiper-action-recenter t))
 
-(use-package tex-site
-  ;; AuCTeX is better than the built in tex mode; let's use it.
+(use-package tex
+  ;; I use AUCTeX, since it is better than the built in tex mode.
   ;; Tweak .gitmodules to make the git repository resemble the elpa package.
-  :mode ("\\.tex\\'" . TeX-latex-mode)
+  :defer 1
   :custom
-  (TeX-after-compilation-finished-functions 'TeX-revert-document-buffer)
   (TeX-auto-local ".auctex-auto-local")
   (TeX-auto-save t)
-  (TeX-clean-confirm nil)
-  (TeX-electric-escape t)
   (TeX-electric-math '("\\(" . "\\)"))
   (TeX-electric-sub-and-superscript t)
+  (TeX-engine 'default)
   (TeX-parse-self t)
   (TeX-source-correlate-method 'synctex)
   (TeX-source-correlate-mode t)
   (reftex-plug-into-AUCTeX t)
-  ;; (TeX-data-directory (expand-file-name "lib/auctex" user-emacs-directory))
-  ;; (TeX-lisp-directory (expand-file-name "lib/auctex" user-emacs-directory))
+  :hook
+  (TeX-after-compilation-finished-functions . TeX-revert-document-buffer)
   :init
-  (use-package reftex
-    :custom
-    (reftex-default-bibliography "~/VCS/research/refs.bib")
-    :commands
-    turn-on-reftex
-    :delight reftex-mode " 📑")
-  :config
-  (use-package bibtex
-    :demand t
-    :custom
-    (bibtex-user-optional-fields
-     '(("abstract")
-       ("doi" "Digital Object Identifier")
-       ("url" "Universal Ressource Locator"))))
   (use-package latex
-    :demand t
+    :mode ("\\.tex\\'" . TeX-latex-mode)
     :commands
     TeX-latex-mode
     :hook
     (LaTeX-mode . LaTeX-math-mode)
     (LaTeX-mode . TeX-PDF-mode)
-    (LaTeX-mode . turn-on-reftex)))
+    (LaTeX-mode . turn-on-reftex))
+  :config
+  (use-package bibtex
+    :custom
+    (bibtex-user-optional-fields
+     '(("abstract")
+       ("doi" "Digital Object Identifier")
+       ("url" "Universal Ressource Locator"))))
+  (use-package reftex
+    :custom
+    (reftex-default-bibliography "~/VCS/research/refs.bib")
+    :commands
+    turn-on-reftex
+    :delight reftex-mode " 📑"))
 
 (use-package text-mode
   :no-require t
