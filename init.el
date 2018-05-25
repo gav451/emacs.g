@@ -1062,6 +1062,7 @@ point."
   :custom
   (TeX-auto-local ".auctex-auto-local")
   (TeX-auto-save t)
+  (TeX-electric-escape t)
   (TeX-electric-math '("\\(" . "\\)"))
   (TeX-electric-sub-and-superscript t)
   (TeX-engine 'default)
@@ -1074,6 +1075,8 @@ point."
   :init
   (use-package latex
     :mode ("\\.tex\\'" . TeX-latex-mode)
+    :custom
+    (LaTeX-electric-left-right-brace t)
     :commands
     TeX-latex-mode
     :hook
