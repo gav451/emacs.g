@@ -385,6 +385,68 @@ In that case, insert the number."
   :hook
   (prog-mode . my-enable-electric-pair-mode))
 
+(use-package elfeed
+  :preface
+  (defun my-elfeed-show-visit-external ()
+    "Wrapper to visit the current entry using an external browser."
+    (interactive)
+    (let ((browse-url-generic-program (executable-find "firefox")))
+      (elfeed-show-visit t)))
+  (defun my-elfeed-show-shr-browse-url-external ()
+    "Wrapper to browse the URL under point using an external browser."
+    (interactive)
+    (shr-browse-url t))
+  (defun my-elfeed-toggle-star ()
+    "Wrapper to toggle all starred elfeed search entries."
+    (interactive)
+    (elfeed-search-toggle-all '*))
+  :custom
+  (elfeed-feeds
+   '(("http://emacshorrors.com/feed.atom" schneidermann)
+     ("http://emacsninja.com/feed.atom" schneidermann)
+     ("http://nullprogram.com/feed/" wellons)
+     ("http://planet.emacsen.org/atom.xml" emacsen)
+     ("http://pragmaticemacs.com/feed/" maugham)
+     ("https://act.eff.org/action.atom" eff)
+     ("https://feeds.feedburner.com/InterceptedWithJeremyScahill" intercepted)
+     ("https://sachachua.com/blog/category/emacs-news/feed" chua)
+     ("https://www.aclu.org/taxonomy/feed-term/2152/feed" aclu)
+     ("https://www.bof.nl/rss/" bof)
+     ("https://www.democracynow.org/podcast-video.xml" dn)
+     ("https://www.laquadrature.net/fr/rss.xml" lqdn)))
+  (elfeed-enclosure-default-dir (expand-file-name "~/tmpfs/"))
+  :bind* ("C-x w" . elfeed)
+  :commands
+  elfeed-search-set-filter
+  elfeed-search-toggle-all
+  elfeed-search-update--force
+  elfeed-show-visit
+  :config
+  (bind-keys :map elfeed-show-mode-map
+             ("B" . my-elfeed-show-visit-external)
+             ("&" . my-elfeed-show-shr-browse-url-external))
+  (bind-key
+   "j"
+   (defhydra hydra-elfeed-filter ()
+     "filter"
+     ("a" (elfeed-search-set-filter "@6-months-ago +aclu") "aclu")
+     ("b" (elfeed-search-set-filter "@6-months-ago +bof") "bof")
+     ("c" (elfeed-search-set-filter "@6-months-ago +chua") "chua")
+     ("d" (elfeed-search-set-filter "@6-months-ago +dn") "dn")
+     ("e" (elfeed-search-set-filter "@6-months-ago +emacsen") "emacsen")
+     ("f" (elfeed-search-set-filter "@6-months-ago +eff") "eff")
+     ("i" (elfeed-search-set-filter "@6-months-ago +intercepted") "intercepted")
+     ("l" (elfeed-search-set-filter "@6-months-ago +lqdn") "lqdn")
+     ("m" (elfeed-search-set-filter "@6-months-ago +maugham") "maugham")
+     ("s" (elfeed-search-set-filter "@6-months-ago +schneidermann") "schneidermann")
+     ("w" (elfeed-search-set-filter "@6-months-ago +wellons") "wellons")
+     ("*" (elfeed-search-set-filter "@6-months-ago +*") "*")
+     ("A" (elfeed-search-set-filter "@6-months-ago") "All")
+     ("S" my-elfeed-toggle-star "Star")
+     ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
+     ("q" nil "quit" :color blue))
+   elfeed-search-mode-map))
+
 (use-package epa
   :custom
   (epa-pinentry-mode 'loopback)
