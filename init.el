@@ -1122,8 +1122,6 @@ point."
   :custom
   (yas-prompt-functions
    '(yas-ivy-prompt yas-completing-prompt))
-  (yas-snippet-dirs
-   (list (expand-file-name "yasnippet/snippets" no-littering-etc-directory)))
   :commands
   yas-expand-from-trigger-key
   yas-global-mode
