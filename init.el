@@ -123,6 +123,14 @@
   :init
   (avy-setup-default))
 
+(use-package bibtex
+  :after tex
+  :custom
+  (bibtex-user-optional-fields
+   '(("abstract")
+     ("doi" "Digital Object Identifier")
+     ("url" "Universal Ressource Locator"))))
+
 (use-package browse-url
   :preface
   (defun dict-en (word)
@@ -759,6 +767,18 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   :config (ivy-mode)
   :delight ivy-mode " 𝝓")
 
+(use-package latex
+  :load tex
+  :mode ("\\.tex\\'" . TeX-latex-mode)
+  :custom
+  (LaTeX-electric-left-right-brace t)
+  :commands
+  TeX-latex-mode
+  :hook
+  (LaTeX-mode . LaTeX-math-mode)
+  (LaTeX-mode . TeX-PDF-mode)
+  (LaTeX-mode . turn-on-reftex))
+
 (use-package lisp-mode
   :no-require t
   :preface
@@ -1088,6 +1108,14 @@ point."
           "/\\.hg/.*\\'"
           "^/\\(?:ssh\\|su\\|sudo\\)?:")))
 
+(use-package reftex
+  :after tex
+  :custom
+  (reftex-default-bibliography "~/VCS/research/refs.bib")
+  :commands
+  turn-on-reftex
+  :delight reftex-mode " 📑")
+
 (use-package savehist
   :commands
   savehist-mode
@@ -1112,9 +1140,9 @@ point."
   (swiper-action-recenter t))
 
 (use-package tex
-  ;; I use AUCTeX, since it is better than the built in tex mode.
+  ;; Use AUCTeX, since it is better than the built in tex mode.
   ;; Tweak .gitmodules to make the git repository resemble the elpa package.
-  :defer 1
+  ;; Let package latex load tex.
   :custom
   (TeX-auto-local ".auctex-auto-local")
   (TeX-auto-save t)
@@ -1127,31 +1155,7 @@ point."
   (TeX-source-correlate-mode t)
   (reftex-plug-into-AUCTeX t)
   :hook
-  (TeX-after-compilation-finished-functions . TeX-revert-document-buffer)
-  :init
-  (use-package latex
-    :mode ("\\.tex\\'" . TeX-latex-mode)
-    :custom
-    (LaTeX-electric-left-right-brace t)
-    :commands
-    TeX-latex-mode
-    :hook
-    (LaTeX-mode . LaTeX-math-mode)
-    (LaTeX-mode . TeX-PDF-mode)
-    (LaTeX-mode . turn-on-reftex))
-  :config
-  (use-package bibtex
-    :custom
-    (bibtex-user-optional-fields
-     '(("abstract")
-       ("doi" "Digital Object Identifier")
-       ("url" "Universal Ressource Locator"))))
-  (use-package reftex
-    :custom
-    (reftex-default-bibliography "~/VCS/research/refs.bib")
-    :commands
-    turn-on-reftex
-    :delight reftex-mode " 📑"))
+  (TeX-after-compilation-finished-functions . TeX-revert-document-buffer))
 
 (use-package text-mode
   :no-require t
