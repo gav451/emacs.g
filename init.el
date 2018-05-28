@@ -947,6 +947,7 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   org-element-property)
 
 (use-package org-protocol
+  :demand t
   :after org)
 
 (use-package org-ref
@@ -1096,6 +1097,10 @@ point."
   :commands
   save-place-mode
   :config (save-place-mode))
+
+(use-package shr
+  :commands
+  shr-browse-url)
 
 (use-package simple
   :commands
