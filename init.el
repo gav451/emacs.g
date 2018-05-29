@@ -515,7 +515,8 @@ In that case, insert the number."
     (exwm-workspace-rename-buffer exwm-class-name))
 
   (defun my-exwm-manage-finish ()
-    (when (string= exwm-class-name "XTerm")
+    (when (or (string= exwm-class-name "XTerm")
+              (string= exwm-class-name "kitty"))
       (call-interactively #'exwm-input-release-keyboard)))
 
   :when (getenv "EXWM")
