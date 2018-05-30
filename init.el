@@ -257,6 +257,9 @@ In that case, insert the number."
   ("C-c C-g" . counsel-rg)
   ("C-c u" . counsel-unicode-char))
 
+(use-package cython-mode
+  :mode "\\.py[xdi]\\'")
+
 (use-package dash
   :commands
   dash-enable-font-lock
