@@ -243,6 +243,9 @@ In that case, insert the number."
                                     ;; file names ending with # or ~
                                     "\\|\\(?:\\`.+?[#~]\\'\\)"))
   (counsel-grep-swiper-limit (lsh 1 20))
+  (counsel-linux-app-format-function #'counsel-linux-app-format-function-command-only)
+  :commands
+  counsel-linux-app-format-function-command-only
   :bind
   ("C-r" . counsel-grep-or-swiper) ;; Was `isearch-backward'.
   ("C-s" . counsel-grep-or-swiper) ;; Was `isearch-forward'.
