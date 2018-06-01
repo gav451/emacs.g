@@ -1044,11 +1044,7 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   (defun indicate-buffer-boundaries-left ()
     (setq indicate-buffer-boundaries 'left))
   :hook
-  (prog-mode . indicate-buffer-boundaries-left)
-  :commands
-  global-prettify-symbols-mode
-  :config
-  (global-prettify-symbols-mode))
+  (prog-mode . indicate-buffer-boundaries-left))
 
 (use-package python
   :custom
