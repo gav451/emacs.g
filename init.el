@@ -854,11 +854,15 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   (magit-completing-read-function 'ivy-completing-read)
   :bind (("C-x g"   . magit-status)
          ("C-x M-g" . magit-dispatch-popup))
-  :hook
-  (magit-add-section . magit-status-sections-hook)
-  (magit-add-section . magit-insert-modules)
-  (magit-add-section . magit-insert-stashes)
-  (magit-add-section . append))
+  ;; :config
+  ;; See magit's info on section hooks: use `magit-add-section-hook'
+  ;; instead of `add-hooks', `:custom', or `defcustom'.
+  ;; See also: https://github.com/magit/magit/issues/2657.
+  ;; (magit-add-section-hook 'magit-status-sections-hook
+  ;;                         'magit-insert-modules
+  ;;                         'magit-insert-stashes
+  ;;                         'append)
+  )
 
 (use-package mailcap
   :if (eq system-type 'darwin)
