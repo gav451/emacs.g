@@ -450,6 +450,47 @@ In that case, insert the number."
      ("q" nil "quit" :color blue))
    elfeed-search-mode-map))
 
+(use-package emms
+  :config
+  (use-package emms-setup
+    :commands
+    emms-all
+    :init
+    (emms-all)
+    :demand t))
+
+(use-package emms-info-libtag
+  :when (executable-find "emms-print-metadata")
+  :commands
+  emms-info-libtag
+  :custom
+  (emms-info-functions '(emms-info-libtag)))
+
+(use-package emms-player-mpv
+  :after emms-setup
+  :custom
+  (emms-player-list '(emms-player-mpv)))
+
+(use-package emms-playlist-mode
+  :commands
+  emms)
+
+(use-package emms-source-file
+  :custom
+  (emms-source-file-default-directory (expand-file-name "~/Music"))
+  ;; (emms-source-file-directory-tree-function 'emms-source-file-directory-tree-find)
+  )
+
+(use-package emms-streams
+  :custom
+  ;; To show the playlist, do: M-x emms.
+  (emms-stream-default-action "add"))
+
+(use-package emms-volume
+  :commands
+  emms-volume-mode-minus
+  emms-volume-mode-plus)
+
 (use-package epa
   :custom
   (epa-pinentry-mode 'loopback)
