@@ -247,16 +247,16 @@ In that case, insert the number."
   :commands
   counsel-linux-app-format-function-command-only
   :bind
-  ("C-r" . counsel-grep-or-swiper) ;; Was `isearch-backward'.
-  ("C-s" . counsel-grep-or-swiper) ;; Was `isearch-forward'.
+  ("C-r" . counsel-grep-or-swiper) ;; Allow shadowing in `pdf-view-mode-map'.
+  ("C-s" . counsel-grep-or-swiper) ;; Allow shadowing in `pdf-view-mode-map'.
+  ("C-c C-f" . counsel-recentf) ;; Avoid shadowing `eshell-forward-argument'.
   :bind*
   ("C-h S" . counsel-info-lookup-symbol) ;; Was `info-lookup-symbol'.
   ("C-h f" . counsel-describe-function)  ;; Was `describe-function'.
   ("C-h v" . counsel-describe-variable)  ;; Was `describe-variable'.
   ("C-x C-f" . counsel-find-file)        ;; Was `find-file'.
-  ("M-x" . counsel-M-x)                  ;; Was `execute-extended-command'.
-  ("M-y" . counsel-yank-pop)             ;; Was `yank-pop'.
-  ("C-c C-f" . counsel-recentf)
+  ("M-x" . counsel-M-x)      ;; Was `execute-extended-command'.
+  ("M-y" . counsel-yank-pop) ;; Was `yank-pop'.
   ("C-c C-g" . counsel-rg)
   ("C-c u" . counsel-unicode-char))
 
