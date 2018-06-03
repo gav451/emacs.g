@@ -22,8 +22,7 @@
 	build-step = ./configure --prefix=$HOME
 	build-step = make
 	build-step = borg-update-autoloads
-	build-step = install-info doc/auctex.info --info-dir=doc
-	build-step = install-info doc/preview-latex.info --info-dir=doc
+	build-step = borg-makeinfo
 [submodule "auto-compile"]
 	path = lib/auto-compile
 	url = git@github.com:emacscollective/auto-compile.git
