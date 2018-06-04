@@ -458,6 +458,10 @@ In that case, insert the number."
     (emms-all)
     :demand t))
 
+(use-package emms-browser
+  :commands
+  emms-smart-browse)
+
 (use-package emms-info-libtag
   :when (executable-find "emms-print-metadata")
   :commands
@@ -471,18 +475,21 @@ In that case, insert the number."
   (emms-player-list '(emms-player-mpv)))
 
 (use-package emms-playlist-mode
+  :custom
+  (emms-playlist-mode-center-when-go t)
   :commands
-  emms)
+  emms
+  emms-playlist-mode-go)
 
 (use-package emms-source-file
   :custom
-  (emms-source-file-default-directory (expand-file-name "~/Music"))
-  ;; (emms-source-file-directory-tree-function 'emms-source-file-directory-tree-find)
-  )
+  (emms-source-file-default-directory (expand-file-name "~/Music/"))
+  (emms-source-file-directory-tree-function 'emms-source-file-directory-tree-find))
 
 (use-package emms-streams
   :custom
-  ;; To show the playlist, do: M-x emms.
+  ;; To show the current playlist, do either
+  ;; "M-x emms" or "M-x emms-playlist-mode-go".
   (emms-stream-default-action "add"))
 
 (use-package emms-volume
