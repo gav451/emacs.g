@@ -41,7 +41,6 @@
   (put 'when-let 'byte-obsolete-info nil))
 
 (use-package auto-compile
-  :demand t
   :custom
   (auto-compile-display-buffer               nil)
   (auto-compile-mode-line-counter            t)
@@ -54,6 +53,7 @@
   :commands
   auto-compile-on-load-mode
   auto-compile-on-save-mode
+  :demand t
   :config
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
@@ -66,16 +66,15 @@
   (epkg-repository (expand-file-name "var/epkgs/" user-emacs-directory)))
 
 (use-package custom
-  :no-require t
+  :custom
+  (custom-file (expand-file-name "custom.el" user-emacs-directory))
   :config
-  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (when (file-exists-p custom-file)
     (load custom-file)))
 
 (use-package server
-  :unless (or noninteractive (daemonp))
   :when window-system
-  :no-require t
+  :unless (or noninteractive (daemonp))
   :hook
   (after-init . server-start))
 
@@ -542,7 +541,6 @@ In that case, insert the number."
   eww-readable)
 
 (use-package exec-path-from-shell
-  :demand t
   :if (and (eq system-type 'darwin) (display-graphic-p))
   :custom
   (exec-path-from-shell-arguments '("-l"))
@@ -550,7 +548,8 @@ In that case, insert the number."
   :commands
   exec-path-from-shell-initialize
   :init
-  (exec-path-from-shell-initialize))
+  (exec-path-from-shell-initialize)
+  :demand t)
 
 (use-package exwm
   :preface
@@ -800,7 +799,6 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   hydra-show-hint)
 
 (use-package ivy
-  :demand t
   :custom
   (ivy-case-fold-search-default 'auto)
   (ivy-count-format "(%d/%d) ")
@@ -812,6 +810,7 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   ivy-completing-read
   ivy-mode
   ivy-read
+  :demand t
   :config (ivy-mode)
   :delight ivy-mode " 𝝓")
 
@@ -1019,8 +1018,8 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   org-element-property)
 
 (use-package org-protocol
-  :demand t
-  :after org)
+  :after org
+  :demand t)
 
 (use-package org-ref
   :after org
@@ -1057,10 +1056,9 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
                 (format "%s" path))))))
 
 (use-package paren
-  :demand t
   :commands
   show-paren-mode
-  :config
+  :init
   (show-paren-mode))
 
 (use-package pdf-tools
@@ -1102,7 +1100,6 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
     pyvenv-activate)
   :config
   (use-package elpy
-    :demand t
     :preface
     (defcustom elpy-no-get-completions-rx
       "-?\\([0-9]+\\.?[0-9]*\\|0[Bb][01]+\\|0[Oo][0-8]+\\|0[Xx][0-9A-Fa-f]+\\)"
@@ -1141,7 +1138,8 @@ point."
                         (elpy-rpc--buffer-contents)
                         (- (point)
                            (point-min)))
-                  success error)))))
+                  success error)))
+    :demand t))
 
 (use-package recentf
   :after no-littering
@@ -1263,10 +1261,10 @@ the Emacs manual) to set this variable permanently for each file."
   (yas-prompt-functions
    '(yas-ivy-prompt yas-completing-prompt))
   :commands
+  yas-completing-prompt
   yas-expand-from-trigger-key
   yas-global-mode
   yas-next-field-or-maybe-expand
-  yas-completing-prompt
   :demand t
   ;; I fail to use alternative keys in yas-keymap and yas-minor-mode-map as explained in
   ;; https://github.com/capitaomorte/yasnippet/blob/master/doc/faq.org.
