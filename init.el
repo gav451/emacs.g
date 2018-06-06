@@ -68,6 +68,8 @@
 (use-package custom
   :custom
   (custom-file (expand-file-name "custom.el" user-emacs-directory))
+  :commands
+  custom-declare-variable
   :config
   (when (file-exists-p custom-file)
     (load custom-file)))
@@ -451,12 +453,7 @@ In that case, insert the number."
 
 (use-package emms
   :config
-  (use-package emms-setup
-    :commands
-    emms-all
-    :init
-    (emms-all)
-    :demand t))
+  (emms-all))
 
 (use-package emms-browser
   :commands
@@ -481,6 +478,10 @@ In that case, insert the number."
   emms
   emms-playlist-mode-go)
 
+(use-package emms-setup
+ :commands
+ emms-all)
+
 (use-package emms-source-file
   :custom
   (emms-source-file-default-directory (expand-file-name "~/Music/"))
@@ -490,7 +491,9 @@ In that case, insert the number."
   :custom
   ;; To show the current playlist, do either
   ;; "M-x emms" or "M-x emms-playlist-mode-go".
-  (emms-stream-default-action "add"))
+  (emms-stream-default-action "add")
+  :commands
+  emms-streams)
 
 (use-package emms-volume
   :commands
