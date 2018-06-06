@@ -413,7 +413,6 @@ In that case, insert the number."
      ("http://pragmaticemacs.com/feed/" maugham)
      ("https://act.eff.org/action.atom" eff)
      ("https://feeds.feedburner.com/InterceptedWithJeremyScahill" intercepted)
-     ("https://sachachua.com/blog/category/emacs-news/feed" chua)
      ("https://www.aclu.org/taxonomy/feed-term/2152/feed" aclu)
      ("https://www.bof.nl/rss/" bof)
      ("https://www.democracynow.org/podcast-video.xml" dn)
@@ -435,7 +434,6 @@ In that case, insert the number."
      "filter"
      ("a" (elfeed-search-set-filter "@6-months-ago +aclu") "aclu")
      ("b" (elfeed-search-set-filter "@6-months-ago +bof") "bof")
-     ("c" (elfeed-search-set-filter "@6-months-ago +chua") "chua")
      ("d" (elfeed-search-set-filter "@6-months-ago +dn") "dn")
      ("e" (elfeed-search-set-filter "@6-months-ago +emacsen") "emacsen")
      ("f" (elfeed-search-set-filter "@6-months-ago +eff") "eff")
