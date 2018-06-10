@@ -888,6 +888,12 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
    ("\\.md\\'" . markdown-mode)
    ("\\.markdown\\'" . markdown-mode)))
 
+(use-package multi-term
+  :custom
+  (multi-term-programe (executable-find "zsh"))
+  :commands
+  multi-term)
+
 (use-package org
   :preface
   (defun find-broken-org-file-links ()

@@ -77,6 +77,8 @@
 	path = lib/emms
 	info-path = doc
 	url = https://git.savannah.gnu.org/git/emms.git
+	build-step = borg-build-compile
+	build-step = borg-makeinfo
 	build-step = make emms-print-metadata
 [submodule "epkg"]
 	path = lib/epkg
@@ -149,6 +151,9 @@
 [submodule "markdown-mode"]
 	path = lib/markdown-mode
 	url = git@github.com:jrblevin/markdown-mode.git
+[submodule "multi-term"]
+	path = lib/multi-term
+	url = git@github.com:emacsorphanage/multi-term.git
 [submodule "multiple-cursors"]
 	path = lib/multiple-cursors
 	url = git@github.com:magnars/multiple-cursors.el.git
