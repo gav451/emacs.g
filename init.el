@@ -100,7 +100,7 @@
   (aw-reverse-frame-list t)
   :commands
   ace-window-display-mode
-  :bind* ("C-x o" . ace-window)         ; was `other-window'.
+  :bind* ("M-o" . ace-window)           ; was `other-window'.
   :after avy
   :init
   ;; C-h i: Elisp -> Display -> Faces -> Defining Faces.
@@ -901,12 +901,13 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
     (interactive)
     (if (eq major-mode 'org-mode)
         (let ((paths
-               (org-element-map (org-element-parse-buffer 'object) 'link
-                 (lambda (link)
-                   (let ((path (org-element-property :path link))
-                         (type (org-element-property :type link)))
-                     (when (equal type "file")
-                       (unless (file-exists-p path) path)))))))
+               (org-element-map
+                (org-element-parse-buffer 'object) 'link
+                (lambda (link)
+                  (let ((path (org-element-property :path link))
+                        (type (org-element-property :type link)))
+                    (when (equal type "file")
+                      (unless (file-exists-p path) path)))))))
           (if paths
               (message "Found broken org-mode file links:\n%s"
                        (mapconcat #'identity paths "\n"))
@@ -918,11 +919,12 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
     (interactive)
     (if (eq major-mode 'org-mode)
         (let ((blocks
-               (org-element-map (org-element-parse-buffer) 'src-block
-                 (lambda (element)
-                   (when (string= "org-mode-hook-eval-block"
-                                  (org-element-property :name element))
-                     element)))))
+               (org-element-map
+                (org-element-parse-buffer) 'src-block
+                (lambda (element)
+                  (when (string= "org-mode-hook-eval-block"
+                                 (org-element-property :name element))
+                    element)))))
           (dolist (block blocks)
             (goto-char (org-element-property :begin block))
             (org-babel-execute-src-block)))))
