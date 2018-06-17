@@ -80,7 +80,7 @@
   :hook
   (after-init . server-start))
 
-(progn ;     startup
+(progn                                  ; startup
   (message "Loading early birds...done (%.3fs)"
            (float-time (time-subtract (current-time)
                                       before-user-init-time))))
@@ -98,19 +98,18 @@
   (aw-leading-char-style 'path)
   (aw-keys '(?0 ?1 ?2 ?3 ?4 ?5 ?6 ?7 ?8 ?9))
   (aw-reverse-frame-list t)
+  :custom-face
+  ;; C-h i: Elisp -> Display -> Faces -> Defining Faces.
+  (aw-leading-char-face ((((class color) (background dark))
+                          :background "gold" :foreground "purple3" :height 2.0)
+                         (((class color) (background light))
+                          :background "purple3" :foreground "gold" :height 2.0)
+                         (t :foreground "gray100" :underline nil)))
   :commands
   ace-window-display-mode
-  :bind* ("M-o" . ace-window)           ; was `other-window'.
+  :bind* ("M-o" . ace-window)
   :after avy
   :init
-  ;; C-h i: Elisp -> Display -> Faces -> Defining Faces.
-  (face-spec-set 'aw-leading-char-face
-                 '((((class color) (background dark))
-                    :background "gold" :foreground "purple3" :height 2.0)
-                   (((class color) (background light))
-                    :background "purple3" :foreground "gold" :height 2.0)
-                   (t :foreground "gray100" :underline nil))
-                 'face-defface-spec)
   (ace-window-display-mode))
 
 (use-package avy
@@ -606,7 +605,7 @@ In that case, insert the number."
   :init
   (exwm-enable)
   :config
-  ;; Bind 's-' prefix exwm specific keys when exwm gets configured,
+  ;; Bind `s-' prefix exwm specific keys when exwm gets configured,
   ;; since those key-bindings may conflict with other window managers.
   (exwm-input-set-key (kbd "s-o") #'ace-window)
   (exwm-input-set-key (kbd "s-r") #'exwm-reset)
@@ -618,10 +617,11 @@ In that case, insert the number."
                         `(lambda ()
                            (interactive)
                            (exwm-workspace-switch-create ,i))))
-  ;; 's-i' and "s-&" : Invoke application.
+  ;; `s-i' and `s-&' : Invoke application.
   (exwm-input-set-key (kbd "s-i") #'my-exwm-invoke)
   (exwm-input-set-key (kbd "s-&") #'my-exwm-invoke)
-  (fringe-mode 4)
+  ;; `C-h+v+fringe-styles' : left-only
+  (fringe-mode '(nil . 0))
   (display-time-mode 1))
 
 ;;; Setup `exwm-randr'.
