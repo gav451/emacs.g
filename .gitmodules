@@ -95,6 +95,9 @@
 [submodule "exwm"]
 	path = lib/exwm
 	url = git@github.com:ch11ng/exwm.git
+[submodule "exwm-edit"]
+	path = lib/exwm-edit
+	url = git@github.com:agzam/exwm-edit.git
 [submodule "f"]
 	path = lib/f
 	url = git@github.com:rejeep/f.el.git

@@ -624,7 +624,14 @@ In that case, insert the number."
   (fringe-mode '(nil . 0))
   (display-time-mode 1))
 
-;;; Setup `exwm-randr'.
+(use-package exwm-edit
+  :after exwm
+  :commands
+  exwm-edit--compose
+  :init
+  (exwm-input-set-key (kbd "C-c '") #'exwm-edit--compose)
+  (exwm-input-set-key (kbd "C-c C-'") #'exwm-edit--compose))
+
 (use-package exwm-randr
   :preface
   ;; https://emacs.stackexchange.com/questions/7148/get-all-regexp-matches-in-buffer-as-a-list
@@ -672,8 +679,8 @@ In that case, insert the number."
       (setq exwm-randr-workspace-output-plist wop)
       (start-process-shell-command "xrandr" nil command)))
 
-  :when (and (getenv "EXWM")
-             (string= (system-name) "venus"))
+  :after exwm
+  :when (string= (system-name) "venus")
   :hook
   (exwm-randr-screen-change . my-exwm-randr-screen-change)
   :commands
