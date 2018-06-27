@@ -956,7 +956,7 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   (org-catch-invisible-edits 'show-and-error)
   (org-export-with-sub-superscripts '{})
   (org-src-fontify-natively t)
-  (org-todo-keywords (quote ((sequence "TODO" "|" "DONE" "DEFERRED"))))
+  (org-todo-keywords (quote ((sequence "TODO" "|" "DONE" "DEFERRED" "ZAPPED"))))
   (org-use-sub-superscripts '{})
   (org-file-apps '((auto-mode . emacs)
                    ("\\.mm\\'" . default)
@@ -1247,7 +1247,7 @@ the Emacs manual) to set this variable permanently for each file."
   :custom
   (TeX-auto-local ".auctex-auto-local")
   (TeX-auto-save t)
-  (TeX-electric-escape t)
+  (TeX-electric-escape nil)
   (TeX-electric-math '("\\(" . "\\)"))
   (TeX-electric-sub-and-superscript t)
   (TeX-engine 'default)
