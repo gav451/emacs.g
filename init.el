@@ -579,17 +579,24 @@ In that case, insert the number."
   (exwm-workspace-number 2)
   (exwm-workspace-show-all-buffers t)
   ;; Line-editing shortcuts
+  ;; https://github.com/ch11ng/exwm/wiki
+  ;; https://github.com/DamienCassou/emacs.d/blob/master/init.el
+  ;; https://github.com/technomancy/dotfiles/blob/master/.emacs.d/phil/wm.el
   (exwm-input-simulation-keys
-   '(([?\C-b] . left)
-     ([?\C-f] . right)
-     ([?\C-p] . up)
-     ([?\C-n] . down)
-     ([?\C-a] . home)
-     ([?\C-e] . end)
-     ([?\M-v] . prior)
-     ([?\C-v] . next)
-     ([?\C-d] . delete)
-     ([?\C-k] . (S-end delete))))
+   '(([?\C-b] . [left])
+     ([?\C-f] . [right])
+     ([?\C-p] . [up])
+     ([?\C-n] . [down])
+     ([?\C-a] . [home])
+     ([?\C-e] . [end])
+     ([?\M-v] . [prior])
+     ([?\C-v] . [next])
+     ([?\C-d] . [delete])
+     ([?\C-k] . [S-end delete])
+     ;; cut, copy, and paste
+     ([?\C-w] . [?\C-x])
+     ([?\M-w] . [?\C-c])
+     ([?\C-y] . [?\C-v])))
   :hook
   (exwm-update-class . my-exwm-update-class)
   (exwm-manage-finish . my-exwm-manage-finish)
@@ -625,7 +632,12 @@ In that case, insert the number."
   (display-time-mode 1))
 
 (use-package exwm-edit
+  :preface
+  (defun on-exwm-edit-compose ()
+    (funcall 'org-mode))
   :after exwm
+  :hook
+  (exwm-edit-compose . on-exwm-edit-compose)
   :commands
   exwm-edit--compose
   :init
@@ -657,7 +669,7 @@ In that case, insert the number."
             (push (match-string-no-properties 1) matches))
           (nreverse matches)))))
 
-  (defun my-exwm-randr-screen-change ()
+  (defun on-exwm-randr-screen-change ()
     (let* ((monitors (my-exwm-randr-connected-monitors))
            (count (length monitors))
            (wop)
@@ -682,7 +694,7 @@ In that case, insert the number."
   :after exwm
   :when (string= (system-name) "venus")
   :hook
-  (exwm-randr-screen-change . my-exwm-randr-screen-change)
+  (exwm-randr-screen-change . on-exwm-randr-screen-change)
   :commands
   exwm-randr-enable
   :init
