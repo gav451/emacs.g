@@ -578,7 +578,20 @@ In that case, insert the number."
   (exwm-layout-show-all-buffers t)
   (exwm-workspace-number 2)
   (exwm-workspace-show-all-buffers t)
-  ;; Line-editing shortcuts
+  ;; https://github.com/ch11ng/exwm/wiki
+  (exwm-input-global-keys
+   `(([?\s-&] . my-exwm-invoke)
+     ([?\s-i] . my-exwm-invoke)
+     ([?\s-o] . ace-window)
+     ([?\s-r] . exwm-reset)
+     ([?\s-t] . exwm-input-toggle-keyboard)
+     ([?\s-w] . exwm-workspace-switch)
+     ,@(mapcar (lambda (i)
+                 `(,(kbd (format "s-%d" i)) .
+                   (lambda ()
+                     (interactive)
+                     (exwm-workspace-switch-create ,i))))
+               (number-sequence 0 9))))
   ;; https://github.com/ch11ng/exwm/wiki
   ;; https://github.com/DamienCassou/emacs.d/blob/master/init.el
   ;; https://github.com/technomancy/dotfiles/blob/master/.emacs.d/phil/wm.el
@@ -614,19 +627,6 @@ In that case, insert the number."
   :config
   ;; Bind `s-' prefix exwm specific keys when exwm gets configured,
   ;; since those key-bindings may conflict with other window managers.
-  (exwm-input-set-key (kbd "s-o") #'ace-window)
-  (exwm-input-set-key (kbd "s-r") #'exwm-reset)
-  (exwm-input-set-key (kbd "s-x") #'exwm-input-toggle-keyboard)
-  (exwm-input-set-key (kbd "s-w") #'exwm-workspace-switch)
-  (dotimes (i 10)
-    ;; 's-0', 's-1', ..., 's-9'.
-    (exwm-input-set-key (kbd (format "s-%d" i))
-                        `(lambda ()
-                           (interactive)
-                           (exwm-workspace-switch-create ,i))))
-  ;; `s-i' and `s-&' : Invoke application.
-  (exwm-input-set-key (kbd "s-i") #'my-exwm-invoke)
-  (exwm-input-set-key (kbd "s-&") #'my-exwm-invoke)
   ;; `C-h+v+fringe-styles' : left-only
   (fringe-mode '(nil . 0))
   (display-time-mode 1))
