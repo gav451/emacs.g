@@ -163,6 +163,9 @@
 [submodule "no-littering"]
 	path = lib/no-littering
 	url = git@github.com:emacscollective/no-littering.git
+[submodule "ob-async"]
+	path = lib/ob-async
+	url = git@github.com:astahlman/ob-async.git
 [submodule "org"]
 	path = lib/org
 	load-path = lisp

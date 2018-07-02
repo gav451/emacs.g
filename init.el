@@ -913,6 +913,11 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   :commands
   multi-term)
 
+(use-package ob-async
+  :after org
+  :init
+  (require 'ob-async))
+
 (use-package org
   :preface
   (defun find-broken-org-file-links ()
@@ -921,34 +926,34 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
     (if (eq major-mode 'org-mode)
         (let ((paths
                (org-element-map
-                (org-element-parse-buffer 'object) 'link
-                (lambda (link)
-                  (let ((path (org-element-property :path link))
-                        (type (org-element-property :type link)))
-                    (when (equal type "file")
-                      (unless (file-exists-p path) path)))))))
+                   (org-element-parse-buffer 'object) 'link
+                 (lambda (link)
+                   (let ((path (org-element-property :path link))
+                         (type (org-element-property :type link)))
+                     (when (equal type "file")
+                       (unless (file-exists-p path) path)))))))
           (if paths
               (message "Found broken org-mode file links:\n%s"
                        (mapconcat #'identity paths "\n"))
             (message "Found no broken org-mode file links")))
       (message "Failed to find broken links (major mode is not org-mode)")))
 
-  (defun my-org-mode-hook-eval-blocks ()
+  (defun on-org-mode-eval-blocks ()
     "Evaluate all org-mode source blocks named `org-mode-hook-eval-block'."
     (interactive)
     (if (eq major-mode 'org-mode)
         (let ((blocks
                (org-element-map
-                (org-element-parse-buffer) 'src-block
-                (lambda (element)
-                  (when (string= "org-mode-hook-eval-block"
-                                 (org-element-property :name element))
-                    element)))))
+                   (org-element-parse-buffer) 'src-block
+                 (lambda (element)
+                   (when (string= "org-mode-hook-eval-block"
+                                  (org-element-property :name element))
+                     element)))))
           (dolist (block blocks)
             (goto-char (org-element-property :begin block))
             (org-babel-execute-src-block)))))
 
-  (defun my-org-mode-hook-completion-at-point ()
+  (defun on-org-mode-completion-at-point ()
     (setq completion-at-point-functions
           '(my-org-ref-completion-at-point-ref t)))
 
@@ -1018,8 +1023,8 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   :mode
   ("\\.org\\'" . org-mode)
   :hook
-  (org-mode . my-org-mode-hook-eval-blocks)
-  (org-mode . my-org-mode-hook-completion-at-point)
+  (org-mode . on-org-mode-eval-blocks)
+  (org-mode . on-org-mode-completion-at-point)
   :commands
   org-babel-do-load-languages
   org-link-set-parameters
