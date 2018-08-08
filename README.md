@@ -41,14 +41,26 @@ You might also want to adjust this description.
 [manual]:  https://emacsmirror.net/manual/borg
 [Github]:  https://github.com/emacscollective/emacs.g
 
-Bootstrapping branch GAV
-------------------------
+Bootstrapping branch GAV into ~/.emacs.d
+----------------------------------------
+
+``` shell
+git clone git@github.com:gav451/emacs.g.git -b GAV ~/.emacs.d
+cd .emacs.d
+make bootstrap-borg
+make bootstrap
+git clone https://github.com/emacsmirror/epkgs.git var/epkgs
+```
+
+Bootstrapping branch GAV into emacs.g
+-------------------------------------
 
 ``` shell
 git clone git@github.com:gav451/emacs.g.git -b GAV
 cd emacs.g
 make bootstrap-borg
 make bootstrap
+git clone https://github.com/emacsmirror/epkgs.git var/epkgs
 emacs -Q --load init.elc&
 ```
 
