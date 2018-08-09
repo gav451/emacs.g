@@ -884,6 +884,8 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   (magit-completing-read-function 'ivy-completing-read)
   :bind (("C-x g"   . magit-status)
          ("C-x M-g" . magit-dispatch-popup))
+  :commands
+  magit-add-section-hook
   :config
   ;; See magit's info on section hooks: use `magit-add-section-hook'
   ;; instead of `add-hooks', `:custom', or `defcustom'.
@@ -1066,7 +1068,7 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   (org-mode . on-org-mode-completion-at-point)
   :commands
   org-babel-do-load-languages
-  ;; org-link-set-parameters
+  org-link-set-parameters
   :config
   (org-babel-do-load-languages 'org-babel-load-languages
                                '((calc . t)
