@@ -974,24 +974,6 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
         (insert label))))
 
   :custom
-  (org-capture-templates
-   '(("t" "Task" entry (file+headline "~/tmpfs/tasks.org" "Tasks")
-      "* TODO %?\n  %u\n  %a")
-     ("p" "Protocol" entry (file+headline "~/tmpfs/notes.org" "Inbox")
-      "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-     ("L" "Protocol Link" entry (file+headline "~/tmpfs/notes.org" "Inbox")
-      "* %? [[%:link][%:description]] \nCaptured On: %U")))
-  (org-catch-invisible-edits 'show-and-error)
-  (org-export-with-sub-superscripts '{})
-  (org-src-fontify-natively t)
-  (org-todo-keywords (quote ((sequence "TODO" "|" "DONE" "DEFERRED" "ZAPPED"))))
-  (org-use-sub-superscripts '{})
-  (org-file-apps '((auto-mode . emacs)
-                   ("\\.mm\\'" . default)
-                   ("\\.x?html?\\'" . (lambda (path link)
-                                        (message "Open %s" link)
-                                        (eww-open-file path)))
-                   ("\\.pdf\\'" . emacs)))
   (org-agenda-exporter-settings '((ps-landscape-mode t)
                                   (ps-number-of-columns 2)
                                   (ps-paper-type 'a4)
@@ -1000,8 +982,22 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   (org-agenda-files '("~/VCS/pim/jobs.org"))
   (org-agenda-span 70)
   (org-babel-python-command "python -E")
+  (org-capture-templates
+   '(("t" "Task" entry (file+headline "~/tmpfs/tasks.org" "Tasks")
+      "* TODO %?\n  %u\n  %a")
+     ("p" "Protocol" entry (file+headline "~/tmpfs/notes.org" "Inbox")
+      "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+     ("L" "Protocol Link" entry (file+headline "~/tmpfs/notes.org" "Inbox")
+      "* %? [[%:link][%:description]] \nCaptured On: %U")))
+  (org-catch-invisible-edits 'show-and-error)
   (org-confirm-babel-evaluate nil)
-
+  (org-export-with-sub-superscripts '{})
+  (org-file-apps '((auto-mode . emacs)
+                   ("\\.mm\\'" . default)
+                   ("\\.x?html?\\'" . (lambda (path link)
+                                        (message "Open %s" link)
+                                        (eww-open-file path)))
+                   ("\\.pdf\\'" . emacs)))
   (org-latex-caption-above nil)
   (org-latex-default-packages-alist
    '(("AUTO" "inputenc"  t ("pdflatex"))
@@ -1026,6 +1022,38 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
      "pdflatex -interaction nonstopmode -output-directory %o %f"))
   ;; Requires CUSTOM_ID property to suppress LaTeX section labels.
   (org-latex-prefer-user-labels t)
+  (org-link-abbrev-alist
+   '(;; Google.
+     ("gg-fr" . "https://www.google.fr/search?ie=UTF-8&oe=UTF-8&q=")
+     ("gg-nl" . "https://www.google.nl/search?ie=UTF-8&oe=UTF-8&q=")
+     ("gg-us" . "https://encrypted.google.com/search?ie=UTF-8&oe=UTF-8&q=")
+     ;; Google maps.
+     ("gm-fr" . "https://maps.google.fr/maps?q=%s")
+     ("gm-nl" . "https://maps.google.nl/maps?q=%s")
+     ("gm-us" . "https://maps.google.com/maps?q=%s")
+     ;; Open street map.
+     ("omap" . "http://nominatim.openstreetmap.org/search?q=%s&polygon=1")))
+  (org-modules
+   '(org-bibtex
+     org-eww
+     org-info
+     org-protocol
+     org-tempo))
+  (org-src-fontify-natively t)
+  (org-structure-template-alist
+   '(("a" . "export ascii")
+     ("c" . "center")
+     ("C" . "comment")
+     ("e" . "example")
+     ("E" . "export")
+     ("h" . "export html")
+     ("l" . "export latex")
+     ("p" . "src python :eval no-export")
+     ("q" . "quote")
+     ("s" . "src")
+     ("v" . "verse")))
+  (org-todo-keywords (quote ((sequence "TODO" "|" "DONE" "DEFERRED" "ZAPPED"))))
+  (org-use-sub-superscripts '{})
   :bind
   (("C-c a"   . org-agenda)
    ("C-c c"   . org-capture)
@@ -1038,7 +1066,7 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   (org-mode . on-org-mode-completion-at-point)
   :commands
   org-babel-do-load-languages
-  org-link-set-parameters
+  ;; org-link-set-parameters
   :config
   (org-babel-do-load-languages 'org-babel-load-languages
                                '((calc . t)
@@ -1049,28 +1077,13 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
                                  (latex . t)
                                  (org . t)
                                  (python . t)
-                                 (shell . t)))
-  (mapc #'(lambda (element) (add-to-list 'org-link-abbrev-alist element))
-        '(;; Google.
-          ("gg-fr" . "https://www.google.fr/search?ie=UTF-8&oe=UTF-8&q=")
-          ("gg-nl" . "https://www.google.nl/search?ie=UTF-8&oe=UTF-8&q=")
-          ("gg-us" . "https://encrypted.google.com/search?ie=UTF-8&oe=UTF-8&q=")
-          ;; Google maps.
-          ("gm-fr" . "https://maps.google.fr/maps?q=%s")
-          ("gm-nl" . "https://maps.google.nl/maps?q=%s")
-          ("gm-us" . "https://maps.google.com/maps?q=%s")
-          ;; Open street map.
-          ("omap" . "http://nominatim.openstreetmap.org/search?q=%s&polygon=1"))))
+                                 (shell . t))))
 
 (use-package org-element
   :functions
   org-element-map
   org-element-parse-buffer
   org-element-property)
-
-(use-package org-protocol
-  :after org
-  :demand t)
 
 (use-package org-ref
   :after org
