@@ -381,12 +381,12 @@ In that case, insert the number."
 
 (use-package elec-pair
   :preface
-  (defun my-enable-electric-pair-mode ()
+  (defun turn-off-electric-pair ()
+    (electric-pair-mode -1))
+  (defun turn-on-electric-pair ()
     (electric-pair-mode 1))
   :commands
-  electric-pair-mode
-  :hook
-  (prog-mode . my-enable-electric-pair-mode))
+  electric-pair-mode)
 
 (use-package elfeed
   :preface
@@ -712,12 +712,14 @@ In that case, insert the number."
 
 (use-package goto-addr
   :preface
-  (defun my-enable-goto-address-mode ()
+  (defun turn-off-goto-address ()
+    (goto-address-mode 1))
+  (defun turn-on-goto-address ()
     (goto-address-mode 1))
   :commands
   goto-address-mode
   :hook
-  (prog-mode . my-enable-goto-address-mode))
+  (prog-mode . turn-on-goto-address))
 
 (use-package help
   :no-require t
@@ -856,12 +858,14 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
 (use-package lisp-mode
   :no-require t
   :preface
-  (defun my-indent-spaces-mode ()
+  (defun turn-off-indent-spaces ()
     (setq indent-tabs-mode nil))
+  (defun turn-on-indent-spaces ()
+    (setq indent-tabs-mode t))
   :hook
   (emacs-lisp-mode . outline-minor-mode)
   (emacs-lisp-mode . reveal-mode)
-  (lisp-interaction-mode . my-indent-spaces-mode))
+  (lisp-interaction-mode . turn-off-indent-spaces))
 
 (use-package lispy
   :commands
