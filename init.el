@@ -386,7 +386,9 @@ In that case, insert the number."
   (defun turn-on-electric-pair ()
     (electric-pair-mode 1))
   :commands
-  electric-pair-mode)
+  electric-pair-mode
+  :hook
+  (prog-mode . turn-on-electric-pair))
 
 (use-package elfeed
   :preface
