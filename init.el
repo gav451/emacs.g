@@ -993,6 +993,7 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
       "* %? [[%:link][%:description]] \nCaptured On: %U")))
   (org-catch-invisible-edits 'show-and-error)
   (org-confirm-babel-evaluate nil)
+  (org-edit-src-content-indentation 0 "Preserve Python code block indentation.")
   (org-export-with-sub-superscripts '{})
   (org-file-apps '((auto-mode . emacs)
                    ("\\.mm\\'" . default)
@@ -1042,6 +1043,7 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
      org-protocol
      org-tempo))
   (org-src-fontify-natively t)
+  (org-src-preserve-indentation t "Preserve Python code block indentation.")
   (org-structure-template-alist
    '(("a" . "export ascii")
      ("c" . "center")
