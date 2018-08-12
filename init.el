@@ -569,6 +569,10 @@ In that case, insert the number."
   (defun my-exwm-update-class ()
     (exwm-workspace-rename-buffer exwm-class-name))
 
+  (defun my-exwm-lock-screen ()
+    (interactive)
+    (shell-command-to-string "i3lock -c 000000"))
+
   (defun my-exwm-manage-finish ()
     (when (or (string= exwm-class-name "XTerm")
               (string= exwm-class-name "kitty"))
@@ -584,6 +588,7 @@ In that case, insert the number."
   (exwm-input-global-keys
    `(([?\s-&] . my-exwm-invoke)
      ([?\s-i] . my-exwm-invoke)
+     ([?\s-l] . my-exwm-lock-screen)
      ([?\s-o] . ace-window)
      ([?\s-r] . exwm-reset)
      ([?\s-t] . exwm-input-toggle-keyboard)
