@@ -1088,7 +1088,18 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
                                  (latex . t)
                                  (org . t)
                                  (python . t)
-                                 (shell . t))))
+                                 (shell . t)))
+  ;; Short-circuit org-ref-link-set-paramaters in org-ref-utils:
+  (org-link-set-parameters "ac*"
+                           :follow #'or-follow-glossary
+                           :face 'org-ref-glossary-face
+                           :help-echo 'or-glossary-tooltip
+                           :export (lambda (path _ format)
+                                     (cond
+                                      ((eq format 'latex)
+                                       (format "\\gls*{%s}" path))
+                                      (t
+                                       (format "%s" path))))))
 
 (use-package org-element
   :functions
@@ -1114,21 +1125,6 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
 (use-package org-ref-glossary
   :commands
   or-follow-glossary)
-
-(use-package org-ref-utils
-  :functions
-  org-ref-link-set-parameters
-  :config
-  (org-ref-link-set-parameters "ac*"
-    :follow #'or-follow-glossary
-    :face 'org-ref-glossary-face
-    :help-echo 'or-glossary-tooltip
-    :export (lambda (path _ format)
-              (cond
-               ((eq format 'latex)
-                (format "\\gls*{%s}" path))
-               (t
-                (format "%s" path))))))
 
 (use-package paren
   :commands
