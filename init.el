@@ -436,7 +436,7 @@ In that case, insert the number."
   (bind-key
    "j"
    (defhydra hydra-elfeed-filter ()
-     "filter"
+     "Filter"
      ("a" (elfeed-search-set-filter "@6-months-ago +aclu") "aclu")
      ("b" (elfeed-search-set-filter "@6-months-ago +bof") "bof")
      ("d" (elfeed-search-set-filter "@6-months-ago +dn") "dn")
