@@ -1365,6 +1365,9 @@ the Emacs manual) to set this variable permanently for each file."
   :bind
   ("M-q" . unfill-toggle))
 
+(use-package wordnut
+  :bind* ("C-z C-w" . wordnut-search))
+
 (use-package yasnippet
   :preface
   (defun yas-ivy-prompt (prompt choices &optional display-fn)
