@@ -80,6 +80,9 @@
 	build-step = borg-build-compile
 	build-step = borg-makeinfo
 	build-step = make emms-print-metadata
+[submodule "engine-mode"]
+	path = lib/engine-mode
+	url = git@github.com:hrs/engine-mode.git
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git

@@ -180,11 +180,15 @@
     (browse-url (concat "http://wttr.in/" place)))
   :custom
   (browse-url-browser-function
-   '((".*google.*" . browse-url-generic)
+   '((".*github.*" . browse-url-generic)
+     (".*google.*" . browse-url-generic)
+     (".*openstreetmap.org" . browse-url-generic)
      (".*reddit.com" . browse-url-generic)
+     (".*wikipedia.*" . browse-url-generic)
      (".*youtube.*" . browse-url-generic)
      ("." . eww-browse-url)))
-  (browse-url-generic-program (executable-find "firefox"))
+  (browse-url-generic-program (or (executable-find "qutebrowser")
+                                  (executable-find "firefox")))
   :commands
   browse-url)
 
@@ -498,6 +502,43 @@ In that case, insert the number."
   :commands
   emms-volume-mode-minus
   emms-volume-mode-plus)
+
+(use-package engine-mode
+  :commands
+  engine-mode
+  engine/execute-search
+  engine/get-query
+  :demand t
+  :config
+  (require 'format-spec)
+  (engine-mode 1)
+  ;; https://github.com/kaushalmodi/.emacs.d/blob/master/setup-files/setup-engine-mode.el
+  ;; https://gitlab.com/ambrevar/dotfiles/blob/master/.emacs.d/lisp/init-engine.el
+  (defengine arch-wiki
+    "http://wiki.archlinux.org/index.php?title=Special%%3ASearch&search=%s&go=Go"
+    :keybinding "a")
+  (defengine duck-duck-go
+    "https://duckduckgo.com/?q=%s"
+    :keybinding "d")
+  (defengine github
+    "https://github.com/search?ref=simplesearch&q=%s"
+    :keybinding "g")
+  (defengine open-streetmap
+    "https://www.openstreetmap.org/search?query=%s"
+    :keybinding "o")
+  (defengine wikipedia
+    "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s"
+    :keybinding "w")
+  ;; https://github.com/asok/.emacs.d/blob/master/inits/init-engine-mode.el
+  (bind-key*
+   "C-z C-e"
+   (defhydra hydra-engine (:color blue)
+     "Search"
+     ("a" engine/search-arch-wiki      "arch-wiki")
+     ("d" engine/search-duck-duck-go   "duck-duck-go")
+     ("g" engine/search-github         "github")
+     ("o" engine/search-open-streetmap "open-streetmap")
+     ("w" engine/search-wikipedia      "wikipedia"))))
 
 (use-package epa
   :custom
