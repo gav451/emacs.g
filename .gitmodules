@@ -119,6 +119,9 @@
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
+[submodule "graphql"]
+	path = lib/graphql
+	url = git@github.com:vermiculus/graphql.el.git
 [submodule "helm"]
 	path = lib/helm
 	url = git@github.com:emacs-helm/helm.git
