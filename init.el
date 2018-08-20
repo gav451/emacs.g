@@ -1206,10 +1206,6 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   (python-shell-interpreter-args "-E -i")
   :interpreter ("python" . python-mode)
   :mode ("\\.pyw?\\'" . python-mode)
-  :init
-  (use-package pyvenv
-    :commands
-    pyvenv-activate)
   :config
   (use-package elpy
     :preface
@@ -1236,8 +1232,9 @@ and file a bug report."
     elpy-rpc
     elpy-rpc--buffer-contents
     :init
-    (pyvenv-activate "~3.6")
     (elpy-enable)
+    :demand t
+    :config
     (defun elpy-rpc-get-completions (&optional success error)
       "Call the get_completions API function.
 
@@ -1250,8 +1247,7 @@ point."
                         (elpy-rpc--buffer-contents)
                         (- (point)
                            (point-min)))
-                  success error)))
-    :demand t))
+                  success error)))))
 
 (use-package recentf
   :after no-littering
