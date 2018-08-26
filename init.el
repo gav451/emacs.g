@@ -1357,6 +1357,14 @@ the Emacs manual) to set this variable permanently for each file."
   (add-to-list 'tramp-default-proxies-alist
                (list (regexp-quote (system-name)) nil nil)))
 
+(use-package undo-tree
+  :commands
+  global-undo-tree-mode
+  :demand t
+  :config
+  (global-undo-tree-mode)
+  :delight undo-tree-mode " 🌴")
+
 (use-package unfill
   :bind
   ("M-q" . unfill-toggle))
