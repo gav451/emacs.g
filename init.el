@@ -761,13 +761,22 @@ In that case, insert the number."
 (use-package goto-addr
   :preface
   (defun turn-off-goto-address ()
-    (goto-address-mode 1))
+    (if (derived-mode-p 'prog-mode)
+        (goto-address-prog-mode)
+      (goto-address-mode -1)))
   (defun turn-on-goto-address ()
-    (goto-address-mode 1))
+    (if (derived-mode-p 'prog-mode)
+        (goto-address-prog-mode 1)
+      (goto-address-mode 1)))
+  ;; https://xenodium.com/#actionable-urls-in-emacs-buffers
+  :bind (:map goto-address-highlight-keymap
+              ("<RET>" . goto-address-at-point)
+              ("M-<RET>" . newline))
   :commands
   goto-address-mode
+  goto-address-prog-mode
   :hook
-  (prog-mode . turn-on-goto-address))
+  ((eshell-mode prog-mode shell-mode) . turn-on-goto-address))
 
 (use-package help
   :no-require t
@@ -916,6 +925,8 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   (lisp-interaction-mode . turn-off-indent-spaces))
 
 (use-package lispy
+  :custom
+  (lispy-compat '(edebug macrostep))
   :commands
   lispy-mode
   :hook
@@ -1167,6 +1178,9 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   :commands
   or-follow-glossary)
 
+(use-package outline
+  :delight outline-minor-mode " ✎")
+
 (use-package paren
   :commands
   show-paren-mode
@@ -1269,6 +1283,9 @@ point."
   :commands
   turn-on-reftex
   :delight reftex-mode " 📑")
+
+(use-package reveal
+  :delight " 👀")
 
 (use-package savehist
   :commands
