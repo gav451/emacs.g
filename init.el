@@ -547,6 +547,10 @@ In that case, insert the number."
   (when (eq system-type 'darwin)
     (setq epg-gpg-program "gpg2")))
 
+(use-package expand-region
+  :bind*
+  ("C-=" . er/expand-region))
+
 (use-package eww
   :preface
   (defcustom eww-readable-sites
