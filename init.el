@@ -399,12 +399,14 @@ In that case, insert the number."
   (defun my-elfeed-show-visit-external ()
     "Wrapper to visit the current entry using an external browser."
     (interactive)
-    (let ((browse-url-generic-program (executable-find "firefox")))
+    (let ((browse-url-generic-program (or (executable-find "qutebrowser")
+                                          (executable-find "firefox"))))
       (elfeed-show-visit t)))
   (defun my-elfeed-show-shr-browse-url-external ()
     "Wrapper to browse the URL under point using an external browser."
     (interactive)
-    (shr-browse-url t))
+    (let ((shr-external-browser #'browse-url-generic))
+      (shr-browse-url t)))
   (defun my-elfeed-toggle-star ()
     "Wrapper to toggle all starred elfeed search entries."
     (interactive)
