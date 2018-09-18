@@ -190,7 +190,8 @@
   (browse-url-generic-program (or (executable-find "qutebrowser")
                                   (executable-find "firefox")))
   :commands
-  browse-url)
+  browse-url
+  browse-url-generic)
 
 (use-package company
   :preface
