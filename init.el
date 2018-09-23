@@ -396,7 +396,18 @@ In that case, insert the number."
   (prog-mode . turn-on-electric-pair))
 
 (use-package elfeed
+  ;; http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/
   :preface
+  (defun my-elfeed-db-load-and-open ()
+    "Wrapper to load the elfeed database before opening"
+    (interactive)
+    (elfeed-db-load)
+    (elfeed)
+    (elfeed-search-update--force))
+  (defun my-elfeed-save-db-and-quit ()
+    (interactive)
+    (elfeed-db-save)
+    (quit-window))
   (defun my-elfeed-show-visit-external ()
     "Wrapper to visit the current entry using an external browser."
     (interactive)
@@ -413,6 +424,7 @@ In that case, insert the number."
     (interactive)
     (elfeed-search-toggle-all '*))
   :custom
+  (elfeed-db-directory "~/SYNC/elfeed/db")
   (elfeed-feeds
    '(("http://emacshorrors.com/feed.atom" schneidermann)
      ("http://emacsninja.com/feed.atom" schneidermann)
@@ -426,13 +438,19 @@ In that case, insert the number."
      ("https://www.democracynow.org/podcast-video.xml" dn)
      ("https://www.laquadrature.net/fr/rss.xml" lqdn)))
   (elfeed-enclosure-default-dir (expand-file-name "~/tmpfs/"))
-  :bind* ("C-x w" . elfeed)
+  :bind* ("C-x w" . my-elfeed-db-load-and-open)
+  :bind (:map elfeed-search-mode-map
+              ("q" . my-elfeed-save-db-and-quit))
   :commands
+  elfeed
+  elfeed-db-load
+  elfeed-db-save
   elfeed-search-set-filter
   elfeed-search-toggle-all
   elfeed-search-update--force
   elfeed-show-visit
   :config
+  (make-directory elfeed-db-directory t)
   (bind-keys :map elfeed-show-mode-map
              ("B" . my-elfeed-show-visit-external)
              ("&" . my-elfeed-show-shr-browse-url-external))
