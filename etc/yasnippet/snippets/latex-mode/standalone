@@ -24,13 +24,21 @@
 }
 
 \usepackage[load-configurations=abbreviations]{siunitx}
-\sisetup{range-phrase = \ensuremath{\text{\,\textendash\,}}}
+\sisetup{
+  range-phrase=\ensuremath{\text{\,\textendash\,}}
+  range-units=brackets,
+  separate-uncertainty,
+}
 \DeclareSIUnit\mK{\milli\kelvin}
 \DeclareSIUnit\mbar{\milli\bar}
 \DeclareSIUnit\micron{\micro\meter}
+\DeclareSIUnit\umole{\micro\mole}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,backgrounds,patterns,plotmarks}
+
+\newcommand{\Nusselt}{\mbox{\textit{Nu}}}
+\newcommand{\Reynolds}{\mbox{\textit{Re}}}
 
 \begin{document}
 $0
