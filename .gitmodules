@@ -214,6 +214,9 @@
 [submodule "rainbow-mode"]
 	path = lib/rainbow-mode
 	url = git@github.com:emacsmirror/rainbow-mode.git
+[submodule "ripgrep"]
+	path = lib/ripgrep
+	url = git@github.com:nlamirault/ripgrep.el.git
 [submodule "s"]
 	path = lib/s
 	url = git@github.com:magnars/s.el.git
