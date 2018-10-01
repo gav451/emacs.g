@@ -1059,6 +1059,7 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
       (let ((label (ivy-read "label: " (org-ref-get-labels) :require-match t)))
         (insert label))))
 
+  (put 'org-src-preserve-indentation 'safe-local-variable #'booleanp)
   :custom
   (org-agenda-exporter-settings '((ps-landscape-mode t)
                                   (ps-number-of-columns 2)
