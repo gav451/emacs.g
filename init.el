@@ -20,7 +20,9 @@
   (setq load-prefer-newer t)
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
-  (menu-bar-mode 0))
+  (menu-bar-mode 0)
+  (when (string= (system-name) "venus")
+    (display-battery-mode 1)))
 
 (progn                                  ; `borg'
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
