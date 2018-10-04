@@ -350,6 +350,8 @@ In that case, insert the number."
       (extension "el" "py"))
      ("org-mode files"
       (extension . "org"))
+     ("text files"
+      (extension . "txt"))
      ("latex files"
       (extension "bib" "tex"))
      ("document viewer files"
@@ -365,6 +367,7 @@ In that case, insert the number."
       ("Directories" (directory))
       ("Program Files" "program files")
       ("Org-mode Files" "org-mode files")
+      ("Text Files" "text files")
       ("LaTeX Files" "latex files")
       ("Document Viewer Files" "document viewer files")
       ("Image Files" "image files")
@@ -777,6 +780,8 @@ In that case, insert the number."
   (exwm-randr-enable))
 
 (use-package files
+  :commands
+  executable-find
   :custom
   (insert-directory-program (or (executable-find "gls")
                                 (executable-find "ls"))))
