@@ -20,6 +20,17 @@
   (setq load-prefer-newer t)
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
+  ;; Darwin
+  (when (boundp 'ns-alternate-modifier)
+    (setq ns-alternate-modifier nil))
+  (when (boundp 'ns-command-modifier)
+    (setq ns-command-modifier 'meta))
+  (when (boundp 'ns-right-command-modifier)
+    (setq ns-right-command-modifier 'super))
+  (when (eq window-system 'ns)
+    (add-to-list 'initial-frame-alist '(height . 50))
+    (add-to-list 'initial-frame-alist '(width . 170)))
+  ;; Linux
   (when (getenv "EXWM")
     (menu-bar-mode 0))
   (when (string= (system-name) "venus")
