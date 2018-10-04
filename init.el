@@ -17,8 +17,6 @@
   (setq inhibit-startup-echo-area-message "locutus")
   (setq initial-buffer-choice t)
   (setq initial-scratch-message "")
-  (setq insert-directory-program (or (executable-find "gls")
-                                     (executable-find "ls")))
   (setq load-prefer-newer t)
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
@@ -777,6 +775,11 @@ In that case, insert the number."
   exwm-randr-enable
   :init
   (exwm-randr-enable))
+
+(use-package files
+  :custom
+  (insert-directory-program (or (executable-find "gls")
+                                (executable-find "ls"))))
 
 (use-package flycheck
   :commands
