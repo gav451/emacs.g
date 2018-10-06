@@ -790,6 +790,11 @@ In that case, insert the number."
   :init
   (exwm-randr-enable))
 
+(use-package faces
+  :commands invert-face
+  :init
+  (invert-face 'default))
+
 (use-package files
   :commands
   executable-find
