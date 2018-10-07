@@ -126,6 +126,51 @@
   :init
   (ace-window-display-mode))
 
+(use-package alert
+  :preface
+  (defun alert-dunst-notify (info)
+    "Send INFO using dunstify.
+Handles :ICON, :SEVERITY, :PERSISTENT, :NEVER-PERSIST, :TITLE and :MESSAGE
+keywords from the INFO plist."
+    (if alert-dunstify-command
+        (let* ((args
+                (append
+                 (list "-i" (or (plist-get info :icon)
+                                alert-default-icon)
+                       "-a" "Emacs"
+                       "-u" (let ((urgency (cdr (assq
+                                                 (plist-get info :severity)
+                                                 alert-libnotify-priorities))))
+                              (if urgency
+                                  (symbol-name urgency)
+                                "normal")))
+                 alert-dunstify-additional-args)))
+          (nconc args
+                 (list "-t"
+                       (number-to-string
+                        (* 1000         ; notify-send takes msecs
+                           (if (and (plist-get info :persistent)
+                                    (not (plist-get info :never-persist)))
+                               0        ; 0 indicates persistence
+                             alert-fade-time)))))
+          (nconc args (list
+                       (alert-encode-string (plist-get info :title))
+                       (alert-encode-string (plist-get info :message))))
+          (apply #'call-process alert-dunstify-command nil
+                 (list (get-buffer-create " *dunstify output*") t) nil args))
+      (alert-message-notify info)))
+  :custom
+  (alert-default-style 'dunstify)
+  (alert-dunstify-additional-args nil)
+  (alert-dunstify-command (executable-find "dunstify"))
+  :commands
+  alert-define-style
+  alert-message-notify
+  :config
+  (alert-define-style 'dunstify
+                      :title "Notify using dunstify"
+                      :notifier #'alert-dunst-notify))
+
 (use-package avy
   :custom
   (avy-all-windows t)
