@@ -152,22 +152,22 @@
 (use-package browse-url
   :preface
   (defun dict-en (word)
-    "Look up a word in the dictionary at 'http://thefreedictionary.com'."
+    "Look up a word in the dictionary at 'https://thefreedictionary.com'."
     (interactive
      (list (if (use-region-p)
                (buffer-substring (region-beginning) (region-end))
-             (read-string "Search 'http://www.thefreedictionary.com' for: "
+             (read-string "Search 'https://www.thefreedictionary.com' for: "
                           (thing-at-point 'word)))))
-    (browse-url (concat "http://www.thefreedictionary.com/" word)))
+    (browse-url (concat "https://www.thefreedictionary.com/" word)))
 
   (defun dict-nl (word)
-    "Look up a word in the dictionary at 'http://www.woorden.org'."
+    "Look up a word in the dictionary at 'https://www.woorden.org'."
     (interactive
      (list (if (use-region-p)
                (buffer-substring (region-beginning) (region-end))
-             (read-string "Search 'http://www.woorden.org' for: "
+             (read-string "Search 'https://www.woorden.org' for: "
                           (thing-at-point 'word)))))
-    (browse-url (concat "http://www.woorden.org/zoek/php?woord=" word)))
+    (browse-url (concat "https://www.woorden.org/woord/" word)))
 
   (defun dict-fr (word)
     "Look up a word in the dictionary at 'http://www.cnrtl.fr'."
@@ -179,13 +179,13 @@
     (browse-url (concat "http://www.cnrtl.fr/definition/academie9/" word)))
 
   (defun webster (word)
-    "Look up a word in the dictionary at 'http://webster-dictionary.org'."
+    "Look up a word in the dictionary at 'https://webster-dictionary.org'."
     (interactive
      (list (if (use-region-p)
                (buffer-substring (region-beginning) (region-end))
-             (read-string "Search 'http://webster-dictionary.org' for: "
+             (read-string "Search 'https://webster-dictionary.org' for: "
                           (thing-at-point 'word)))))
-    (browse-url (concat "http://webster-dictionary.org/definition/" word)))
+    (browse-url (concat "https://webster-dictionary.org/definition/" word)))
 
   ;; https://github.com/chubin/wttr.in
   (defun weather (place)
