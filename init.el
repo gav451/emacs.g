@@ -782,7 +782,7 @@ In that case, insert the number."
                 (setq wop (plist-put wop i (car monitors))))
               (message "Exwm-randr: 1 monitor")
               "xrandr"))))
-      (setq exwm-randr-workspace-output-plist wop)
+      (setq exwm-randr-workspace-monitor-plist wop)
       (start-process-shell-command "xrandr" nil command)))
 
   :after exwm
