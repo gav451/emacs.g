@@ -1369,9 +1369,21 @@ point."
 (use-package smartparens
   ;; https://ebzzry.io/en/emacs-pairs/
   ;; https://github.com/ebzzry/dotfiles/blob/master/emacs/fkd/klavoj.el
+  ;; https://github.com/Fuco1/.emacs.d/blob/master/files/smartparens.el
+  :hook
+  ((emacs-lisp-mode
+    ielm-mode
+    latex-mode
+    markdown-mode
+    lisp-interaction-mode
+    org-mode
+    python-mode
+    text-mode) . smartparens-mode)
+  ((emacs-lisp-mode
+    ielm-mode
+    lisp-interaction-mode
+    python-mode) . smartparens-strict-mode)
   :commands
-  show-smartparens-global-mode
-  smartparens-global-mode
   sp-backward-barf-sexp
   sp-backward-down-sexp
   sp-backward-sexp
@@ -1380,8 +1392,6 @@ point."
   sp-backward-unwrap-sexp
   sp-backward-up-sexp
   sp-beginning-of-sexp
-  sp-change-enclosing
-  sp-change-inner
   sp-copy-sexp
   sp-down-sexp
   sp-end-of-sexp
@@ -1390,66 +1400,48 @@ point."
   sp-forward-slurp-sexp
   sp-forward-symbol
   sp-kill-sexp
+  sp-mark-sexp
+  sp-next-sexp
+  sp-previous-sexp
   sp-select-next-thing
   sp-select-next-thing-exchange
-  sp-select-previous-thing
   sp-splice-sexp
   sp-splice-sexp-killing-around
   sp-splice-sexp-killing-backward
   sp-splice-sexp-killing-forward
-  sp-transpose-hybrid-sexp
-  sp-transpose-sexp
   sp-unwrap-sexp
   sp-up-sexp
-  :init
-  (require 'smartparens-config)
-  (smartparens-global-mode)
-  (show-smartparens-global-mode)
   :config
+  (require 'smartparens-config)
+  ;; smartparens bindings
   (bind-keys :map smartparens-mode-map
-             ;; https://github.com/Fuco1/.emacs.d/blob/master/files/smartparens.el
              ("C-M-f" . sp-forward-sexp)
              ("C-M-b" . sp-backward-sexp)
-
              ("C-M-d" . sp-down-sexp)
              ("C-M-a" . sp-backward-down-sexp)
              ("C-S-d" . sp-beginning-of-sexp)
              ("C-S-a" . sp-end-of-sexp)
-
              ("C-M-e" . sp-up-sexp)
              ("C-M-u" . sp-backward-up-sexp)
-             ("C-M-t" . sp-transpose-sexp)
-
-             ("C-M-n" . sp-forward-hybrid-sexp)
-             ("C-M-p" . sp-backward-hybrid-sexp)
-
+             ("C-M-n" . sp-next-sexp)
+             ("C-M-p" . sp-previous-sexp)
              ("C-M-k" . sp-kill-sexp)
              ("C-M-w" . sp-copy-sexp)
-
-             ("M-<delete>"    . sp-unwrap-sexp)
-             ("M-<backspace>" . sp-backward-unwrap-sexp)
-
-             ("C-<right>"   . sp-forward-slurp-sexp)
-             ("C-<left>"    . sp-forward-barf-sexp)
-             ("C-M-<left>"  . sp-backward-slurp-sexp)
-             ("C-M-<right>" . sp-backward-barf-sexp)
-
-             ("M-D"             . sp-splice-sexp)
-             ("C-M-<delete>"    . sp-splice-sexp-killing-forward)
-             ("C-M-<backspace>" . sp-splice-sexp-killing-backward)
-             ("C-S-<backspace>" . sp-splice-sexp-killing-around)
-
-             ("C-<right_bracket>" . sp-select-next-thing-exchange)
-             ("C-<left_bracket>"  . sp-select-previous-thing)
+             ("M-<delete>"          . sp-unwrap-sexp)
+             ("M-<backspace>"       . sp-backward-unwrap-sexp)
+             ("C-<right>"           . sp-forward-slurp-sexp)
+             ("C-<left>"            . sp-forward-barf-sexp)
+             ("C-M-<left>"          . sp-backward-slurp-sexp)
+             ("C-M-<right>"         . sp-backward-barf-sexp)
+             ("M-D"                 . sp-splice-sexp)
+             ("C-M-<delete>"        . sp-splice-sexp-killing-forward)
+             ("C-M-<backspace>"     . sp-splice-sexp-killing-backward)
+             ("C-S-<backspace>"     . sp-splice-sexp-killing-around)
+             ("C-<right_bracket>"   . sp-select-next-thing-exchange)
              ("C-M-<right_bracket>" . sp-select-next-thing)
-
+             ("C-M-<space>"         . sp-mark-sexp)
              ("M-F" . sp-forward-symbol)
-             ("M-B" . sp-backward-symbol)
-
-             ("C-\"" . sp-change-inner)
-             ("M-i"  . sp-change-enclosing)
-
-             ("C-x C-t" . sp-transpose-hybrid-sexp)))
+             ("M-B" . sp-backward-symbol)))
 
 (use-package swiper
   :custom
