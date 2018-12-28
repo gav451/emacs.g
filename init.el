@@ -412,9 +412,7 @@ In that case, insert the number."
   (defun turn-on-electric-pair ()
     (electric-pair-mode 1))
   :commands
-  electric-pair-mode
-  :hook
-  (prog-mode . turn-on-electric-pair))
+  electric-pair-mode)
 
 (use-package elfeed
   ;; http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/
