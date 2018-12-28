@@ -818,7 +818,7 @@ In that case, insert the number."
   :preface
   (defun turn-off-goto-address ()
     (if (derived-mode-p 'prog-mode)
-        (goto-address-prog-mode)
+        (goto-address-prog-mode -1)
       (goto-address-mode -1)))
   (defun turn-on-goto-address ()
     (if (derived-mode-p 'prog-mode)
@@ -832,7 +832,10 @@ In that case, insert the number."
   goto-address-mode
   goto-address-prog-mode
   :hook
-  ((eshell-mode prog-mode shell-mode) . turn-on-goto-address))
+  ((emacs-lisp-mode
+    eshell-mode
+    prog-mode
+    shell-mode) . turn-on-goto-address))
 
 (use-package help
   :no-require t
