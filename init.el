@@ -1219,6 +1219,10 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
   org-element-parse-buffer
   org-element-property)
 
+(use-package org-protocol-capture-html
+  ;; https://www.reddit.com/r/emacs/comments/9ze1ln/capture_orgmode_bookmarks_from_qutebrowser_with/
+  :defer 5)
+
 (use-package org-ref
   :after org
   :custom

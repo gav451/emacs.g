@@ -179,6 +179,9 @@
 	info-path = doc
 	url = git@code.orgmode.org:bzg/org-mode.git
 	build-step = make compile autoloads info
+[submodule "org-protocol-capture-html"]
+	path = lib/org-protocol-capture-html
+	url = git@github.com:alphapapa/org-protocol-capture-html.git
 [submodule "org-ref"]
 	path = lib/org-ref
 	url = git@github.com:jkitchin/org-ref.git
