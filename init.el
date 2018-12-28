@@ -892,7 +892,7 @@ _b_   _f_   [_y_] yank               [_o_] open     [_x_] exchange-point-mark
 
   (bind-key*
    "C-z C-t"
-   (defhydra hydra-toggle-mode (:hint none)
+   (defhydra hydra-toggle-mode (:color pink)
      "
 Toggle mode:
 _a_  ?a? auto-fill             _i_ ?i? iimage         _v_  ?v? view
@@ -901,7 +901,7 @@ _d_  ?d? display-line-numbers  _p_ ?p? electric-pair  _wk_ ?wk? which-key
 _fc_ ?fc? flycheck                                   _ws_ ?ws? white-space
 _fl_ ?fl? font-lock
 _fs_ ?fs? flyspell              _r_ ?r? read-only
-_g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
+_g_  ?g? goto-address          _t_ ?t? indent-tabs    _q_  quit
 "
      ("a" #'auto-fill-mode
       (if (bound-and-true-p auto-fill-function) "[X]" "[ ]"))
@@ -935,7 +935,7 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _z_  zap
       (if (bound-and-true-p which-key-mode) "[X]" "[ ]"))
      ("ws" #'whitespace-mode
       (if (bound-and-true-p whitespace-mode) "[X]" "[ ]"))
-     ("z" (message "Abort") :exit t)))
+     ("q" nil nil)))
   :commands
   hydra--call-interactively-remap-maybe
   hydra-default-pre
