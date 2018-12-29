@@ -816,6 +816,15 @@ In that case, insert the number."
 
 (use-package goto-addr
   :preface
+  (defun toggle-goto-address ()
+    (interactive)
+    (if (derived-mode-p 'prog-mode)
+        (if goto-address-prog-mode
+            (goto-address-prog-mode -1)
+          (goto-address-prog-mode 1))
+      (if goto-address-mode
+          (goto-address-mode -1)
+        (goto-address-mode 1))))
   (defun turn-off-goto-address ()
     (if (derived-mode-p 'prog-mode)
         (goto-address-prog-mode -1)
@@ -894,14 +903,13 @@ _b_   _f_   [_y_] yank               [_o_] open     [_x_] exchange-point-mark
    "C-z C-t"
    (defhydra hydra-toggle-mode (:color pink)
      "
-Toggle mode:
-_a_  ?a? auto-fill             _i_ ?i? iimage         _v_  ?v? view
-_c_  ?c? column-number         _o_ ?o? org-table      _wg_ ?wg? writegood
-_d_  ?d? display-line-numbers  _p_ ?p? electric-pair  _wk_ ?wk? which-key
-_fc_ ?fc? flycheck                                   _ws_ ?ws? white-space
-_fl_ ?fl? font-lock
-_fs_ ?fs? flyspell              _r_ ?r? read-only
-_g_  ?g? goto-address          _t_ ?t? indent-tabs    _q_  quit
+_a_  ?a? auto-fill             _i_  ?i? iimage              _v_  ?v? view
+_c_  ?c? column-number         _o_  ?o? org-table           _wg_ ?wg? writegood
+_d_  ?d? display-line-numbers  _p_  ?p? electric-pair       _wk_ ?wk? which-key
+_fc_ ?fc? flycheck              _r_  ?r? read-only           _ws_ ?ws? white-space
+_fl_ ?fl? font-lock             _sp_ ?sp? smartparens
+_fs_ ?fs? flyspell              _ss_ ?ss? smartparens-strict
+_g_  ?g? goto-address          _t_  ?t? indent-tabs         _q_  quit
 "
      ("a" #'auto-fill-mode
       (if (bound-and-true-p auto-fill-function) "[X]" "[ ]"))
@@ -915,8 +923,9 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _q_  quit
       (if (bound-and-true-p font-lock-mode) "[X]" "[ ]"))
      ("fs" #'flyspell-mode
       (if (bound-and-true-p flyspell-mode) "[X]" "[ ]"))
-     ("g" #'goto-address-mode
-      (if (bound-and-true-p goto-address-mode) "[X]" "[ ]"))
+     ("g" #'toggle-goto-address
+      (if (or (bound-and-true-p goto-address-mode)
+              (bound-and-true-p goto-address-prog-mode)) "[X]" "[ ]"))
      ("i" #'iimage-mode
       (if (bound-and-true-p iimage-mode) "[X]" "[ ]"))
      ("o" #'orgtbl-mode
@@ -925,6 +934,10 @@ _g_  ?g? goto-address          _t_ ?t? indent-tabs    _q_  quit
       (if (bound-and-true-p electric-pair-mode) "[X]" "[ ]"))
      ("r" #'read-only-mode
       (if (bound-and-true-p buffer-read-only) "[X]" "[ ]"))
+     ("sp" #'smartparens-mode
+      (if (bound-and-true-p smartparens-mode) "[X]" "[ ]"))
+     ("ss" #'smartparens-strict-mode
+      (if (bound-and-true-p smartparens-strict-mode) "[X]" "[ ]"))
      ("t" (setq indent-tabs-mode (not (bound-and-true-p indent-tabs-mode)))
       (if (bound-and-true-p indent-tabs-mode) "[X]" "[ ]"))
      ("v" #'view-mode
