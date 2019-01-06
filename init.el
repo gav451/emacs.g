@@ -1399,8 +1399,7 @@ point."
     text-mode) . smartparens-mode)
   ((emacs-lisp-mode
     ielm-mode
-    lisp-interaction-mode
-    python-mode) . smartparens-strict-mode)
+    lisp-interaction-mode) . smartparens-strict-mode)
   :commands
   sp-backward-barf-sexp
   sp-backward-down-sexp
@@ -1433,24 +1432,33 @@ point."
   (require 'smartparens-config)
   ;; smartparens bindings
   (bind-keys :map smartparens-mode-map
-             ("C-M-f" . sp-forward-sexp)
+             ;; move
+             ("C-M-a" . sp-beginning-of-sexp)
              ("C-M-b" . sp-backward-sexp)
-             ("C-M-d" . sp-down-sexp)
-             ("C-M-a" . sp-backward-down-sexp)
-             ("C-S-d" . sp-beginning-of-sexp)
-             ("C-S-a" . sp-end-of-sexp)
-             ("C-M-e" . sp-up-sexp)
-             ("C-M-u" . sp-backward-up-sexp)
+             ("C-M-e" . sp-end-of-sexp)
+             ("C-M-f" . sp-forward-sexp)
              ("C-M-n" . sp-next-sexp)
              ("C-M-p" . sp-previous-sexp)
+             ("M-n d" . sp-down-sexp)
+             ("M-n u" . sp-up-sexp)
+             ("M-p d" . sp-backward-down-sexp)
+             ("M-p u" . sp-backward-up-sexp)
+             ;; kill/copy
              ("C-M-k" . sp-kill-sexp)
              ("C-M-w" . sp-copy-sexp)
+             ;; unwrap
              ("M-<delete>"          . sp-unwrap-sexp)
              ("M-<backspace>"       . sp-backward-unwrap-sexp)
+             ;; barf/slurp
+             ("M-n b" . sp-forward-barf-sexp)
+             ("M-n s" . sp-forward-slurp-sexp)
+             ("M-p b" . sp-backward-barf-sexp)
+             ("M-p s" . sp-backward-slurp-sexp)
              ("C-<right>"           . sp-forward-slurp-sexp)
              ("C-<left>"            . sp-forward-barf-sexp)
              ("C-M-<left>"          . sp-backward-slurp-sexp)
              ("C-M-<right>"         . sp-backward-barf-sexp)
+             ;; splice
              ("M-D"                 . sp-splice-sexp)
              ("C-M-<delete>"        . sp-splice-sexp-killing-forward)
              ("C-M-<backspace>"     . sp-splice-sexp-killing-backward)
@@ -1459,7 +1467,31 @@ point."
              ("C-M-<right_bracket>" . sp-select-next-thing)
              ("C-M-<space>"         . sp-mark-sexp)
              ("M-F" . sp-forward-symbol)
-             ("M-B" . sp-backward-symbol)))
+             ("M-B" . sp-backward-symbol))
+  (bind-key*
+   "C-z C-s"
+   (defhydra smartparens-hydra (:color pink :hint nil)
+     "
+^Move^        ^Barf/slurp^
+^^^^----------------------------
+_a_ begin     _[_ backward barf 
+_b_ backward  _(_ backward slurp
+_e_ end       _]_ forward barf
+_f_ forward   _)_ forward slurp
+_n_ next
+_p_ previous
+"
+     ("a" sp-beginning-of-sexp)
+     ("b" sp-backward-sexp)
+     ("e" sp-end-of-sexp)
+     ("f" sp-forward-sexp)
+     ("n" sp-next-sexp)
+     ("p" sp-previous-sexp)
+     ("[" sp-backward-barf-sexp)
+     ("(" sp-backward-slurp-sexp)
+     ("]" sp-forward-barf-sexp)
+     (")" sp-forward-slurp-sexp)
+     ("q" nil))))
 
 (use-package swiper
   :custom
