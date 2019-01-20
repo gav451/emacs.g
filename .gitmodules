@@ -60,6 +60,9 @@
 [submodule "dired-hacks"]
 	path = lib/dired-hacks
 	url = git@github.com:Fuco1/dired-hacks.git
+[submodule "easy-kill"]
+	path = lib/easy-kill
+	url = git@github.com:leoliu/easy-kill.git
 [submodule "eimp"]
 	path = lib/eimp
 	url = git@github.com:nicferrier/eimp.git

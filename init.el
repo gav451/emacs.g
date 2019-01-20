@@ -405,6 +405,12 @@ In that case, insert the number."
 (use-package dired-x
   :after dired)
 
+(use-package easy-kill
+  ;; https://emacsredux.com/blog/2018/11/09/an-easy-kill/
+  ;; https://emacsredux.com/blog/2019/01/10/the-emacs-year-in-review/
+  :bind*
+  ([remap kill-ring-save] . easy-kill))
+
 (use-package elec-pair
   :preface
   (defun turn-off-electric-pair ()
