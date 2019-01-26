@@ -827,7 +827,7 @@ In that case, insert the number."
   :preface
   (defun god-mode-update-status-indicators ()
     (if god-local-mode
-        (buffer-face-set '(:background "DarkBlue")) 
+        (buffer-face-set '(:background "DarkBlue"))
       (buffer-face-mode -1)))
   :bind
   ("<escape>" . god-local-mode)
@@ -925,13 +925,13 @@ _b_   _f_   [_y_] yank               [_o_] open     [_x_] exchange-point-mark
    "C-z C-t"
    (defhydra hydra-toggle-mode (:color pink)
      "
-_a_  ?a? auto-fill             _i_  ?i? iimage              _v_  ?v? view
-_c_  ?c? column-number         _o_  ?o? org-table           _wg_ ?wg? writegood
-_d_  ?d? display-line-numbers  _p_  ?p? electric-pair       _wk_ ?wk? which-key
-_fc_ ?fc? flycheck              _r_  ?r? read-only           _ws_ ?ws? white-space
-_fl_ ?fl? font-lock             _sp_ ?sp? smartparens
-_fs_ ?fs? flyspell              _ss_ ?ss? smartparens-strict
-_g_  ?g? goto-address          _t_  ?t? indent-tabs         _q_  quit
+_a_  ?a? auto-fill             _ii_ ?ii? iimage           _vl_ ?vl? visual-line
+_c_  ?c? column-number         _it_ ?it? indent-tabs      _vm_ ?vm? view-mode
+_d_  ?d? display-line-numbers  _l_  ?l? lispy            _wg_ ?wg? writegood
+_fc_ ?fc? flycheck              _o_  ?o? org-table        _wk_ ?wk? which-key
+_fl_ ?fl? font-lock             _p_  ?p? electric-pair    _ws_ ?ws? white-space
+_fs_ ?fs? flyspell              _r_  ?r? read-only
+_g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
 "
      ("a" #'auto-fill-mode
       (if (bound-and-true-p auto-fill-function) "[X]" "[ ]"))
@@ -948,21 +948,23 @@ _g_  ?g? goto-address          _t_  ?t? indent-tabs         _q_  quit
      ("g" #'toggle-goto-address
       (if (or (bound-and-true-p goto-address-mode)
               (bound-and-true-p goto-address-prog-mode)) "[X]" "[ ]"))
-     ("i" #'iimage-mode
+     ("ii" #'iimage-mode
       (if (bound-and-true-p iimage-mode) "[X]" "[ ]"))
+     ("it" (setq indent-tabs-mode (not (bound-and-true-p indent-tabs-mode)))
+      (if (bound-and-true-p indent-tabs-mode) "[X]" "[ ]"))
+     ("l" #'lispy-mode
+      (if (bound-and-true-p lispy-mode) "[X]" "[ ]"))
      ("o" #'orgtbl-mode
       (if (bound-and-true-p orgtbl-mode) "[X]" "[ ]"))
      ("p" #'electric-pair-mode
       (if (bound-and-true-p electric-pair-mode) "[X]" "[ ]"))
      ("r" #'read-only-mode
       (if (bound-and-true-p buffer-read-only) "[X]" "[ ]"))
-     ("sp" #'smartparens-mode
-      (if (bound-and-true-p smartparens-mode) "[X]" "[ ]"))
-     ("ss" #'smartparens-strict-mode
-      (if (bound-and-true-p smartparens-strict-mode) "[X]" "[ ]"))
-     ("t" (setq indent-tabs-mode (not (bound-and-true-p indent-tabs-mode)))
-      (if (bound-and-true-p indent-tabs-mode) "[X]" "[ ]"))
-     ("v" #'view-mode
+     ("tl" #'toggle-truncate-lines
+      (if (bound-and-true-p truncate-lines) "[X]" "[ ]"))
+     ("vl" #'visual-line-mode
+      (if (bound-and-true-p visual-line-mode) "[X]" "[ ]"))
+     ("vm" #'view-mode
       (if (bound-and-true-p view-mode) "[X]" "[ ]"))
      ("wg" #'writegood-mode
       (if (bound-and-true-p writegood-mode) "[X]" "[ ]"))
@@ -1019,7 +1021,6 @@ _g_  ?g? goto-address          _t_  ?t? indent-tabs         _q_  quit
   (lisp-interaction-mode . turn-off-indent-spaces))
 
 (use-package lispy
-  :disabled
   :custom
   (lispy-compat '(edebug macrostep))
   :commands
@@ -1405,115 +1406,6 @@ point."
   :commands
   column-number-mode
   :config (column-number-mode))
-
-(use-package smartparens
-  ;; https://ebzzry.io/en/emacs-pairs/
-  ;; https://github.com/ebzzry/dotfiles/blob/master/emacs/fkd/klavoj.el
-  ;; https://github.com/Fuco1/.emacs.d/blob/master/files/smartparens.el
-  :hook
-  ((emacs-lisp-mode
-    ielm-mode
-    latex-mode
-    markdown-mode
-    lisp-interaction-mode
-    org-mode
-    python-mode
-    text-mode) . smartparens-mode)
-  ((emacs-lisp-mode
-    ielm-mode
-    lisp-interaction-mode) . smartparens-strict-mode)
-  :commands
-  sp-backward-barf-sexp
-  sp-backward-down-sexp
-  sp-backward-sexp
-  sp-backward-slurp-sexp
-  sp-backward-symbol
-  sp-backward-unwrap-sexp
-  sp-backward-up-sexp
-  sp-beginning-of-sexp
-  sp-copy-sexp
-  sp-down-sexp
-  sp-end-of-sexp
-  sp-forward-barf-sexp
-  sp-forward-sexp
-  sp-forward-slurp-sexp
-  sp-forward-symbol
-  sp-kill-sexp
-  sp-mark-sexp
-  sp-next-sexp
-  sp-previous-sexp
-  sp-select-next-thing
-  sp-select-next-thing-exchange
-  sp-splice-sexp
-  sp-splice-sexp-killing-around
-  sp-splice-sexp-killing-backward
-  sp-splice-sexp-killing-forward
-  sp-unwrap-sexp
-  sp-up-sexp
-  :config
-  (require 'smartparens-config)
-  ;; smartparens bindings
-  (bind-keys :map smartparens-mode-map
-             ;; move
-             ("C-M-a" . sp-beginning-of-sexp)
-             ("C-M-b" . sp-backward-sexp)
-             ("C-M-e" . sp-end-of-sexp)
-             ("C-M-f" . sp-forward-sexp)
-             ("C-M-n" . sp-next-sexp)
-             ("C-M-p" . sp-previous-sexp)
-             ("M-n d" . sp-down-sexp)
-             ("M-n u" . sp-up-sexp)
-             ("M-p d" . sp-backward-down-sexp)
-             ("M-p u" . sp-backward-up-sexp)
-             ;; kill/copy
-             ("C-M-k" . sp-kill-sexp)
-             ("C-M-w" . sp-copy-sexp)
-             ;; unwrap
-             ("M-<delete>"          . sp-unwrap-sexp)
-             ("M-<backspace>"       . sp-backward-unwrap-sexp)
-             ;; barf/slurp
-             ("M-n b" . sp-forward-barf-sexp)
-             ("M-n s" . sp-forward-slurp-sexp)
-             ("M-p b" . sp-backward-barf-sexp)
-             ("M-p s" . sp-backward-slurp-sexp)
-             ("C-<right>"           . sp-forward-slurp-sexp)
-             ("C-<left>"            . sp-forward-barf-sexp)
-             ("C-M-<left>"          . sp-backward-slurp-sexp)
-             ("C-M-<right>"         . sp-backward-barf-sexp)
-             ;; splice
-             ("M-D"                 . sp-splice-sexp)
-             ("C-M-<delete>"        . sp-splice-sexp-killing-forward)
-             ("C-M-<backspace>"     . sp-splice-sexp-killing-backward)
-             ("C-S-<backspace>"     . sp-splice-sexp-killing-around)
-             ("C-<right_bracket>"   . sp-select-next-thing-exchange)
-             ("C-M-<right_bracket>" . sp-select-next-thing)
-             ("C-M-<space>"         . sp-mark-sexp)
-             ("M-F" . sp-forward-symbol)
-             ("M-B" . sp-backward-symbol))
-  (bind-key*
-   "C-z C-s"
-   (defhydra smartparens-hydra (:color pink :hint nil)
-     "
-^Move^        ^Barf/slurp^
-^^^^----------------------------
-_a_ begin     _[_ backward barf 
-_b_ backward  _(_ backward slurp
-_e_ end       _]_ forward barf
-_f_ forward   _)_ forward slurp
-_n_ next
-_p_ previous
-"
-     ("a" sp-beginning-of-sexp)
-     ("b" sp-backward-sexp)
-     ("e" sp-end-of-sexp)
-     ("f" sp-forward-sexp)
-     ("n" sp-next-sexp)
-     ("p" sp-previous-sexp)
-     ("[" sp-backward-barf-sexp)
-     ("(" sp-backward-slurp-sexp)
-     ("]" sp-forward-barf-sexp)
-     (")" sp-forward-slurp-sexp)
-     ("q" nil))))
 
 (use-package swiper
   :custom
