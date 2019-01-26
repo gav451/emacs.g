@@ -798,6 +798,9 @@ In that case, insert the number."
   :init
   (exwm-randr-enable))
 
+(use-package face-remap
+  :delight buffer-face-mode)
+
 (use-package faces
   :commands invert-face
   :init
@@ -819,6 +822,19 @@ In that case, insert the number."
   (:map flymake-mode-map
         ("M-n" . flymake-goto-next-error)
         ("M-p" . flymake-goto-prev-error)))
+
+(use-package god-mode
+  :preface
+  (defun god-mode-update-status-indicators ()
+    (if god-local-mode
+        (buffer-face-set '(:background "DarkBlue")) 
+      (buffer-face-mode -1)))
+  :bind
+  ("<escape>" . god-local-mode)
+  :hook
+  (god-mode-enabled . god-mode-update-status-indicators)
+  (god-mode-disabled . god-mode-update-status-indicators)
+  :delight god-local-mode " 🌪")
 
 (use-package goto-addr
   :preface
@@ -1502,6 +1518,12 @@ _p_ previous
 (use-package swiper
   :custom
   (swiper-action-recenter t))
+
+(use-package synosaurus
+  :custom
+  (synosaurus-choose-method 'default)
+  :bind* (("C-c C-s l" . synosaurus-lookup)
+          ("C-c C-s r" . synosaurus-choose-and-replace)))
 
 (use-package tex
   ;; Use AUCTeX, since it is better than the built in tex mode.
