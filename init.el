@@ -799,6 +799,9 @@ In that case, insert the number."
   (exwm-randr-enable))
 
 (use-package face-remap
+  :commands
+  buffer-face-mode
+  buffer-face-set
   :delight buffer-face-mode)
 
 (use-package faces
@@ -840,6 +843,9 @@ In that case, insert the number."
       (buffer-face-mode -1)))
   :bind
   ("<escape>" . god-local-mode)
+  :commands
+  god-local-mode-pause
+  god-local-mode-resume
   :hook
   ((god-mode-disabled god-mode-enabled) . god-mode-update-status-indicators)
   (overwrite-mode . god-mode-toggle-on-overwrite)
