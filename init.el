@@ -825,15 +825,24 @@ In that case, insert the number."
 
 (use-package god-mode
   :preface
+  (defcustom god-local-mode-background "DarkBlue"
+    "God-Local mode background color."
+    :type 'string
+    :group 'god)
+  (defun god-mode-toggle-on-overwrite ()
+    "Toggle god-mode on overwrite-mode"
+    (if (bound-and-true-p overwrite-mode)
+        (god-local-mode-pause)
+      (god-local-mode-resume)))
   (defun god-mode-update-status-indicators ()
     (if god-local-mode
-        (buffer-face-set '(:background "DarkBlue"))
+        (buffer-face-set `(:background ,god-local-mode-background))
       (buffer-face-mode -1)))
   :bind
   ("<escape>" . god-local-mode)
   :hook
-  (god-mode-enabled . god-mode-update-status-indicators)
-  (god-mode-disabled . god-mode-update-status-indicators)
+  ((god-mode-disabled god-mode-enabled) . god-mode-update-status-indicators)
+  (overwrite-mode . god-mode-toggle-on-overwrite)
   :delight god-local-mode " 🌪")
 
 (use-package goto-addr
@@ -1022,7 +1031,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
 
 (use-package lispy
   :custom
-  (lispy-compat '(edebug macrostep))
+  (lispy-compat '(edebug god-mode macrostep))
   :commands
   lispy-mode
   :hook
