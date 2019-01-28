@@ -1081,6 +1081,11 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   :commands
   multi-term)
 
+(use-package navi-mode
+  :after outshine
+  :demand t
+  :bind ("M-s -s .navi-search-and-switch"))
+
 (use-package ob-async
   :after org
   :init
@@ -1280,7 +1285,19 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   or-follow-glossary)
 
 (use-package outline
+  :custom
+  (outline-minor-mode-prefix "\M-#")
+  :defer 2
   :delight outline-minor-mode " ✎")
+
+(use-package outshine
+  :after outline
+  :commands
+  outshine-mode
+  :demand t
+  :hook
+  ((emacs-lisp-mode) . outshine-mode)
+  :delight outshine-mode " 🌅")
 
 (use-package paren
   :commands
