@@ -130,7 +130,7 @@
   :custom
   (alert-default-style 'libnotify))
 
-(use-package auto-revert
+(use-package autorevert
   :custom
   (auto-revert-mode-text " ⏎"))
 
