@@ -130,6 +130,10 @@
   :custom
   (alert-default-style 'libnotify))
 
+(use-package auto-revert
+  :custom
+  (auto-revert-mode-text " ⏎"))
+
 (use-package avy
   :custom
   (avy-all-windows t)
