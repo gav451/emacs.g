@@ -412,13 +412,10 @@ In that case, insert the number."
   ([remap kill-ring-save] . easy-kill))
 
 (use-package elec-pair
-  :preface
-  (defun turn-off-electric-pair ()
-    (electric-pair-mode -1))
-  (defun turn-on-electric-pair ()
-    (electric-pair-mode 1))
   :commands
-  electric-pair-mode)
+  electric-pair-mode
+  :init
+  (electric-pair-mode 1))
 
 (use-package elfeed
   ;; http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/
