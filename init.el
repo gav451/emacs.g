@@ -805,6 +805,7 @@ In that case, insert the number."
   :delight buffer-face-mode)
 
 (use-package faces
+  :when window-system
   :commands invert-face
   :init
   (invert-face 'default))
