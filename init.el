@@ -1099,8 +1099,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
 
 (use-package navi-mode
   :after outshine
-  :demand t
-  :bind ("M-s -s .navi-search-and-switch"))
+  :bind ("M-s s" . navi-search-and-switch))
 
 (use-package ob-async
   :after org
