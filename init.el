@@ -1228,7 +1228,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
      ("E" . "export")
      ("h" . "export html")
      ("l" . "export latex")
-     ("p" . "src python :eval no-export")
+     ("p" . "src python :async :eval no-export")
      ("q" . "quote")
      ("s" . "src")
      ("v" . "verse")))
