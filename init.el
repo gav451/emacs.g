@@ -1516,7 +1516,7 @@ the Emacs manual) to set this variable permanently for each file."
 (use-package undo-tree
   :commands
   global-undo-tree-mode
-  :demand t
+  :defer 5
   :config
   (global-undo-tree-mode)
   :delight undo-tree-mode " 🌴")
