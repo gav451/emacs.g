@@ -555,7 +555,7 @@ In that case, insert the number."
   engine-mode
   engine/execute-search
   engine/get-query
-  :demand t
+  :defer 5
   :config
   (require 'format-spec)
   (engine-mode 1)
@@ -1033,7 +1033,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   (defun turn-on-indent-spaces ()
     (setq indent-tabs-mode t))
   :hook
-  (emacs-lisp-mode . outline-minor-mode)
   (emacs-lisp-mode . reveal-mode)
   (lisp-interaction-mode . turn-off-indent-spaces))
 
@@ -1304,16 +1303,15 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
 (use-package outline
   :custom
   (outline-minor-mode-prefix "\M-#")
-  :defer 2
   :delight outline-minor-mode " ✎")
 
 (use-package outshine
   :after outline
   :commands
   outshine-mode
-  :demand t
   :hook
   ((emacs-lisp-mode) . outshine-mode)
+  :defer 5
   :delight outshine-mode " 🌅")
 
 (use-package paren
