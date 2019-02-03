@@ -421,6 +421,11 @@ In that case, insert the number."
   :init
   (electric-pair-mode 1))
 
+(use-package electric-operator
+  :hook
+  ((python-mode) . electric-operator-mode)
+  :delight electric-operator-mode " ⌤")
+
 (use-package elfeed
   ;; http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/
   :preface
