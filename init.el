@@ -121,7 +121,7 @@
                          (t :foreground "gray100" :underline nil)))
   :commands
   ace-window-display-mode
-  :bind* ("M-o" . ace-window)
+  :bind* (("M-o" . ace-window))
   :after avy
   :init
   (ace-window-display-mode))
@@ -139,9 +139,8 @@
   (avy-all-windows t)
   :commands
   avy-setup-default
-  :bind*
-  ("C-:" . avy-goto-word-1)
-  ("C-;" . avy-goto-char)
+  :bind* (("C-:" . avy-goto-word-1)
+          ("C-;" . avy-goto-char))
   :init
   (avy-setup-default))
 
@@ -243,9 +242,7 @@ In that case, insert the number."
   company-abort
   company-complete-number
   :bind (:map company-active-map
-              ("C-i" . yas-expand-from-trigger-key)
-              ("C-j" . company-complete-selection)
-              ("C-k" . company-complete-common)
+              ("C-y" . yas-expand-from-trigger-key)
               (" " . my-company-insert-abort)
               ("0" . my-company-complete-number)
               ("1" . my-company-complete-number)
@@ -259,7 +256,7 @@ In that case, insert the number."
               ("9" . my-company-complete-number))
   :hook
   ((LaTeX-mode emacs-lisp-mode org-mode) . company-mode)
-  :delight " 𝍎")
+  :delight company-mode " 𝍎")
 
 (use-package counsel
   :custom
@@ -273,19 +270,19 @@ In that case, insert the number."
   (counsel-linux-app-format-function #'counsel-linux-app-format-function-command-only)
   :commands
   counsel-linux-app-format-function-command-only
-  :bind
-  ("C-r" . counsel-grep-or-swiper) ;; Allow shadowing in `pdf-view-mode-map'.
-  ("C-s" . counsel-grep-or-swiper) ;; Allow shadowing in `pdf-view-mode-map'.
-  ("C-c C-f" . counsel-recentf) ;; Avoid shadowing `eshell-forward-argument'.
-  :bind*
-  ("C-h S" . counsel-info-lookup-symbol) ;; Was `info-lookup-symbol'.
-  ("C-h f" . counsel-describe-function)  ;; Was `describe-function'.
-  ("C-h v" . counsel-describe-variable)  ;; Was `describe-variable'.
-  ("C-x C-f" . counsel-find-file)        ;; Was `find-file'.
-  ("M-x" . counsel-M-x)      ;; Was `execute-extended-command'.
-  ("M-y" . counsel-yank-pop) ;; Was `yank-pop'.
-  ("C-c C-g" . counsel-rg)
-  ("C-c u" . counsel-unicode-char))
+  :bind (;; Allow shadowing in `pdf-view-mode-map'.
+         ([remap isearch-backward] . counsel-grep-or-swiper)
+         ([remap isearch-forward] . counsel-grep-or-swiper)
+         ;; Avoid shadowing `eshell-forward-argument'.
+         ("C-c C-f" . counsel-recentf))
+  :bind* (([remap info-lookup-symbol] . counsel-info-lookup-symbol)
+          ([remap describe-function] . counsel-describe-function)
+          ([remap describe-variable] . counsel-describe-variable)
+          ([remap find-file] . counsel-find-file)
+          ([remap execute-extended-command] . counsel-M-x)
+          ([remap yank-pop] . counsel-yank-pop)
+          ("C-c C-g" . counsel-rg)
+          ("C-c u" . counsel-unicode-char)))
 
 (use-package cython-mode
   :mode "\\.py[xdi]\\'")
@@ -412,8 +409,7 @@ In that case, insert the number."
 (use-package easy-kill
   ;; https://emacsredux.com/blog/2018/11/09/an-easy-kill/
   ;; https://emacsredux.com/blog/2019/01/10/the-emacs-year-in-review/
-  :bind*
-  ([remap kill-ring-save] . easy-kill))
+  :bind* (([remap kill-ring-save] . easy-kill)))
 
 (use-package elec-pair
   :commands
@@ -469,7 +465,7 @@ In that case, insert the number."
      ("https://www.democracynow.org/podcast-video.xml" dn)
      ("https://www.laquadrature.net/fr/rss.xml" lqdn)))
   (elfeed-enclosure-default-dir (expand-file-name "~/tmpfs/"))
-  :bind* ("C-x w" . my-elfeed-db-load-and-open)
+  :bind* (("C-x w" . my-elfeed-db-load-and-open))
   :bind (:map elfeed-search-mode-map
               ("q" . my-elfeed-save-db-and-quit))
   :commands
@@ -560,7 +556,7 @@ In that case, insert the number."
   engine-mode
   engine/execute-search
   engine/get-query
-  :defer 5
+  :defer 10
   :config
   (require 'format-spec)
   (engine-mode 1)
@@ -600,8 +596,7 @@ In that case, insert the number."
     (setq epg-gpg-program "gpg2")))
 
 (use-package expand-region
-  :bind*
-  ("C-=" . er/expand-region))
+  :bind* (("C-=" . er/expand-region)))
 
 (use-package eww
   :preface
@@ -828,10 +823,9 @@ In that case, insert the number."
   flycheck-mode)
 
 (use-package flymake
-  :bind
-  (:map flymake-mode-map
-        ("M-n" . flymake-goto-next-error)
-        ("M-p" . flymake-goto-prev-error)))
+  :bind (:map flymake-mode-map
+              ("M-n" . flymake-goto-next-error)
+              ("M-p" . flymake-goto-prev-error)))
 
 (use-package god-mode
   :preface
@@ -848,8 +842,7 @@ In that case, insert the number."
     (if god-local-mode
         (buffer-face-set `(:background ,god-local-mode-background))
       (buffer-face-mode -1)))
-  :bind
-  ("<escape>" . god-local-mode)
+  :bind (("<escape>" . god-local-mode))
   :commands
   god-local-mode-pause
   god-local-mode-resume
@@ -879,8 +872,7 @@ In that case, insert the number."
       (goto-address-mode 1)))
   ;; https://xenodium.com/#actionable-urls-in-emacs-buffers
   :bind (:map goto-address-highlight-keymap
-              ("<RET>" . goto-address-at-point)
-              ("M-<RET>" . newline))
+              ("M-<RET>" . goto-address-at-point))
   :commands
   goto-address-mode
   goto-address-prog-mode
@@ -892,10 +884,12 @@ In that case, insert the number."
 
 (use-package help
   :no-require t
+  :bind (:map help-map
+              ("M-m" . describe-minor-mode))
   :commands
   temp-buffer-resize-mode
   :init
-  (temp-buffer-resize-mode))
+  (temp-buffer-resize-mode 1))
 
 (use-package hl-line
   :no-require t
@@ -1009,7 +1003,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   (ivy-height 10)
   (ivy-use-ignore-default t)
   (ivy-use-virtual-buffers t)
-  :bind* ("C-c C-r" . ivy-resume)
+  :bind* (("C-c C-r" . ivy-resume))
   :commands
   ivy-completing-read
   ivy-mode
@@ -1031,14 +1025,12 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   (LaTeX-mode . turn-on-reftex))
 
 (use-package lisp-mode
-  :no-require t
   :preface
   (defun turn-off-indent-spaces ()
     (setq indent-tabs-mode nil))
   (defun turn-on-indent-spaces ()
     (setq indent-tabs-mode t))
   :hook
-  (emacs-lisp-mode . reveal-mode)
   (lisp-interaction-mode . turn-off-indent-spaces))
 
 (use-package lispy
@@ -1051,8 +1043,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   :delight lispy-mode " 🗘")
 
 (use-package macrostep
-  :bind*
-  ("C-c e" . macrostep-expand)
+  :bind* (("C-c e" . macrostep-expand))
   :config (use-package use-package))
 
 (use-package magit
@@ -1104,12 +1095,13 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
 
 (use-package navi-mode
   :after outshine
-  :bind ("M-s s" . navi-search-and-switch))
+  :bind (("M-s n" . navi-search-and-switch)
+         ("M-s s" . navi-switch-to-twin-buffer)
+         ("M-s M-s" . navi-switch-to-twin-buffer)))
 
 (use-package ob-async
   :after org
-  :init
-  (require 'ob-async))
+  :demand t)
 
 (use-package org
   :preface
@@ -1239,11 +1231,10 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
      ("v" . "verse")))
   (org-todo-keywords (quote ((sequence "TODO" "|" "DONE" "DEFERRED" "ZAPPED"))))
   (org-use-sub-superscripts '{})
-  :bind
-  (("C-c a"   . org-agenda)
-   ("C-c c"   . org-capture)
-   ("C-c l"   . org-store-link)
-   ("C-c C-l" . org-insert-link-global))
+  :bind (("C-c a"   . org-agenda)
+         ("C-c c"   . org-capture)
+         ("C-c l"   . org-store-link)
+         ("C-c C-l" . org-insert-link-global))
   :mode
   ("\\.org\\'" . org-mode)
   :hook
@@ -1283,7 +1274,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
 
 (use-package org-protocol-capture-html
   ;; https://www.reddit.com/r/emacs/comments/9ze1ln/capture_orgmode_bookmarks_from_qutebrowser_with/
-  :defer 5)
+  :defer 10)
 
 (use-package org-ref
   :after org
@@ -1369,14 +1360,14 @@ and file a bug report."
       :type 'string
       :group 'elpy)
     :custom
-    (elpy-rpc-ignored-buffer-size (lsh 1 18))
+    (elpy-company-post-completion-function #'elpy-company-post-complete-parens)
     (elpy-modules '(elpy-module-sane-defaults
                     elpy-module-company
                     elpy-module-eldoc
                     elpy-module-flymake
                     elpy-module-pyvenv))
-    (elpy-company-post-completion-function
-     #'elpy-company-post-complete-parens)
+    (elpy-remove-modeline-lighter nil)
+    (elpy-rpc-ignored-buffer-size (lsh 1 18))
     :commands
     elpy-company-post-complete-parens
     elpy-enable
@@ -1421,6 +1412,8 @@ point."
   :delight reftex-mode " 📑")
 
 (use-package reveal
+  :hook
+  (emacs-lisp-mode . reveal-mode)
   :delight " 👀")
 
 (use-package savehist
@@ -1519,17 +1512,16 @@ the Emacs manual) to set this variable permanently for each file."
 (use-package undo-tree
   :commands
   global-undo-tree-mode
-  :defer 5
+  :defer 10
   :config
   (global-undo-tree-mode)
   :delight undo-tree-mode " 🌴")
 
 (use-package unfill
-  :bind
-  ("M-q" . unfill-toggle))
+  :bind (([remap fill-paragraph] . unfill-toggle)))
 
 (use-package wordnut
-  :bind* ("C-z C-w" . wordnut-search))
+  :bind* (("C-z C-w" . wordnut-search)))
 
 (use-package yasnippet
   :preface
@@ -1543,7 +1535,7 @@ the Emacs manual) to set this variable permanently for each file."
   yas-expand-from-trigger-key
   yas-global-mode
   yas-next-field-or-maybe-expand
-  :demand t
+  :defer 5
   ;; I fail to use alternative keys in yas-keymap and yas-minor-mode-map as explained in
   ;; https://github.com/capitaomorte/yasnippet/blob/master/doc/faq.org.
   ;; However, everything works fine, sofar.
