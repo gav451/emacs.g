@@ -1384,7 +1384,6 @@ and file a bug report."
     elpy-rpc--buffer-contents
     :init
     (elpy-enable)
-    :demand t
     :config
     (defun elpy-rpc-get-completions (&optional success error)
       "Call the get_completions API function.
