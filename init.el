@@ -1451,8 +1451,8 @@ point."
 (use-package synosaurus
   :custom
   (synosaurus-choose-method 'default)
-  :bind* (("C-c C-s l" . synosaurus-lookup)
-          ("C-c C-s r" . synosaurus-choose-and-replace)))
+  :bind* (("C-z C-s l" . synosaurus-lookup)
+          ("C-z C-s r" . synosaurus-choose-and-replace)))
 
 (use-package tex
   ;; Use AUCTeX, since it is better than the built in tex mode.
