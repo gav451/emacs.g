@@ -1043,8 +1043,12 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   :delight lispy-mode " 🗘")
 
 (use-package macrostep
-  :bind* (("C-c e" . macrostep-expand))
-  :config (use-package use-package))
+  :bind (:map emacs-lisp-mode-map
+              ("C-c e" . macrostep-expand))
+  :bind (:map lisp-interaction-mode-map
+              ("C-c e" . macrostep-expand))
+  :config
+  (use-package use-package))
 
 (use-package magit
   :custom
