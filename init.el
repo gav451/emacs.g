@@ -1100,6 +1100,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
          ("M-s M-s" . navi-switch-to-twin-buffer)))
 
 (use-package ob-async
+  ;; Demand loading of this package after loading org-mode.
   :after org
   :demand t)
 
@@ -1274,10 +1275,14 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
 
 (use-package org-protocol-capture-html
   ;; https://www.reddit.com/r/emacs/comments/9ze1ln/capture_orgmode_bookmarks_from_qutebrowser_with/
-  :defer 10)
+  ;; Demand loading of this package after loading org-mode.
+  :after org
+  :demand t)
 
 (use-package org-ref
+  ;; Demand loading of this package after loading org-mode.
   :after org
+  :demand t
   :custom
   (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
   (bibtex-completion-library-path "~/VCS/research/papers")
