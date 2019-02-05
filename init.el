@@ -1194,13 +1194,14 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
      (""     "amssymb"   t)
      (""     "capt-of"   nil)
      ("hyperfootnotes=false" "hyperref"  nil)))
+  (org-latex-compiler "lualatex")
   (org-latex-hyperref-template nil)
   (org-latex-logfiles-extensions '("blg" "lof" "log" "lot" "out" "toc"))
   (org-latex-pdf-process
-   '("pdflatex -interaction nonstopmode -output-directory %o %f"
+   '("lualatex -interaction nonstopmode -output-directory %o %f"
      "bibtex %b.aux"
-     "pdflatex -interaction nonstopmode -output-directory %o %f"
-     "pdflatex -interaction nonstopmode -output-directory %o %f"))
+     "lualatex -interaction nonstopmode -output-directory %o %f"
+     "lualatex -interaction nonstopmode -output-directory %o %f"))
   ;; Requires CUSTOM_ID property to suppress LaTeX section labels.
   (org-latex-prefer-user-labels t)
   (org-link-abbrev-alist
