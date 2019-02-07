@@ -827,6 +827,12 @@ In that case, insert the number."
               ("M-n" . flymake-goto-next-error)
               ("M-p" . flymake-goto-prev-error)))
 
+(use-package free-keys
+  :custom
+  (free-keys-modifiers '("" "C" "M" "C-M" "s"))
+  :commands
+  free-keys)
+
 (use-package god-mode
   :preface
   (defcustom god-local-mode-background "DarkBlue"

@@ -119,6 +119,9 @@
 [submodule "flycheck"]
 	path = lib/flycheck
 	url = git@github.com:flycheck/flycheck.git
+[submodule "free-keys"]
+	path = lib/free-keys
+	url = git@github.com:Fuco1/free-keys.git
 [submodule "ghub"]
 	path = lib/ghub
 	url = git@github.com:magit/ghub.git
