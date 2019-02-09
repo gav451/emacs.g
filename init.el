@@ -878,7 +878,7 @@ In that case, insert the number."
       (goto-address-mode 1)))
   ;; https://xenodium.com/#actionable-urls-in-emacs-buffers
   :bind (:map goto-address-highlight-keymap
-              ("M-<RET>" . goto-address-at-point))
+              ("C-!" . goto-address-at-point))
   :commands
   goto-address-mode
   goto-address-prog-mode
