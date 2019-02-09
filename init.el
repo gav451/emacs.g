@@ -270,9 +270,11 @@ In that case, insert the number."
   (counsel-linux-app-format-function #'counsel-linux-app-format-function-command-only)
   :commands
   counsel-linux-app-format-function-command-only
-  :bind (;; Allow shadowing in `pdf-view-mode-map'.
-         ([remap isearch-backward] . counsel-grep-or-swiper)
-         ([remap isearch-forward] . counsel-grep-or-swiper)
+  :bind (;; Allow shadowing in `pdf-view-mode-map' by use of
+         ;; "C-r" instead of [remap isearch backward] and
+         ;; "C-s" instead of [remap isearch-forward].
+         ("C-r" . counsel-grep-or-swiper)
+         ("C-s" . counsel-grep-or-swiper)
          ;; Avoid shadowing `eshell-forward-argument'.
          ("C-c C-f" . counsel-recentf))
   :bind* (([remap info-lookup-symbol] . counsel-info-lookup-symbol)
