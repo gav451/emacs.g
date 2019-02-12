@@ -1032,6 +1032,15 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   (LaTeX-mode . TeX-PDF-mode)
   (LaTeX-mode . turn-on-reftex))
 
+(use-package lentic
+  :preface
+  :after org
+  :commands
+  global-lentic-mode
+  :defer 10
+  :config
+  (global-lentic-mode 1))
+
 (use-package lisp-mode
   :preface
   (defun turn-off-indent-spaces ()

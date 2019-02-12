@@ -156,9 +156,15 @@
 	path = lib/ivy
 	url = git@github.com:abo-abo/swiper.git
 	info-path = doc
+[submodule "lentic"]
+	path = lib/lentic
+	url = git@github.com:phillord/lentic.git
 [submodule "lispy"]
 	path = lib/lispy
 	url = git@github.com:abo-abo/lispy.git
+[submodule "m-buffer"]
+	path = lib/m-buffer
+	url = git@github.com:phillord/m-buffer-el.git
 [submodule "macrostep"]
 	path = lib/macrostep
 	url = git@github.com:joddie/macrostep.git
