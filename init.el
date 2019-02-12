@@ -1068,6 +1068,8 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   (use-package use-package))
 
 (use-package magit
+  ;; https://stackoverflow.com/questions/4114095/how-to-revert-a-git-repository-to-a-previous-commit
+  ;; https://stackoverflow.com/questions/9529078/how-do-i-use-git-reset-hard-head-to-revert-to-a-previous-commit
   :custom
   (magit-completing-read-function 'ivy-completing-read)
   :bind (("C-x g"   . magit-status)
