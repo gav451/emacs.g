@@ -1173,6 +1173,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
 
   (put 'org-src-preserve-indentation 'safe-local-variable #'booleanp)
   :custom
+  (org-adapt-indentation nil)
   (org-agenda-exporter-settings '((ps-landscape-mode t)
                                   (ps-number-of-columns 2)
                                   (ps-paper-type 'a4)
