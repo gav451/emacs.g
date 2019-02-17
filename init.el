@@ -20,6 +20,9 @@
   (setq load-prefer-newer t)
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
+  (setq-default indent-tabs-mode nil)
+  (setq-default tab-width 8)
+  (setq tab-always-indent 'complete)
   ;; Darwin
   (when (boundp 'ns-alternate-modifier)
     (setq ns-alternate-modifier nil))
@@ -1040,15 +1043,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   :defer 10
   :config
   (global-lentic-mode 1))
-
-(use-package lisp-mode
-  :preface
-  (defun turn-off-indent-spaces ()
-    (setq indent-tabs-mode nil))
-  (defun turn-on-indent-spaces ()
-    (setq indent-tabs-mode t))
-  :hook
-  (lisp-interaction-mode . turn-off-indent-spaces))
 
 (use-package lispy
   :custom
