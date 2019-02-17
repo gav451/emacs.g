@@ -205,6 +205,7 @@
   :custom
   (browse-url-browser-function
    '((".*github.*" . browse-url-generic)
+     (".*gitlab.*" . browse-url-generic)
      (".*google.*" . browse-url-generic)
      (".*openstreetmap.org" . browse-url-generic)
      (".*reddit.com" . browse-url-generic)
