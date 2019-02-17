@@ -981,7 +981,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
       (if (bound-and-true-p font-lock-mode) "[X]" "[ ]"))
      ("fs" #'flyspell-mode
       (if (bound-and-true-p flyspell-mode) "[X]" "[ ]"))
-     ("g" #'toggle-goto-address
+     ("g" #'goto-address-mode
       (if (bound-and-true-p goto-address-mode) "[X]" "[ ]"))
      ("ii" #'iimage-mode
       (if (bound-and-true-p iimage-mode) "[X]" "[ ]"))
