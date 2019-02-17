@@ -863,35 +863,16 @@ In that case, insert the number."
   :delight god-local-mode " 🌪")
 
 (use-package goto-addr
-  :preface
-  (defun toggle-goto-address ()
-    (interactive)
-    (if (derived-mode-p 'prog-mode)
-        (if goto-address-prog-mode
-            (goto-address-prog-mode -1)
-          (goto-address-prog-mode 1))
-      (if goto-address-mode
-          (goto-address-mode -1)
-        (goto-address-mode 1))))
-  (defun turn-off-goto-address ()
-    (if (derived-mode-p 'prog-mode)
-        (goto-address-prog-mode -1)
-      (goto-address-mode -1)))
-  (defun turn-on-goto-address ()
-    (if (derived-mode-p 'prog-mode)
-        (goto-address-prog-mode 1)
-      (goto-address-mode 1)))
   ;; https://xenodium.com/#actionable-urls-in-emacs-buffers
   :bind (:map goto-address-highlight-keymap
               ("C-!" . goto-address-at-point))
   :commands
   goto-address-mode
-  goto-address-prog-mode
   :hook
   ((emacs-lisp-mode
     eshell-mode
     prog-mode
-    shell-mode) . turn-on-goto-address))
+    shell-mode) . (lambda () (goto-address-mode 1))))
 
 (use-package help
   :no-require t
@@ -973,8 +954,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
      ("fs" #'flyspell-mode
       (if (bound-and-true-p flyspell-mode) "[X]" "[ ]"))
      ("g" #'toggle-goto-address
-      (if (or (bound-and-true-p goto-address-mode)
-              (bound-and-true-p goto-address-prog-mode)) "[X]" "[ ]"))
+      (if (bound-and-true-p goto-address-mode) "[X]" "[ ]"))
      ("ii" #'iimage-mode
       (if (bound-and-true-p iimage-mode) "[X]" "[ ]"))
      ("it" (setq indent-tabs-mode (not (bound-and-true-p indent-tabs-mode)))
