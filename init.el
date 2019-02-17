@@ -902,6 +902,10 @@ In that case, insert the number."
     prog-mode
     shell-mode) . (lambda () (goto-address-mode 1))))
 
+(use-package gpastel
+  :hook
+  (exwm-init . gpastel-mode))
+
 (use-package help
   :no-require t
   :bind (:map help-map
