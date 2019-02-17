@@ -658,31 +658,39 @@ In that case, insert the number."
   (exec-path-from-shell-initialize)
   :demand t)
 
+;; https://github.com/ch11ng/exwm/wiki
+;; https://github.com/dakra/dmacs/blob/master/init.org
+;; https://gitlab.com/ambrevar/dotfiles/tree/master/.emacs.d
+;; https://github.com/DamienCassou/emacs.d/blob/master/init.el
+;; https://github.com/technomancy/dotfiles/blob/master/.emacs.d/phil/wm.el
 (use-package exwm
   :preface
   (defun my-exwm-invoke (command)
     (interactive (list (read-shell-command "$ ")))
     (start-process-shell-command command nil command))
 
-  (defun my-exwm-update-class ()
-    (exwm-workspace-rename-buffer exwm-class-name))
-
   (defun my-exwm-lock-screen ()
     (interactive)
     (shell-command-to-string "i3lock -c 000000"))
 
-  (defun my-exwm-manage-finish ()
-    (when (or (string= exwm-class-name "XTerm")
-              (string= exwm-class-name "kitty"))
-      (call-interactively #'exwm-input-release-keyboard)))
+  (defun my-exwm-update-class ()
+    (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+                (string= "gimp" exwm-instance-name))
+      (exwm-workspace-rename-buffer exwm-class-name)))
+
+  (defun my-exwm-update-title ()
+    (when (or (not exwm-instance-name)
+              (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+              (string= "gimp" exwm-instance-name))
+      (exwm-workspace-rename-buffer exwm-title)))
 
   :when (getenv "EXWM")
   :custom
   (display-time-string-forms '((format-time-string "%F %R")))
-  (exwm-layout-show-all-buffers t)
-  (exwm-workspace-number 2)
-  (exwm-workspace-show-all-buffers t)
-  ;; https://github.com/ch11ng/exwm/wiki
+  (exwm-floating-border-color "BlueViolet")
+  (exwm-floating-border-width 3)
+  ;; Bind `s-' prefix exwm specific keys when exwm gets enabled,
+  ;; since those key-bindings may conflict with other window managers.
   (exwm-input-global-keys
    `(([?\s-&] . my-exwm-invoke)
      ([?\s-i] . my-exwm-invoke)
@@ -697,30 +705,51 @@ In that case, insert the number."
                      (interactive)
                      (exwm-workspace-switch-create ,i))))
                (number-sequence 0 9))))
-  ;; https://github.com/ch11ng/exwm/wiki
-  ;; https://github.com/DamienCassou/emacs.d/blob/master/init.el
-  ;; https://github.com/technomancy/dotfiles/blob/master/.emacs.d/phil/wm.el
-  (exwm-input-simulation-keys
-   '(([?\C-b] . [left])
-     ([?\C-f] . [right])
-     ([?\C-p] . [up])
-     ([?\C-n] . [down])
-     ([?\C-a] . [home])
-     ([?\C-e] . [end])
-     ([?\M-v] . [prior])
-     ([?\C-v] . [next])
-     ([?\C-d] . [delete])
-     ([?\C-k] . [S-end delete])
-     ;; cut, copy, and paste
-     ([?\C-w] . [?\C-x])
-     ([?\M-w] . [?\C-c])
-     ([?\C-y] . [?\C-v])))
+  (exwm-layout-show-all-buffers t)
+  (exwm-manage-configurations
+   '(((or (equal "Alacritty" exwm-class-name)
+          (equal "XTerm" exwm-class-name)
+          (equal "kitty" exwm-class-name))
+      char-mode t
+      simulation-keys (([?\C-c ?\C-c] . [?\C-c])))
+     ((equal "Firefox" exwm-class-name)
+      simulation-keys (([?\C-b] . [left])
+                       ([?\M-b] . [C-left])
+                       ([?\C-f] . [right])
+                       ([?\M-f] . [C-right])
+                       ([?\C-p] . [up])
+                       ([?\C-n] . [down])
+                       ([?\C-a] . [home])
+                       ([?\C-e] . [end])
+                       ([?\M-v] . [prior])
+                       ([?\C-v] . [next])
+                       ([?\C-d] . [delete])
+                       ([?\C-k] . [S-end delete])
+                       ;; cut, copy, and paste:
+                       ([?\C-w] . [?\C-x])
+                       ([?\M-w] . [?\C-c])
+                       ([?\C-y] . [?\C-v])
+                       ;; search:
+                       ([?\C-s] . [?\C-f])
+                       ;; close tab instead of quitting Firefox:
+                       ([?\C-q] . [?\C-w])))
+     ;; Remove the gimp state directory with "rm -rf ~/.config/GIMP".
+     ((equal "GNU Image Manipulation Program" exwm-title)
+      floating t
+      floating-mode-line nil
+      height 0.5
+      width 0.5)
+     ((string-prefix-p "sun-awt-X11-" exwm-instance-name)
+      floating t
+      floating-mode-line nil)))
+
+  (exwm-workspace-number 2)
+  (exwm-workspace-show-all-buffers t)
   :hook
   (exwm-update-class . my-exwm-update-class)
-  (exwm-manage-finish . my-exwm-manage-finish)
+  (exwm-update-title . my-exwm-update-title)
   :commands
   exwm-enable
-  exwm-input-release-keyboard
   exwm-input-set-key
   exwm-input-toggle-keyboard
   exwm-reset
@@ -730,8 +759,6 @@ In that case, insert the number."
   :init
   (exwm-enable)
   :config
-  ;; Bind `s-' prefix exwm specific keys when exwm gets configured,
-  ;; since those key-bindings may conflict with other window managers.
   ;; `C-h+v+fringe-styles' : left-only
   (fringe-mode '(nil . 0))
   (display-time-mode 1))
