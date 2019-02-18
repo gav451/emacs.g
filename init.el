@@ -759,8 +759,6 @@ In that case, insert the number."
   :init
   (exwm-enable)
   :config
-  ;; `C-h+v+fringe-styles' : left-only
-  (fringe-mode '(nil . 0))
   (display-time-mode 1))
 
 (use-package exwm-edit
@@ -1370,13 +1368,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   :bind (:map dired-mode-map
               ("M-s p" . peep-dired)))
 
-(use-package prog-mode
-  :preface
-  (defun indicate-buffer-boundaries-left ()
-    (setq indicate-buffer-boundaries 'left))
-  :hook
-  (prog-mode . indicate-buffer-boundaries-left))
-
 (use-package python
   :custom
   (python-shell-interpreter-args "-E -i")
@@ -1533,8 +1524,7 @@ the Emacs manual) to set this variable permanently for each file."
   :no-require t
   :hook
   (text-mode . turn-on-auto-fill)
-  (text-mode . turn-on-flyspell)
-  (text-mode . indicate-buffer-boundaries-left))
+  (text-mode . turn-on-flyspell))
 
 (use-package tramp
   :config
@@ -1581,6 +1571,10 @@ the Emacs manual) to set this variable permanently for each file."
   (message "Loading %s...done (%.3fs)" user-init-file
            (float-time (time-subtract (current-time)
                                       before-user-init-time)))
+  (add-hook 'after-init-hook
+            (lambda ()
+              (fringe-mode '(nil . 0))  ; left-only
+              (setq-default indicate-buffer-boundaries 'left)))
   (add-hook 'after-init-hook
             (lambda ()
               (message
