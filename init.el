@@ -866,26 +866,34 @@ In that case, insert the number."
 
 (use-package god-mode
   :preface
-  (defcustom god-local-mode-background "DarkBlue"
+  (defcustom god-local-mode-background-color "DarkBlue"
     "God-Local mode background color."
     :type 'string
     :group 'god)
-  (defun god-mode-toggle-on-overwrite ()
+  (defcustom overwrite-mode-background-color "DarkRed"
+    "Overwrite mode background color."
+    :type 'string
+    :group 'editing-basics)
+  (defun on-overwrite-god-mode-toggle ()
     "Toggle god-mode on overwrite-mode"
     (if (bound-and-true-p overwrite-mode)
-        (god-local-mode-pause)
-      (god-local-mode-resume)))
-  (defun god-mode-update-status-indicators ()
+        (progn
+          (god-local-mode-pause)
+          (buffer-face-set `(:background ,overwrite-mode-background-color)))
+      (progn
+        (god-local-mode-resume)
+        (buffer-face-mode -1))))
+  (defun on-god-local-mode-toggled ()
     (if god-local-mode
-        (buffer-face-set `(:background ,god-local-mode-background))
+        (buffer-face-set `(:background ,god-local-mode-background-color))
       (buffer-face-mode -1)))
   :bind (("<escape>" . god-local-mode))
   :commands
   god-local-mode-pause
   god-local-mode-resume
   :hook
-  ((god-mode-disabled god-mode-enabled) . god-mode-update-status-indicators)
-  (overwrite-mode . god-mode-toggle-on-overwrite)
+  ((god-mode-disabled god-mode-enabled) . on-god-local-mode-toggled)
+  (overwrite-mode . on-overwrite-god-mode-toggle)
   :delight god-local-mode " 🌪")
 
 (use-package goto-addr
