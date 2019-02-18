@@ -673,12 +673,12 @@ In that case, insert the number."
     (interactive)
     (shell-command-to-string "i3lock -c 000000"))
 
-  (defun my-exwm-update-class ()
+  (defun on-exwm-update-class ()
     (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
                 (string= "gimp" exwm-instance-name))
       (exwm-workspace-rename-buffer exwm-class-name)))
 
-  (defun my-exwm-update-title ()
+  (defun on-exwm-update-title ()
     (when (or (not exwm-instance-name)
               (string-prefix-p "sun-awt-X11-" exwm-instance-name)
               (string= "gimp" exwm-instance-name))
@@ -746,8 +746,8 @@ In that case, insert the number."
   (exwm-workspace-number 2)
   (exwm-workspace-show-all-buffers t)
   :hook
-  (exwm-update-class . my-exwm-update-class)
-  (exwm-update-title . my-exwm-update-title)
+  (exwm-update-class . on-exwm-update-class)
+  (exwm-update-title . on-exwm-update-title)
   :commands
   exwm-enable
   exwm-input-set-key
