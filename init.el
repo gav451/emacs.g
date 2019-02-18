@@ -610,11 +610,11 @@ In that case, insert the number."
     '("www.cnrtl.fr"
       "www.thefreedictionary.com"
       "www.woorden.org")
-    "Customized with use-package eww"
+    "List of urls to show using `eww-readable'."
     :type '(repeat string)
     :group 'eww)
   ;; https://emacs.stackexchange.com/questions/36284/how-to-open-eww-in-readable-mode
-  (defun my-eww-readable ()
+  (defun on-eww-readable ()
     (let ((url (eww-current-url)))
       (when (catch 'found
               (mapc (lambda (site)
@@ -624,7 +624,7 @@ In that case, insert the number."
               nil)
         (eww-readable))))
   ;; http://ergoemacs.org/emacs/emacs_eww_web_browser.html
-  (defun my-eww-rename-buffer ()
+  (defun on-eww-rename-buffer ()
     (rename-buffer "eww" t))
   ;; https://www.reddit.com/r/emacs/comments/54kczj/reddit_client_for_emacs/.
   (defun reddit-browser ()
@@ -639,12 +639,12 @@ In that case, insert the number."
   eww-link-keymap
   eww-mode-map
   :hook
-  ((eww-mode . my-eww-rename-buffer)
-   (eww-after-render . my-eww-readable))
+  ((eww-mode . on-eww-rename-buffer)
+   (eww-after-render . on-eww-readable))
   :commands
   eww-browse-url
   eww-current-url
-  eww-open-file
+  eww-open-filed
   eww-readable)
 
 (use-package exec-path-from-shell
