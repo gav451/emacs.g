@@ -1476,7 +1476,7 @@ point."
   ;; Let package latex load tex.
   :preface
   (defcustom TeX-master t
-    "*The master file associated with the current buffer.
+    "The master file associated with the current buffer.
 If the file being edited is actually included from another file, you
 can tell AUCTeX the name of the master file by setting this variable.
 If there are multiple levels of nesting, specify the top level file.
