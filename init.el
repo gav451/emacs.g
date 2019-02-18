@@ -894,13 +894,11 @@ In that case, insert the number."
   ;; https://xenodium.com/#actionable-urls-in-emacs-buffers
   :bind (:map goto-address-highlight-keymap
               ("C-!" . goto-address-at-point))
-  :commands
-  goto-address-mode
   :hook
   ((emacs-lisp-mode
     eshell-mode
     prog-mode
-    shell-mode) . (lambda () (goto-address-mode 1))))
+    shell-mode) . goto-address-mode))
 
 (use-package gpastel
   :hook
