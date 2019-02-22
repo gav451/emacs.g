@@ -464,6 +464,7 @@ In that case, insert the number."
      ("http://nullprogram.com/feed/" wellons)
      ("http://planet.emacsen.org/atom.xml" emacsen)
      ("http://pragmaticemacs.com/feed/" maugham)
+     ("http://sachachua.com/blog/category/emacs/feed" chua)
      ("https://act.eff.org/action.atom" eff)
      ("https://feeds.feedburner.com/InterceptedWithJeremyScahill" intercepted)
      ("https://www.aclu.org/taxonomy/feed-term/2152/feed" aclu)
@@ -493,6 +494,7 @@ In that case, insert the number."
      "Filter"
      ("a" (elfeed-search-set-filter "@6-months-ago +aclu") "aclu")
      ("b" (elfeed-search-set-filter "@6-months-ago +bof") "bof")
+     ("c" (elfeed-search-set-filter "@6-months-ago +chua") "chua")
      ("d" (elfeed-search-set-filter "@6-months-ago +dn") "dn")
      ("e" (elfeed-search-set-filter "@6-months-ago +emacsen") "emacsen")
      ("f" (elfeed-search-set-filter "@6-months-ago +eff") "eff")
@@ -505,6 +507,7 @@ In that case, insert the number."
      ("A" (elfeed-search-set-filter "@6-months-ago") "All")
      ("S" my-elfeed-toggle-star "Star")
      ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
+     ("U" (elfeed-search-set-filter "@6-months-ago +unread") "Unread")
      ("q" nil "quit" :color blue))
    elfeed-search-mode-map))
 
