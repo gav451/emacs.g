@@ -418,10 +418,9 @@ In that case, insert the number."
   :bind* (([remap kill-ring-save] . easy-kill)))
 
 (use-package elec-pair
-  :commands
-  electric-pair-mode
-  :init
-  (electric-pair-mode 1))
+  :hook
+  ((emacs-lisp-mode
+    python-mode) . electric-pair-local-mode))
 
 (use-package electric-operator
   :hook
@@ -1002,7 +1001,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
       (if (bound-and-true-p lispy-mode) "[X]" "[ ]"))
      ("o" #'orgtbl-mode
       (if (bound-and-true-p orgtbl-mode) "[X]" "[ ]"))
-     ("p" #'electric-pair-mode
+     ("p" #'electric-pair-local-mode
       (if (bound-and-true-p electric-pair-mode) "[X]" "[ ]"))
      ("r" #'read-only-mode
       (if (bound-and-true-p buffer-read-only) "[X]" "[ ]"))
