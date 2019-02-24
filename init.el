@@ -1174,16 +1174,32 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
             (goto-char (org-element-property :begin block))
             (org-babel-execute-src-block)))))
 
-  (defun on-org-mode-completion-at-point ()
+  ;; https://stackoverflow.com/questions/10274642/emacs-completion-at-point-functions
+  ;; https://emacs.stackexchange.com/questions/15276/how-do-i-write-a-simple-completion-at-point-functions-function
+  ;; https://oremacs.com/2017/10/04/completion-at-point
+  (defun org-get-verbatims ()
+    (let (result)
+      (save-match-data
+        (save-excursion
+          (goto-char (point-min))
+          (while (re-search-forward "=\\([A-Za-z]+\\)=" nil t)
+            (cl-pushnew
+             (match-string-no-properties 0) result :test 'equal))
+          result))))
+
+  (defun capf-org-verbatim ()
+    (when (looking-back "=[A-Za-z]+")
+      (let ((candidates (org-get-verbatims)))
+        (when candidates
+          (list (match-beginning 0)
+                (match-end 0)
+                candidates)))))
+
+  (defun on-org-mode-hook ()
     (setq completion-at-point-functions
-          '(my-org-ref-completion-at-point-ref t)))
+          '(capf-org-verbatim
+            t)))
 
-  (defun my-org-ref-completion-at-point-ref ()
-    (when (looking-back "\\(\\|C\\|auto\\|c\\|eq\\|name\\|page\\)ref:" 8)
-      (let ((label (ivy-read "label: " (org-ref-get-labels) :require-match t)))
-        (insert label))))
-
-  (put 'org-src-preserve-indentation 'safe-local-variable #'booleanp)
   :custom
   (org-adapt-indentation nil)
   (org-agenda-exporter-settings '((ps-landscape-mode t)
@@ -1277,7 +1293,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   ("\\.org\\'" . org-mode)
   :hook
   (org-mode . on-org-mode-eval-blocks)
-  (org-mode . on-org-mode-completion-at-point)
+  (org-mode . on-org-mode-hook)
   :commands
   org-babel-do-load-languages
   org-link-set-parameters
