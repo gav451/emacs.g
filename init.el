@@ -688,7 +688,7 @@ In that case, insert the number."
 
   :when (getenv "EXWM")
   :custom
-  (display-time-string-forms '((format-time-string "%F %R")))
+  (display-time-string-forms '((format-time-string " %F %R")))
   (exwm-floating-border-color "BlueViolet")
   (exwm-floating-border-width 3)
   ;; Bind `s-' prefix exwm specific keys when exwm gets enabled,
@@ -1060,7 +1060,8 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   global-lentic-mode
   :defer 10
   :config
-  (global-lentic-mode 1))
+  (global-lentic-mode 1)
+  :delight lentic-mode " 🎥")
 
 (use-package lispy
   :custom
