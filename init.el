@@ -1559,17 +1559,9 @@ the Emacs manual) to set this variable permanently for each file."
   :bind* (("C-z C-w" . wordnut-search)))
 
 (use-package yasnippet
-  :preface
-  (defun yas-ivy-prompt (prompt choices &optional display-fn)
-    (yas-completing-prompt prompt choices display-fn #'ivy-completing-read))
-  :custom
-  (yas-prompt-functions
-   '(yas-ivy-prompt yas-completing-prompt))
   :commands
-  yas-completing-prompt
   yas-expand-from-trigger-key
   yas-global-mode
-  yas-next-field-or-maybe-expand
   :defer 5
   ;; I fail to use alternative keys in yas-keymap and yas-minor-mode-map as explained in
   ;; https://github.com/capitaomorte/yasnippet/blob/master/doc/faq.org.
