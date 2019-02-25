@@ -420,6 +420,7 @@ In that case, insert the number."
 (use-package elec-pair
   :hook
   ((emacs-lisp-mode
+    org-mode
     python-mode) . electric-pair-local-mode))
 
 (use-package electric-operator
@@ -1189,7 +1190,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
           result))))
 
   (defun capf-org-verbatim ()
-    (when (looking-back "=[A-Za-z]+")
+    (when (looking-back "=[A-Za-z]+" 128)
       (let ((candidates (org-get-verbatims)))
         (when candidates
           (list (match-beginning 0)
@@ -1199,8 +1200,14 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   (defun on-org-mode-hook ()
     (setq completion-at-point-functions
           '(capf-org-verbatim
-            t)))
-
+            t))
+    ;; https://emacs.stackexchange.com/questions/26225/dont-pair-quotes-in-electric-pair-mode
+    (setq-local electric-pair-inhibit-predicate
+                (lambda (c)
+                  (if (and (char-equal c ?<)
+                           (char-equal (char-before (1- (point))) ?\n))
+                      t
+                    (funcall (default-value 'electric-pair-inhibit-predicate) c)))))
   :custom
   (org-adapt-indentation nil)
   (org-agenda-exporter-settings '((ps-landscape-mode t)
