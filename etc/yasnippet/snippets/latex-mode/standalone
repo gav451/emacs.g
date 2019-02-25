@@ -25,7 +25,7 @@
 
 \usepackage[load-configurations=abbreviations]{siunitx}
 \sisetup{
-  range-phrase=\ensuremath{\text{\,\textendash\,}}
+  range-phrase=\ensuremath{\text{\,\textendash\,}},
   range-units=brackets,
   separate-uncertainty,
 }
