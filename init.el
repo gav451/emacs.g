@@ -1228,6 +1228,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   (org-catch-invisible-edits 'show-and-error)
   (org-confirm-babel-evaluate nil)
   (org-edit-src-content-indentation 0 "Preserve Python code block indentation.")
+  (org-export-backends '(ascii beamer icalendar html md latex man odt org texinfo))
   (org-export-with-sub-superscripts '{})
   (org-file-apps '((auto-mode . emacs)
                    ("\\.mm\\'" . default)
@@ -1275,22 +1276,9 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
    '(org-bibtex
      org-eww
      org-info
-     org-protocol
-     org-tempo))
+     org-protocol))
   (org-src-fontify-natively t)
   (org-src-preserve-indentation t "Preserve Python code block indentation.")
-  (org-structure-template-alist
-   '(("a" . "export ascii")
-     ("c" . "center")
-     ("C" . "comment")
-     ("e" . "example")
-     ("E" . "export")
-     ("h" . "export html")
-     ("l" . "export latex")
-     ("p" . "src python :async :eval no-export")
-     ("q" . "quote")
-     ("s" . "src")
-     ("v" . "verse")))
   (org-todo-keywords (quote ((sequence "TODO" "|" "DONE" "DEFERRED" "ZAPPED"))))
   (org-use-sub-superscripts '{})
   :bind (("C-c a"   . org-agenda)

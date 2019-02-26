@@ -1,0 +1,6 @@
+# name: export block
+# key: <E
+# --
+#+BEGIN_EXPORT ${1:$$(yas-auto-next (yas-completing-read "Back-end: " org-export-backends))}
+$0
+#+END_EXPORT
