@@ -1111,7 +1111,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   :custom
   (magit-completing-read-function 'ivy-completing-read)
   :bind (("C-x g"   . magit-status)
-         ("C-x M-g" . magit-dispatch-popup))
+         ("C-x M-g" . magit-dispatch))
   :commands
   magit-add-section-hook
   :config
