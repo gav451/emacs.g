@@ -76,6 +76,8 @@
   (auto-compile-on-save-mode))
 
 (use-package no-littering
+  :commands
+  no-littering-expand-etc-file-name
   :demand t)
 
 (use-package epkg
@@ -420,6 +422,7 @@ In that case, insert the number."
 (use-package elec-pair
   :hook
   ((emacs-lisp-mode
+    eshell-mode
     org-mode
     python-mode) . electric-pair-local-mode))
 
@@ -603,6 +606,27 @@ In that case, insert the number."
   :config
   (when (eq system-type 'darwin)
     (setq epg-gpg-program "gpg2")))
+
+(use-package eshell
+  :preface
+  (defun my-eshell-quit-or-delete-char (arg)
+    (interactive "p")
+    (if (and (eolp) (looking-back eshell-prompt-regexp))
+        (eshell-life-is-too-much) ;; http://emacshorrors.com/post/life-is-too-much
+      (delete-char arg)))
+
+  (defun on-eshell-mode ()
+    (bind-keys :map eshell-mode-map
+               ("C-d" . my-eshell-quit-or-delete-char)))
+  :custom
+  (eshell-aliases-file (no-littering-expand-etc-file-name "eshell/alias"))
+  (eshell-ls-initial-args nil)
+  :hook
+  (eshell-mode . on-eshell-mode)
+  :defines
+  eshell-prompt-regexp
+  :commands
+  eshell-life-is-too-much)
 
 (use-package expand-region
   :bind* (("C-=" . er/expand-region)))
