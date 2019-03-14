@@ -940,7 +940,7 @@ In that case, insert the number."
   :defer 10
   :config
   (when (= 0 (call-process-shell-command
-              "gsettings list-recursively org.gnome.GPaste" nil nil nil))
+              "gsettings list-recursively org.gnome.GPaste"))
     (gpastel-mode)))
 
 (use-package help
