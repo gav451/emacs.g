@@ -700,6 +700,33 @@ In that case, insert the number."
     (interactive)
     (shell-command-to-string "i3lock -c 000000"))
 
+  (defun my-exwm-teardown ()
+    "This saves all buffers and runs `kill-emacs-hook' without killing exwm or Emacs."
+    (save-some-buffers t)
+    ;; `run-hooks' does not work with let binding.
+    (setq my-exwm-teardown-hook (thread-last kill-emacs-hook
+                                  (remove 'exwm--server-stop)
+                                  (remove 'server-force-stop)))
+    (run-hooks 'my-exwm-teardown-hook))
+
+  (defun my-exwm-power-down ()
+    "Save all Emacs buffers and power-DOWN the computer."
+    (interactive)
+    (buffer-face-set '(:background "DarkRed"))
+    (when (y-or-n-p "Really want to power DOWN?")
+      (my-exwm-teardown)
+      (start-process-shell-command "power-DOWN" nil "sudo shutdown -h -t 2 now"))
+    (buffer-face-mode -1))
+
+  (defun my-exwm-re-boot ()
+    "Save all Emacs buffers and re-BOOT the computer."
+    (interactive)
+    (buffer-face-set '(:background "DarkRed"))
+    (when (y-or-n-p "Really want to re-BOOT?")
+      (my-exwm-teardown)
+      (start-process-shell-command "re-BOOT" nil "sudo shutdown -r -t 2 now"))
+    (buffer-face-mode -1))
+
   (defun on-exwm-update-class ()
     (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
                 (string= "gimp" exwm-instance-name))
@@ -720,6 +747,8 @@ In that case, insert the number."
   ;; since those key-bindings may conflict with other window managers.
   (exwm-input-global-keys
    `(([?\s-&] . my-exwm-invoke)
+     ([?\s-b] . my-exwm-re-boot)
+     ([?\s-d] . my-exwm-power-down)
      ([?\s-i] . my-exwm-invoke)
      ([?\s-l] . my-exwm-lock-screen)
      ([?\s-o] . ace-window)
@@ -805,16 +834,6 @@ In that case, insert the number."
   :preface
   ;; https://emacs.stackexchange.com/questions/7148/get-all-regexp-matches-in-buffer-as-a-list
   ;; https://github.com/ch11ng/exwm/wiki
-  (defun exwm-auto-toggle-screen ()
-    (with-temp-buffer
-      (call-process "xrandr" nil t nil)
-      (goto-char (point-min))
-      (if (search-forward "VGA1 connected" nil 'noerror)
-          (start-process-shell-command
-           "xrandr" nil "xrandr --output VGA1 --primary --auto --output LVDS1 --off")
-        (start-process-shell-command
-         "xrandr" nil "xrandr --output LVDS1 --auto"))))
-
   (defun my-exwm-randr-connected-monitors ()
     (with-temp-buffer
       (call-process "xrandr" nil t nil)
@@ -897,7 +916,7 @@ In that case, insert the number."
     "God-Local mode background color."
     :type 'string
     :group 'god)
-  (defcustom overwrite-mode-background-color "DarkRed"
+  (defcustom overwrite-mode-background-color "DarkGreen"
     "Overwrite mode background color."
     :type 'string
     :group 'editing-basics)
