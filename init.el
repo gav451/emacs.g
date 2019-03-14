@@ -934,8 +934,14 @@ In that case, insert the number."
     shell-mode) . goto-address-mode))
 
 (use-package gpastel
-  :hook
-  (exwm-init . gpastel-mode))
+  :when (eq system-type 'gnu/linux)
+  :commands
+  gpastel-mode
+  :defer 10
+  :config
+  (when (= 0 (call-process-shell-command
+              "gsettings list-recursively org.gnome.GPaste" nil nil nil))
+    (gpastel-mode)))
 
 (use-package help
   :no-require t
