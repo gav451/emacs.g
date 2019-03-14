@@ -954,6 +954,7 @@ In that case, insert the number."
   (global-hl-line-mode))
 
 (use-package hydra
+  ;; http://oremacs.com/2016/04/04/hydra-doc-syntax/
   :preface
   (bind-key*
    "C-z C-r"
@@ -994,7 +995,7 @@ _b_   _f_   [_y_] yank               [_o_] open     [_x_] exchange-point-mark
 
   (bind-key*
    "C-z C-t"
-   (defhydra hydra-toggle-mode (:color pink)
+   (defhydra hydra-toggle-mode (:color pink :hint none)
      "
 _a_  ?a? auto-fill             _ii_ ?ii? iimage           _vl_ ?vl? visual-line
 _c_  ?c? column-number         _it_ ?it? indent-tabs      _vm_ ?vm? view-mode
@@ -1042,7 +1043,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
       (if (bound-and-true-p which-key-mode) "[X]" "[ ]"))
      ("ws" #'whitespace-mode
       (if (bound-and-true-p whitespace-mode) "[X]" "[ ]"))
-     ("q" nil nil)))
+     ("q" nil nil :color blue)))
   :commands
   hydra--call-interactively-remap-maybe
   hydra-default-pre
