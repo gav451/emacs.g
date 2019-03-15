@@ -690,13 +690,17 @@ In that case, insert the number."
   (exec-path-from-shell-initialize)
   :demand t)
 
-;; https://github.com/ch11ng/exwm/wiki
-;; https://github.com/dakra/dmacs/blob/master/init.org
-;; https://gitlab.com/ambrevar/dotfiles/tree/master/.emacs.d
-;; https://github.com/DamienCassou/emacs.d/blob/master/init.el
-;; https://github.com/technomancy/dotfiles/blob/master/.emacs.d/phil/wm.el
 (use-package exwm
+  ;; https://github.com/ch11ng/exwm/wiki
+  ;; https://github.com/dakra/dmacs/blob/master/init.org
+  ;; https://gitlab.com/ambrevar/dotfiles/tree/master/.emacs.d
+  ;; https://github.com/DamienCassou/emacs.d/blob/master/init.el
+  ;; https://github.com/technomancy/dotfiles/blob/master/.emacs.d/phil/wm.el
   :preface
+  (defcustom my-exwm-teardown-hook nil
+    "Hook to power-DOWN or re-BOOT the computer cleanly."
+    :type 'hook
+    :group 'exwm)
   (defun my-exwm-invoke (command)
     (interactive (list (read-shell-command "$ ")))
     (start-process-shell-command command nil command))
@@ -718,7 +722,7 @@ In that case, insert the number."
     "Save all Emacs buffers and power-DOWN the computer."
     (interactive)
     (buffer-face-set '(:background "DarkRed"))
-    (when (y-or-n-p "Really want to power DOWN?")
+    (when (y-or-n-p "Really want to power-DOWN?")
       (my-exwm-teardown)
       (start-process-shell-command "power-DOWN" nil "sudo shutdown -h -t 2 now"))
     (buffer-face-mode -1))
@@ -836,9 +840,9 @@ In that case, insert the number."
   (exwm-input-set-key (kbd "C-c C-'") #'exwm-edit--compose))
 
 (use-package exwm-randr
-  :preface
   ;; https://emacs.stackexchange.com/questions/7148/get-all-regexp-matches-in-buffer-as-a-list
   ;; https://github.com/ch11ng/exwm/wiki
+  :preface
   (defun my-exwm-randr-connected-monitors ()
     (with-temp-buffer
       (call-process "xrandr" nil t nil)
