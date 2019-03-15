@@ -15,12 +15,8 @@ import numpy
 
 
 def main():
-    """
-    ${2:XXX}
-    """
+    """${2:XXX}."""
     $0pass
-
-# main()
 
 
 if __name__ == '__main__':

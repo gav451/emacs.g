@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
+# Uses .yas-setup.el.
 # name : defm
 # key  : defm
 # --
 def ${1:name}(self, $2):
-    """${3:XXX.}
-    ${2:$(python-arguments-to-doc-string)}
-    """
+    """${3:XXX.}${2:$(python-arguments-to-doc-string)}"""
     $0pass
 
-# $1()

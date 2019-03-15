@@ -1,12 +1,20 @@
+(defun python-defun-doc-string-indent-offset ()
+  "Find the doc-string indentation offset within a class or function."
+  (save-excursion
+    (python-nav-beginning-of-defun)
+    (skip-syntax-forward " ")
+    (+ (current-column) python-indent-offset)))
+
 (defun python-split-arguments (arg-string)
   "Split a python argument string into ((name, default)..) tuples."
   (mapcar (lambda (x)
-             (split-string x "[[:blank:]]*=[[:blank:]]*" t))
+            (split-string x "[[:blank:]]*=[[:blank:]]*" t))
           (split-string arg-string "[[:blank:]]*,[[:blank:]]*" t)))
 
 (defun python-arguments-to-sphinx-doc-string ()
   "Format arguments into a Sphinx (reST) style Python docstring."
-  (let* ((indent (concat "\n" (make-string (current-column) 32)))
+  (let* ((indent
+          (concat "\n" (make-string (python-defun-doc-string-indent-offset) 32)))
          (arguments (python-split-arguments yas-text))
          (text (mapconcat
                 (lambda (x)
@@ -14,11 +22,12 @@
                 arguments
                 indent)))
     (unless (string= text "")
-      (mapconcat 'identity (list "" text) indent))))
+      (mapconcat 'identity (list "" "" text "") indent))))
 
 (defun python-arguments-to-numpy-doc-string ()
   "Format arguments into a NumPy style Python docstring."
-  (let* ((indent (concat "\n" (make-string (current-column) 32)))
+  (let* ((indent
+          (concat "\n" (make-string (python-defun-doc-string-indent-offset) 32)))
          (arguments (python-split-arguments yas-text))
          (text (mapconcat
                 (lambda (x)
@@ -28,11 +37,12 @@
                 indent)))
     (unless (string= text "")
       (mapconcat 'identity
-                 (list "" "Parameters" "----------" text) indent))))
+                 (list "" "" "Parameters" "----------" text "") indent))))
 
 (defun python-arguments-to-google-doc-string ()
   "Format arguments into a Google style Python docstring."
-  (let* ((indent (concat "\n" (make-string (current-column) 32)))
+  (let* ((indent
+          (concat "\n" (make-string (python-defun-doc-string-indent-offset) 32)))
          (arguments (python-split-arguments yas-text))
          (text (mapconcat
                 (lambda (x)
@@ -43,7 +53,7 @@
                 indent)))
     (unless (string= text "")
        (mapconcat 'identity
-                  (list "" "Arguments:" text) indent))))
+                  (list "" "" "Arguments:" text "") indent))))
 
 (defun python-arguments-to-doc-string ()
   (python-arguments-to-numpy-doc-string))
