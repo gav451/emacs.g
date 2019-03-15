@@ -465,7 +465,8 @@ In that case, insert the number."
    '(("http://emacshorrors.com/feed.atom" schneidermann)
      ("http://emacsninja.com/feed.atom" schneidermann)
      ("http://nullprogram.com/feed/" wellons)
-     ("http://planet.emacsen.org/atom.xml" emacsen)
+     ;; https://www.emacswiki.org/emacs/PlanetEmacsen
+     ("http://planet.emacslife.com/atom.xml" emacsen)
      ("http://pragmaticemacs.com/feed/" maugham)
      ("http://sachachua.com/blog/category/emacs/feed" chua)
      ("https://act.eff.org/action.atom" eff)
