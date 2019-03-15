@@ -608,11 +608,13 @@ In that case, insert the number."
     (setq epg-gpg-program "gpg2")))
 
 (use-package eshell
+  ;; http://emacshorrors.com/post/life-is-too-much
   :preface
   (defun my-eshell-quit-or-delete-char (arg)
     (interactive "p")
-    (if (and (eolp) (looking-back eshell-prompt-regexp))
-        (eshell-life-is-too-much) ;; http://emacshorrors.com/post/life-is-too-much
+    (if (and (eolp) (looking-back eshell-prompt-regexp
+                                  (- (length eshell-banner-message) (point))))
+        (eshell-life-is-too-much)
       (delete-char arg)))
 
   (defun on-eshell-mode ()
@@ -620,7 +622,10 @@ In that case, insert the number."
                ("C-d" . my-eshell-quit-or-delete-char)))
   :custom
   (eshell-aliases-file (no-littering-expand-etc-file-name "eshell/alias"))
+  (eshell-hist-ignoredups t)
   (eshell-ls-initial-args nil)
+  (eshell-save-history-on-exit t)
+  (eshell-visual-commands '("htop" "ipython" "jupyter" "less" "ncftp" "tmux"))
   :hook
   (eshell-mode . on-eshell-mode)
   :defines
