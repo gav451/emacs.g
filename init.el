@@ -610,11 +610,15 @@ In that case, insert the number."
 
 (use-package eshell
   ;; http://emacshorrors.com/post/life-is-too-much
+  ;; https://github.com/howardabrams/dot-files/blob/master/emacs-eshell.org
+  ;; https://github.com/wasamasa/dotemacs/blob/master/init.org#eshell
   :preface
   (defun my-eshell-quit-or-delete-char (arg)
     (interactive "p")
-    (if (and (eolp) (looking-back eshell-prompt-regexp
-                                  (- (length eshell-banner-message) (point))))
+    (if (and (eolp)
+             (looking-back
+              eshell-prompt-regexp (min (- (point) (length (eval eshell-banner-message)))
+                                        (lsh 1 10))))
         (eshell-life-is-too-much)
       (delete-char arg)))
 
@@ -630,6 +634,7 @@ In that case, insert the number."
   :hook
   (eshell-mode . on-eshell-mode)
   :defines
+  eshell-banner-message
   eshell-prompt-regexp
   :commands
   eshell-life-is-too-much)
