@@ -1615,6 +1615,11 @@ the Emacs manual) to set this variable permanently for each file."
   (add-to-list 'tramp-default-proxies-alist
                (list (regexp-quote (system-name)) nil nil)))
 
+(use-package transient
+  :defer t
+  :custom
+  (transient-display-buffer-action '(display-buffer-below-selected)))
+
 (use-package undo-tree
   :commands
   global-undo-tree-mode
