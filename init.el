@@ -504,27 +504,33 @@ In that case, insert the number."
   (bind-key
    "j"
    (defhydra hydra-elfeed-filter ()
-     "Filter"
-     ("a" (elfeed-search-set-filter "@6-months-ago +aclu") "aclu")
-     ("b" (elfeed-search-set-filter "@6-months-ago +bof") "bof")
+     ""
+     ("a" (elfeed-search-set-filter "@6-months-ago +aclu") "aclu"
+      :column "Filter a-d")
+     ("b" (elfeed-search-set-filter "@6-months-ago +bof") "bof" )
      ("c" (elfeed-search-set-filter "@6-months-ago +chua") "chua")
      ("d" (elfeed-search-set-filter "@6-months-ago +dn") "dn")
-     ("e" (elfeed-search-set-filter "@6-months-ago +emacsen") "emacsen")
+     ("e" (elfeed-search-set-filter "@6-months-ago +emacsen") "emacsen"
+      :column "Filter e-l")
      ("f" (elfeed-search-set-filter "@6-months-ago +eff") "eff")
      ("i" (elfeed-search-set-filter "@6-months-ago +intercepted") "intercepted")
      ("l" (elfeed-search-set-filter "@6-months-ago +lqdn") "lqdn")
-     ("m" (elfeed-search-set-filter "@6-months-ago +maugham") "maugham")
+     ("m" (elfeed-search-set-filter "@6-months-ago +maugham") "maugham"
+      :column "Filter m-z")
      ("s" (elfeed-search-set-filter "@6-months-ago +schneidermann") "schneidermann")
      ("w" (elfeed-search-set-filter "@6-months-ago +wellons") "wellons")
-     ("*" (elfeed-search-set-filter "@6-months-ago +*") "*")
-     ("A" (elfeed-search-set-filter "@6-months-ago") "All")
-     ("S" my-elfeed-toggle-star "Star")
+     ("A" (elfeed-search-set-filter "@6-months-ago") "All"
+      :column "Filter A-Z")
      ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
+     ("S" (elfeed-search-set-filter "@6-months-ago +*") "Starred")
      ("U" (elfeed-search-set-filter "@6-months-ago +unread") "Unread")
+     ("*" my-elfeed-toggle-star "* toggle"
+      :column "Toggle or quit")
      ("q" nil "quit" :color blue))
    elfeed-search-mode-map))
 
 (use-package emms
+  ;; http://splash-of-open-sauce.blogspot.com/2010/09/emms-music-setup-using-mpd.html
   :config
   (emms-all))
 
