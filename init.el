@@ -1204,7 +1204,9 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
 (use-package ob-async
   ;; Demand loading of this package after loading org-mode.
   :after org
-  :demand t)
+  :demand t
+  :custom
+  (ob-async-no-async-languages-alist '("jupyter-julia" "jupyter-python")))
 
 (use-package org
   :preface
