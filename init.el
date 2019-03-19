@@ -633,7 +633,7 @@ In that case, insert the number."
     (if (and (eolp)
              (looking-back
               eshell-prompt-regexp (min (- (point) (length (eval eshell-banner-message)))
-                                        (lsh 1 10))))
+                                        (lsh 1 16))))
         (eshell-life-is-too-much)
       (delete-char arg)))
 
@@ -645,7 +645,7 @@ In that case, insert the number."
   (eshell-hist-ignoredups t)
   (eshell-ls-initial-args nil)
   (eshell-save-history-on-exit t)
-  (eshell-visual-commands '("htop" "ipython" "jupyter" "less" "ncftp" "tmux"))
+  (eshell-visual-commaqnds '("htop" "ipython" "jupyter" "less" "ncftp" "python" "tmux"))
   :hook
   (eshell-mode . on-eshell-mode)
   :defines
