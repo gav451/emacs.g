@@ -414,6 +414,15 @@ In that case, insert the number."
 (use-package dired-x
   :after dired)
 
+(use-package display-line-numbers
+  :no-require t
+  :custom-face
+  (line-number-current-line ((t (:inherit highlight))))
+  :hook
+  ((LaTeX-mode
+    org-mode
+    prog-mode) . display-line-numbers-mode))
+
 (use-package easy-kill
   ;; https://emacsredux.com/blog/2018/11/09/an-easy-kill/
   ;; https://emacsredux.com/blog/2019/01/10/the-emacs-year-in-review/
@@ -990,8 +999,7 @@ In that case, insert the number."
   :no-require t
   :commands
   global-hl-line-mode
-  :init
-  (global-hl-line-mode))
+  hl-line-mode)
 
 (use-package hydra
   ;; http://oremacs.com/2016/04/04/hydra-doc-syntax/
