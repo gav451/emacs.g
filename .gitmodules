@@ -159,6 +159,9 @@
 	path = lib/ivy
 	url = git@github.com:abo-abo/swiper.git
 	info-path = doc
+[submodule "jupyter"]
+	path = lib/jupyter
+	url = git@github.com:dzop/emacs-jupyter.git
 [submodule "lentic"]
 	path = lib/lentic
 	url = git@github.com:phillord/lentic.git
@@ -286,6 +289,9 @@
 [submodule "use-package"]
 	path = lib/use-package
 	url = git@github.com:jwiegley/use-package.git
+[submodule "websocket"]
+	path = lib/websocket
+	url = git@github.com:ahyatt/emacs-websocket.git
 [submodule "wgrep"]
 	path = lib/wgrep
 	url = git@github.com:mhayashi1120/Emacs-wgrep.git
@@ -307,3 +313,7 @@
 [submodule "yasnippet"]
 	path = lib/yasnippet
 	url = git@github.com:joaotavora/yasnippet.git
+[submodule "zmq"]
+	path = lib/zmq
+	url = git@github.com:dzop/emacs-zmq.git
+	build-step = make
