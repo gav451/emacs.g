@@ -277,7 +277,7 @@ In that case, insert the number."
   :commands
   counsel-linux-app-format-function-command-only
   :bind (;; Allow shadowing in `pdf-view-mode-map' by use of
-         ;; "C-r" instead of [remap isearch backward] and
+         ;; "C-r" instead of [remap isearch-backward] and
          ;; "C-s" instead of [remap isearch-forward].
          ("C-r" . counsel-grep-or-swiper)
          ("C-s" . counsel-grep-or-swiper)
@@ -426,7 +426,9 @@ In that case, insert the number."
 (use-package easy-kill
   ;; https://emacsredux.com/blog/2018/11/09/an-easy-kill/
   ;; https://emacsredux.com/blog/2019/01/10/the-emacs-year-in-review/
-  :bind* (([remap kill-ring-save] . easy-kill)))
+  :bind (;; Allow shadowing in `pdf-view-mode-map' by use of
+         ;; "M-w" instead of [remap kill-ring-save].
+         ("M-w" . easy-kill)))
 
 (use-package elec-pair
   :hook
@@ -1453,8 +1455,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
 (use-package pdf-tools
   :custom
   (pdf-annot-activate-created-annotations t)
-  (pdf-view-display-size 'fit-page)
-  (pdf-view-use-imagemagick t)
   :commands
   pdf-tools-install
   :magic
@@ -1463,7 +1463,15 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   (pdf-tools-install t)
   (bind-keys :map pdf-view-mode-map
              ("C-r" . isearch-backward)
-             ("C-s" . isearch-forward)))
+             ("C-s" . isearch-forward)
+             ("M-w" . pdf-view-kill-ring-save)))
+
+(use-package pdf-view
+  :custom
+  (pdf-view-display-size 'fit-page)
+  (pdf-view-use-imagemagick t)
+  :commands
+  pdf-view-kill-ring-save)
 
 (use-package peep-dired
   :after dired
