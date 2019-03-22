@@ -647,7 +647,7 @@ In that case, insert the number."
   (eshell-hist-ignoredups t)
   (eshell-ls-initial-args nil)
   (eshell-save-history-on-exit t)
-  (eshell-visual-commaqnds '("htop" "ipython" "jupyter" "less" "ncftp" "python" "tmux"))
+  (eshell-visual-commands '("htop" "ipython" "jupyter" "less" "ncftp" "python" "tmux"))
   :hook
   (eshell-mode . on-eshell-mode)
   :defines
