@@ -581,6 +581,9 @@ In that case, insert the number."
   emms-volume-mode-plus)
 
 (use-package engine-mode
+  ;; https://github.com/asok/.emacs.d/blob/master/inits/init-engine-mode.el
+  ;; https://github.com/kaushalmodi/.emacs.d/blob/master/setup-files/setup-engine-mode.el
+  ;; https://gitlab.com/ambrevar/dotfiles/blob/master/.emacs.d/lisp/init-engine.el
   :commands
   engine-mode
   engine/execute-search
@@ -589,8 +592,6 @@ In that case, insert the number."
   :config
   (require 'format-spec)
   (engine-mode 1)
-  ;; https://github.com/kaushalmodi/.emacs.d/blob/master/setup-files/setup-engine-mode.el
-  ;; https://gitlab.com/ambrevar/dotfiles/blob/master/.emacs.d/lisp/init-engine.el
   (defengine arch-wiki
     "http://wiki.archlinux.org/index.php?title=Special%%3ASearch&search=%s&go=Go"
     :keybinding "a")
@@ -606,7 +607,6 @@ In that case, insert the number."
   (defengine wikipedia
     "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s"
     :keybinding "w")
-  ;; https://github.com/asok/.emacs.d/blob/master/inits/init-engine-mode.el
   (bind-key*
    "C-z C-e"
    (defhydra hydra-engine (:color blue)
@@ -659,6 +659,9 @@ In that case, insert the number."
   :bind* (("C-=" . er/expand-region)))
 
 (use-package eww
+  ;; http://ergoemacs.org/emacs/emacs_eww_web_browser.html
+  ;; https://emacs.stackexchange.com/questions/36284/how-to-open-eww-in-readable-mode
+  ;; https://www.reddit.com/r/emacs/comments/54kczj/reddit_client_for_emacs/
   :preface
   (defcustom eww-readable-sites
     '("www.cnrtl.fr"
@@ -667,7 +670,6 @@ In that case, insert the number."
     "List of urls to show using `eww-readable'."
     :type '(repeat string)
     :group 'eww)
-  ;; https://emacs.stackexchange.com/questions/36284/how-to-open-eww-in-readable-mode
   (defun on-eww-readable ()
     (let ((url (eww-current-url)))
       (when (catch 'found
@@ -677,10 +679,8 @@ In that case, insert the number."
                     eww-readable-sites)
               nil)
         (eww-readable))))
-  ;; http://ergoemacs.org/emacs/emacs_eww_web_browser.html
   (defun on-eww-rename-buffer ()
     (rename-buffer "eww" t))
-  ;; https://www.reddit.com/r/emacs/comments/54kczj/reddit_client_for_emacs/.
   (defun reddit-browser ()
     (interactive)
     (eww-browse-url (format "https://www.reddit.com/r/%s/.mobile"
@@ -713,11 +713,11 @@ In that case, insert the number."
   :demand t)
 
 (use-package exwm
+  ;; https://github.com/DamienCassou/emacs.d/blob/master/init.el
   ;; https://github.com/ch11ng/exwm/wiki
   ;; https://github.com/dakra/dmacs/blob/master/init.org
-  ;; https://gitlab.com/ambrevar/dotfiles/tree/master/.emacs.d
-  ;; https://github.com/DamienCassou/emacs.d/blob/master/init.el
   ;; https://github.com/technomancy/dotfiles/blob/master/.emacs.d/phil/wm.el
+  ;; https://gitlab.com/ambrevar/dotfiles/tree/master/.emacs.d
   :preface
   (defcustom my-exwm-teardown-hook nil
     "Hook to power-DOWN or re-BOOT the computer cleanly."
@@ -1116,6 +1116,8 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   (:map help-map ("C-;" . iedit-mode-toggle-on-function)))
 
 (use-package ivy
+  ;; https://sam217pa.github.io/2016/09/11/nuclear-power-editing-via-ivy-and-ag/
+  ;; https://github.com/sam217pa/emacs-config
   :custom
   (ivy-case-fold-search-default 'auto)
   (ivy-count-format "(%d/%d) ")
@@ -1488,6 +1490,10 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
               ("M-s p" . peep-dired)))
 
 (use-package python
+  ;; https://github.com/davidhalter/jedi/issues/1085
+  ;; https://github.com/jorgenschaefer/elpy/issues/1115
+  ;; https://github.com/jorgenschaefer/elpy/issues/1123
+  ;; https://github.com/jorgenschaefer/elpy/pull/1279
   :custom
   (python-shell-interpreter-args "-E -i")
   :interpreter ("python" . python-mode)
