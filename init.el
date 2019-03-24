@@ -144,8 +144,7 @@
   (avy-all-windows t)
   :commands
   avy-setup-default
-  :bind* (("C-:" . avy-goto-word-1)
-          ("C-;" . avy-goto-char))
+  :bind* (("C-:" . avy-goto-word-1))
   :init
   (avy-setup-default))
 
@@ -1106,6 +1105,15 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   hydra-keyboard-quit
   hydra-set-transient-map
   hydra-show-hint)
+
+(use-package iedit
+  :custom
+  (iedit-toggle-key-default nil)
+  :bind
+  (:map global-map ("C-;" . iedit-mode))
+  (:map isearch-mode-map ("C-;" . iedit-mode-from-isearch))
+  (:map esc-map ("C-;" . iedit-execute-last-modification))
+  (:map help-map ("C-;" . iedit-mode-toggle-on-function)))
 
 (use-package ivy
   :custom
