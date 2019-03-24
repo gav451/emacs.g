@@ -151,6 +151,9 @@
 (use-package bibtex
   :after tex
   :custom
+  (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
+  (bibtex-completion-library-path '("~/VCS/research/papers"))
+  (bibtex-completion-notes-path "~/VCS/research/notes/notes.org")
   (bibtex-user-optional-fields
    '(("abstract")
      ("doi" "Digital Object Identifier")
@@ -1427,13 +1430,13 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   :after org
   :demand t
   :custom
-  (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
-  (bibtex-completion-library-path "~/VCS/research/papers")
-  (bibtex-completion-notes-path "~/VCS/research/notes/notes.org")
   (org-ref-bibliography-notes "~/VCS/research/notes/notes.org")
+  (org-ref-cite-color "LawnGreen")
+  (org-ref-ref-color "OrangeRed")
+  (org-ref-label-color "DeepPink")
   (org-ref-completion-library 'org-ref-ivy-cite)
-  (org-ref-default-bibliography '("~/tmpfs/refs.bib" "~/VCS/research/refs.bib"))
-  (org-ref-pdf-directory "~/VCS/research/papers"))
+  (org-ref-default-bibliography '("~/VCS/research/refs.bib"))
+  (org-ref-pdf-directory '("~/VCS/research/papers")))
 
 (use-package org-ref-core
   :commands
