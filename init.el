@@ -536,24 +536,38 @@ In that case, insert the number."
 
 (use-package emms
   ;; http://splash-of-open-sauce.blogspot.com/2010/09/emms-music-setup-using-mpd.html
-  :config
-  (emms-all))
+  :custom
+  (emms-player-list '(emms-player-mpd emms-player-mpv)))
 
 (use-package emms-browser
   :commands
   emms-smart-browse)
 
+(use-package emms-info
+  :custom
+  (emms-info-functions nil))
+
 (use-package emms-info-libtag
   :when (executable-find "emms-print-metadata")
+  :after emms-setup
   :commands
   emms-info-libtag
-  :custom
-  (emms-info-functions '(emms-info-libtag)))
+  :config
+  (add-to-list 'emms-info-functions 'emms-info-libtag))
 
-(use-package emms-player-mpv
+(use-package emms-player-mpd
   :after emms-setup
   :custom
-  (emms-player-list '(emms-player-mpv)))
+  (emms-player-mpd-music-directory "/var/lib/mpd/music")
+  (emms-player-mpd-server-name "localhost")
+  (emms-player-mpd-server-port "6600")
+  :commands
+  emms-info-mpd
+  :config
+  (add-to-list 'emms-info-functions 'emms-info-mpd))
+
+(use-package emms-player-mpv
+  :after emms-setup)
 
 (use-package emms-playlist-mode
   :custom
@@ -563,19 +577,18 @@ In that case, insert the number."
   emms-playlist-mode-go)
 
 (use-package emms-setup
- :commands
- emms-all)
-
-(use-package emms-source-file
-  :custom
-  (emms-source-file-default-directory (expand-file-name "~/Music/"))
-  (emms-source-file-directory-tree-function 'emms-source-file-directory-tree-find))
+  :commands
+  emms-all
+  :defer 10
+  :config
+  (emms-all))
 
 (use-package emms-streams
   :custom
   ;; To show the current playlist, do either
   ;; "M-x emms" or "M-x emms-playlist-mode-go".
-  (emms-stream-default-action "add")
+  (emms-stream-bookmarks-file (no-littering-expand-etc-file-name "emms/streams"))
+  (emms-stream-default-action "play")
   :commands
   emms-streams)
 
