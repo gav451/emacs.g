@@ -1141,6 +1141,9 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
   :config (ivy-mode)
   :delight ivy-mode " 𝝓")
 
+(use-package julia
+  :commands jupyter-run-repl)
+
 (use-package latex
   :load tex
   :mode ("\\.tex\\'" . TeX-latex-mode)
