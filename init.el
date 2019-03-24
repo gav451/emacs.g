@@ -1683,7 +1683,6 @@ the Emacs manual) to set this variable permanently for each file."
                (list (regexp-quote (system-name)) nil nil)))
 
 (use-package transient
-  :defer t
   :custom
   (transient-display-buffer-action '(display-buffer-below-selected)))
 
