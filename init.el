@@ -1010,7 +1010,11 @@ In that case, insert the number."
   :no-require t
   :commands
   global-hl-line-mode
-  hl-line-mode)
+  hl-line-mode
+  :hook
+  ((elfeed-show-mode
+    emms-playlist-mode
+    help-mode) . hl-line-mode))
 
 (use-package hydra
   ;; http://oremacs.com/2016/04/04/hydra-doc-syntax/
