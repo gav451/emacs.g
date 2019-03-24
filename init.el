@@ -220,6 +220,7 @@
   browse-url-generic)
 
 (use-package company
+  ;; https://emacs.stackexchange.com/questions/9835/how-can-i-prevent-company-mode-completing-numbers
   :preface
   (defun my-company-complete-number ()
     "Forward to `company-complete-number'.
@@ -247,8 +248,6 @@ In that case, insert the number."
   company-abort
   company-complete-number
   :bind (:map company-active-map
-              ("C-y" . yas-expand-from-trigger-key)
-              (" " . my-company-insert-abort)
               ("0" . my-company-complete-number)
               ("1" . my-company-complete-number)
               ("2" . my-company-complete-number)
@@ -258,7 +257,9 @@ In that case, insert the number."
               ("6" . my-company-complete-number)
               ("7" . my-company-complete-number)
               ("8" . my-company-complete-number)
-              ("9" . my-company-complete-number))
+              ("9" . my-company-complete-number)
+              ("<space>" . my-company-insert-abort)
+              ("C-y" . yas-expand-from-trigger-key))
   :hook
   ((LaTeX-mode emacs-lisp-mode org-mode) . company-mode)
   :delight company-mode " 𝍎")
