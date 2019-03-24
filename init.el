@@ -1678,6 +1678,9 @@ the Emacs manual) to set this variable permanently for each file."
 (use-package unfill
   :bind (([remap fill-paragraph] . unfill-toggle)))
 
+(use-package which-key
+  :delight which-key-mode)
+
 (use-package wordnut
   :bind* (("C-z C-w" . wordnut-search)))
 
