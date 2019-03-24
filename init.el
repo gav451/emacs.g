@@ -1020,13 +1020,13 @@ In that case, insert the number."
   (temp-buffer-resize-mode 1))
 
 (use-package hl-line
-  :no-require t
   :commands
   global-hl-line-mode
   hl-line-mode
   :hook
   ((elfeed-show-mode
     emms-playlist-mode
+    emms-stream
     help-mode) . hl-line-mode))
 
 (use-package hydra
