@@ -558,7 +558,7 @@ In that case, insert the number."
 (use-package emms-player-mpd
   :after emms-setup
   :custom
-  (emms-player-mpd-music-directory "/var/lib/mpd/music")
+  (emms-player-mpd-music-directory "/home/gav/Music")
   (emms-player-mpd-server-name "localhost")
   (emms-player-mpd-server-port "6600")
   :commands
