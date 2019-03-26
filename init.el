@@ -537,7 +537,10 @@ In that case, insert the number."
 (use-package emms
   ;; http://splash-of-open-sauce.blogspot.com/2010/09/emms-music-setup-using-mpd.html
   :custom
-  (emms-player-list '(emms-player-mpd emms-player-mpv)))
+  ;; Try mpv in case of video before mpd in case of sound.
+  (emms-player-list '(emms-player-mpv emms-player-mpd))
+  :commands
+  emms-player-set)
 
 (use-package emms-browser
   :commands
@@ -567,7 +570,16 @@ In that case, insert the number."
   (add-to-list 'emms-info-functions 'emms-info-mpd))
 
 (use-package emms-player-mpv
-  :after emms-setup)
+  :after emms-setup
+  :config
+  ;; Let mpv handle only video.
+  (emms-player-set emms-player-mpv 'regex
+                   (apply #'emms-player-simple-regexp
+                          '("mk4" "mkv" "mp4" "ogg" "ogv" "webm"))))
+
+(use-package emms-player-simple
+  :commands
+  emms-player-simple-regexp)
 
 (use-package emms-playlist-mode
   :custom
