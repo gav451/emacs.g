@@ -159,6 +159,9 @@
 	path = lib/ivy
 	url = git@github.com:abo-abo/swiper.git
 	info-path = doc
+[submodule "julia-mode"]
+	path = lib/julia-mode
+	url = git@github.com:JuliaEditorSupport/julia-emacs.git
 [submodule "jupyter"]
 	path = lib/jupyter
 	url = git@github.com:dzop/emacs-jupyter.git
