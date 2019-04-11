@@ -478,6 +478,7 @@ In that case, insert the number."
   (elfeed-feeds
    '(("http://emacshorrors.com/feed.atom" schneidermann)
      ("http://emacsninja.com/feed.atom" schneidermann)
+     ("http://www.howardism.org/index.xml" howard)
      ("http://nullprogram.com/feed/" wellons)
      ;; https://www.emacswiki.org/emacs/PlanetEmacsen
      ("http://planet.emacslife.com/atom.xml" emacsen)
@@ -510,35 +511,35 @@ In that case, insert the number."
    "j"
    (defhydra hydra-elfeed-filter ()
      ""
-     ("a" (elfeed-search-set-filter "@6-months-ago +aclu") "aclu"
-      :column "Filter a-d")
-     ("b" (elfeed-search-set-filter "@6-months-ago +bof") "bof" )
-     ("c" (elfeed-search-set-filter "@6-months-ago +chua") "chua")
-     ("d" (elfeed-search-set-filter "@6-months-ago +dn") "dn")
-     ("e" (elfeed-search-set-filter "@6-months-ago +emacsen") "emacsen"
-      :column "Filter e-l")
-     ("f" (elfeed-search-set-filter "@6-months-ago +eff") "eff")
-     ("i" (elfeed-search-set-filter "@6-months-ago +intercepted") "intercepted")
-     ("l" (elfeed-search-set-filter "@6-months-ago +lqdn") "lqdn")
-     ("m" (elfeed-search-set-filter "@6-months-ago +maugham") "maugham"
-      :column "Filter m-z")
-     ("s" (elfeed-search-set-filter "@6-months-ago +schneidermann") "schneidermann")
-     ("w" (elfeed-search-set-filter "@6-months-ago +wellons") "wellons")
      ("A" (elfeed-search-set-filter "@6-months-ago") "All"
-      :column "Filter A-Z")
+      :column "A-Z")
      ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
      ("S" (elfeed-search-set-filter "@6-months-ago +*") "Starred")
      ("U" (elfeed-search-set-filter "@6-months-ago +unread") "Unread")
-     ("*" my-elfeed-toggle-star "* toggle"
-      :column "Toggle or quit")
-     ("q" nil "quit" :color blue))
+     ("ab" (elfeed-search-set-filter "@6-months-ago +abrams") "abrams"
+      :column "a-c")
+     ("ac" (elfeed-search-set-filter "@6-months-ago +aclu") "aclu")
+     ("b" (elfeed-search-set-filter "@6-months-ago +bof") "bof" )
+     ("c" (elfeed-search-set-filter "@6-months-ago +chua") "chua")
+     ("d" (elfeed-search-set-filter "@6-months-ago +dn") "dn"
+      :column "d-i")
+     ("e" (elfeed-search-set-filter "@6-months-ago +emacsen") "emacsen")
+     ("f" (elfeed-search-set-filter "@6-months-ago +eff") "eff")
+     ("i" (elfeed-search-set-filter "@6-months-ago +intercepted") "intercepted")
+     ("l" (elfeed-search-set-filter "@6-months-ago +lqdn") "lqdn"
+      :column "i-z")
+     ("m" (elfeed-search-set-filter "@6-months-ago +maugham") "maugham")
+     ("s" (elfeed-search-set-filter "@6-months-ago +schneidermann") "schneidermann")
+     ("w" (elfeed-search-set-filter "@6-months-ago +wellons") "wellons")
+     ("*" my-elfeed-toggle-star "toggle *"
+      :column "Other")
+     ("C-g" nil "quit" :color blue))
    elfeed-search-mode-map))
 
 (use-package emms
-  ;; http://splash-of-open-sauce.blogspot.com/2010/09/emms-music-setup-using-mpd.html
+  ;; Let mpd handle most sound, and mpv everything else (ideally video only).
   :custom
-  ;; Try mpv in case of video before mpd in case of sound.
-  (emms-player-list '(emms-player-mpv emms-player-mpd))
+  (emms-player-list '(emms-player-mpd emms-player-mpv))
   :commands
   emms-player-set)
 
