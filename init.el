@@ -1055,7 +1055,7 @@ In that case, insert the number."
   ^_p_^     [_w_] copy-as-kill       [_d_] delete   [_m_] toggle-mark
 _b_   _f_   [_y_] yank               [_o_] open     [_x_] exchange-point-mark
   ^_n_^     [_r_] copy-to-register   [_t_] string
-^^^^        [_g_] insert-register    [_u_] undo     [_q_] quit
+^^^^        [_g_] insert-register    [_u_] undo     [_C-g_] quit
 "
      ("b" backward-char nil)
      ("f" forward-char nil)
@@ -1080,7 +1080,7 @@ _b_   _f_   [_y_] yank               [_o_] open     [_x_] exchange-point-mark
             (rectangle-mark-mode 1)) nil)
      ("x" exchange-point-and-mark nil) ;; C-x C-x
 
-     ("q" nil nil)))
+     ("C-g" nil nil :color blue)))
 
   (bind-key*
    "C-z C-t"
@@ -1092,7 +1092,7 @@ _d_  ?d? display-line-numbers  _l_  ?l? lispy            _wg_ ?wg? writegood
 _fc_ ?fc? flycheck              _o_  ?o? org-table        _wk_ ?wk? which-key
 _fl_ ?fl? font-lock             _p_  ?p? electric-pair    _ws_ ?ws? white-space
 _fs_ ?fs? flyspell              _r_  ?r? read-only
-_g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
+_g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 "
      ("a" #'auto-fill-mode
       (if (bound-and-true-p auto-fill-function) "[X]" "[ ]"))
@@ -1132,7 +1132,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _q_  quit
       (if (bound-and-true-p which-key-mode) "[X]" "[ ]"))
      ("ws" #'whitespace-mode
       (if (bound-and-true-p whitespace-mode) "[X]" "[ ]"))
-     ("q" nil nil :color blue)))
+     ("C-g" nil nil :color blue)))
   :commands
   hydra--call-interactively-remap-maybe
   hydra-default-pre
