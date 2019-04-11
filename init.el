@@ -560,6 +560,8 @@ In that case, insert the number."
   (add-to-list 'emms-info-functions 'emms-info-libtag))
 
 (use-package emms-player-mpd
+  ;; Let mpd most (ideally all) sound.
+  ;; BUG: mpd fails to handle the NPO m3u files, and I fail to work around it.
   :after emms-setup
   :custom
   (emms-player-mpd-music-directory "/home/gav/Music")
@@ -568,15 +570,13 @@ In that case, insert the number."
   :commands
   emms-info-mpd
   :config
-  (add-to-list 'emms-info-functions 'emms-info-mpd))
+  (add-to-list 'emms-info-functions 'emms-info-mpd)
+  (emms-player-set emms-player-mpd 'regex
+                   (apply #'emms-player-simple-regexp
+                          '("flac" "m3u" "mp3" "ogg" "opus" "pls" "soundcloud"))))
 
 (use-package emms-player-mpv
-  :after emms-setup
-  :config
-  ;; Let mpv handle only video.
-  (emms-player-set emms-player-mpv 'regex
-                   (apply #'emms-player-simple-regexp
-                          '("mk4" "mkv" "mp4" "ogg" "ogv" "webm"))))
+  :after emms-setup)
 
 (use-package emms-player-simple
   :commands
