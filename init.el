@@ -1188,7 +1188,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   :config (ivy-mode)
   :delight ivy-mode " 𝝓")
 
-(use-package julia
+(use-package jupyter
   :commands jupyter-run-repl)
 
 (use-package latex
