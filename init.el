@@ -269,6 +269,8 @@ In that case, insert the number."
 
 (use-package counsel
   :custom
+  (counsel-describe-function-function 'helpful-callable)
+  (counsel-describe-variable-function 'helpful-variable)
   (counsel-find-file-at-point t)
   (counsel-find-file-ignore-regexp (concat
                                     ;; file names beginning with # or .
@@ -278,6 +280,10 @@ In that case, insert the number."
   (counsel-grep-swiper-limit (lsh 1 20))
   (counsel-linux-app-format-function #'counsel-linux-app-format-function-command-only)
   :commands
+  counsel-describe-face
+  counsel-describe-function
+  counsel-describe-variable
+  counsel-info-lookup-symbol
   counsel-linux-app-format-function-command-only
   :bind (;; Allow shadowing in `pdf-view-mode-map' by use of
          ;; "C-r" instead of [remap isearch-backward] and
@@ -286,12 +292,9 @@ In that case, insert the number."
          ("C-s" . counsel-grep-or-swiper)
          ;; Avoid shadowing `eshell-forward-argument'.
          ("C-c C-f" . counsel-recentf))
-  :bind* (([remap info-lookup-symbol] . counsel-info-lookup-symbol)
-          ([remap describe-function] . counsel-describe-function)
-          ([remap describe-variable] . counsel-describe-variable)
-          ([remap find-file] . counsel-find-file)
-          ([remap execute-extended-command] . counsel-M-x)
-          ([remap yank-pop] . counsel-yank-pop)
+  :bind* (("C-x C-f" . counsel-find-file)
+          ("M-x" . counsel-M-x)
+          ("M-y" . counsel-yank-pop)
           ("C-c C-g" . counsel-rg)
           ("C-c u" . counsel-unicode-char)))
 
@@ -1026,11 +1029,29 @@ In that case, insert the number."
 (use-package help
   :no-require t
   :bind (:map help-map
-              ("M-m" . describe-minor-mode))
+              ("A" . helpful-at-point)
+              ("C" . helpful-command)
+              ("F" . helpful-function)
+              ("M" . helpful-macro)
+              ("S" . counsel-info-lookup-symbol)
+              ("f" . counsel-describe-function)
+              ("k" . helpful-key)
+              ("v" . counsel-describe-variable)
+              ("z" . describe-minor-mode))
   :commands
   temp-buffer-resize-mode
   :init
   (temp-buffer-resize-mode 1))
+
+(use-package helpful
+  :commands
+  helpful-at-point
+  helpful-callable
+  helpful-command
+  helpful-function
+  helpful-key
+  helpful-macro
+  helpful-variable)
 
 (use-package hl-line
   :commands
