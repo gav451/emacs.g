@@ -1729,7 +1729,7 @@ the Emacs manual) to set this variable permanently for each file."
   :delight undo-tree-mode " 🌴")
 
 (use-package unfill
-  :bind (([remap fill-paragraph] . unfill-toggle)))
+  :bind (("M-q" . unfill-toggle)))
 
 (use-package which-key
   :delight which-key-mode)
