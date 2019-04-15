@@ -1061,10 +1061,12 @@ In that case, insert the number."
   global-hl-line-mode
   hl-line-mode
   :hook
-  ((elfeed-show-mode
+  ((Info-mode
+    elfeed-show-mode
     emms-playlist-mode
     emms-stream
-    help-mode) . hl-line-mode))
+    help-mode
+    helpful-mode) . hl-line-mode))
 
 (use-package hydra
   ;; http://oremacs.com/2016/04/04/hydra-doc-syntax/
