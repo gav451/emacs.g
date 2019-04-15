@@ -268,6 +268,24 @@ In that case, insert the number."
   :delight company-mode " 𝍎")
 
 (use-package counsel
+  :preface
+  (defun counsel-helpful-keymap-describe ()
+    "select keymap with ivy, display help with helpful"
+    (interactive)
+    (ivy-read "describe keymap: " (let (cands)
+                                    (mapatoms
+                                     (lambda (x)
+                                       (and (boundp x) (keymapp (symbol-value x))
+                                            (push (symbol-name x) cands))))
+                                    cands)
+              :require-match t
+              :history 'counsel-describe-keymap-history
+              :sort t
+              :preselect (ivy-thing-at-point)
+              :keymap counsel-describe-map
+              :caller 'counsel-helpful-keymap-describe
+              :action (lambda (map-name)
+                        (helpful-variable (intern map-name)))))
   :custom
   (counsel-describe-function-function 'helpful-callable)
   (counsel-describe-variable-function 'helpful-variable)
@@ -281,9 +299,6 @@ In that case, insert the number."
   (counsel-linux-app-format-function #'counsel-linux-app-format-function-command-only)
   :commands
   counsel-describe-face
-  counsel-describe-function
-  counsel-describe-variable
-  counsel-info-lookup-symbol
   counsel-linux-app-format-function-command-only
   :bind (;; Allow shadowing in `pdf-view-mode-map' by use of
          ;; "C-r" instead of [remap isearch-backward] and
@@ -292,6 +307,10 @@ In that case, insert the number."
          ("C-s" . counsel-grep-or-swiper)
          ;; Avoid shadowing `eshell-forward-argument'.
          ("C-c C-f" . counsel-recentf))
+  :bind (:map help-map
+              ("S" . counsel-info-lookup-symbol)
+              ("f" . counsel-describe-function)
+              ("v" . counsel-describe-variable))
   :bind* (("C-x C-f" . counsel-find-file)
           ("M-x" . counsel-M-x)
           ("M-y" . counsel-yank-pop)
@@ -1037,21 +1056,19 @@ In that case, insert the number."
 (use-package help
   :no-require t
   :bind (:map help-map
-              ("A" . helpful-at-point)
-              ("C" . helpful-command)
-              ("F" . helpful-function)
-              ("M" . helpful-macro)
-              ("S" . counsel-info-lookup-symbol)
-              ("f" . counsel-describe-function)
-              ("k" . helpful-key)
-              ("v" . counsel-describe-variable)
-              ("z" . describe-minor-mode))
+              ("M" . describe-minor-mode))
   :commands
   temp-buffer-resize-mode
   :init
   (temp-buffer-resize-mode 1))
 
 (use-package helpful
+  :bind (:map help-map
+              ("M-a" . helpful-at-point)
+              ("M-c" . helpful-command)
+              ("M-f" . helpful-function)
+              ("M-k" . helpful-key)
+              ("M-m" . helpful-macro))
   :commands
   helpful-at-point
   helpful-callable
@@ -1194,6 +1211,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   ivy-completing-read
   ivy-mode
   ivy-read
+  ivy-thing-at-point
   :demand t
   :config (ivy-mode)
   :delight ivy-mode " 𝝓")
