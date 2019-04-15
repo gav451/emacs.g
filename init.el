@@ -540,7 +540,7 @@ In that case, insert the number."
    elfeed-search-mode-map))
 
 (use-package emms
-  ;; Let mpd handle most sound, and mpv everything else (ideally video only).
+  ;; Let mpd play most sound, and mpv everything else (ideally video only).
   :custom
   (emms-player-list '(emms-player-mpd emms-player-mpv))
   :commands
@@ -563,8 +563,8 @@ In that case, insert the number."
   (add-to-list 'emms-info-functions 'emms-info-libtag))
 
 (use-package emms-player-mpd
-  ;; Let mpd most (ideally all) sound.
-  ;; BUG: mpd fails to handle the NPO m3u files, and I fail to work around it.
+  ;; Let mpd play most (ideally all) sound.
+  ;; Get the *-bb-mp3 links from the NPO m3u files that mpd fails to grok.
   :after emms-setup
   :custom
   (emms-player-mpd-music-directory "/home/gav/Music")
@@ -574,20 +574,21 @@ In that case, insert the number."
   emms-info-mpd
   :config
   (add-to-list 'emms-info-functions 'emms-info-mpd)
+  ;; Bug: use of `rx' instead of `emms-player-simple-regexp'
+  ;; implies that `case-fold-search' must be non-nil.
   (emms-player-set emms-player-mpd 'regex
-                   (apply #'emms-player-simple-regexp
-                          '("flac" "m3u" "mp3" "ogg" "opus" "pls" "soundcloud"))))
+                   (rx (or "-bb-mp3"
+                           (and "." (or "flac" "m3u" "mp3" "ogg" "opus" "pls" "soundcloud")))
+                       eos)))
 
 (use-package emms-player-mpv
   :after emms-setup)
 
-(use-package emms-player-simple
-  :commands
-  emms-player-simple-regexp)
-
 (use-package emms-playlist-mode
   :custom
   (emms-playlist-mode-center-when-go t)
+  :bind (:map emms-playlist-mode-map
+              ("h" . describe-mode))
   :commands
   emms
   emms-playlist-mode-go)
@@ -604,7 +605,9 @@ In that case, insert the number."
   ;; To show the current playlist, do either
   ;; "M-x emms" or "M-x emms-playlist-mode-go".
   (emms-stream-bookmarks-file (no-littering-expand-etc-file-name "emms/streams"))
-  (emms-stream-default-action "play")
+  (emms-stream-default-action "add")
+  :bind (:map emms-stream-mode-map
+              ("?" . describe-mode))
   :commands
   emms-streams)
 
