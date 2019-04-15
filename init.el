@@ -779,7 +779,7 @@ In that case, insert the number."
   (defun my-exwm-power-down ()
     "Save all Emacs buffers and power-DOWN the computer."
     (interactive)
-    (buffer-face-set '(:background "DarkRed"))
+    (buffer-face-set `(:background ,exwm-tear-down-background-color))
     (when (y-or-n-p "Really want to power-DOWN?")
       (my-exwm-teardown)
       (start-process-shell-command "power-DOWN" nil "sudo shutdown -h -t 2 now"))
@@ -788,7 +788,7 @@ In that case, insert the number."
   (defun my-exwm-re-boot ()
     "Save all Emacs buffers and re-BOOT the computer."
     (interactive)
-    (buffer-face-set '(:background "DarkRed"))
+    (buffer-face-set `(:background ,exwm-tear-down-background-color))
     (when (y-or-n-p "Really want to re-BOOT?")
       (my-exwm-teardown)
       (start-process-shell-command "re-BOOT" nil "sudo shutdown -r -t 2 now"))
@@ -944,6 +944,19 @@ In that case, insert the number."
   (exwm-randr-enable))
 
 (use-package face-remap
+  :preface
+  (defcustom exwm-tear-down-background-color "DarkRed"
+    "EXWM tear down background color."
+    :type 'string
+    :group 'display)
+  (defcustom god-local-mode-background-color "DarkBlue"
+    "God-Local mode background color."
+    :type 'string
+    :group 'display)
+  (defcustom overwrite-mode-background-color "DarkGreen"
+    "Overwrite mode background color."
+    :type 'string
+    :group 'display)
   :commands
   buffer-face-mode
   buffer-face-set
@@ -979,14 +992,6 @@ In that case, insert the number."
 
 (use-package god-mode
   :preface
-  (defcustom god-local-mode-background-color "DarkBlue"
-    "God-Local mode background color."
-    :type 'string
-    :group 'god)
-  (defcustom overwrite-mode-background-color "DarkGreen"
-    "Overwrite mode background color."
-    :type 'string
-    :group 'editing-basics)
   (defun on-overwrite-god-mode-toggle ()
     "Toggle god-mode on overwrite-mode"
     (if (bound-and-true-p overwrite-mode)
