@@ -269,8 +269,11 @@ In that case, insert the number."
 
 (use-package company-prescient
   :after company
-  :demand t
-  :config (company-prescient-mode))
+  :defer 5
+  :commands
+  company-prescient-mode
+  :config
+  (company-prescient-mode))
 
 (use-package counsel
   :preface
@@ -1223,8 +1226,11 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 
 (use-package ivy-prescient
   :after ivy
-  :demand t
-  :config (ivy-prescient-mode))
+  :defer 5
+  :commands
+  ivy-prescient-mode
+  :config
+  (ivy-prescient-mode))
 
 (use-package jupyter
   :commands jupyter-run-repl)
@@ -1637,8 +1643,11 @@ point."
                   success error)))))
 
 (use-package prescient
-  :defer t
-  :config (prescient-persist-mode))
+  :defer 5
+  :commands
+  prescient-persist-mode
+  :config
+  (prescient-persist-mode))
 
 (use-package recentf
   :after no-littering
