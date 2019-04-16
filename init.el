@@ -1648,7 +1648,7 @@ point."
   (mapc #'(lambda (element) (add-to-list 'recentf-exclude element))
         `(no-littering-etc-directory
           no-littering-var-directory
-         ,(expand-file-name "~/.orhc-bibtex-cache")
+          ,(expand-file-name "~/.orhc-bibtex-cache")
           "/\\.git/.*\\'"
           "/\\.hg/.*\\'"
           "^/\\(?:ssh\\|su\\|sudo\\)?:")))
