@@ -267,6 +267,11 @@ In that case, insert the number."
   ((LaTeX-mode emacs-lisp-mode org-mode) . company-mode)
   :delight company-mode " 𝍎")
 
+(use-package company-prescient
+  :after company
+  :demand t
+  :config (company-prescient-mode))
+
 (use-package counsel
   :preface
   (defun counsel-helpful-keymap-describe ()
@@ -1216,6 +1221,11 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   :config (ivy-mode)
   :delight ivy-mode " 𝝓")
 
+(use-package ivy-prescient
+  :after ivy
+  :demand t
+  :config (ivy-prescient-mode))
+
 (use-package jupyter
   :commands jupyter-run-repl)
 
@@ -1625,6 +1635,10 @@ point."
                         (- (point)
                            (point-min)))
                   success error)))))
+
+(use-package prescient
+  :defer t
+  :config (prescient-persist-mode))
 
 (use-package recentf
   :after no-littering
