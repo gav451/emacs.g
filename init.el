@@ -984,6 +984,8 @@ In that case, insert the number."
     "Overwrite mode background color."
     :type 'string
     :group 'display)
+  :bind* (("C-z C-+" . text-scale-increase)
+          ("C-z C--" . text-scale-decrease))
   :commands
   buffer-face-mode
   buffer-face-set
