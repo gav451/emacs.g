@@ -1034,7 +1034,7 @@ In that case, insert the number."
     (if god-local-mode
         (buffer-face-set `(:background ,god-local-mode-background-color))
       (buffer-face-mode -1)))
-  :bind (("<escape>" . god-local-mode))
+  :bind (("<f12>" . god-local-mode))
   :commands
   god-local-mode-pause
   god-local-mode-resume
