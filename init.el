@@ -1706,42 +1706,19 @@ point."
   :bind* (("C-z C-s l" . synosaurus-lookup)
           ("C-z C-s r" . synosaurus-choose-and-replace)))
 
-(use-package tex
+(use-package tex-site
+  ;; https://gitlab.com/jabranham/emacs
   ;; Use AUCTeX, since it is better than the built in tex mode.
   ;; Tweak .gitmodules to make the git repository resemble the elpa package.
-  ;; Let package latex load tex.
+  ;; Let `TeX-latex-mode' trigger loading of the `latex' and `tex' features.
+  ;; Make TeX-master a `safe-local-variable' to allow delayed loading.
   :preface
-  (defcustom TeX-master t
-    "The master file associated with the current buffer.
-If the file being edited is actually included from another file, you
-can tell AUCTeX the name of the master file by setting this variable.
-If there are multiple levels of nesting, specify the top level file.
-
-If this variable is nil, AUCTeX will query you for the name.
-
-If the variable is t, AUCTeX will assume the file is a master file
-itself.
-
-If the variable is 'shared, AUCTeX will query for the name, but not
-change the file.
-
-If the variable is 'dwim, AUCTeX will try to avoid querying by
-attempting to `do what I mean'; and then change the file.
-
-It is suggested that you use the File Variables (see the info node in
-the Emacs manual) to set this variable permanently for each file."
-    :group 'TeX-command
-    :group 'TeX-parse
-    :type '(choice (const :tag "Query" nil)
-                   (const :tag "This file" t)
-                   (const :tag "Shared" shared)
-                   (const :tag "Dwim" dwim)
-                   (string :format "%v")))
   (make-variable-buffer-local 'TeX-master)
   (put 'TeX-master 'safe-local-variable
        '(lambda (x)
           (or (stringp x)
               (member x (quote (t nil shared dwim))))))
+  :mode ("\\.tex\\'" . TeX-latex-mode)
   :custom
   (TeX-auto-local ".auctex-auto-local")
   (TeX-auto-save t)
@@ -1749,6 +1726,7 @@ the Emacs manual) to set this variable permanently for each file."
   (TeX-electric-math '("\\(" . "\\)"))
   (TeX-electric-sub-and-superscript t)
   (TeX-engine 'default)
+  (TeX-master t)
   (TeX-parse-self t)
   (TeX-source-correlate-method 'synctex)
   (TeX-source-correlate-mode t)
