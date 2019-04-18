@@ -911,19 +911,6 @@ In that case, insert the number."
   :config
   (display-time-mode 1))
 
-(use-package exwm-edit
-  :preface
-  (defun on-exwm-edit-compose ()
-    (funcall 'org-mode))
-  :after exwm
-  :hook
-  (exwm-edit-compose . on-exwm-edit-compose)
-  :commands
-  exwm-edit--compose
-  :init
-  (exwm-input-set-key (kbd "C-c '") #'exwm-edit--compose)
-  (exwm-input-set-key (kbd "C-c C-'") #'exwm-edit--compose))
-
 (use-package exwm-randr
   ;; https://emacs.stackexchange.com/questions/7148/get-all-regexp-matches-in-buffer-as-a-list
   ;; https://github.com/ch11ng/exwm/wiki
