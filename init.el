@@ -1761,6 +1761,10 @@ point."
   (yas-global-mode 1)
   :delight yas-minor-mode " ✀")
 
+(use-package zop-to-char
+  :bind (("M-z" . zop-up-to-char)
+         ("M-Z" . zop-to-char)))
+
 (progn                                  ; startup
   (message "Loading %s...done (%.3fs)" user-init-file
            (float-time (time-subtract (current-time)

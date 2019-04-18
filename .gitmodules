@@ -324,3 +324,6 @@
 	path = lib/zmq
 	url = git@github.com:dzop/emacs-zmq.git
 	build-step = make
+[submodule "zop-to-char"]
+	path = lib/zop-to-char
+	url = git@github.com:thierryvolpiatto/zop-to-char.git
