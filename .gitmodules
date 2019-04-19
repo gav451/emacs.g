@@ -10,6 +10,9 @@
 [submodule "alert"]
 	path = lib/alert
 	url = git@github.com:jwiegley/alert.git
+[submodule "assess"]
+	path = lib/assess
+	url = git@github.com:phillord/assess.git
 [submodule "async"]
 	path = lib/async
 	url = git@github.com:jwiegley/emacs-async.git
@@ -174,6 +177,9 @@
 [submodule "lispy"]
 	path = lib/lispy
 	url = git@github.com:abo-abo/lispy.git
+[submodule "load-relative"]
+	path = lib/load-relative
+	url = git@github.com:rocky/emacs-load-relative.git
 [submodule "loop"]
 	path = lib/loop
 	url = git@github.com:Wilfred/loop.el.git
