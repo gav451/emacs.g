@@ -892,8 +892,9 @@ In that case, insert the number."
   ;; since those key-bindings may conflict with other window managers.
   (exwm-input-global-keys
    `(([?\s-&] . my-exwm-invoke)
-     ([?\s-b] . my-exwm-re-boot)
-     ([?\s-d] . my-exwm-power-down)
+     ([?\s-B] . my-exwm-re-boot)
+     ([?\s-D] . my-exwm-power-down)
+     ([?\s-b] . ivy-switch-buffer)
      ([?\s-i] . my-exwm-invoke)
      ([?\s-l] . my-exwm-lock-screen)
      ([?\s-o] . ace-window)
@@ -943,7 +944,6 @@ In that case, insert the number."
      ((string-prefix-p "sun-awt-X11-" exwm-instance-name)
       floating t
       floating-mode-line nil)))
-
   (exwm-workspace-number 2)
   (exwm-workspace-show-all-buffers t)
   :hook
