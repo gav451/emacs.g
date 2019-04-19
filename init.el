@@ -104,6 +104,68 @@
            (float-time (time-subtract (current-time)
                                       before-user-init-time))))
 
+;; AUCTeX & friends
+(use-package auctex
+  ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
+  ;; https://gitlab.com/jabranham/emacs
+  ;; Use AUCTeX, since it is better than the built in tex mode.
+  ;; Tweak .gitmodules to make the git repository resemble the elpa package.
+  ;; Let `TeX-latex-mode' trigger loading of the `latex' and `tex' features.
+  ;; Make TeX-master a `safe-local-variable' to allow delayed loading.
+  :preface
+  (make-variable-buffer-local 'TeX-master)
+  (put 'TeX-master 'safe-local-variable
+       '(lambda (x)
+          (or (stringp x)
+              (member x (quote (t nil shared dwim))))))
+  :mode ("\\.tex\\'" . TeX-latex-mode)
+  :custom
+  (TeX-auto-local ".auctex-auto-local")
+  (TeX-auto-save t)
+  (TeX-electric-escape nil)
+  (TeX-electric-math '("\\(" . "\\)"))
+  (TeX-electric-sub-and-superscript t)
+  (TeX-engine 'default)
+  (TeX-master t)
+  (TeX-parse-self t)
+  (TeX-source-correlate-method 'synctex)
+  (TeX-source-correlate-mode t)
+  (reftex-plug-into-AUCTeX t))
+
+(use-package bibtex
+  :custom
+  (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
+  (bibtex-completion-library-path '("~/VCS/research/papers"))
+  (bibtex-completion-notes-path "~/VCS/research/notes/notes.org")
+  (bibtex-user-optional-fields
+   '(("abstract")
+     ("doi" "Digital Object Identifier")
+     ("url" "Universal Ressource Locator"))))
+
+(use-package latex
+  :custom
+  (LaTeX-electric-left-right-brace t)
+  :commands
+  TeX-latex-mode
+  :hook
+  (LaTeX-mode . LaTeX-math-mode))
+
+(use-package reftex
+  :custom
+  (reftex-default-bibliography "~/VCS/research/refs.bib")
+  :hook
+  (LaTeX-mode . turn-on-reftex)
+  :delight reftex-mode " 📑")
+
+(use-package tex
+  :hook
+  (LaTeX-mode . TeX-PDF-mode))
+
+(use-package tex-buf
+  :hook
+  (TeX-after-compilation-finished-functions . TeX-revert-document-buffer))
+
+;; alphabetical order
 (use-package ace-link
   :after avy
   :commands
@@ -147,17 +209,6 @@
   :bind* (("C-:" . avy-goto-word-1))
   :init
   (avy-setup-default))
-
-(use-package bibtex
-  :after tex
-  :custom
-  (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
-  (bibtex-completion-library-path '("~/VCS/research/papers"))
-  (bibtex-completion-notes-path "~/VCS/research/notes/notes.org")
-  (bibtex-user-optional-fields
-   '(("abstract")
-     ("doi" "Digital Object Identifier")
-     ("url" "Universal Ressource Locator"))))
 
 (use-package browse-url
   :preface
@@ -1224,18 +1275,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 (use-package jupyter
   :commands jupyter-run-repl)
 
-(use-package latex
-  :load tex
-  :mode ("\\.tex\\'" . TeX-latex-mode)
-  :custom
-  (LaTeX-electric-left-right-brace t)
-  :commands
-  TeX-latex-mode
-  :hook
-  (LaTeX-mode . LaTeX-math-mode)
-  (LaTeX-mode . TeX-PDF-mode)
-  (LaTeX-mode . turn-on-reftex))
-
 (use-package lentic
   :preface
   :after org
@@ -1645,14 +1684,6 @@ point."
           "/\\.hg/.*\\'"
           "^/\\(?:ssh\\|su\\|sudo\\)?:")))
 
-(use-package reftex
-  :after tex
-  :custom
-  (reftex-default-bibliography "~/VCS/research/refs.bib")
-  :commands
-  turn-on-reftex
-  :delight reftex-mode " 📑")
-
 (use-package reveal
   :hook
   (emacs-lisp-mode . reveal-mode)
@@ -1686,34 +1717,6 @@ point."
   (synosaurus-choose-method 'default)
   :bind* (("C-z C-s l" . synosaurus-lookup)
           ("C-z C-s r" . synosaurus-choose-and-replace)))
-
-(use-package tex-site
-  ;; https://gitlab.com/jabranham/emacs
-  ;; Use AUCTeX, since it is better than the built in tex mode.
-  ;; Tweak .gitmodules to make the git repository resemble the elpa package.
-  ;; Let `TeX-latex-mode' trigger loading of the `latex' and `tex' features.
-  ;; Make TeX-master a `safe-local-variable' to allow delayed loading.
-  :preface
-  (make-variable-buffer-local 'TeX-master)
-  (put 'TeX-master 'safe-local-variable
-       '(lambda (x)
-          (or (stringp x)
-              (member x (quote (t nil shared dwim))))))
-  :mode ("\\.tex\\'" . TeX-latex-mode)
-  :custom
-  (TeX-auto-local ".auctex-auto-local")
-  (TeX-auto-save t)
-  (TeX-electric-escape nil)
-  (TeX-electric-math '("\\(" . "\\)"))
-  (TeX-electric-sub-and-superscript t)
-  (TeX-engine 'default)
-  (TeX-master t)
-  (TeX-parse-self t)
-  (TeX-source-correlate-method 'synctex)
-  (TeX-source-correlate-mode t)
-  (reftex-plug-into-AUCTeX t)
-  :hook
-  (TeX-after-compilation-finished-functions . TeX-revert-document-buffer))
 
 (use-package text-mode
   :no-require t
