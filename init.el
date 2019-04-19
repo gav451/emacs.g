@@ -1315,14 +1315,11 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :commands jupyter-run-repl)
 
 (use-package lentic
-  :preface
   :after org
+  :custom
+  (lentic-mode-line-lighter "🎥")
   :commands
-  global-lentic-mode
-  :defer 10
-  :config
-  (global-lentic-mode 1)
-  :delight lentic-mode " 🎥")
+  global-lentic-mode)
 
 (use-package lispy
   :custom
