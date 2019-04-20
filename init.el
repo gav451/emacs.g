@@ -521,6 +521,31 @@ In that case, insert the number."
     org-mode
     python-mode) . electric-pair-local-mode))
 
+(use-package electric
+  ;; https://github.com/davidshepherd7/dotfiles/blob/master/emacs/.emacs.d/lisp/ds-python.el
+  :preface
+  (defun my-enclosing-paren ()
+    "Return the opening parenthesis of the enclosing parens, or
+nil if not inside any parens."
+    (let ((ppss (syntax-ppss)))
+      (when (nth 1 ppss)
+        (char-after (nth 1 ppss)))))
+  (defun my-python-electric-newline ()
+    (let ((paren (my-enclosing-paren)))
+      (if (not (or (eq paren ?\{)
+                   (eq paren ?\[)
+                   (eq paren ?\()
+                   (looking-back "\\blambda\\b.*" (point))))
+          'after
+        nil)))
+  (defun on-python-mode-hook-electric-layout ()
+    (make-local-variable 'electric-layout-rules)
+    (add-to-list 'electric-layout-rules (cons ?: #'my-python-electric-newline))
+    (electric-layout-mode))
+  :commands (electric-layout-mode)
+  :hook
+  ((python-mode) . on-python-mode-hook-electric-layout))
+
 (use-package electric-operator
   :hook
   ((python-mode) . electric-operator-mode)
@@ -616,6 +641,52 @@ In that case, insert the number."
       :column "Other")
      ("C-g" nil "quit" :color blue))
    elfeed-search-mode-map))
+
+(use-package elpy
+  ;; https://github.com/davidhalter/jedi/issues/1085
+  ;; https://github.com/jorgenschaefer/elpy/issues/1115
+  ;; https://github.com/jorgenschaefer/elpy/issues/1123
+  ;; https://github.com/jorgenschaefer/elpy/pull/1279
+  :preface
+  (defcustom elpy-no-get-completions-rx
+    "-?\\([0-9]+\\.?[0-9]*\\|0[Bb][01]+\\|0[Oo][0-8]+\\|0[Xx][0-9A-Fa-f]+\\)"
+    "Let `elpy-rpc-get-completions' skip text matching this regexp.
+Sometimes the jedi backend returns completions that confuse elpy, e.g.
+for numbers.  Extend the regexp in case you find other similar cases
+and file a bug report."
+    :type 'string
+    :group 'elpy)
+  :after python
+  :demand t
+  :custom
+  (elpy-company-post-completion-function #'elpy-company-post-complete-parens)
+  (elpy-modules '(elpy-module-sane-defaults
+                  elpy-module-company
+                  elpy-module-eldoc
+                  elpy-module-flymake
+                  elpy-module-pyvenv))
+  (elpy-remove-modeline-lighter nil)
+  (elpy-rpc-ignored-buffer-size (lsh 1 18))
+  :commands (elpy-company-post-complete-parens
+             elpy-enable
+             elpy-rpc
+             elpy-rpc--buffer-contents)
+  :init
+  (elpy-enable)
+  :config
+  (defun elpy-rpc-get-completions (&optional success error)
+    "Call the get_completions API function.
+
+Returns a list of possible completions for the Python symbol at
+point."
+    (when (and (< (buffer-size) elpy-rpc-ignored-buffer-size)
+               (not (thing-at-point-looking-at elpy-no-get-completions-rx 32)))
+      (elpy-rpc "get_completions"
+                (list buffer-file-name
+                      (elpy-rpc--buffer-contents)
+                      (- (point)
+                         (point-min)))
+                success error))))
 
 (use-package emms
   ;; Let mpd play most sound, and mpv everything else (ideally video only).
@@ -1649,63 +1720,18 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :bind (:map dired-mode-map
               ("M-s p" . peep-dired)))
 
-(use-package python
-  ;; https://github.com/davidhalter/jedi/issues/1085
-  ;; https://github.com/jorgenschaefer/elpy/issues/1115
-  ;; https://github.com/jorgenschaefer/elpy/issues/1123
-  ;; https://github.com/jorgenschaefer/elpy/pull/1279
-  :custom
-  (python-shell-interpreter-args "-E -i")
-  :interpreter ("python" . python-mode)
-  :mode ("\\.pyw?\\'" . python-mode)
-  :config
-  (use-package elpy
-    :preface
-    (defcustom elpy-no-get-completions-rx
-      "-?\\([0-9]+\\.?[0-9]*\\|0[Bb][01]+\\|0[Oo][0-8]+\\|0[Xx][0-9A-Fa-f]+\\)"
-      "Let `elpy-rpc-get-completions' skip text matching this regexp.
-Sometimes the jedi backend returns completions that confuse elpy, e.g.
-for numbers.  Extend the regexp in case you find other similar cases
-and file a bug report."
-      :type 'string
-      :group 'elpy)
-    :custom
-    (elpy-company-post-completion-function #'elpy-company-post-complete-parens)
-    (elpy-modules '(elpy-module-sane-defaults
-                    elpy-module-company
-                    elpy-module-eldoc
-                    elpy-module-flymake
-                    elpy-module-pyvenv))
-    (elpy-remove-modeline-lighter nil)
-    (elpy-rpc-ignored-buffer-size (lsh 1 18))
-    :commands
-    elpy-company-post-complete-parens
-    elpy-enable
-    elpy-rpc
-    elpy-rpc--buffer-contents
-    :init
-    (elpy-enable)
-    :config
-    (defun elpy-rpc-get-completions (&optional success error)
-      "Call the get_completions API function.
-
-Returns a list of possible completions for the Python symbol at
-point."
-      (when (and (< (buffer-size) elpy-rpc-ignored-buffer-size)
-                 (not (thing-at-point-looking-at elpy-no-get-completions-rx 32)))
-        (elpy-rpc "get_completions"
-                  (list buffer-file-name
-                        (elpy-rpc--buffer-contents)
-                        (- (point)
-                           (point-min)))
-                  success error)))))
-
 (use-package prescient
   :defer 5
   :commands
   prescient-persist-mode
   :config
   (prescient-persist-mode))
+
+(use-package python
+  :custom
+  (python-shell-interpreter-args "-E -i")
+  :interpreter ("python" . python-mode)
+  :mode ("\\.pyw?\\'" . python-mode))
 
 (use-package recentf
   :after no-littering
