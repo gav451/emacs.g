@@ -1093,8 +1093,6 @@ point."
     "Overwrite mode background color."
     :type 'string
     :group 'display)
-  :bind* (("C-z C-+" . text-scale-increase)
-          ("C-z C--" . text-scale-decrease))
   :commands
   buffer-face-mode
   buffer-face-set
@@ -1829,6 +1827,23 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 (use-package zop-to-char
   :bind (("M-z" . zop-up-to-char)
          ("M-Z" . zop-to-char)))
+
+(progn
+  ;; http://emacsninja.com/posts/making-emacs-more-presentable.html
+  (defun my-alter-frame-font-size (fn)
+    (let* ((current-font-name (frame-parameter nil 'font))
+           (decomposed-font-name (x-decompose-font-name current-font-name))
+           (font-size (string-to-number (aref decomposed-font-name 5))))
+      (aset decomposed-font-name 5 (number-to-string (funcall fn font-size)))
+      (set-frame-font (x-compose-font-name decomposed-font-name))))
+  (defun my-inc-frame-font-size ()
+    (interactive)
+    (my-alter-frame-font-size '1+))
+  (defun my-dec-frame-font-size ()
+    (interactive)
+    (my-alter-frame-font-size '1-))
+  (bind-keys* ("C-+" . my-inc-frame-font-size)
+              ("C--" . my-dec-frame-font-size)))
 
 (progn                                  ; startup
   (message "Loading %s...done (%.3fs)" user-init-file
