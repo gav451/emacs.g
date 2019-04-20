@@ -67,17 +67,15 @@
   :hook
   (auto-compile-inhibit-compile
    . auto-compile-inhibit-compile-detached-git-head)
-  :commands
-  auto-compile-on-load-mode
-  auto-compile-on-save-mode
+  :commands (auto-compile-on-load-mode
+             auto-compile-on-save-mode)
   :demand t
   :config
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
 
 (use-package no-littering
-  :commands
-  no-littering-expand-etc-file-name
+  :commands (no-littering-expand-etc-file-name)
   :demand t)
 
 (use-package epkg
@@ -87,8 +85,7 @@
 (use-package custom
   :custom
   (custom-file (expand-file-name "custom.el" user-emacs-directory))
-  :commands
-  custom-declare-variable
+  :commands (custom-declare-variable)
   :config
   (when (file-exists-p custom-file)
     (load custom-file)))
@@ -145,8 +142,7 @@
 (use-package latex
   :custom
   (LaTeX-electric-left-right-brace t)
-  :commands
-  TeX-latex-mode
+  :commands (TeX-latex-mode)
   :hook
   (LaTeX-mode . LaTeX-math-mode))
 
@@ -168,8 +164,7 @@
 ;; alphabetical order
 (use-package ace-link
   :after avy
-  :commands
-  ace-link-setup-default
+  :commands (ace-link-setup-default)
   :init
   (ace-link-setup-default))
 
@@ -186,8 +181,7 @@
                          (((class color) (background light))
                           :background "purple3" :foreground "gold" :height 2.0)
                          (t :foreground "gray100" :underline nil)))
-  :commands
-  ace-window-display-mode
+  :commands (ace-window-display-mode)
   :bind* (("M-o" . ace-window))
   :after avy
   :init
@@ -204,8 +198,7 @@
 (use-package avy
   :custom
   (avy-all-windows t)
-  :commands
-  avy-setup-default
+  :commands (avy-setup-default)
   :bind* (("C-:" . avy-goto-word-1))
   :init
   (avy-setup-default))
@@ -269,9 +262,8 @@
      ("." . eww-browse-url)))
   (browse-url-generic-program (or (executable-find "qutebrowser")
                                   (executable-find "firefox")))
-  :commands
-  browse-url
-  browse-url-generic)
+  :commands (browse-url
+             browse-url-generic))
 
 (use-package company
   ;; https://emacs.stackexchange.com/questions/9835/how-can-i-prevent-company-mode-completing-numbers
@@ -298,9 +290,8 @@ In that case, insert the number."
     (self-insert-command 1))
   :custom
   (company-show-numbers t)
-  :commands
-  company-abort
-  company-complete-number
+  :commands (company-abort
+             company-complete-number)
   :bind (:map company-active-map
               ("0" . my-company-complete-number)
               ("1" . my-company-complete-number)
@@ -321,8 +312,7 @@ In that case, insert the number."
 (use-package company-prescient
   :after company
   :defer 5
-  :commands
-  company-prescient-mode
+  :commands (company-prescient-mode)
   :config
   (company-prescient-mode))
 
@@ -356,9 +346,8 @@ In that case, insert the number."
                                     "\\|\\(?:\\`.+?[#~]\\'\\)"))
   (counsel-grep-swiper-limit (lsh 1 20))
   (counsel-linux-app-format-function #'counsel-linux-app-format-function-command-only)
-  :commands
-  counsel-describe-face
-  counsel-linux-app-format-function-command-only
+  :commands (counsel-describe-face
+             counsel-linux-app-format-function-command-only)
   :bind (;; Allow shadowing in `pdf-view-mode-map' by use of
          ;; "C-r" instead of [remap isearch-backward] and
          ;; "C-s" instead of [remap isearch-forward].
@@ -380,16 +369,14 @@ In that case, insert the number."
   :mode "\\.py[xdi]\\'")
 
 (use-package dash
-  :commands
-  dash-enable-font-lock
+  :commands (dash-enable-font-lock)
   :config
   (dash-enable-font-lock))
 
 (use-package diff-hl
   :custom
   (diff-hl-draw-borders nil)
-  :commands
-  global-diff-hl-mode
+  :commands (global-diff-hl-mode)
   :hook
   (magit-post-refresh . diff-hl-magit-post-refresh)
   :config
@@ -439,14 +426,12 @@ In that case, insert the number."
               ("M-s y" . my-dired-rsync))
   :hook
   (dired-mode . auto-revert-mode)
-  :commands
-  dired-get-file-for-visit
-  dired-get-marked-files)
+  :commands (dired-get-file-for-visit
+             dired-get-marked-files))
 
 (use-package dired-aux
   :after dired
-  :commands
-  dired-dwim-target-directory)
+  :commands (dired-dwim-target-directory))
 
 (use-package dired-filter
   :after dired
@@ -600,14 +585,13 @@ nil if not inside any parens."
   :bind* (("C-x w" . my-elfeed-db-load-and-open))
   :bind (:map elfeed-search-mode-map
               ("q" . my-elfeed-save-db-and-quit))
-  :commands
-  elfeed
-  elfeed-db-load
-  elfeed-db-save
-  elfeed-search-set-filter
-  elfeed-search-toggle-all
-  elfeed-search-update--force
-  elfeed-show-visit
+  :commands (elfeed
+             elfeed-db-load
+             elfeed-db-save
+             elfeed-search-set-filter
+             elfeed-search-toggle-all
+             elfeed-search-update--force
+             elfeed-show-visit)
   :config
   (make-directory elfeed-db-directory t)
   (bind-keys :map elfeed-show-mode-map
@@ -692,12 +676,10 @@ point."
   ;; Let mpd play most sound, and mpv everything else (ideally video only).
   :custom
   (emms-player-list '(emms-player-mpd emms-player-mpv))
-  :commands
-  emms-player-set)
+  :commands (emms-player-set))
 
 (use-package emms-browser
-  :commands
-  emms-smart-browse)
+  :commands (emms-smart-browse))
 
 (use-package emms-info
   :custom
@@ -706,8 +688,7 @@ point."
 (use-package emms-info-libtag
   :when (executable-find "emms-print-metadata")
   :after emms-setup
-  :commands
-  emms-info-libtag
+  :commands (emms-info-libtag)
   :config
   (add-to-list 'emms-info-functions 'emms-info-libtag))
 
@@ -719,8 +700,7 @@ point."
   (emms-player-mpd-music-directory "/home/gav/Music")
   (emms-player-mpd-server-name "localhost")
   (emms-player-mpd-server-port "6600")
-  :commands
-  emms-info-mpd
+  :commands (emms-info-mpd)
   :config
   (add-to-list 'emms-info-functions 'emms-info-mpd)
   ;; Bug: use of `rx' instead of `emms-player-simple-regexp'
@@ -738,13 +718,11 @@ point."
   (emms-playlist-mode-center-when-go t)
   :bind (:map emms-playlist-mode-map
               ("h" . describe-mode))
-  :commands
-  emms
-  emms-playlist-mode-go)
+  :commands (emms
+             emms-playlist-mode-go))
 
 (use-package emms-setup
-  :commands
-  emms-all
+  :commands (emms-all)
   :defer 10
   :config
   (emms-all))
@@ -757,22 +735,19 @@ point."
   (emms-stream-default-action "add")
   :bind (:map emms-stream-mode-map
               ("?" . describe-mode))
-  :commands
-  emms-streams)
+  :commands (emms-streams))
 
 (use-package emms-volume
-  :commands
-  emms-volume-mode-minus
-  emms-volume-mode-plus)
+  :commands (emms-volume-mode-minus
+             emms-volume-mode-plus))
 
 (use-package engine-mode
   ;; https://github.com/asok/.emacs.d/blob/master/inits/init-engine-mode.el
   ;; https://github.com/kaushalmodi/.emacs.d/blob/master/setup-files/setup-engine-mode.el
   ;; https://gitlab.com/ambrevar/dotfiles/blob/master/.emacs.d/lisp/init-engine.el
-  :commands
-  engine-mode
-  engine/execute-search
-  engine/get-query
+  :commands (engine-mode
+             engine/execute-search
+             engine/get-query)
   :defer 10
   :config
   (require 'format-spec)
@@ -837,8 +812,7 @@ point."
   :defines
   eshell-banner-message
   eshell-prompt-regexp
-  :commands
-  eshell-life-is-too-much)
+  :commands (eshell-life-is-too-much))
 
 (use-package expand-region
   :bind* (("C-=" . er/expand-region)))
@@ -880,19 +854,17 @@ point."
   :hook
   ((eww-mode . on-eww-rename-buffer)
    (eww-after-render . on-eww-readable))
-  :commands
-  eww-browse-url
-  eww-current-url
-  eww-open-filed
-  eww-readable)
+  :commands (eww-browse-url
+             eww-current-url
+             eww-open-filed
+             eww-readable))
 
 (use-package exec-path-from-shell
   :if (and (eq system-type 'darwin) (display-graphic-p))
   :custom
   (exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-variables '("PATH" "MANPATH" "GPG_AGENT_INFO"))
-  :commands
-  exec-path-from-shell-initialize
+  :commands (exec-path-from-shell-initialize)
   :init
   (exec-path-from-shell-initialize)
   :demand t)
@@ -1020,14 +992,13 @@ point."
   :hook
   (exwm-update-class . on-exwm-update-class)
   (exwm-update-title . on-exwm-update-title)
-  :commands
-  exwm-enable
-  exwm-input-set-key
-  exwm-input-toggle-keyboard
-  exwm-reset
-  exwm-workspace-rename-buffer
-  exwm-workspace-switch
-  exwm-workspace-switch-create
+  :commands (exwm-enable
+             exwm-input-set-key
+             exwm-input-toggle-keyboard
+             exwm-reset
+             exwm-workspace-rename-buffer
+             exwm-workspace-switch
+             exwm-workspace-switch-create)
   :init
   (exwm-enable)
   :config
@@ -1074,8 +1045,7 @@ point."
   :when (string= (system-name) "venus")
   :hook
   (exwm-randr-screen-change . on-exwm-randr-screen-change)
-  :commands
-  exwm-randr-enable
+  :commands (exwm-randr-enable)
   :init
   (exwm-randr-enable))
 
@@ -1093,28 +1063,25 @@ point."
     "Overwrite mode background color."
     :type 'string
     :group 'display)
-  :commands
-  buffer-face-mode
-  buffer-face-set
+  :commands (buffer-face-mode
+             buffer-face-set)
   :delight buffer-face-mode)
 
 (use-package faces
   :when window-system
-  :commands invert-face
+  :commands (invert-face)
   :init
   (invert-face 'default))
 
 (use-package files
-  :commands
-  executable-find
-  file-remote-p
+  :commands (executable-find
+             file-remote-p)
   :custom
   (insert-directory-program (or (executable-find "gls")
                                 (executable-find "ls"))))
 
 (use-package flycheck
-  :commands
-  flycheck-mode)
+  :commands (flycheck-mode))
 
 (use-package flymake
   :bind (:map flymake-mode-map
@@ -1124,8 +1091,7 @@ point."
 (use-package free-keys
   :custom
   (free-keys-modifiers '("" "C" "M" "C-M" "s"))
-  :commands
-  free-keys)
+  :commands (free-keys))
 
 (use-package god-mode
   :preface
@@ -1143,9 +1109,8 @@ point."
         (buffer-face-set `(:background ,god-local-mode-background-color))
       (buffer-face-mode -1)))
   :bind (("<f12>" . god-local-mode))
-  :commands
-  god-local-mode-pause
-  god-local-mode-resume
+  :commands (god-local-mode-pause
+             god-local-mode-resume)
   :hook
   ((god-mode-disabled god-mode-enabled) . on-god-local-mode-toggled)
   (overwrite-mode . on-overwrite-god-mode-toggle)
@@ -1163,8 +1128,7 @@ point."
 
 (use-package gpastel
   :when (eq system-type 'gnu/linux)
-  :commands
-  gpastel-mode
+  :commands (gpastel-mode)
   :defer 10
   :config
   (when (= 0 (call-process-shell-command
@@ -1175,8 +1139,7 @@ point."
   :no-require t
   :bind (:map help-map
               ("M" . describe-minor-mode))
-  :commands
-  temp-buffer-resize-mode
+  :commands (temp-buffer-resize-mode)
   :init
   (temp-buffer-resize-mode 1))
 
@@ -1187,19 +1150,10 @@ point."
               ("M-f" . helpful-function)
               ("M-k" . helpful-key)
               ("M-m" . helpful-macro))
-  :commands
-  helpful-at-point
-  helpful-callable
-  helpful-command
-  helpful-function
-  helpful-key
-  helpful-macro
-  helpful-variable)
+  :commands (helpful-callable
+             helpful-variable))
 
 (use-package hl-line
-  :commands
-  global-hl-line-mode
-  hl-line-mode
   :hook
   ((Info-mode
     elfeed-show-mode
@@ -1299,12 +1253,11 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
      ("ws" #'whitespace-mode
       (if (bound-and-true-p whitespace-mode) "[X]" "[ ]"))
      ("C-g" nil nil :color blue)))
-  :commands
-  hydra--call-interactively-remap-maybe
-  hydra-default-pre
-  hydra-keyboard-quit
-  hydra-set-transient-map
-  hydra-show-hint)
+  :commands (hydra--call-interactively-remap-maybe
+             hydra-default-pre
+             hydra-keyboard-quit
+             hydra-set-transient-map
+             hydra-show-hint))
 
 (use-package iedit
   :custom
@@ -1362,11 +1315,10 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :bind (("C-c C-r" . ivy-resume)
          ("C-x B" . ivy-switch-buffer-other-window)
          ("C-x b" . my-ivy-switch-buffer))
-  :commands
-  ivy-mode
-  ivy-read
-  ivy-switch-buffer
-  ivy-thing-at-point
+  :commands (ivy-mode
+             ivy-read
+             ivy-switch-buffer
+             ivy-thing-at-point)
   :demand t
   :config
   (ivy-mode)
@@ -1375,26 +1327,23 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 (use-package ivy-prescient
   :after ivy
   :defer 5
-  :commands
-  ivy-prescient-mode
+  :commands (ivy-prescient-mode)
   :config
   (ivy-prescient-mode))
 
 (use-package jupyter
-  :commands jupyter-run-repl)
+  :commands (jupyter-run-repl))
 
 (use-package lentic
   :after org
   :custom
   (lentic-mode-line-lighter "🎥")
-  :commands
-  global-lentic-mode)
+  :commands (global-lentic-mode))
 
 (use-package lispy
   :custom
   (lispy-compat '(edebug god-mode macrostep))
-  :commands
-  lispy-mode
+  :commands (lispy-mode)
   :hook
   ((emacs-lisp-mode ielm-mode lisp-interaction-mode) . lispy-mode)
   :delight lispy-mode " 🗘")
@@ -1414,8 +1363,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (magit-completing-read-function 'ivy-completing-read)
   :bind (("C-x g"   . magit-status)
          ("C-x M-g" . magit-dispatch))
-  :commands
-  magit-add-section-hook
+  :commands (magit-add-section-hook)
   :config
   ;; https://github.com/dakra/dmacs/blob/master/init.org#magit
   (magit-add-section-hook 'magit-status-sections-hook
@@ -1429,7 +1377,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 
 (use-package mailcap
   :if (eq system-type 'darwin)
-  :commands mailcap-add
+  :commands (mailcap-add)
   :config
   (mailcap-add "application/pdf" #'pdf-view-mode #'window-system))
 
@@ -1447,8 +1395,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 (use-package multi-term
   :custom
   (multi-term-programe (executable-find "zsh"))
-  :commands
-  multi-term)
+  :commands (multi-term))
 
 (use-package navi-mode
   :after outshine
@@ -1612,9 +1559,8 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :hook
   (org-mode . on-org-mode-eval-blocks)
   (org-mode . on-org-mode-hook)
-  :commands
-  org-babel-do-load-languages
-  org-link-set-parameters
+  :commands (org-babel-do-load-languages
+             org-link-set-parameters)
   :config
   (org-babel-do-load-languages 'org-babel-load-languages
                                '((calc . t)
@@ -1664,12 +1610,10 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (org-ref-pdf-directory '("~/VCS/research/papers")))
 
 (use-package org-ref-core
-  :commands
-  org-ref-get-labels)
+  :commands (org-ref-get-labels))
 
 (use-package org-ref-glossary
-  :commands
-  or-follow-glossary)
+  :commands (or-follow-glossary))
 
 (use-package outline
   :custom
@@ -1678,24 +1622,20 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 
 (use-package outshine
   :after outline
-  :commands
-  outshine-mode
   :hook
   ((emacs-lisp-mode) . outshine-mode)
   :defer 5
   :delight outshine-mode " 🌅")
 
 (use-package paren
-  :commands
-  show-paren-mode
+  :commands (show-paren-mode)
   :init
   (show-paren-mode))
 
 (use-package pdf-tools
   :custom
   (pdf-annot-activate-created-annotations t)
-  :commands
-  pdf-tools-install
+  :commands (pdf-tools-install)
   :magic
   ("%PDF" . pdf-view-mode)
   :config
@@ -1709,8 +1649,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :custom
   (pdf-view-display-size 'fit-page)
   (pdf-view-use-imagemagick t)
-  :commands
-  pdf-view-kill-ring-save)
+  :commands (pdf-view-kill-ring-save))
 
 (use-package peep-dired
   :after dired
@@ -1720,8 +1659,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 
 (use-package prescient
   :defer 5
-  :commands
-  prescient-persist-mode
+  :commands (prescient-persist-mode)
   :config
   (prescient-persist-mode))
 
@@ -1750,22 +1688,18 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :delight " 👀")
 
 (use-package savehist
-  :commands
-  savehist-mode
+  :commands (savehist-mode)
   :config (savehist-mode))
 
 (use-package saveplace
-  :commands
-  save-place-mode
+  :commands (save-place-mode)
   :config (save-place-mode))
 
 (use-package shr
-  :commands
-  shr-browse-url)
+  :commands (shr-browse-url))
 
 (use-package simple
-  :commands
-  column-number-mode
+  :commands (column-number-mode)
   :config (column-number-mode))
 
 (use-package swiper
@@ -1796,11 +1730,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (transient-display-buffer-action '(display-buffer-below-selected)))
 
 (use-package undo-tree
-  :commands
-  global-undo-tree-mode
-  :defer 10
-  :config
-  (global-undo-tree-mode)
+  :commands (global-undo-tree-mode)
   :delight undo-tree-mode " 🌴")
 
 (use-package unfill
@@ -1813,9 +1743,8 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :bind* (("C-z C-w" . wordnut-search)))
 
 (use-package yasnippet
-  :commands
-  yas-expand-from-trigger-key
-  yas-global-mode
+  :commands (yas-expand-from-trigger-key
+             yas-global-mode)
   :defer 5
   ;; I fail to use alternative keys in yas-keymap and yas-minor-mode-map as explained in
   ;; https://github.com/capitaomorte/yasnippet/blob/master/doc/faq.org.
