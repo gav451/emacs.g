@@ -1351,7 +1351,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
     "Like ivy-switch-buffer, but hide all EXWM buffers by default.
 With one prefix arg, show only EXWM buffers. With two, show all buffers."
     (interactive "p")
-    (case p
+    (cl-case p
       (1 (ivy-switch-buffer-non-exwm))
       (4 (ivy-switch-buffer-exwm))
       (16 (ivy-switch-buffer))))
