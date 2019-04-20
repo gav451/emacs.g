@@ -116,9 +116,6 @@
 [submodule "find-file-in-project"]
 	path = lib/find-file-in-project
 	url = git@github.com:technomancy/find-file-in-project.git
-[submodule "flx"]
-	path = lib/flx
-	url = git@github.com:lewang/flx.git
 [submodule "flycheck"]
 	path = lib/flycheck
 	url = git@github.com:flycheck/flycheck.git
