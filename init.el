@@ -292,19 +292,19 @@ In that case, insert the number."
   (company-show-numbers t)
   :commands (company-abort
              company-complete-number)
-  :bind (:map company-active-map
-              ("0" . my-company-complete-number)
-              ("1" . my-company-complete-number)
-              ("2" . my-company-complete-number)
-              ("3" . my-company-complete-number)
-              ("4" . my-company-complete-number)
-              ("5" . my-company-complete-number)
-              ("6" . my-company-complete-number)
-              ("7" . my-company-complete-number)
-              ("8" . my-company-complete-number)
-              ("9" . my-company-complete-number)
-              ("<space>" . my-company-insert-abort)
-              ("C-y" . yas-expand-from-trigger-key))
+  :bind ((:map company-active-map
+               ("0" . my-company-complete-number)
+               ("1" . my-company-complete-number)
+               ("2" . my-company-complete-number)
+               ("3" . my-company-complete-number)
+               ("4" . my-company-complete-number)
+               ("5" . my-company-complete-number)
+               ("6" . my-company-complete-number)
+               ("7" . my-company-complete-number)
+               ("8" . my-company-complete-number)
+               ("9" . my-company-complete-number)
+               ("<space>" . my-company-insert-abort)
+               ("C-y" . yas-expand-from-trigger-key)))
   :hook
   ((LaTeX-mode emacs-lisp-mode org-mode) . company-mode)
   :delight company-mode " 𝍎")
@@ -348,17 +348,15 @@ In that case, insert the number."
   (counsel-linux-app-format-function #'counsel-linux-app-format-function-command-only)
   :commands (counsel-describe-face
              counsel-linux-app-format-function-command-only)
-  :bind (;; Allow shadowing in `pdf-view-mode-map' by use of
-         ;; "C-r" instead of [remap isearch-backward] and
-         ;; "C-s" instead of [remap isearch-forward].
-         ("C-r" . counsel-grep-or-swiper)
-         ("C-s" . counsel-grep-or-swiper)
-         ;; Avoid shadowing `eshell-forward-argument'.
-         ("C-c C-f" . counsel-recentf))
-  :bind (:map help-map
-              ("S" . counsel-info-lookup-symbol)
-              ("f" . counsel-describe-function)
-              ("v" . counsel-describe-variable))
+  :bind ((:map global-map
+               ("C-r" . counsel-grep-or-swiper)
+               ("C-s" . counsel-grep-or-swiper)
+               ;; Avoid shadowing `eshell-forward-argument'.
+               ("C-c C-f" . counsel-recentf))
+         (:map help-map
+               ("S" . counsel-info-lookup-symbol)
+               ("f" . counsel-describe-function)
+               ("v" . counsel-describe-variable)))
   :bind* (("C-x C-f" . counsel-find-file)
           ("M-x" . counsel-M-x)
           ("M-y" . counsel-yank-pop)
@@ -421,9 +419,9 @@ In that case, insert the number."
   (dired-recursive-deletes 'always)
   (dired-dwim-target t)
   (wdired-allow-to-change-permissions t)
-  :bind (:map dired-mode-map
-              ("E" . my-dired-eww-find-file)
-              ("M-s y" . my-dired-rsync))
+  :bind ((:map dired-mode-map
+               ("E" . my-dired-eww-find-file)
+               ("M-s y" . my-dired-rsync)))
   :hook
   (dired-mode . auto-revert-mode)
   :commands (dired-get-file-for-visit
@@ -466,19 +464,19 @@ In that case, insert the number."
       ("Image Files" "image files")
       ("Document Editor Files" "document editor files")
       ("Multimedia Files" "multimedia files"))))
-  :bind (:map dired-mode-map
-              ("M-s g" . dired-filter-group-mode)))
+  :bind ((:map dired-mode-map
+               ("M-s g" . dired-filter-group-mode))))
 
 (use-package dired-narrow
   :after dired
-  :bind (:map dired-mode-map
-              ("M-s n" . dired-narrow)))
+  :bind ((:map dired-mode-map
+               ("M-s n" . dired-narrow))))
 
 (use-package dired-subtree
   :after dired
-  :bind (:map dired-mode-map
-              ("M-s i" . dired-subtree-insert)
-              ("M-s r" . dired-subtree-remove)))
+  :bind ((:map dired-mode-map
+               ("M-s i" . dired-subtree-insert)
+               ("M-s r" . dired-subtree-remove))))
 
 (use-package dired-x
   :after dired)
@@ -495,9 +493,8 @@ In that case, insert the number."
 (use-package easy-kill
   ;; https://emacsredux.com/blog/2018/11/09/an-easy-kill/
   ;; https://emacsredux.com/blog/2019/01/10/the-emacs-year-in-review/
-  :bind (;; Allow shadowing in `pdf-view-mode-map' by use of
-         ;; "M-w" instead of [remap kill-ring-save].
-         ("M-w" . easy-kill)))
+  :bind ((:map global-map
+               ("M-w" . easy-kill))))
 
 (use-package elec-pair
   :hook
@@ -583,8 +580,8 @@ nil if not inside any parens."
      ("https://www.laquadrature.net/fr/rss.xml" lqdn)))
   (elfeed-enclosure-default-dir (expand-file-name "~/tmpfs/"))
   :bind* (("C-x w" . my-elfeed-db-load-and-open))
-  :bind (:map elfeed-search-mode-map
-              ("q" . my-elfeed-save-db-and-quit))
+  :bind ((:map elfeed-search-mode-map
+               ("q" . my-elfeed-save-db-and-quit)))
   :commands (elfeed
              elfeed-db-load
              elfeed-db-save
@@ -716,8 +713,8 @@ point."
 (use-package emms-playlist-mode
   :custom
   (emms-playlist-mode-center-when-go t)
-  :bind (:map emms-playlist-mode-map
-              ("h" . describe-mode))
+  :bind ((:map emms-playlist-mode-map
+               ("h" . describe-mode)))
   :commands (emms
              emms-playlist-mode-go))
 
@@ -733,8 +730,8 @@ point."
   ;; "M-x emms" or "M-x emms-playlist-mode-go".
   (emms-stream-bookmarks-file (no-littering-expand-etc-file-name "emms/streams"))
   (emms-stream-default-action "add")
-  :bind (:map emms-stream-mode-map
-              ("?" . describe-mode))
+  :bind ((:map emms-stream-mode-map
+               ("?" . describe-mode)))
   :commands (emms-streams))
 
 (use-package emms-volume
@@ -1084,9 +1081,9 @@ point."
   :commands (flycheck-mode))
 
 (use-package flymake
-  :bind (:map flymake-mode-map
-              ("M-n" . flymake-goto-next-error)
-              ("M-p" . flymake-goto-prev-error)))
+  :bind ((:map flymake-mode-map
+               ("M-n" . flymake-goto-next-error)
+               ("M-p" . flymake-goto-prev-error))))
 
 (use-package free-keys
   :custom
@@ -1108,7 +1105,8 @@ point."
     (if god-local-mode
         (buffer-face-set `(:background ,god-local-mode-background-color))
       (buffer-face-mode -1)))
-  :bind (("<f12>" . god-local-mode))
+  :bind ((:map global-map
+               ("<f12>" . god-local-mode)))
   :commands (god-local-mode-pause
              god-local-mode-resume)
   :hook
@@ -1118,8 +1116,8 @@ point."
 
 (use-package goto-addr
   ;; https://xenodium.com/#actionable-urls-in-emacs-buffers
-  :bind (:map goto-address-highlight-keymap
-              ("C-!" . goto-address-at-point))
+  :bind ((:map goto-address-highlight-keymap
+               ("C-!" . goto-address-at-point)))
   :hook
   ((emacs-lisp-mode
     eshell-mode
@@ -1137,19 +1135,19 @@ point."
 
 (use-package help
   :no-require t
-  :bind (:map help-map
-              ("M" . describe-minor-mode))
+  :bind ((:map help-map
+               ("M" . describe-minor-mode)))
   :commands (temp-buffer-resize-mode)
   :init
   (temp-buffer-resize-mode 1))
 
 (use-package helpful
-  :bind (:map help-map
-              ("M-a" . helpful-at-point)
-              ("M-c" . helpful-command)
-              ("M-f" . helpful-function)
-              ("M-k" . helpful-key)
-              ("M-m" . helpful-macro))
+  :bind ((:map help-map
+               ("M-a" . helpful-at-point)
+               ("M-c" . helpful-command)
+               ("M-f" . helpful-function)
+               ("M-k" . helpful-key)
+               ("M-m" . helpful-macro)))
   :commands (helpful-callable
              helpful-variable))
 
@@ -1262,11 +1260,14 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 (use-package iedit
   :custom
   (iedit-toggle-key-default nil)
-  :bind
-  (:map global-map ("C-;" . iedit-mode))
-  (:map isearch-mode-map ("C-;" . iedit-mode-from-isearch))
-  (:map esc-map ("C-;" . iedit-execute-last-modification))
-  (:map help-map ("C-;" . iedit-mode-toggle-on-function)))
+  :bind ((:map global-map
+               ("C-;" . iedit-mode))
+         (:map isearch-mode-map
+               ("C-;" . iedit-mode-from-isearch))
+         (:map esc-map
+               ("C-;" . iedit-execute-last-modification))
+         (:map help-map
+               ("C-;" . iedit-mode-toggle-on-function))))
 
 (use-package ivy
   ;; https://github.com/dakra/dmacs/blob/master/init.org#ivy
@@ -1312,9 +1313,10 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (ivy-height 10)
   (ivy-use-ignore-default t)
   (ivy-use-virtual-buffers t)
-  :bind (("C-c C-r" . ivy-resume)
-         ("C-x B" . ivy-switch-buffer-other-window)
-         ("C-x b" . my-ivy-switch-buffer))
+  :bind ((:map global-map
+               ("C-c C-r" . ivy-resume)
+               ("C-x B" . ivy-switch-buffer-other-window)
+               ("C-x b" . my-ivy-switch-buffer)))
   :commands (ivy-mode
              ivy-read
              ivy-switch-buffer
@@ -1349,10 +1351,10 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :delight lispy-mode " 🗘")
 
 (use-package macrostep
-  :bind (:map emacs-lisp-mode-map
-              ("C-c e" . macrostep-expand))
-  :bind (:map lisp-interaction-mode-map
-              ("C-c e" . macrostep-expand))
+  :bind ((:map emacs-lisp-mode-map
+               ("C-c e" . macrostep-expand))
+         (:map lisp-interaction-mode-map
+               ("C-c e" . macrostep-expand)))
   :config
   (use-package use-package))
 
@@ -1361,8 +1363,9 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   ;; https://stackoverflow.com/questions/9529078/how-do-i-use-git-reset-hard-head-to-revert-to-a-previous-commit
   :custom
   (magit-completing-read-function 'ivy-completing-read)
-  :bind (("C-x g"   . magit-status)
-         ("C-x M-g" . magit-dispatch))
+  :bind ((:map global-map
+               ("C-x g"   . magit-status)
+               ("C-x M-g" . magit-dispatch)))
   :commands (magit-add-section-hook)
   :config
   ;; https://github.com/dakra/dmacs/blob/master/init.org#magit
@@ -1399,9 +1402,10 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 
 (use-package navi-mode
   :after outshine
-  :bind (("M-s n" . navi-search-and-switch)
-         ("M-s s" . navi-switch-to-twin-buffer)
-         ("M-s M-s" . navi-switch-to-twin-buffer)))
+  :bind ((:map global-map
+               ("M-s n" . navi-search-and-switch)
+               ("M-s s" . navi-switch-to-twin-buffer)
+               ("M-s M-s" . navi-switch-to-twin-buffer))))
 
 (use-package ob-async
   ;; Demand loading of this package after loading org-mode.
@@ -1550,10 +1554,11 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (org-src-preserve-indentation t "Preserve Python code block indentation.")
   (org-todo-keywords (quote ((sequence "TODO" "|" "DONE" "DEFERRED" "ZAPPED"))))
   (org-use-sub-superscripts '{})
-  :bind (("C-c a"   . org-agenda)
-         ("C-c c"   . org-capture)
-         ("C-c l"   . org-store-link)
-         ("C-c C-l" . org-insert-link-global))
+  :bind ((:map global-map
+               ("C-c a"   . org-agenda)
+               ("C-c c"   . org-capture)
+               ("C-c l"   . org-store-link)
+               ("C-c C-l" . org-insert-link-global)))
   :mode
   ("\\.org\\'" . org-mode)
   :hook
@@ -1654,8 +1659,8 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 (use-package peep-dired
   :after dired
   :custom (peep-dired-cleanup-on-disable t)
-  :bind (:map dired-mode-map
-              ("M-s p" . peep-dired)))
+  :bind ((:map dired-mode-map
+               ("M-s p" . peep-dired))))
 
 (use-package prescient
   :defer 5
@@ -1734,7 +1739,8 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :delight undo-tree-mode " 🌴")
 
 (use-package unfill
-  :bind (("M-q" . unfill-toggle)))
+  :bind ((:map global-map
+               ("M-q" . unfill-toggle))))
 
 (use-package which-key
   :delight which-key-mode)
@@ -1754,8 +1760,9 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :delight yas-minor-mode " ✀")
 
 (use-package zop-to-char
-  :bind (("M-z" . zop-up-to-char)
-         ("M-Z" . zop-to-char)))
+  :bind ((:map global-map
+               ("M-z" . zop-up-to-char)
+               ("M-Z" . zop-to-char))))
 
 (progn
   ;; http://emacsninja.com/posts/making-emacs-more-presentable.html
