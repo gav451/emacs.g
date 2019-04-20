@@ -22,7 +22,7 @@
 	info-path = doc
 	build-step = make extraclean
 	build-step = ./autogen.sh
-	build-step = ./configure --without-texmf-dir --without-lispdir
+	build-step = ./configure --without-texmf-dir --with-lispdir=.
 	build-step = make
 	build-step = borg-update-autoloads
 	build-step = borg-makeinfo
