@@ -1131,7 +1131,7 @@ point."
 (use-package gpastel
   :when (eq system-type 'gnu/linux)
   :commands (gpastel-mode)
-  :defer 5
+  :defer 10
   :config
   (when (= 0 (call-process-shell-command
               "gsettings list-recursively org.gnome.GPaste"))
@@ -1333,9 +1333,9 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 (use-package ivy-prescient
   :after ivy
   :commands (ivy-prescient-mode)
-  :init
-  (ivy-prescient-mode)
-  :demand t)
+  :defer 5
+  :config
+  (ivy-prescient-mode))
 
 (use-package jupyter
   :commands (jupyter-run-repl))
