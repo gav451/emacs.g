@@ -720,7 +720,7 @@ point."
 
 (use-package emms-setup
   :commands (emms-all)
-  :defer 10
+  :defer 5
   :config
   (emms-all))
 
@@ -745,7 +745,7 @@ point."
   :commands (engine-mode
              engine/execute-search
              engine/get-query)
-  :defer 10
+  :defer 5
   :config
   (require 'format-spec)
   (engine-mode 1)
@@ -1127,7 +1127,7 @@ point."
 (use-package gpastel
   :when (eq system-type 'gnu/linux)
   :commands (gpastel-mode)
-  :defer 10
+  :defer 5
   :config
   (when (= 0 (call-process-shell-command
               "gsettings list-recursively org.gnome.GPaste"))
@@ -1328,10 +1328,10 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 
 (use-package ivy-prescient
   :after ivy
-  :defer 5
   :commands (ivy-prescient-mode)
-  :config
-  (ivy-prescient-mode))
+  :init
+  (ivy-prescient-mode)
+  :demand t)
 
 (use-package jupyter
   :commands (jupyter-run-repl))
@@ -1597,14 +1597,15 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 
 (use-package org-protocol-capture-html
   ;; https://www.reddit.com/r/emacs/comments/9ze1ln/capture_orgmode_bookmarks_from_qutebrowser_with/
-  ;; Demand loading of this package after loading org-mode.
   :after org
   :demand t)
 
 (use-package org-ref
-  ;; Demand loading of this package after loading org-mode.
-  :after org
-  :demand t
+  ;; Use eg `counsel-load-library', `load-org-ref' to load `org-ref'.
+  :preface
+  (defun load-org-ref ()
+    (interactive)
+    (require 'org-ref))
   :custom
   (org-ref-bibliography-notes "~/VCS/research/notes/notes.org")
   (org-ref-cite-color "LawnGreen")
@@ -1663,7 +1664,6 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
                ("M-s p" . peep-dired))))
 
 (use-package prescient
-  :defer 5
   :commands (prescient-persist-mode)
   :config
   (prescient-persist-mode))
