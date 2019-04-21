@@ -574,6 +574,8 @@ nil if not inside any parens."
      ("http://sachachua.com/blog/category/emacs/feed" chua)
      ("https://act.eff.org/action.atom" eff)
      ("https://feeds.feedburner.com/InterceptedWithJeremyScahill" intercepted)
+     ("https://feeds.feedburner.com/TheMouseVsThePython" python)
+     ("https://realpython.com/atom.xml" python)
      ("https://www.aclu.org/taxonomy/feed-term/2152/feed" aclu)
      ("https://www.bof.nl/rss/" bof)
      ("https://www.democracynow.org/podcast-video.xml" dn)
@@ -614,10 +616,12 @@ nil if not inside any parens."
      ("f" (elfeed-search-set-filter "@6-months-ago +eff") "eff")
      ("i" (elfeed-search-set-filter "@6-months-ago +intercepted") "intercepted")
      ("l" (elfeed-search-set-filter "@6-months-ago +lqdn") "lqdn"
-      :column "i-z")
+      :column "i-s")
      ("m" (elfeed-search-set-filter "@6-months-ago +maugham") "maugham")
+     ("p" (elfeed-search-set-filter "@6-months-ago +python") "python")
      ("s" (elfeed-search-set-filter "@6-months-ago +schneidermann") "schneidermann")
-     ("w" (elfeed-search-set-filter "@6-months-ago +wellons") "wellons")
+     ("w" (elfeed-search-set-filter "@6-months-ago +wellons") "wellons"
+      :column "t-z")
      ("*" my-elfeed-toggle-star "toggle *"
       :column "Other")
      ("C-g" nil "quit" :color blue))
