@@ -583,7 +583,11 @@ nil if not inside any parens."
   (elfeed-enclosure-default-dir (expand-file-name "~/tmpfs/"))
   :bind* (("C-x w" . my-elfeed-db-load-and-open))
   :bind ((:map elfeed-search-mode-map
-               ("q" . my-elfeed-save-db-and-quit)))
+               ("h" . describe-mode)
+               ("q" . my-elfeed-save-db-and-quit))
+         (:map elfeed-show-mode-map
+               ("B" . my-elfeed-show-visit-external)
+               ("&" . my-elfeed-show-shr-browse-url-external)))
   :commands (elfeed
              elfeed-db-load
              elfeed-db-save
@@ -593,13 +597,9 @@ nil if not inside any parens."
              elfeed-show-visit)
   :config
   (make-directory elfeed-db-directory t)
-  (bind-keys :map elfeed-show-mode-map
-             ("B" . my-elfeed-show-visit-external)
-             ("&" . my-elfeed-show-shr-browse-url-external))
   (bind-key
-   "j"
+   "f"
    (defhydra hydra-elfeed-filter ()
-     ""
      ("A" (elfeed-search-set-filter "@6-months-ago") "All"
       :column "A-Z")
      ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
