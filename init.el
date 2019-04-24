@@ -381,7 +381,6 @@ In that case, insert the number."
   (global-diff-hl-mode))
 
 (use-package dired
-  :no-require t
   :preface
   (defun my-dired-eww-find-file ()
     "Visit dired file with eww."
@@ -482,7 +481,6 @@ In that case, insert the number."
   :after dired)
 
 (use-package display-line-numbers
-  :no-require t
   :custom-face
   (line-number-current-line ((t (:inherit highlight))))
   :hook
@@ -1156,7 +1154,6 @@ point."
     (gpastel-mode)))
 
 (use-package help
-  :no-require t
   :bind ((:map help-map
                ("M" . describe-minor-mode)))
   :commands (temp-buffer-resize-mode)
@@ -1740,7 +1737,6 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
           ("C-z C-s r" . synosaurus-choose-and-replace)))
 
 (use-package text-mode
-  :no-require t
   :hook
   (text-mode . turn-on-auto-fill)
   (text-mode . turn-on-flyspell))
