@@ -1099,11 +1099,12 @@ point."
   (defun ninja-inc-frame-font-size ()
     (interactive)
     (ninja-alter-frame-font-size '1+))
-  (defun my-dec-frame-font-size ()
+  (defun ninja-dec-frame-font-size ()
     (interactive)
     (ninja-alter-frame-font-size '1-))
   (bind-keys* ("C-x C-+" . ninja-inc-frame-font-size)
-              ("C-x C--" . ninja-dec-frame-font-size)))
+              ("C-x C--" . ninja-dec-frame-font-size))
+  :commands (set-frame-font))
 
 (use-package free-keys
   :custom
