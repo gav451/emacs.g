@@ -1357,10 +1357,10 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :commands (jupyter-run-repl))
 
 (use-package lentic
-  :after org
   :custom
   (lentic-mode-line-lighter "🎥")
-  :commands (global-lentic-mode))
+  :commands (global-lentic-mode
+             lentic-ensure-init))
 
 (use-package lispy
   :custom
@@ -1668,7 +1668,9 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :custom
   (python-shell-interpreter-args "-E -i")
   :interpreter ("python" . python-mode)
-  :mode ("\\.pyw?\\'" . python-mode))
+  :mode ("\\.pyw?\\'" . python-mode)
+  :config
+  (lentic-ensure-init))
 
 (use-package recentf
   :after no-littering
