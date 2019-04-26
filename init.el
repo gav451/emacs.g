@@ -1469,31 +1469,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
             (goto-char (org-element-property :begin block))
             (org-babel-execute-src-block)))))
 
-  ;; https://stackoverflow.com/questions/10274642/emacs-completion-at-point-functions
-  ;; https://emacs.stackexchange.com/questions/15276/how-do-i-write-a-simple-completion-at-point-functions-function
-  ;; https://oremacs.com/2017/10/04/completion-at-point
-  (defun org-get-verbatims ()
-    (let (result)
-      (save-match-data
-        (save-excursion
-          (goto-char (point-min))
-          (while (re-search-forward "=\\([A-Za-z]+\\)=" nil t)
-            (cl-pushnew
-             (match-string-no-properties 0) result :test 'equal))
-          result))))
-
-  (defun capf-org-verbatim ()
-    (when (looking-back "=[A-Za-z]+" 128)
-      (let ((candidates (org-get-verbatims)))
-        (when candidates
-          (list (match-beginning 0)
-                (match-end 0)
-                candidates)))))
-
   (defun on-org-mode-hook ()
-    (setq completion-at-point-functions
-          '(capf-org-verbatim
-            t))
     ;; https://emacs.stackexchange.com/questions/26225/dont-pair-quotes-in-electric-pair-mode
     (setq-local electric-pair-inhibit-predicate
                 (lambda (c)
