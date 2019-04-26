@@ -52,11 +52,6 @@
   (setq use-package-minimum-reported-time 0.001)
   (setq use-package-verbose t))
 
-(use-package subr-x
-  :config
-  (put 'if-let   'byte-obsolete-info nil)
-  (put 'when-let 'byte-obsolete-info nil))
-
 (use-package auto-compile
   :custom
   (auto-compile-display-buffer               nil)
@@ -69,8 +64,7 @@
    . auto-compile-inhibit-compile-detached-git-head)
   :commands (auto-compile-on-load-mode
              auto-compile-on-save-mode)
-  :demand t
-  :config
+  :init
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
 
@@ -640,7 +634,6 @@ and file a bug report."
     :type 'string
     :group 'elpy)
   :after python
-  :demand t
   :custom
   (elpy-company-post-completion-function #'elpy-company-post-complete-parens)
   (elpy-modules '(elpy-module-sane-defaults
@@ -1146,9 +1139,11 @@ point."
     shell-mode) . goto-address-mode))
 
 (use-package gpastel
+  ;; Try to prevent gpaste-daemon from using 100 % cpu time by
+  ;; disabling image support.
   :when (eq system-type 'gnu/linux)
   :commands (gpastel-mode)
-  :defer 10
+  :defer 5
   :config
   (when (= 0 (call-process-shell-command
               "gsettings list-recursively org.gnome.GPaste"))
@@ -1341,8 +1336,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
              ivy-read
              ivy-switch-buffer
              ivy-thing-at-point)
-  :demand t
-  :config
+  :init
   (ivy-mode)
   :delight ivy-mode " 𝝓")
 
@@ -1692,18 +1686,21 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 
 (use-package savehist
   :commands (savehist-mode)
-  :config (savehist-mode))
+  :config
+  (savehist-mode))
 
 (use-package saveplace
   :commands (save-place-mode)
-  :config (save-place-mode))
+  :config
+  (save-place-mode))
 
 (use-package shr
   :commands (shr-browse-url))
 
 (use-package simple
   :commands (column-number-mode)
-  :config (column-number-mode))
+  :config
+  (column-number-mode))
 
 (use-package swiper
   :custom
