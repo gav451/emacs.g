@@ -1743,6 +1743,8 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :bind* (("C-z C-w" . wordnut-search)))
 
 (use-package yasnippet
+  :custom
+  (yas-alias-to-yas/prefix-p nil)
   :commands (yas-expand-from-trigger-key
              yas-global-mode)
   :defer 5
