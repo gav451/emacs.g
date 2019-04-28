@@ -1560,18 +1560,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
                                  (latex . t)
                                  (org . t)
                                  (python . t)
-                                 (shell . t)))
-  ;; Short-circuit org-ref-link-set-paramaters in org-ref-utils:
-  (org-link-set-parameters "ac*"
-                           :follow #'or-follow-glossary
-                           :face 'org-ref-glossary-face
-                           :help-echo 'or-glossary-tooltip
-                           :export (lambda (path _ format)
-                                     (cond
-                                      ((eq format 'latex)
-                                       (format "\\gls*{%s}" path))
-                                      (t
-                                       (format "%s" path))))))
+                                 (shell . t))))
 
 (use-package org-element
   :functions
@@ -1585,11 +1574,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :demand t)
 
 (use-package org-ref
-  ;; Use eg `counsel-load-library', `load-org-ref' to load `org-ref'.
-  :preface
-  (defun load-org-ref ()
-    (interactive)
-    (require 'org-ref))
+  :after org
   :custom
   (org-ref-bibliography-notes "~/VCS/research/notes/notes.org")
   (org-ref-cite-color "LawnGreen")
@@ -1597,13 +1582,23 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (org-ref-label-color "DeepPink")
   (org-ref-completion-library 'org-ref-ivy-cite)
   (org-ref-default-bibliography '("~/VCS/research/refs.bib"))
-  (org-ref-pdf-directory '("~/VCS/research/papers")))
-
-(use-package org-ref-core
-  :commands (org-ref-get-labels))
+  (org-ref-pdf-directory '("~/VCS/research/papers"))
+  :defer 5)
 
 (use-package org-ref-glossary
-  :commands (or-follow-glossary))
+  :commands (or-follow-glossary)
+  :config
+  ;; Short-circuit org-ref-link-set-parameters in org-ref-utils:
+  (org-link-set-parameters "ac*"
+                           :follow #'or-follow-glossary
+                           :face 'org-ref-glossary-face
+                           :help-echo 'or-glossary-tooltip
+                           :export (lambda (path _ format)
+                                     (cond
+                                      ((eq format 'latex)
+                                       (format "\\gls*{%s}" path))
+                                      (t
+                                       (format "%s" path))))))
 
 (use-package outline
   :custom
