@@ -709,9 +709,7 @@ point."
   :custom
   (emms-playlist-mode-center-when-go t)
   :bind ((:map emms-playlist-mode-map
-               ("h" . describe-mode)))
-  :commands (emms
-             emms-playlist-mode-go))
+               ("h" . describe-mode))))
 
 (use-package emms-setup
   :commands (emms-all)
@@ -721,17 +719,12 @@ point."
 
 (use-package emms-streams
   :custom
-  ;; To show the current playlist, do either
-  ;; "M-x emms" or "M-x emms-playlist-mode-go".
+  ;; To show the current playlist, do "M-x emms".
   (emms-stream-bookmarks-file (no-littering-expand-etc-file-name "emms/streams"))
-  (emms-stream-default-action "add")
+  (emms-stream-default-action "play")
+  (emms-stream-repeat-p t)
   :bind ((:map emms-stream-mode-map
-               ("?" . describe-mode)))
-  :commands (emms-streams))
-
-(use-package emms-volume
-  :commands (emms-volume-mode-minus
-             emms-volume-mode-plus))
+               ("?" . describe-mode))))
 
 (use-package engine-mode
   ;; https://github.com/asok/.emacs.d/blob/master/inits/init-engine-mode.el
