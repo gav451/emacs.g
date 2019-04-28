@@ -1074,6 +1074,11 @@ point."
                ("M-n" . flymake-goto-next-error)
                ("M-p" . flymake-goto-prev-error))))
 
+(use-package flyspell
+  :hook
+  ((text-mode) . flyspell-mode)
+  ((prog-mode) . flyspell-prog-mode))
+
 (use-package frame
   ;; http://emacsninja.com/posts/making-emacs-more-presentable.html
   :preface
@@ -1687,6 +1692,8 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 
 (use-package simple
   :commands (column-number-mode)
+  :hook
+  ((text-mode) . turn-on-auto-fill)
   :config
   (column-number-mode))
 
@@ -1699,11 +1706,6 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (synosaurus-choose-method 'default)
   :bind* (("C-z C-s l" . synosaurus-lookup)
           ("C-z C-s r" . synosaurus-choose-and-replace)))
-
-(use-package text-mode
-  :hook
-  (text-mode . turn-on-auto-fill)
-  (text-mode . turn-on-flyspell))
 
 (use-package tramp
   :config
