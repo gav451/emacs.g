@@ -1632,20 +1632,19 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :custom
   (pdf-annot-activate-created-annotations t)
   :commands (pdf-tools-install)
-  :magic
-  ("%PDF" . pdf-view-mode)
   :config
-  (pdf-tools-install t)
-  (bind-keys :map pdf-view-mode-map
-             ("C-r" . isearch-backward)
-             ("C-s" . isearch-forward)
-             ("M-w" . pdf-view-kill-ring-save)))
+  (pdf-tools-install t))
 
 (use-package pdf-view
   :custom
   (pdf-view-display-size 'fit-page)
   (pdf-view-use-imagemagick t)
-  :commands (pdf-view-kill-ring-save))
+  :bind (:map pdf-view-mode-map
+              ("C-r" . isearch-backward)
+              ("C-s" . isearch-forward)
+              ("M-w" . pdf-view-kill-ring-save))
+  :magic
+  ("%PDF" . pdf-view-mode))
 
 (use-package peep-dired
   :after dired
