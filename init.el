@@ -187,7 +187,9 @@
 
 (use-package autorevert
   :custom
-  (auto-revert-mode-text " ⏎"))
+  (auto-revert-mode-text " ⏎")
+  :hook
+  ((dired-mode) . auto-revert-mode))
 
 (use-package avy
   :custom
@@ -412,13 +414,12 @@ In that case, insert the number."
   (dired-recursive-deletes 'always)
   (dired-dwim-target t)
   (wdired-allow-to-change-permissions t)
-  :bind ((:map dired-mode-map
-               ("E" . my-dired-eww-find-file)
-               ("M-s y" . my-dired-rsync)))
-  :hook
-  (dired-mode . auto-revert-mode)
   :commands (dired-get-file-for-visit
-             dired-get-marked-files))
+             dired-get-marked-files)
+  :config
+  (bind-keys :map dired-mode-map
+             ("E" . my-dired-eww-find-file)
+             ("M-s y" . my-dired-rsync)))
 
 (use-package dired-aux
   :after dired
