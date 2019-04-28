@@ -1726,6 +1726,11 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :bind ((:map global-map
                ("M-q" . unfill-toggle))))
 
+(use-package with-editor
+  :hook
+  ((eshell-mode
+    shell-mode) . with-editor-export-editor))
+
 (use-package which-key
   :delight which-key-mode)
 
