@@ -1178,6 +1178,23 @@ point."
   ;; http://oremacs.com/2016/04/04/hydra-doc-syntax/
   :preface
   (bind-key*
+   "C-z C-a"
+   (defhydra hydra-insert-arrow (:hint none)
+     "
+_y_ _k_ _p_ 🡬 🡩 🡭
+_h_ ^ ^ _l_ 🡨   🡪
+_u_ _j_ _o_ 🡯 🡫 🡮
+"
+     ("u" (insert-char ?🡯))
+     ("j" (insert-char ?🡫))
+     ("o" (insert-char ?🡮))
+     ("h" (insert-char ?🡨))
+     ("l" (insert-char ?🡪))
+     ("y" (insert-char ?🡬))
+     ("k" (insert-char ?🡩))
+     ("p" (insert-char ?🡭))
+     ("C-g" nil nil :color blue)))
+  (bind-key*
    "C-z C-r"
    (defhydra hydra-rectangle (:body-pre (rectangle-mark-mode 1)
                                         :color pink
