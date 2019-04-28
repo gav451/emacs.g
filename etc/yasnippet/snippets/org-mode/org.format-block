@@ -4,6 +4,6 @@
 #+BEGIN_${1:$$(yas-auto-next
                 (yas-completing-read
                  "Format: "
-                 '("CENTER" "COMMENT" "EXAMPLE" "JUSTIFYLEFT" "JUSTIFYRIGHT" "QUOTE" "VERSE")))}
+                 '("CENTER" "COMMENT" "HINT" "EXAMPLE" "JUSTIFYLEFT" "JUSTIFYRIGHT" "QUOTE" "VERSE")))}
 $0
 #+END_$1
