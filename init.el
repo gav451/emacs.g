@@ -45,10 +45,11 @@
   (borg-initialize))
 
 (progn                                  ; `use-package' and `delight'
+  ;; Must be set before loading use-package.
+  (setq use-package-enable-imenu-support t)
   (require 'use-package)
   (require 'delight)
   (setq use-package-always-defer t)
-  (setq use-package-enable-imenu-support t)
   (setq use-package-minimum-reported-time 0.001)
   (setq use-package-verbose t))
 
