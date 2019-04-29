@@ -1706,6 +1706,8 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (save-place-mode))
 
 (use-package shr
+  :custom
+  (shr-max-image-proportion 1.0)
   :commands (shr-browse-url))
 
 (use-package simple
