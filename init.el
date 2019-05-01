@@ -541,17 +541,6 @@ nil if not inside any parens."
     (interactive)
     (elfeed-db-save)
     (quit-window))
-  (defun my-elfeed-show-visit-external ()
-    "Wrapper to visit the current entry using an external browser."
-    (interactive)
-    (let ((browse-url-generic-program (or (executable-find "qutebrowser")
-                                          (executable-find "firefox"))))
-      (elfeed-show-visit t)))
-  (defun my-elfeed-show-shr-browse-url-external ()
-    "Wrapper to browse the URL under point using an external browser."
-    (interactive)
-    (let ((shr-external-browser #'browse-url-generic))
-      (shr-browse-url t)))
   (defun my-elfeed-toggle-star ()
     "Wrapper to toggle all starred elfeed search entries."
     (interactive)
@@ -578,18 +567,16 @@ nil if not inside any parens."
   (elfeed-enclosure-default-dir (expand-file-name "~/tmpfs/"))
   :bind* (("C-x w" . my-elfeed-db-load-and-open))
   :bind ((:map elfeed-search-mode-map
-               ("h" . describe-mode)
+               ("?" . describe-mode)
                ("q" . my-elfeed-save-db-and-quit))
          (:map elfeed-show-mode-map
-               ("B" . my-elfeed-show-visit-external)
-               ("&" . my-elfeed-show-shr-browse-url-external)))
+               ("?" . describe-mode)))
   :commands (elfeed
              elfeed-db-load
              elfeed-db-save
              elfeed-search-set-filter
              elfeed-search-toggle-all
-             elfeed-search-update--force
-             elfeed-show-visit)
+             elfeed-search-update--force)
   :config
   (make-directory elfeed-db-directory t)
   (bind-key
