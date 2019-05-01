@@ -1,24 +1,12 @@
-(("Radio France Info (France: news)"
-  "http://direct.franceinfo.fr/live/franceinfo-midfi.mp3" 1 url)
- ("France Inter (France: news/features)"
-  "http://direct.franceinter.fr/live/franceinter-midfi.mp3" 1 url)
- ("France Musique (France: classical/jazz)"
-  "http://direct.francemusique.fr/live/francemusique-midfi.mp3" 1 url)
- ("France Culture (France: culture)"
-  "http://direct.franceculture.fr/live/franceculture-midfi.mp3" 1 url)
- ("FIP autour du monde (France: world music)"
-  "http://direct.fipradio.fr/live/fip-webradio4.mp3" 1 url)
- ("France Bleu Isère (France: regional service)"
-  "http://direct.francebleu.fr/live/fbisere-midfi.mp3" 1 url)
- ("Radio Libertaire (France: political talk -- http://federation-anarchiste.org/)"
-  "http://ecoutez.radio-libertaire.org:8080/radiolib.m3u" 1 streamlist)
- ("Radio 1 (Netherlands: news/features)"
-  "http://icecast.omroep.nl:80/radio1-bb-mp3" 1 url)
- ("Radio 2 (Netherlands: adult contemporary)"
-  "http://icecast.omroep.nl:80/radio2-bb-mp3" 1 url)
- ("3FM (Netherlands: top 40)"
-  "http://icecast.omroep.nl:80/3fm-bb-mp3" 1 url)
- ("Radio 4 (Netherlands: classical)"
-  "http://icecast.omroep.nl:80/radio4-bb-mp3" 1 url)
- ("Veronica 192 (Netherlands: 60s/70s)"
-  "http://www.stream-server.nl/streams/Veronica675.pls" 1 streamlist))
+(("Radio France Info (France: news)" "http://direct.franceinfo.fr/live/franceinfo-midfi.mp3" 1 url)
+ ("France Inter (France: news/features)" "http://direct.franceinter.fr/live/franceinter-midfi.mp3" 1 url)
+ ("France Musique (France: classical/jazz)" "http://direct.francemusique.fr/live/francemusique-midfi.mp3" 1 url)
+ ("France Culture (France: culture)" "http://direct.franceculture.fr/live/franceculture-midfi.mp3" 1 url)
+ ("FIP autour du monde (France: world music)" "http://direct.fipradio.fr/live/fip-webradio4.mp3" 1 url)
+ ("France Bleu Isère (France: regional service)" "http://direct.francebleu.fr/live/fbisere-midfi.mp3" 1 url)
+ ("Radio Libertaire (France: political talk -- http://federation-anarchiste.org/)" "http://ecoutez.radio-libertaire.org:8080/radiolib.m3u" 1 streamlist)
+ ("Radio 1 (Netherlands: news/features)" "http://icecast.omroep.nl:80/radio1-bb-mp3" 1 url)
+ ("Radio 2 (Netherlands: adult contemporary)" "http://icecast.omroep.nl:80/radio2-bb-mp3" 1 url)
+ ("3FM (Netherlands: top 40)" "http://icecast.omroep.nl:80/3fm-bb-mp3" 1 url)
+ ("Radio 4 (Netherlands: classical)" "http://icecast.omroep.nl:80/radio4-bb-mp3" 1 url)
+ ("Veronica 192 (Netherlands: 60s/70s)" "http://www.stream-server.nl/streams/Veronica675.pls" 1 streamlist))
