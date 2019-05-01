@@ -6,7 +6,17 @@
   (message "Loading Emacs...done (%.3fs)"
            (float-time (time-subtract before-user-init-time
                                       before-init-time)))
-  (setq gc-cons-threshold (* 64 1024 1024))
+  (when t                               ; fast immediate and deferred loading
+    (defvar file-name-handler-alist-saved file-name-handler-alist)
+    (setq file-name-handler-alist nil)
+    (setq gc-cons-threshold (* 4 4024 4024))
+    (add-hook 'after-init-hook
+              (lambda ()
+                (run-with-idle-timer
+                 10 nil
+                 (lambda ()
+                   (setq file-name-handler-alist file-name-handler-alist-saved)
+                   (setq gc-cons-threshold (* 4096 4096)))))))
   (setq user-init-file (or load-file-name buffer-file-name))
   (setq user-emacs-directory (file-name-directory user-init-file))
   (message "Loading %s..." user-init-file)
@@ -310,7 +320,7 @@ In that case, insert the number."
 (use-package company-prescient
   :after company
   :commands (company-prescient-mode)
-  :defer 1
+  :demand t
   :config
   (company-prescient-mode))
 
@@ -708,7 +718,7 @@ point."
 
 (use-package emms-setup
   :commands (emms-all)
-  :defer 5
+  :defer 2
   :config
   (emms-all))
 
@@ -730,7 +740,7 @@ point."
   :commands (engine-mode
              engine/execute-search
              engine/get-query)
-  :defer 5
+  :defer 2
   :config
   (require 'format-spec)
   (engine-mode 1)
@@ -1356,7 +1366,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 (use-package ivy-prescient
   :after ivy
   :commands (ivy-prescient-mode)
-  :defer 1
+  :demand t
   :config
   (ivy-prescient-mode))
 
@@ -1758,7 +1768,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (yas-alias-to-yas/prefix-p nil)
   :commands (yas-expand-from-trigger-key
              yas-global-mode)
-  :defer 5
+  :defer 2
   ;; I fail to use alternative keys in yas-keymap and yas-minor-mode-map as explained in
   ;; https://github.com/capitaomorte/yasnippet/blob/master/doc/faq.org.
   ;; However, everything works fine, sofar.
@@ -1779,7 +1789,6 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
             (lambda ()
               (fringe-mode '(nil . 0))  ; left-only
               (setq-default indicate-buffer-boundaries 'left)
-              (setq gc-cons-threshold (* 20 1024 1024))
               (if (fboundp 'imagemagick-types)
                   (message "Can scale images thanks to ImageMagick support")
                 (message "Cannot scale images without ImageMagick support"))
