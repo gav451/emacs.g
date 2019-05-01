@@ -309,8 +309,8 @@ In that case, insert the number."
 
 (use-package company-prescient
   :after company
-  :defer 5
   :commands (company-prescient-mode)
+  :demand t
   :config
   (company-prescient-mode))
 
@@ -1151,7 +1151,7 @@ point."
   ;; disabling image support.
   :when (eq system-type 'gnu/linux)
   :commands (gpastel-mode)
-  :defer 5
+  :demand t
   :config
   (when (= 0 (call-process-shell-command
               "gsettings list-recursively org.gnome.GPaste"))
@@ -1368,7 +1368,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 (use-package ivy-prescient
   :after ivy
   :commands (ivy-prescient-mode)
-  :defer 5
+  :demand t
   :config
   (ivy-prescient-mode))
 
