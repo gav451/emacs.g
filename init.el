@@ -6,6 +6,7 @@
   (message "Loading Emacs...done (%.3fs)"
            (float-time (time-subtract before-user-init-time
                                       before-init-time)))
+  (setq gc-cons-threshold (* 64 1024 1024))
   (setq user-init-file (or load-file-name buffer-file-name))
   (setq user-emacs-directory (file-name-directory user-init-file))
   (message "Loading %s..." user-init-file)
@@ -1789,9 +1790,11 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (add-hook 'after-init-hook
             (lambda ()
               (fringe-mode '(nil . 0))  ; left-only
-              (setq-default indicate-buffer-boundaries 'left)))
-  (add-hook 'after-init-hook
-            (lambda ()
+              (setq-default indicate-buffer-boundaries 'left)
+              (setq gc-cons-threshold (* 20 1024 1024))
+              (if (fboundp 'imagemagick-types)
+                  (message "Can scale images thanks to ImageMagick support")
+                (message "Cannot scale images without ImageMagick support"))
               (message
                "Loading %s...done (%.3fs) [after-init]" user-init-file
                (float-time (time-subtract (current-time)
