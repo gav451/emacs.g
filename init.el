@@ -704,9 +704,7 @@ point."
 
 (use-package emms-playlist-mode
   :custom
-  (emms-playlist-mode-center-when-go t)
-  :bind ((:map emms-playlist-mode-map
-               ("h" . describe-mode))))
+  (emms-playlist-mode-center-when-go t))
 
 (use-package emms-setup
   :commands (emms-all)
@@ -721,7 +719,9 @@ point."
   (emms-stream-default-action "play")
   (emms-stream-repeat-p t)
   :bind ((:map emms-stream-mode-map
-               ("?" . describe-mode))))
+               ("?" . describe-mode)))
+  :config
+  (unbind-key "h" emms-stream-mode-map))
 
 (use-package engine-mode
   ;; https://github.com/asok/.emacs.d/blob/master/inits/init-engine-mode.el
