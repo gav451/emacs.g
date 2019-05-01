@@ -310,7 +310,7 @@ In that case, insert the number."
 (use-package company-prescient
   :after company
   :commands (company-prescient-mode)
-  :demand t
+  :defer 1
   :config
   (company-prescient-mode))
 
@@ -1356,7 +1356,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 (use-package ivy-prescient
   :after ivy
   :commands (ivy-prescient-mode)
-  :demand t
+  :defer 1
   :config
   (ivy-prescient-mode))
 
