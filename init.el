@@ -621,6 +621,13 @@ nil if not inside any parens."
      ("C-g" nil "quit" :color blue))
    elfeed-search-mode-map))
 
+(use-package elisp-demos
+  :after helpful
+  :commands (elisp-demos-advice-helpful-update)
+  :demand t
+  :config
+  (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update))
+
 (use-package elpy
   ;; https://github.com/davidhalter/jedi/issues/1085
   ;; https://github.com/jorgenschaefer/elpy/issues/1115
