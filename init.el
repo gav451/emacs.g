@@ -9,14 +9,16 @@
   (when t                               ; fast immediate and deferred loading
     (defvar file-name-handler-alist-saved file-name-handler-alist)
     (setq file-name-handler-alist nil)
-    (setq gc-cons-threshold (* 4 4024 4024))
+    (setq gc-cons-threshold (* 16 4096 4096))
     (add-hook 'after-init-hook
               (lambda ()
                 (run-with-idle-timer
                  10 nil
                  (lambda ()
                    (setq file-name-handler-alist file-name-handler-alist-saved)
-                   (setq gc-cons-threshold (* 4096 4096)))))))
+                   (setq gc-cons-threshold (* 2048 2048))
+                   (garbage-collect))))
+              t))
   (setq user-init-file (or load-file-name buffer-file-name))
   (setq user-emacs-directory (file-name-directory user-init-file))
   (message "Loading %s..." user-init-file)
