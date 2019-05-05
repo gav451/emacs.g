@@ -6,8 +6,9 @@
   (message "Loading Emacs...done (%.3fs)"
            (float-time (time-subtract before-user-init-time
                                       before-init-time)))
-  (when t                               ; fast immediate and deferred loading
-    (defvar file-name-handler-alist-saved file-name-handler-alist)
+  (when t                        ; fast immediate and deferred loading
+    ;; https://github.com/noctuid/dotfiles/blob/master/emacs/.emacs.d/init.el
+    (defvar file-name-handler-alist-backup file-name-handler-alist)
     (setq file-name-handler-alist nil)
     (setq gc-cons-threshold (* 16 4096 4096))
     (add-hook 'after-init-hook
@@ -15,8 +16,12 @@
                 (run-with-idle-timer
                  10 nil
                  (lambda ()
-                   (setq file-name-handler-alist file-name-handler-alist-saved)
-                   (setq gc-cons-threshold (* 2048 2048))
+                   (setq file-name-handler-alist
+                         (cl-union file-name-handler-alist-backup
+                                   file-name-handler-alist))
+                   (setq gc-cons-threshold
+                         (car (get 'gc-cons-threshold 'standard-value)))
+                   (message "gc-cons-threshold restored to %S" gc-cons-threshold)
                    (garbage-collect))))
               t))
   (setq user-init-file (or load-file-name buffer-file-name))
