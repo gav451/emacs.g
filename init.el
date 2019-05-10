@@ -1185,8 +1185,8 @@ point."
     emms-playlist-mode
     emms-stream
     help-mode
-    helpful-mode
-    magit-status-mode) . hl-line-mode))
+    magit-status-mode
+    special-mode) . hl-line-mode))
 
 (use-package hydra
   ;; http://oremacs.com/2016/04/04/hydra-doc-syntax/
