@@ -14,7 +14,7 @@
     (add-hook 'after-init-hook
               (lambda ()
                 (run-with-idle-timer
-                 10 nil
+                 15 nil
                  (lambda ()
                    (setq file-name-handler-alist
                          (cl-union file-name-handler-alist-backup
@@ -726,7 +726,7 @@ point."
 
 (use-package emms-setup
   :commands (emms-all)
-  :defer 2
+  :demand t
   :config
   (emms-all))
 
@@ -748,7 +748,7 @@ point."
   :commands (engine-mode
              engine/execute-search
              engine/get-query)
-  :defer 2
+  :defer 5
   :config
   (require 'format-spec)
   (engine-mode 1)
@@ -1379,7 +1379,8 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (ivy-prescient-mode))
 
 (use-package jupyter
-  :commands (jupyter-run-repl))
+  :commands (jupyter-run-repl)
+  :defer 5)
 
 (use-package lentic
   :custom
@@ -1598,7 +1599,8 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
                                  (latex . t)
                                  (org . t)
                                  (python . t)
-                                 (shell . t))))
+                                 (shell . t)
+                                 (jupyter . t))))
 
 (use-package org-element
   :functions
@@ -1786,7 +1788,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (yas-alias-to-yas/prefix-p nil)
   :commands (yas-expand-from-trigger-key
              yas-global-mode)
-  :defer 2
+  :defer 5
   ;; I fail to use alternative keys in yas-keymap and yas-minor-mode-map as explained in
   ;; https://github.com/capitaomorte/yasnippet/blob/master/doc/faq.org.
   ;; However, everything works fine, sofar.
