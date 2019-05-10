@@ -1569,6 +1569,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (org-modules
    '(org-bibtex
      org-eww
+     org-id
      org-info
      org-protocol))
   (org-src-fontify-natively t)
