@@ -1621,6 +1621,14 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (org-ref-pdf-directory '("~/VCS/research/papers"))
   :defer 5)
 
+(use-package org-ref-bibtex
+  :bind ((:map org-mode-map
+               ("C-c j" . org-ref-bibtex-hydra/body))))
+
+(use-package org-ref-core
+  :bind ((:map org-mode-map
+               ("C-c ]" . org-ref-insert-link))))
+
 (use-package org-ref-glossary
   :commands (or-follow-glossary)
   :config
