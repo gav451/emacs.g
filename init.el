@@ -1606,6 +1606,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   org-element-property)
 
 (use-package org-protocol-capture-html
+  :disabled
   ;; https://www.reddit.com/r/emacs/comments/9ze1ln/capture_orgmode_bookmarks_from_qutebrowser_with/
   :after org
   :demand t)
