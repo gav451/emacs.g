@@ -1382,6 +1382,20 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :commands (jupyter-run-repl)
   :defer 5)
 
+(use-package jupyter-repl
+  ;; Looks nice with 'c.interactive.colors = "Linux"' in
+  ;; ipython_kernel_config.py.
+  :custom-face
+  (jupyter-repl-input-prompt
+   ((((class color) (background dark)) :foreground "LightGreen")
+    (((class color) (background light)) :foreground "DarkGreen")))
+  (jupyter-repl-output-prompt
+   ((((class color) (background dark)) :foreground "OrangeRed")
+    (((class color) (background light)) :foreground "VioletRed")))
+  (jupyter-repl-traceback
+   ((((class color) (background dark)) :background "DimGrey")
+    (((class color) (background light)) :background "LightGrey"))))
+
 (use-package lentic
   :custom
   (lentic-mode-line-lighter "🎥")
