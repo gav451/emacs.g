@@ -1460,15 +1460,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (multi-term-programe (executable-find "zsh"))
   :commands (multi-term))
 
-(use-package navi-mode
-  :after outshine
-  :bind ((:map global-map
-               ("M-s n" . navi-search-and-switch)
-               ("M-s s" . navi-switch-to-twin-buffer)
-               ("M-s M-s" . navi-switch-to-twin-buffer))))
-
 (use-package ob-async
-  ;; Demand loading of this package after loading org-mode.
   :after org
   :demand t
   :custom
@@ -1662,18 +1654,6 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
                                        (format "\\gls*{%s}" path))
                                       (t
                                        (format "%s" path))))))
-
-(use-package outline
-  :custom
-  (outline-minor-mode-prefix "\M-#")
-  :delight outline-minor-mode " ✎")
-
-(use-package outshine
-  :after outline
-  :hook
-  ((emacs-lisp-mode) . outshine-mode)
-  :defer 5
-  :delight outshine-mode " 🌅")
 
 (use-package paren
   :commands (show-paren-mode)

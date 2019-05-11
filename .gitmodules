@@ -206,9 +206,6 @@
 [submodule "multiple-cursors"]
 	path = lib/multiple-cursors
 	url = git@github.com:magnars/multiple-cursors.el.git
-[submodule "navi-mode"]
-	path = lib/navi-mode
-	url = git@github.com:alphapapa/navi.git
 [submodule "no-littering"]
 	path = lib/no-littering
 	url = git@github.com:emacscollective/no-littering.git
@@ -228,12 +225,6 @@
 [submodule "org-ref"]
 	path = lib/org-ref
 	url = git@github.com:jkitchin/org-ref.git
-[submodule "outorg"]
-	path = lib/outorg
-	url = git@github.com:alphapapa/outorg.git
-[submodule "outshine"]
-	path = lib/outshine
-	url = git@github.com:alphapapa/outshine.git
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git
