@@ -820,7 +820,17 @@ point."
   (eshell-hist-ignoredups t)
   (eshell-ls-initial-args nil)
   (eshell-save-history-on-exit t)
-  (eshell-visual-commands '("htop" "ipython" "jupyter" "less" "ncftp" "python" "tmux"))
+  (eshell-visual-commands '("alsamixer"
+                            "htop"
+                            "ipython"
+                            "jupyter"
+                            "less"
+                            "more"
+                            "mpv"
+                            "ncftp"
+                            "tmux"
+                            "top"
+                            "watch"))
   :hook
   (eshell-mode . on-eshell-mode)
   :defines
