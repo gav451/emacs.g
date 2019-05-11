@@ -740,7 +740,7 @@ point."
 
 (use-package emms-setup
   :commands (emms-all)
-  :demand t
+  :defer 2
   :config
   (emms-all))
 
