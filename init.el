@@ -576,7 +576,9 @@ nil if not inside any parens."
      ("https://act.eff.org/action.atom" eff)
      ("https://feeds.feedburner.com/InterceptedWithJeremyScahill" intercepted)
      ("https://feeds.feedburner.com/TheMouseVsThePython" python)
+     ("https://oremacs.com/atom.xml" krehel)
      ("https://realpython.com/atom.xml" python)
+     ("https://vxlabs.com/index.xml" vxlabs)
      ("https://www.aclu.org/taxonomy/feed-term/2152/feed" aclu)
      ("https://www.bof.nl/rss/" bof)
      ("https://www.democracynow.org/podcast-video.xml" dn)
@@ -599,28 +601,30 @@ nil if not inside any parens."
   (bind-key
    "f"
    (defhydra hydra-elfeed-filter ()
-     ("A" (elfeed-search-set-filter "@6-months-ago") "All"
+     ("A" (elfeed-search-set-filter "@48-months-ago") "All"
       :column "A-Z")
      ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
-     ("S" (elfeed-search-set-filter "@6-months-ago +*") "Starred")
-     ("U" (elfeed-search-set-filter "@6-months-ago +unread") "Unread")
-     ("ab" (elfeed-search-set-filter "@6-months-ago +abrams") "abrams"
-      :column "a-c")
-     ("ac" (elfeed-search-set-filter "@6-months-ago +aclu") "aclu")
-     ("b" (elfeed-search-set-filter "@6-months-ago +bof") "bof" )
-     ("c" (elfeed-search-set-filter "@6-months-ago +chua") "chua")
-     ("d" (elfeed-search-set-filter "@6-months-ago +dn") "dn"
-      :column "d-i")
-     ("e" (elfeed-search-set-filter "@6-months-ago +emacsen") "emacsen")
-     ("f" (elfeed-search-set-filter "@6-months-ago +eff") "eff")
-     ("i" (elfeed-search-set-filter "@6-months-ago +intercepted") "intercepted")
-     ("l" (elfeed-search-set-filter "@6-months-ago +lqdn") "lqdn"
-      :column "i-s")
-     ("m" (elfeed-search-set-filter "@6-months-ago +maugham") "maugham")
-     ("p" (elfeed-search-set-filter "@6-months-ago +python") "python")
-     ("s" (elfeed-search-set-filter "@6-months-ago +schneidermann") "schneidermann")
-     ("w" (elfeed-search-set-filter "@6-months-ago +wellons") "wellons"
-      :column "t-z")
+     ("S" (elfeed-search-set-filter "@12-months-ago +*") "Starred")
+     ("U" (elfeed-search-set-filter "@12-months-ago +unread") "Unread")
+     ("a" (elfeed-search-set-filter "@12-months-ago +aclu") "aclu"
+      :column "a-d")
+     ("b" (elfeed-search-set-filter "@12-months-ago +bof") "bof" )
+     ("c" (elfeed-search-set-filter "@48-months-ago +chua") "chua")
+     ("d" (elfeed-search-set-filter "@12-months-ago +dn") "dn")
+     ("e" (elfeed-search-set-filter "@12-months-ago +emacsen") "emacsen"
+      :column "e-i")
+     ("f" (elfeed-search-set-filter "@12-months-ago +eff") "eff")
+     ("h" (elfeed-search-set-filter "@48-months-ago +howard") "howard")
+     ("i" (elfeed-search-set-filter "@12-months-ago +intercepted") "intercepted")
+     ("k" (elfeed-search-set-filter "@48-months-ago +krehel") "krehel"
+      :column "j-p")
+     ("l" (elfeed-search-set-filter "@12-months-ago +lqdn") "lqdn")
+     ("m" (elfeed-search-set-filter "@48-months-ago +maugham") "maugham")
+     ("p" (elfeed-search-set-filter "@12-months-ago +python") "python")
+     ("s" (elfeed-search-set-filter "@48-months-ago +schneidermann") "schneidermann"
+      :column "q-z")
+     ("v" (elfeed-search-set-filter "@48-months-ago +vxlabs") "vxlabs")
+     ("w" (elfeed-search-set-filter "@48-months-ago +wellons") "wellons")
      ("*" my-elfeed-toggle-star "toggle *"
       :column "Other")
      ("C-g" nil "quit" :color blue))
