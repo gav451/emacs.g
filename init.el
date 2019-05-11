@@ -699,6 +699,11 @@ point."
   :config
   (add-to-list 'emms-info-functions 'emms-info-libtag))
 
+(use-package emms-mode-line
+  :commands (emms-mode-line)
+  :config
+  (emms-mode-line -1))
+
 (use-package emms-player-mpd
   ;; Let mpd play most (ideally all) sound.
   ;; Get the *-bb-mp3 links from the NPO m3u files that mpd fails to grok.
@@ -719,6 +724,12 @@ point."
 
 (use-package emms-player-mpv
   :after emms-setup)
+
+(use-package emms-playing-time
+  :commands (emms-playing-time-disable-display
+             emms-playing-time-enable-display)
+  :config
+  (emms-playing-time-disable-display))
 
 (use-package emms-playlist-mode
   :custom
