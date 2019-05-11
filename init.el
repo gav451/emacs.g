@@ -759,7 +759,7 @@ point."
   :commands (engine-mode
              engine/execute-search
              engine/get-query)
-  :defer 5
+  :defer 4
   :config
   (require 'format-spec)
   (engine-mode 1)
@@ -1390,8 +1390,15 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (ivy-prescient-mode))
 
 (use-package jupyter
+  ;; Defer loading 2 seconds after loading `org' to append
+  ;; `jupyter' as the last element of `org-babel-load-language'.
+  :after org
   :commands (jupyter-run-repl)
-  :defer 5)
+  :defer 2
+  :config
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               (append org-babel-load-languages
+                                       '((jupyter . t)))))
 
 (use-package jupyter-repl
   ;; Looks nice with 'c.interactive.colors = "Linux"' in
@@ -1606,18 +1613,18 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (org-mode . on-org-mode-hook)
   :commands (org-babel-do-load-languages
              org-link-set-parameters)
+  :demand t
   :config
   (org-babel-do-load-languages 'org-babel-load-languages
-                               '((calc . t)
-                                 (ditaa . t)
-                                 (dot . t)
-                                 (emacs-lisp . t)
-                                 (gnuplot . t)
-                                 (latex . t)
-                                 (org . t)
-                                 (python . t)
-                                 (shell . t)
-                                 (jupyter . t))))
+                               (append org-babel-load-languages
+                                       '((calc . t)
+                                         (ditaa . t)
+                                         (dot . t)
+                                         (gnuplot . t)
+                                         (latex . t)
+                                         (org . t)
+                                         (python . t)
+                                         (shell . t)))))
 
 (use-package org-element
   :functions
@@ -1641,7 +1648,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (org-ref-completion-library 'org-ref-ivy-cite)
   (org-ref-default-bibliography '("~/VCS/research/refs.bib"))
   (org-ref-pdf-directory '("~/VCS/research/papers"))
-  :defer 5)
+  :defer 2)
 
 (use-package org-ref-bibtex
   :bind ((:map org-mode-map
@@ -1793,7 +1800,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (yas-alias-to-yas/prefix-p nil)
   :commands (yas-expand-from-trigger-key
              yas-global-mode)
-  :defer 5
+  :defer 4
   ;; I fail to use alternative keys in yas-keymap and yas-minor-mode-map as explained in
   ;; https://github.com/capitaomorte/yasnippet/blob/master/doc/faq.org.
   ;; However, everything works fine, sofar.
