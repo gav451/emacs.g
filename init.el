@@ -433,7 +433,6 @@ In that case, insert the number."
   (dired-recursive-copies 'always)
   (dired-recursive-deletes 'always)
   (dired-dwim-target t)
-  (wdired-allow-to-change-permissions t)
   :commands (dired-get-file-for-visit
              dired-get-marked-files)
   :config
@@ -1784,13 +1783,17 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :bind ((:map global-map
                ("M-q" . unfill-toggle))))
 
+(use-package wdired
+  :custom
+  (wdired-allow-to-change-permissions t))
+
+(use-package which-key
+  :delight which-key-mode)
+
 (use-package with-editor
   :hook
   ((eshell-mode
     shell-mode) . with-editor-export-editor))
-
-(use-package which-key
-  :delight which-key-mode)
 
 (use-package wordnut
   :bind* (("C-z C-w" . wordnut-search)))
