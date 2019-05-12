@@ -703,9 +703,8 @@ point."
   (add-to-list 'emms-info-functions 'emms-info-libtag))
 
 (use-package emms-mode-line
-  :commands (emms-mode-line)
-  :config
-  (emms-mode-line -1))
+  :custom
+  (emms-mode-line-format ""))
 
 (use-package emms-player-mpd
   ;; Let mpd play most (ideally all) sound.
@@ -729,10 +728,8 @@ point."
   :after emms-setup)
 
 (use-package emms-playing-time
-  :commands (emms-playing-time-disable-display
-             emms-playing-time-enable-display)
-  :config
-  (emms-playing-time-disable-display))
+  :custom
+  (emms-playing-time-display-format ""))
 
 (use-package emms-playlist-mode
   :custom
