@@ -1497,6 +1497,28 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :custom
   (ob-async-no-async-languages-alist '("jupyter-julia" "jupyter-python")))
 
+(use-package ob-core
+  :custom
+  (org-confirm-babel-evaluate nil))
+
+(use-package ob-python
+  :custom
+  (org-babel-python-command "python -E"))
+
+(use-package ol
+  :custom
+  (org-link-abbrev-alist
+   '(;; Google.
+     ("gg-fr" . "https://www.google.fr/search?ie=UTF-8&oe=UTF-8&q=")
+     ("gg-nl" . "https://www.google.nl/search?ie=UTF-8&oe=UTF-8&q=")
+     ("gg-us" . "https://encrypted.google.com/search?ie=UTF-8&oe=UTF-8&q=")
+     ;; Google maps.
+     ("gm-fr" . "https://maps.google.fr/maps?q=%s")
+     ("gm-nl" . "https://maps.google.nl/maps?q=%s")
+     ("gm-us" . "https://maps.google.com/maps?q=%s")
+     ;; Open street map.
+     ("omap" . "http://nominatim.openstreetmap.org/search?q=%s&polygon=1"))))
+
 (use-package org
   :preface
   (defun find-broken-org-file-links ()
@@ -1542,33 +1564,14 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
                     (funcall (default-value 'electric-pair-inhibit-predicate) c)))))
   :custom
   (org-adapt-indentation nil)
-  (org-agenda-exporter-settings '((ps-landscape-mode t)
-                                  (ps-number-of-columns 2)
-                                  (ps-paper-type 'a4)
-                                  (ps-print-color-p nil)
-                                  (ps-print-header nil)))
-  (org-agenda-files '("~/VCS/pim/jobs.org"))
-  (org-agenda-span 70)
-  (org-babel-python-command "python -E")
-  (org-capture-templates
-   '(("t" "Task" entry (file+headline "~/tmpfs/tasks.org" "Tasks")
-      "* TODO %?\n  %u\n  %a")
-     ("p" "Protocol" entry (file+headline "~/tmpfs/notes.org" "Inbox")
-      "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-     ("L" "Protocol Link" entry (file+headline "~/tmpfs/notes.org" "Inbox")
-      "* %? [[%:link][%:description]] \nCaptured On: %U")))
   (org-catch-invisible-edits 'show-and-error)
-  (org-confirm-babel-evaluate nil)
-  (org-edit-src-content-indentation 0 "Preserve Python code block indentation.")
   (org-export-backends '(ascii beamer icalendar html md latex man odt org texinfo))
-  (org-export-with-sub-superscripts '{})
   (org-file-apps '((auto-mode . emacs)
                    ("\\.mm\\'" . default)
                    ("\\.x?html?\\'" . (lambda (path link)
                                         (message "Open %s" link)
                                         (eww-open-file path)))
                    ("\\.pdf\\'" . emacs)))
-  (org-latex-caption-above nil)
   (org-latex-default-packages-alist
    '(("AUTO" "inputenc"  t ("pdflatex"))
      ("T1"   "fontenc"   t ("pdflatex"))
@@ -1583,35 +1586,12 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
      (""     "amssymb"   t)
      (""     "capt-of"   nil)
      ("hyperfootnotes=false" "hyperref"  nil)))
-  (org-latex-compiler "lualatex")
-  (org-latex-hyperref-template nil)
-  (org-latex-logfiles-extensions '("blg" "lof" "log" "lot" "out" "toc"))
-  (org-latex-pdf-process
-   '("lualatex -interaction nonstopmode -output-directory %o %f"
-     "bibtex %b.aux"
-     "lualatex -interaction nonstopmode -output-directory %o %f"
-     "lualatex -interaction nonstopmode -output-directory %o %f"))
-  ;; Requires CUSTOM_ID property to suppress LaTeX section labels.
-  (org-latex-prefer-user-labels t)
-  (org-link-abbrev-alist
-   '(;; Google.
-     ("gg-fr" . "https://www.google.fr/search?ie=UTF-8&oe=UTF-8&q=")
-     ("gg-nl" . "https://www.google.nl/search?ie=UTF-8&oe=UTF-8&q=")
-     ("gg-us" . "https://encrypted.google.com/search?ie=UTF-8&oe=UTF-8&q=")
-     ;; Google maps.
-     ("gm-fr" . "https://maps.google.fr/maps?q=%s")
-     ("gm-nl" . "https://maps.google.nl/maps?q=%s")
-     ("gm-us" . "https://maps.google.com/maps?q=%s")
-     ;; Open street map.
-     ("omap" . "http://nominatim.openstreetmap.org/search?q=%s&polygon=1")))
   (org-modules
-   '(org-bibtex
-     org-eww
-     org-id
-     org-info
-     org-protocol))
+   '(ol-bibtex
+     ol-eshell
+     ol-eww
+     ol-info))
   (org-src-fontify-natively t)
-  (org-src-preserve-indentation t "Preserve Python code block indentation.")
   (org-todo-keywords (quote ((sequence "TODO" "|" "DONE" "DEFERRED" "ZAPPED"))))
   (org-use-sub-superscripts '{})
   :bind ((:map global-map
@@ -1639,11 +1619,43 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
                                          (python . t)
                                          (shell . t)))))
 
+(use-package org-agenda
+  :after org
+  :custom
+  (org-agenda-exporter-settings '((ps-landscape-mode t)
+                                  (ps-number-of-columns 2)
+                                  (ps-paper-type 'a4)
+                                  (ps-print-color-p nil)
+                                  (ps-print-header nil)))
+  (org-agenda-files '("~/VCS/pim/jobs.org"))
+  (org-agenda-span 70)
+  :demand t)
+
+(use-package org-capture
+  :after org
+  :custom
+  (org-capture-templates
+   '(("t" "Task" entry (file+headline "~/tmpfs/tasks.org" "Tasks")
+      "* TODO %?\n  %u\n  %a")
+     ("p" "Protocol" entry (file+headline "~/tmpfs/notes.org" "Inbox")
+      "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+     ("L" "Protocol Link" entry (file+headline "~/tmpfs/notes.org" "Inbox")
+      "* %? [[%:link][%:description]] \nCaptured On: %U")))
+  :demand t)
+
 (use-package org-element
   :functions
   org-element-map
   org-element-parse-buffer
   org-element-property)
+
+(use-package org-id
+  :after org
+  :demand t)
+
+(use-package org-protocol
+  :after org
+  :demand t)
 
 (use-package org-protocol-capture-html
   :disabled
@@ -1685,6 +1697,32 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
                                        (format "\\gls*{%s}" path))
                                       (t
                                        (format "%s" path))))))
+(use-package org-src
+  :custom
+  (org-edit-src-content-indentation
+   0 "Preserve Python code block indentation.")
+  (org-src-preserve-indentation
+   t "Preserve Python code block indentation.")
+  (org-src-window-setup
+   'current-window "Show edit buffer in current window."))
+
+(use-package ox
+  :custom
+  (org-export-with-sub-superscripts '{}))
+
+(use-package ox-latex
+  :custom
+  (org-latex-caption-above nil)
+  (org-latex-compiler "lualatex")
+  (org-latex-hyperref-template nil)
+  (org-latex-logfiles-extensions '("blg" "lof" "log" "lot" "out" "toc"))
+  (org-latex-pdf-process
+   '("lualatex -interaction nonstopmode -output-directory %o %f"
+     "bibtex %b.aux"
+     "lualatex -interaction nonstopmode -output-directory %o %f"
+     "lualatex -interaction nonstopmode -output-directory %o %f"))
+  ;; Requires CUSTOM_ID property to suppress LaTeX section labels.
+  (org-latex-prefer-user-labels t))
 
 (use-package paren
   :commands (show-paren-mode)
