@@ -732,7 +732,7 @@ point."
 
 (use-package emms-playing-time
   :custom
-  (emms-playing-time-display-format ""))
+  (emms-playing-time-display-format " %s "))
 
 (use-package emms-playlist-mode
   :custom
