@@ -1499,7 +1499,8 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 
 (use-package ob-core
   :custom
-  (org-confirm-babel-evaluate nil))
+  (org-confirm-babel-evaluate nil)
+  :commands (org-babel-execute-src-block))
 
 (use-package ob-python
   :custom
