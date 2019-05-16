@@ -1331,13 +1331,13 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   :custom
   (iedit-toggle-key-default nil)
   :bind ((:map global-map
-               ("C-;" . iedit-mode))
+               ("C-!" . iedit-mode))
          (:map isearch-mode-map
-               ("C-;" . iedit-mode-from-isearch))
+               ("C-!" . iedit-mode-from-isearch))
          (:map esc-map
-               ("C-;" . iedit-execute-last-modification))
+               ("C-!" . iedit-execute-last-modification))
          (:map help-map
-               ("C-;" . iedit-mode-toggle-on-function))))
+               ("C-!" . iedit-mode-toggle-on-function))))
 
 (use-package ivy
   ;; https://github.com/dakra/dmacs/blob/master/init.org#ivy
