@@ -1,0 +1,6 @@
+# name: jupyter-python block
+# key: <jp
+# --
+#+BEGIN_SRC jupyter-python :session py :pandoc t
+$0
+#+END_SRC

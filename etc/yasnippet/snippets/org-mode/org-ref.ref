@@ -1,4 +1,4 @@
-# name : org-ref ref
-# key  : ref:
+# name: org-ref ref
+# key: ref:
 # --
-ref:${1:$$(yas-auto-next (yas-completing-read "Label:" (org-ref-get-labels)))}$0
+ref:${1:$$(yas-auto-next (yas-completing-read "Label: " (org-ref-get-labels)))}$0
