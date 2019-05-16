@@ -1113,9 +1113,17 @@ point."
                ("M-p" . flymake-goto-prev-error))))
 
 (use-package flyspell
+  :preface
+  (defun toggle-flyspell-dwim-mode ()
+    (interactive)
+    (if flyspell-mode
+        (flyspell-mode -1)
+      (if (derived-mode-p 'prog-mode)
+          (flyspell-prog-mode)
+        (flyspell-mode 1))))
   :hook
-  ((text-mode) . flyspell-mode)
-  ((prog-mode) . flyspell-prog-mode))
+  ((prog-mode) . flyspell-prog-mode)
+  ((text-mode) . flyspell-mode))
 
 (use-package frame
   ;; http://emacsninja.com/posts/making-emacs-more-presentable.html
@@ -1166,14 +1174,23 @@ point."
   :delight god-local-mode " 🌪")
 
 (use-package goto-addr
-  ;; https://xenodium.com/#actionable-urls-in-emacs-buffers
+  :preface
+  (defun toggle-goto-address-dwim-mode ()
+    (interactive)
+    (if (derived-mode-p 'prog-mode)
+        (if goto-address-prog-mode
+            (goto-address-prog-mode -1)
+          (goto-address-prog-mode 1))
+      (if goto-address-mode
+          (goto-address-mode -1)
+        (goto-address-mode 1))))
   :bind ((:map goto-address-highlight-keymap
-               ("C-!" . goto-address-at-point)))
+               ("<RET>" . goto-address-at-point)
+               ("M-<RET>" . new-line)))
   :hook
-  ((emacs-lisp-mode
-    eshell-mode
-    prog-mode
-    shell-mode) . goto-address-mode))
+  ((eshell-mode
+    shell-mode) . goto-address-mode)
+  ((prog-mode) . goto-address-prog-mode))
 
 (use-package gpastel
   ;; Try to prevent gpaste-daemon from using 100 % cpu time by
@@ -1292,10 +1309,11 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
       (if (bound-and-true-p flycheck-mode) "[X]" "[ ]"))
      ("fl" #'font-lock-mode
       (if (bound-and-true-p font-lock-mode) "[X]" "[ ]"))
-     ("fs" #'flyspell-mode
+     ("fs" #'toggle-flyspell-dwim-mode
       (if (bound-and-true-p flyspell-mode) "[X]" "[ ]"))
-     ("g" #'goto-address-mode
-      (if (bound-and-true-p goto-address-mode) "[X]" "[ ]"))
+     ("g" #'toggle-goto-address-dwim-mode
+      (if (or (bound-and-true-p goto-address-prog-mode)
+              (bound-and-true-p goto-address-mode)) "[X]" "[ ]"))
      ("ii" #'iimage-mode
       (if (bound-and-true-p iimage-mode) "[X]" "[ ]"))
      ("it" (setq indent-tabs-mode (not (bound-and-true-p indent-tabs-mode)))
