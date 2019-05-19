@@ -806,9 +806,7 @@ point."
   (defun my-eshell-quit-or-delete-char (arg)
     (interactive "p")
     (if (and (eolp)
-             (looking-back
-              eshell-prompt-regexp (min (- (point) (length (eval eshell-banner-message)))
-                                        (lsh 1 16))))
+             (looking-back eshell-prompt-regexp nil))
         (eshell-life-is-too-much)
       (delete-char arg)))
 
