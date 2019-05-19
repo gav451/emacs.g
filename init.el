@@ -22,7 +22,7 @@
                    (message "[after-init] file-name-handler-alist restored to %S"
                             file-name-handler-alist)
                    (setq gc-cons-threshold
-                         (car (get 'gc-cons-threshold 'standard-value)))
+                         (* 5 (car (get 'gc-cons-threshold 'standard-value))))
                    (message "[after-init] gc-cons-threshold restored to %S"
                             gc-cons-threshold)
                    (garbage-collect))))
