@@ -1234,20 +1234,20 @@ point."
   :preface
   (bind-key*
    "C-z C-a"
-   (defhydra hydra-insert-arrow (:hint none)
+   (defhydra hydra-insert-arrow (:hint none :base-map (make-sparse-keymap))
      "
-_y_ _k_ _p_ 🡬 🡩 🡭
-_h_ ^ ^ _l_ 🡨   🡪
-_u_ _j_ _o_ 🡯 🡫 🡮
+_7_ _8_ _9_ 🡬 🡩 🡭
+_4_ ^ ^ _6_ 🡨   🡪
+_1_ _2_ _3_ 🡯 🡫 🡮
 "
-     ("u" (insert-char ?🡯))
-     ("j" (insert-char ?🡫))
-     ("o" (insert-char ?🡮))
-     ("h" (insert-char ?🡨))
-     ("l" (insert-char ?🡪))
-     ("y" (insert-char ?🡬))
-     ("k" (insert-char ?🡩))
-     ("p" (insert-char ?🡭))
+     ("1" (insert-char ?🡯))
+     ("2" (insert-char ?🡫))
+     ("3" (insert-char ?🡮))
+     ("4" (insert-char ?🡨))
+     ("6" (insert-char ?🡪))
+     ("7" (insert-char ?🡬))
+     ("8" (insert-char ?🡩))
+     ("9" (insert-char ?🡭))
      ("C-g" nil nil :color blue)))
   (bind-key*
    "C-z C-r"
