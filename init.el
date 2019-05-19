@@ -1804,6 +1804,25 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (emacs-lisp-mode . reveal-mode)
   :delight " 👀")
 
+(use-package replace
+  ;; https://masteringemacs.org/article/searching-buffers-occur-mode
+  :preface
+  (defun multi-occur-with-this-mode (regexp &optional nlines)
+    "Show all lines matching REGEXP in buffers with this major mode."
+    (interactive
+     (occur-read-primary-args))
+    (occur-1 regexp nlines
+             (cl-loop
+              for buffer being the buffers when
+              (eq (buffer-local-value 'major-mode buffer) major-mode)
+              collect buffer)))
+  :custom
+  (list-matching-lines-default-context-lines 0)
+  :hook
+  ((occur) . occur-rename-buffer)
+  :commands (occur-1
+             occur-read-primary-args))
+
 (use-package savehist
   :commands (savehist-mode)
   :config
