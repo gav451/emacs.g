@@ -819,8 +819,7 @@ point."
   (eshell-hist-ignoredups t)
   (eshell-ls-initial-args nil)
   (eshell-save-history-on-exit t)
-  (eshell-visual-commands '("alsamixer"
-                            "htop"
+  (eshell-visual-commands '("htop"
                             "ipython"
                             "jupyter"
                             "less"
@@ -903,6 +902,11 @@ point."
     "Hook to power-DOWN or re-BOOT the computer cleanly."
     :type 'hook
     :group 'exwm)
+
+  (defun my-exwm-alsamixer ()
+    (interactive)
+    (start-process-shell-command "alsamixer" nil "xterm -e alsamixer"))
+
   (defun my-exwm-invoke (command)
     (interactive (list (read-shell-command "$ ")))
     (start-process-shell-command command nil command))
@@ -960,6 +964,7 @@ point."
    `(([?\s-&] . my-exwm-invoke)
      ([?\s-B] . my-exwm-re-boot)
      ([?\s-D] . my-exwm-power-down)
+     ([?\s-a] . my-exwm-alsamixer)
      ([?\s-b] . ivy-switch-buffer)
      ([?\s-i] . my-exwm-invoke)
      ([?\s-l] . my-exwm-lock-screen)
