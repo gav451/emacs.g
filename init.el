@@ -83,8 +83,8 @@
   (auto-compile-toggle-deletes-nonlib-dest   t)
   (auto-compile-update-autoloads             t)
   :hook
-  (auto-compile-inhibit-compile
-   . auto-compile-inhibit-compile-detached-git-head)
+  ((auto-compile-inhibit-compile
+    ) . auto-compile-inhibit-compile-detached-git-head)
   :commands (auto-compile-on-load-mode
              auto-compile-on-save-mode)
   :init
@@ -161,22 +161,23 @@
   (LaTeX-electric-left-right-brace t)
   :commands (TeX-latex-mode)
   :hook
-  (LaTeX-mode . LaTeX-math-mode))
+  ((LaTeX-mode) . LaTeX-math-mode))
 
 (use-package reftex
   :custom
   (reftex-default-bibliography "~/VCS/research/refs.bib")
   :hook
-  (LaTeX-mode . turn-on-reftex)
+  ((LaTeX-mode) . turn-on-reftex)
   :delight reftex-mode " 📑")
 
 (use-package tex
   :hook
-  (LaTeX-mode . TeX-PDF-mode))
+  ((LaTeX-mode) . TeX-PDF-mode))
 
 (use-package tex-buf
   :hook
-  (TeX-after-compilation-finished-functions . TeX-revert-document-buffer))
+  ((TeX-after-compilation-finished-functions
+    ) . TeX-revert-document-buffer))
 
 ;; alphabetical order
 (use-package ace-link
@@ -395,7 +396,7 @@ In that case, insert the number."
   (diff-hl-draw-borders nil)
   :commands (global-diff-hl-mode)
   :hook
-  (magit-post-refresh . diff-hl-magit-post-refresh)
+  ((magit-post-refresh) . diff-hl-magit-post-refresh)
   :config
   (global-diff-hl-mode))
 
@@ -830,7 +831,7 @@ point."
                             "top"
                             "watch"))
   :hook
-  (eshell-mode . on-eshell-mode)
+  ((eshell-mode) . on-eshell-mode)
   :defines
   eshell-banner-message
   eshell-prompt-regexp
