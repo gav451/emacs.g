@@ -1805,8 +1805,9 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
           "^/\\(?:ssh\\|su\\|sudo\\)?:")))
 
 (use-package reveal
+  ;; info -> magit -> FAQ -> FAQ - Issues and Errors.
   :hook
-  (emacs-lisp-mode . reveal-mode)
+  (magit-diff-visit-file . reveal-mode)
   :delight " 👀")
 
 (use-package replace
