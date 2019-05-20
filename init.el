@@ -1395,14 +1395,15 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 (use-package iedit
   :custom
   (iedit-toggle-key-default nil)
+  ;; "Mastering Emacs" recommends this and `lispy' uses this.
   :bind ((:map global-map
-               ("C-!" . iedit-mode))
+               ("M-i" . iedit-mode))
          (:map isearch-mode-map
-               ("C-!" . iedit-mode-from-isearch))
+               ("M-i" . iedit-mode-from-isearch))
          (:map esc-map
-               ("C-!" . iedit-execute-last-modification))
+               ("M-i" . iedit-execute-last-modification))
          (:map help-map
-               ("C-!" . iedit-mode-toggle-on-function))))
+               ("M-i" . iedit-mode-toggle-on-function))))
 
 (use-package ivy
   ;; https://github.com/dakra/dmacs/blob/master/init.org#ivy
