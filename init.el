@@ -1349,6 +1349,49 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
              hydra-set-transient-map
              hydra-show-hint))
 
+(use-package ibuffer
+  ;; http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html
+  :custom
+  (ibuffer-expert nil)
+  (ibuffer-saved-filter-groups
+   '(("Emacs"
+      ("Code" (mode . emacs-lisp-mode))
+      ("Doc" (or (mode . Info-mode)
+                 (mode . help-mode)
+                 (mode . helpful-mode)))
+      ("Ehell" (mode . eshell-mode))
+      ("Magit" (derived-mode . magit-mode))
+      ("Occur" (mode . occur-mode))
+      ("EMMS" (mode . emms-stream-mode))
+      ("EXWM" (mode . exwm-mode)))
+     ("Python"
+      ("Code" (mode . python-mode))
+      ("Doc" (mode . Info-mode))
+      ("Eshell" (mode . eshell-mode))
+      ("Magit" (derived-mode . magit-mode))
+      ("Occur" (mode . occur-mode))
+      ("EMMS" (mode . emms-stream-mode))
+      ("EXWM" (mode . exwm-mode)))
+     ("Text"
+      ("Org" (mode . org-mode))
+      ("TeX" (or (derived-mode . tex-mode)
+                 (mode . bibtex-mode)))
+      ("PDF" (mode . pdf-view-mode))
+      ("Doc" (mode . Info-mode))
+      ("Eshell" (mode . eshell-mode))
+      ("Magit" (derived-mode . magit-mode))
+      ("Occur" (mode . occur-mode))
+      ("Code" (or (mode . emacs-lisp-mode)
+                  (mode . python-mode)
+                  (mode . shell-mode)))
+      ("EMMS" (mode . emms-stream-mode))
+      ("EXWM" (mode . exwm-mode)))))
+  (ibuffer-save-with-custom nil)
+  :bind ((:map global-map
+               ("C-x C-b" . ibuffer)))
+  :hook
+  ((ibuffer-mode) . ibuffer-auto-mode))
+
 (use-package iedit
   :custom
   (iedit-toggle-key-default nil)
