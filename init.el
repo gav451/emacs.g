@@ -551,21 +551,19 @@ nil if not inside any parens."
 
 (use-package elfeed
   ;; http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/
+  ;; https://gitlab.com/jabranham/emacs/blob/master/init.el
   :preface
   (defun my-elfeed-db-load-and-open ()
     "Wrapper to load the elfeed database before opening"
     (interactive)
-    (elfeed-db-load)
     (elfeed)
-    (elfeed-search-update--force))
+    (elfeed-db-load)
+    (elfeed-search-update--force)
+    (elfeed-update))
   (defun my-elfeed-save-db-and-quit ()
     (interactive)
     (elfeed-db-save)
     (quit-window))
-  (defun my-elfeed-toggle-star ()
-    "Wrapper to toggle all starred elfeed search entries."
-    (interactive)
-    (elfeed-search-toggle-all '*))
   :custom
   (elfeed-db-directory "~/SYNC/elfeed/db")
   (elfeed-feeds
@@ -629,7 +627,7 @@ nil if not inside any parens."
       :column "q-z")
      ("v" (elfeed-search-set-filter "@48-months-ago +vxlabs") "vxlabs")
      ("w" (elfeed-search-set-filter "@48-months-ago +wellons") "wellons")
-     ("*" my-elfeed-toggle-star "toggle *"
+     ("*" (elfeed-search-toggle-all '*) "toggle *"
       :column "Other")
      ("C-g" nil "quit" :color blue))
    elfeed-search-mode-map))
