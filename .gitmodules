@@ -200,6 +200,9 @@
 [submodule "markdown-mode"]
 	path = lib/markdown-mode
 	url = git@github.com:jrblevin/markdown-mode.git
+[submodule "mu2tex"]
+	path = lib/mu2tex
+	url = git@github.com:cdominik/mu2tex.git
 [submodule "multi-term"]
 	path = lib/multi-term
 	url = git@github.com:emacsorphanage/multi-term.git
