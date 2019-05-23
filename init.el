@@ -1555,6 +1555,20 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (multi-term-programe (executable-find "zsh"))
   :commands (multi-term))
 
+(use-package novice
+  ;; https://www.emacswiki.org/emacs/DisabledCommands
+  :preface
+  (defun enable-me (&rest _args)
+    "Called when a disabled command is executed.
+Enable it and reexecute it."
+    (put this-command 'disabled nil)
+    (message "You typed %s.  %s was disabled.  It ain't no more."
+             (key-description (this-command-keys)) this-command)
+    (sit-for 0)
+    (call-interactively this-command))
+  :init
+  (setq disabled-command-function #'enable-me))
+
 (use-package ob-async
   :after org
   :demand t
