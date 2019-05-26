@@ -553,12 +553,12 @@ nil if not inside any parens."
   ;; http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/
   ;; https://gitlab.com/jabranham/emacs/blob/master/init.el
   :preface
-  (defun my-elfeed-db-load-and-open ()
-    "Wrapper to load the elfeed database before opening"
+  (defun my-enter-elfeed-load-db-and-update ()
+    "Enter elfeed, load the database, and update."
     (interactive)
     (elfeed)
     (elfeed-db-load)
-    (elfeed-search-update--force)
+    (elfeed-search-update :force)
     (elfeed-update))
   (defun my-elfeed-save-db-and-quit ()
     (interactive)
@@ -586,7 +586,7 @@ nil if not inside any parens."
      ("https://www.democracynow.org/podcast-video.xml" dn)
      ("https://www.laquadrature.net/fr/rss.xml" lqdn)))
   (elfeed-enclosure-default-dir (expand-file-name "~/tmpfs/"))
-  :bind* (("C-x w" . my-elfeed-db-load-and-open))
+  :bind* (("C-x w" . my-enter-elfeed-load-db-and-update))
   :bind ((:map elfeed-search-mode-map
                ("?" . describe-mode)
                ("q" . my-elfeed-save-db-and-quit))
@@ -597,7 +597,8 @@ nil if not inside any parens."
              elfeed-db-save
              elfeed-search-set-filter
              elfeed-search-toggle-all
-             elfeed-search-update--force)
+             elfeed-search-update
+             elfeed-update)
   :config
   (make-directory elfeed-db-directory t)
   (bind-key
