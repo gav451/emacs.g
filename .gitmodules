@@ -165,6 +165,9 @@
 	path = lib/ivy
 	url = git@github.com:abo-abo/swiper.git
 	info-path = doc
+[submodule "ivy-posframe"]
+	path = lib/ivy-posframe
+	url = git@github.com:tumashu/ivy-posframe.git
 [submodule "julia-mode"]
 	path = lib/julia-mode
 	url = git@github.com:JuliaEditorSupport/julia-emacs.git
@@ -248,6 +251,9 @@
 [submodule "pkg-info"]
 	path = lib/pkg-info
 	url = git@github.com:lunaryorn/pkg-info.el.git
+[submodule "posframe"]
+	path = lib/posframe
+	url = git@github.com:tumashu/posframe.git
 [submodule "prescient"]
 	path = lib/prescient
 	url = git@github.com:raxod502/prescient.el.git
