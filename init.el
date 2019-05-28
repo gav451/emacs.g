@@ -890,191 +890,203 @@ point."
   (exec-path-from-shell-initialize)
   :demand t)
 
-(use-package exwm
-  ;; https://github.com/DamienCassou/emacs.d/blob/master/init.el
-  ;; https://github.com/ch11ng/exwm/wiki
-  ;; https://github.com/dakra/dmacs/blob/master/init.org
-  ;; https://github.com/technomancy/dotfiles/blob/master/.emacs.d/phil/wm.el
-  ;; https://gitlab.com/ambrevar/dotfiles/tree/master/.emacs.d
-  :preface
-  (defcustom my-exwm-teardown-hook nil
-    "Hook to power-DOWN or re-BOOT the computer cleanly."
-    :type 'hook
-    :group 'exwm)
+(when (getenv "EXWM")
+  (use-package exwm
+    ;; https://github.com/DamienCassou/emacs.d/blob/master/init.el
+    ;; https://github.com/ch11ng/exwm/wiki
+    ;; https://github.com/dakra/dmacs/blob/master/init.org
+    ;; https://github.com/technomancy/dotfiles/blob/master/.emacs.d/phil/wm.el
+    ;; https://gitlab.com/ambrevar/dotfiles/tree/master/.emacs.d
+    :preface
+    (defcustom my-exwm-teardown-hook nil
+      "Hook to power-DOWN or re-BOOT the computer cleanly."
+      :type 'hook
+      :group 'exwm)
 
-  (defun my-exwm-alsamixer ()
-    (interactive)
-    (start-process-shell-command "alsamixer" nil "xterm -e alsamixer"))
+    (defun my-exwm-alsamixer ()
+      (interactive)
+      (start-process-shell-command "alsamixer" nil "xterm -e alsamixer"))
 
-  (defun my-exwm-invoke (command)
-    (interactive (list (read-shell-command "$ ")))
-    (start-process-shell-command command nil command))
+    (defun my-exwm-invoke (command)
+      (interactive (list (read-shell-command "$ ")))
+      (start-process-shell-command command nil command))
 
-  (defun my-exwm-lock-screen ()
-    (interactive)
-    (shell-command-to-string "i3lock -c 000000"))
+    (defun my-exwm-lock-screen ()
+      (interactive)
+      (shell-command-to-string "i3lock -c 000000"))
 
-  (defun my-exwm-teardown ()
-    "This saves all buffers and runs `kill-emacs-hook' without killing exwm or Emacs."
-    (save-some-buffers t)
-    ;; `run-hooks' does not work with let binding.
-    (setq my-exwm-teardown-hook (thread-last kill-emacs-hook
-                                  (remove 'exwm--server-stop)
-                                  (remove 'server-force-stop)))
-    (run-hooks 'my-exwm-teardown-hook))
+    (defun my-exwm-teardown ()
+      "This saves all buffers and runs `kill-emacs-hook' without killing exwm or Emacs."
+      (save-some-buffers t)
+      ;; `run-hooks' does not work with let binding.
+      (setq my-exwm-teardown-hook (thread-last kill-emacs-hook
+                                    (remove 'exwm--server-stop)
+                                    (remove 'server-force-stop)))
+      (run-hooks 'my-exwm-teardown-hook))
 
-  (defun my-exwm-power-down ()
-    "Save all Emacs buffers and power-DOWN the computer."
-    (interactive)
-    (buffer-face-set `(:background ,exwm-tear-down-background-color))
-    (when (y-or-n-p "Really want to power-DOWN?")
-      (my-exwm-teardown)
-      (start-process-shell-command "power-DOWN" nil "sudo shutdown -h -t 2 now"))
-    (buffer-face-mode -1))
+    (defun my-exwm-power-down ()
+      "Save all Emacs buffers and power-DOWN the computer."
+      (interactive)
+      (buffer-face-set `(:background ,exwm-tear-down-background-color))
+      (when (y-or-n-p "Really want to power-DOWN?")
+        (my-exwm-teardown)
+        (start-process-shell-command "power-DOWN" nil "sudo shutdown -h -t 2 now"))
+      (buffer-face-mode -1))
 
-  (defun my-exwm-re-boot ()
-    "Save all Emacs buffers and re-BOOT the computer."
-    (interactive)
-    (buffer-face-set `(:background ,exwm-tear-down-background-color))
-    (when (y-or-n-p "Really want to re-BOOT?")
-      (my-exwm-teardown)
-      (start-process-shell-command "re-BOOT" nil "sudo shutdown -r -t 2 now"))
-    (buffer-face-mode -1))
+    (defun my-exwm-re-boot ()
+      "Save all Emacs buffers and re-BOOT the computer."
+      (interactive)
+      (buffer-face-set `(:background ,exwm-tear-down-background-color))
+      (when (y-or-n-p "Really want to re-BOOT?")
+        (my-exwm-teardown)
+        (start-process-shell-command "re-BOOT" nil "sudo shutdown -r -t 2 now"))
+      (buffer-face-mode -1))
 
-  (defun on-exwm-update-class ()
-    (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+    (defun on-exwm-update-class ()
+      (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+                  (string= "gimp" exwm-instance-name))
+        (exwm-workspace-rename-buffer exwm-class-name)))
+
+    (defun on-exwm-update-title ()
+      (when (or (not exwm-instance-name)
+                (string-prefix-p "sun-awt-X11-" exwm-instance-name)
                 (string= "gimp" exwm-instance-name))
-      (exwm-workspace-rename-buffer exwm-class-name)))
+        (exwm-workspace-rename-buffer exwm-title)))
 
-  (defun on-exwm-update-title ()
-    (when (or (not exwm-instance-name)
-              (string-prefix-p "sun-awt-X11-" exwm-instance-name)
-              (string= "gimp" exwm-instance-name))
-      (exwm-workspace-rename-buffer exwm-title)))
+    :hook
+    (exwm-update-class . on-exwm-update-class)
+    (exwm-update-title . on-exwm-update-title)
+    :commands (exwm-enable
+               exwm-reset)
+    :init
+    (exwm-enable)
+    :config
+    (display-time-mode 1))
 
-  :when (getenv "EXWM")
-  :custom
-  (display-time-string-forms '((format-time-string " %F %R")))
-  (exwm-floating-border-color "BlueViolet")
-  (exwm-floating-border-width 3)
-  ;; Bind `s-' prefix exwm specific keys when exwm gets enabled,
-  ;; since those key-bindings may conflict with other window managers.
-  (exwm-input-global-keys
-   `(([?\s-&] . my-exwm-invoke)
-     ([?\s-B] . my-exwm-re-boot)
-     ([?\s-D] . my-exwm-power-down)
-     ([?\s-a] . my-exwm-alsamixer)
-     ([?\s-b] . ivy-switch-buffer)
-     ([?\s-i] . my-exwm-invoke)
-     ([?\s-l] . my-exwm-lock-screen)
-     ([?\s-o] . ace-window)
-     ([?\s-r] . exwm-reset)
-     ([?\s-t] . exwm-input-toggle-keyboard)
-     ([?\s-w] . exwm-workspace-switch)
-     ,@(mapcar (lambda (i)
-                 `(,(kbd (format "s-%d" i)) .
-                   (lambda ()
-                     (interactive)
-                     (exwm-workspace-switch-create ,i))))
-               (number-sequence 0 9))))
-  (exwm-layout-show-all-buffers t)
-  (exwm-manage-configurations
-   '(((or (equal "Alacritty" exwm-class-name)
-          (equal "XTerm" exwm-class-name)
-          (equal "kitty" exwm-class-name))
-      char-mode t
-      simulation-keys (([?\C-c ?\C-c] . [?\C-c])))
-     ((equal "Firefox" exwm-class-name)
-      simulation-keys (([?\C-b] . [left])
-                       ([?\M-b] . [C-left])
-                       ([?\C-f] . [right])
-                       ([?\M-f] . [C-right])
-                       ([?\C-p] . [up])
-                       ([?\C-n] . [down])
-                       ([?\C-a] . [home])
-                       ([?\C-e] . [end])
-                       ([?\M-v] . [prior])
-                       ([?\C-v] . [next])
-                       ([?\C-d] . [delete])
-                       ([?\C-k] . [S-end delete])
-                       ;; cut, copy, and paste:
-                       ([?\C-w] . [?\C-x])
-                       ([?\M-w] . [?\C-c])
-                       ([?\C-y] . [?\C-v])
-                       ;; search:
-                       ([?\C-s] . [?\C-f])
-                       ;; close tab instead of quitting Firefox:
-                       ([?\C-q] . [?\C-w])))
-     ;; Remove the gimp state directory with "rm -rf ~/.config/GIMP".
-     ((equal "GNU Image Manipulation Program" exwm-title)
-      floating t
-      floating-mode-line nil
-      height 0.5
-      width 0.5)
-     ((string-prefix-p "sun-awt-X11-" exwm-instance-name)
-      floating t
-      floating-mode-line nil)))
-  (exwm-workspace-number 2)
-  (exwm-workspace-show-all-buffers t)
-  :hook
-  (exwm-update-class . on-exwm-update-class)
-  (exwm-update-title . on-exwm-update-title)
-  :commands (exwm-enable
-             exwm-input-set-key
-             exwm-input-toggle-keyboard
-             exwm-reset
-             exwm-workspace-rename-buffer
-             exwm-workspace-switch
-             exwm-workspace-switch-create)
-  :init
-  (exwm-enable)
-  :config
-  (display-time-mode 1))
+  (use-package exwm-floating
+    :custom
+    (exwm-floating-border-color "BlueViolet")
+    (exwm-floating-border-width 3))
 
-(use-package exwm-randr
-  ;; https://emacs.stackexchange.com/questions/7148/get-all-regexp-matches-in-buffer-as-a-list
-  ;; https://github.com/ch11ng/exwm/wiki
-  :preface
-  (defun my-exwm-randr-connected-monitors ()
-    (with-temp-buffer
-      (call-process "xrandr" nil t nil)
-      (goto-char (point-min))
-      (save-match-data
-        (let (matches)
-          (while (re-search-forward
-                  "\\(eDP1\\|DP1\\|HDMI1\\|VIRTUAL1\\) connected" nil t)
-            (push (match-string-no-properties 1) matches))
-          (nreverse matches)))))
+  (use-package exwm-input
+    :custom
+    ;; Bind `s-' prefix exwm specific keys when exwm gets enabled,
+    ;; since those key-bindings may conflict with other window managers.
+    (exwm-input-global-keys
+     `(([?\s-&] . my-exwm-invoke)
+       ([?\s-B] . my-exwm-re-boot)
+       ([?\s-D] . my-exwm-power-down)
+       ([?\s-a] . my-exwm-alsamixer)
+       ([?\s-b] . ivy-switch-buffer)
+       ([?\s-i] . my-exwm-invoke)
+       ([?\s-l] . my-exwm-lock-screen)
+       ([?\s-o] . ace-window)
+       ([?\s-r] . exwm-reset)
+       ([?\s-t] . exwm-input-toggle-keyboard)
+       ([?\s-w] . exwm-workspace-switch)
+       ,@(mapcar (lambda (i)
+                   `(,(kbd (format "s-%d" i)) .
+                     (lambda ()
+                       (interactive)
+                       (exwm-workspace-switch-create ,i))))
+                 (number-sequence 0 9))))
+    :commands (exwm-input-set-key
+               exwm-input-toggle-keyboard))
 
-  (defun on-exwm-randr-screen-change ()
-    (let* ((monitors (my-exwm-randr-connected-monitors))
-           (count (length monitors))
-           (wop)
-           (command
-            (cond
-             ((eq count 2)
-              (dotimes (i 10)
-                (if (cl-evenp i)
-                    (setq wop (plist-put wop i (car monitors)))
-                  (setq wop (plist-put wop i (cadr monitors)))))
-              (message "Exwm-randr: 2 monitors")
-              (format "xrandr --output %s --auto --above %s"
-                      (cadr monitors) (car monitors)))
-             ((eq count 1)
-              (dotimes (i 10)
-                (setq wop (plist-put wop i (car monitors))))
-              (message "Exwm-randr: 1 monitor")
-              "xrandr"))))
-      (setq exwm-randr-workspace-monitor-plist wop)
-      (start-process-shell-command "xrandr" nil command)))
+  (use-package exwm-layout
+    :custom
+    (exwm-layout-show-all-buffers t))
 
-  :after exwm
-  :when (string= (system-name) "venus")
-  :hook
-  (exwm-randr-screen-change . on-exwm-randr-screen-change)
-  :commands (exwm-randr-enable)
-  :init
-  (exwm-randr-enable))
+  (use-package exwm-manage
+    :custom
+    (exwm-manage-configurations
+     '(((or (equal "Alacritty" exwm-class-name)
+            (equal "XTerm" exwm-class-name)
+            (equal "kitty" exwm-class-name))
+        char-mode t
+        simulation-keys (([?\C-c ?\C-c] . [?\C-c])))
+       ((equal "Firefox" exwm-class-name)
+        simulation-keys (([?\C-b] . [left])
+                         ([?\M-b] . [C-left])
+                         ([?\C-f] . [right])
+                         ([?\M-f] . [C-right])
+                         ([?\C-p] . [up])
+                         ([?\C-n] . [down])
+                         ([?\C-a] . [home])
+                         ([?\C-e] . [end])
+                         ([?\M-v] . [prior])
+                         ([?\C-v] . [next])
+                         ([?\C-d] . [delete])
+                         ([?\C-k] . [S-end delete])
+                         ;; cut, copy, and paste:
+                         ([?\C-w] . [?\C-x])
+                         ([?\M-w] . [?\C-c])
+                         ([?\C-y] . [?\C-v])
+                         ;; search:
+                         ([?\C-s] . [?\C-f])
+                         ;; close tab instead of quitting Firefox:
+                         ([?\C-q] . [?\C-w])))
+       ;; Remove the gimp state directory with "rm -rf ~/.config/GIMP".
+       ((equal "GNU Image Manipulation Program" exwm-title)
+        floating t
+        floating-mode-line nil
+        height 0.5
+        width 0.5)
+       ((string-prefix-p "sun-awt-X11-" exwm-instance-name)
+        floating t
+        floating-mode-line nil))))
+
+  (use-package exwm-randr
+    ;; https://emacs.stackexchange.com/questions/7148/get-all-regexp-matches-in-buffer-as-a-list
+    ;; https://github.com/ch11ng/exwm/wiki
+    :preface
+    (defun my-exwm-randr-connected-monitors ()
+      (with-temp-buffer
+        (call-process "xrandr" nil t nil)
+        (goto-char (point-min))
+        (save-match-data
+          (let (matches)
+            (while (re-search-forward
+                    "\\(eDP1\\|DP1\\|HDMI1\\|VIRTUAL1\\) connected" nil t)
+              (push (match-string-no-properties 1) matches))
+            (nreverse matches)))))
+
+    (defun on-exwm-randr-screen-change ()
+      (let* ((monitors (my-exwm-randr-connected-monitors))
+             (count (length monitors))
+             (wop)
+             (command
+              (cond
+               ((eq count 2)
+                (dotimes (i 10)
+                  (if (cl-evenp i)
+                      (setq wop (plist-put wop i (car monitors)))
+                    (setq wop (plist-put wop i (cadr monitors)))))
+                (message "Exwm-randr: 2 monitors")
+                (format "xrandr --output %s --auto --above %s"
+                        (cadr monitors) (car monitors)))
+               ((eq count 1)
+                (dotimes (i 10)
+                  (setq wop (plist-put wop i (car monitors))))
+                (message "Exwm-randr: 1 monitor")
+                "xrandr"))))
+        (setq exwm-randr-workspace-monitor-plist wop)
+        (start-process-shell-command "xrandr" nil command)))
+
+    :when (string= (system-name) "venus")
+    :hook
+    (exwm-randr-screen-change . on-exwm-randr-screen-change)
+    :commands (exwm-randr-enable)
+    :init
+    (exwm-randr-enable))
+
+  (use-package exwm-workspace
+    :custom
+    (exwm-workspace-number 2)
+    (exwm-workspace-show-all-buffers t)
+    :commands (exwm-workspace-rename-buffer
+               exwm-workspace-switch
+               exwm-workspace-switch-create)))
 
 (use-package face-remap
   :preface
@@ -1917,6 +1929,11 @@ Enable it and reexecute it."
   (synosaurus-choose-method 'default)
   :bind* (("C-z C-s l" . synosaurus-lookup)
           ("C-z C-s r" . synosaurus-choose-and-replace)))
+
+(use-package time
+  :custom
+  (display-time-format (when (getenv "EXWM")
+                         " %F %R")))
 
 (use-package tramp
   :config
