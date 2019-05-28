@@ -570,15 +570,15 @@ nil if not inside any parens."
    '(("http://emacshorrors.com/feed.atom" schneidermann)
      ("http://emacsninja.com/feed.atom" schneidermann)
      ("http://www.howardism.org/index.xml" howard)
-     ("http://nullprogram.com/feed/" wellons)
-     ;; https://www.emacswiki.org/emacs/PlanetEmacsen
-     ("http://planet.emacslife.com/atom.xml" emacsen)
      ("http://pragmaticemacs.com/feed/" maugham)
      ("http://sachachua.com/blog/category/emacs/feed" chua)
      ("https://act.eff.org/action.atom" eff)
      ("https://feeds.feedburner.com/InterceptedWithJeremyScahill" intercepted)
      ("https://feeds.feedburner.com/TheMouseVsThePython" python)
+     ("https://nullprogram.com/feed/" wellons)
      ("https://oremacs.com/atom.xml" krehel)
+     ;; https://www.emacswiki.org/emacs/PlanetEmacsen
+     ("https://planet.emacslife.com/atom.xml" emacsen)
      ("https://realpython.com/atom.xml" python)
      ("https://vxlabs.com/index.xml" vxlabs)
      ("https://www.aclu.org/taxonomy/feed-term/2152/feed" aclu)
