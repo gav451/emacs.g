@@ -606,37 +606,38 @@ nil if not inside any parens."
              elfeed-update)
   :config
   (make-directory elfeed-db-directory t)
-  (bind-key
-   "f"
-   (defhydra hydra-elfeed-filter ()
-     ("A" (elfeed-search-set-filter "@48-months-ago") "All"
-      :column "A-Z")
-     ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
-     ("S" (elfeed-search-set-filter "@12-months-ago +*") "Starred")
-     ("U" (elfeed-search-set-filter "@12-months-ago +unread") "Unread")
-     ("a" (elfeed-search-set-filter "@12-months-ago +aclu") "aclu"
-      :column "a-d")
-     ("b" (elfeed-search-set-filter "@12-months-ago +bof") "bof" )
-     ("c" (elfeed-search-set-filter "@48-months-ago +chua") "chua")
-     ("d" (elfeed-search-set-filter "@12-months-ago +dn") "dn")
-     ("e" (elfeed-search-set-filter "@12-months-ago +emacsen") "emacsen"
-      :column "e-i")
-     ("f" (elfeed-search-set-filter "@12-months-ago +eff") "eff")
-     ("h" (elfeed-search-set-filter "@48-months-ago +howard") "howard")
-     ("i" (elfeed-search-set-filter "@12-months-ago +intercepted") "intercepted")
-     ("k" (elfeed-search-set-filter "@48-months-ago +krehel") "krehel"
-      :column "j-p")
-     ("l" (elfeed-search-set-filter "@12-months-ago +lqdn") "lqdn")
-     ("m" (elfeed-search-set-filter "@48-months-ago +maugham") "maugham")
-     ("p" (elfeed-search-set-filter "@12-months-ago +python") "python")
-     ("s" (elfeed-search-set-filter "@48-months-ago +schneidermann") "schneidermann"
-      :column "q-z")
-     ("v" (elfeed-search-set-filter "@48-months-ago +vxlabs") "vxlabs")
-     ("w" (elfeed-search-set-filter "@48-months-ago +wellons") "wellons")
-     ("*" (elfeed-search-toggle-all '*) "toggle *"
-      :column "Other")
-     ("C-g" nil "quit" :color blue))
-   elfeed-search-mode-map))
+  (with-eval-after-load 'hydra
+    (bind-key
+     "f"
+     (defhydra hydra-elfeed-filter ()
+       ("A" (elfeed-search-set-filter "@48-months-ago") "All"
+        :column "A-Z")
+       ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
+       ("S" (elfeed-search-set-filter "@12-months-ago +*") "Starred")
+       ("U" (elfeed-search-set-filter "@12-months-ago +unread") "Unread")
+       ("a" (elfeed-search-set-filter "@12-months-ago +aclu") "aclu"
+        :column "a-d")
+       ("b" (elfeed-search-set-filter "@12-months-ago +bof") "bof" )
+       ("c" (elfeed-search-set-filter "@48-months-ago +chua") "chua")
+       ("d" (elfeed-search-set-filter "@12-months-ago +dn") "dn")
+       ("e" (elfeed-search-set-filter "@12-months-ago +emacsen") "emacsen"
+        :column "e-i")
+       ("f" (elfeed-search-set-filter "@12-months-ago +eff") "eff")
+       ("h" (elfeed-search-set-filter "@48-months-ago +howard") "howard")
+       ("i" (elfeed-search-set-filter "@12-months-ago +intercepted") "intercepted")
+       ("k" (elfeed-search-set-filter "@48-months-ago +krehel") "krehel"
+        :column "j-p")
+       ("l" (elfeed-search-set-filter "@12-months-ago +lqdn") "lqdn")
+       ("m" (elfeed-search-set-filter "@48-months-ago +maugham") "maugham")
+       ("p" (elfeed-search-set-filter "@12-months-ago +python") "python")
+       ("s" (elfeed-search-set-filter "@48-months-ago +schneidermann") "schneidermann"
+        :column "q-z")
+       ("v" (elfeed-search-set-filter "@48-months-ago +vxlabs") "vxlabs")
+       ("w" (elfeed-search-set-filter "@48-months-ago +wellons") "wellons")
+       ("*" (elfeed-search-toggle-all '*) "toggle *"
+        :column "Other")
+       ("C-g" nil "quit" :color blue))
+     elfeed-search-mode-map)))
 
 (use-package elisp-demos
   :after helpful
@@ -786,15 +787,16 @@ point."
   (defengine wikipedia
     "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s"
     :keybinding "w")
-  (bind-key*
-   "C-z C-e"
-   (defhydra hydra-engine (:color blue)
-     "Search"
-     ("a" engine/search-arch-wiki      "arch-wiki")
-     ("d" engine/search-duck-duck-go   "duck-duck-go")
-     ("g" engine/search-github         "github")
-     ("o" engine/search-open-streetmap "open-streetmap")
-     ("w" engine/search-wikipedia      "wikipedia"))))
+  (with-eval-after-load 'hydra
+    (bind-key*
+     "C-z C-e"
+     (defhydra hydra-engine (:color blue)
+       "Search"
+       ("a" engine/search-arch-wiki      "arch-wiki")
+       ("d" engine/search-duck-duck-go   "duck-duck-go")
+       ("g" engine/search-github         "github")
+       ("o" engine/search-open-streetmap "open-streetmap")
+       ("w" engine/search-wikipedia      "wikipedia")))))
 
 (use-package epa
   :custom
