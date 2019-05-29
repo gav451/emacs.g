@@ -1906,6 +1906,21 @@ Enable it and reexecute it."
   :config
   (lentic-ensure-init))
 
+(use-package rainbow-mode
+  :custom
+  (rainbow-x-colors-major-mode-list '(emacs-lisp-mode
+                                      ielm-mode
+                                      lisp-interaction-mode
+                                      c-mode
+                                      c++-mode
+                                      java-mode))
+  :hook
+  ((emacs-lisp-mode
+    ielm-mode
+    latex-mode
+    lisp-interaction-mode) . rainbow-mode)
+  :delight " 🌈")
+
 (use-package recentf
   :after no-littering
   :custom
