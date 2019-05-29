@@ -1362,11 +1362,16 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
      ("ws" #'whitespace-mode
       (if (bound-and-true-p whitespace-mode) "[X]" "[ ]"))
      ("C-g" nil nil :color blue)))
+  :custom
+  (hydra-hint-display-type 'lv)
+  (hydra-verbose t)
   :commands (hydra--call-interactively-remap-maybe
              hydra-default-pre
              hydra-keyboard-quit
              hydra-set-transient-map
-             hydra-show-hint))
+             hydra-show-hint)
+  :config
+  (hydra-add-font-lock))
 
 (use-package ibuffer
   ;; http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html
