@@ -326,7 +326,9 @@ In that case, insert the number."
                ("<space>" . my-company-insert-abort)
                ("C-y" . yas-expand-from-trigger-key)))
   :hook
-  ((LaTeX-mode emacs-lisp-mode org-mode) . company-mode)
+  ((LaTeX-mode
+    emacs-lisp-mode
+    org-mode) . company-mode)
   :delight company-mode " 𝍎")
 
 (use-package company-prescient
@@ -1557,7 +1559,9 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (lispy-compat '(edebug god-mode macrostep))
   :commands (lispy-mode)
   :hook
-  ((emacs-lisp-mode ielm-mode lisp-interaction-mode) . lispy-mode)
+  ((emacs-lisp-mode
+    ielm-mode
+    lisp-interaction-mode) . lispy-mode)
   :delight lispy-mode " 🗘")
 
 (use-package macrostep
@@ -1918,7 +1922,7 @@ Enable it and reexecute it."
 (use-package reveal
   ;; info -> magit -> FAQ -> FAQ - Issues and Errors.
   :hook
-  (magit-diff-visit-file . reveal-mode)
+  ((magit-diff-visit-file) . reveal-mode)
   :delight " 👀")
 
 (use-package replace
