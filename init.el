@@ -1498,6 +1498,10 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
                              (right-fringe . 0)))
   (ivy-posframe-style 'frame-center)
   (ivy-posframe-width 80)
+  :custom-face
+  (ivy-posframe ((t (:foreground "LawnGreen" :background "Black"))))
+  (ivy-posframe-border ((t (:background "BlueViolet"))))
+  (ivy-posframe-cursor ((t (:background "LawnGreen"))))
   :commands (ivy-posframe-enable)
   :demand t
   :config
