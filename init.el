@@ -512,6 +512,9 @@ In that case, insert the number."
   :bind ((:map global-map
                ("M-w" . easy-kill))))
 
+(use-package eldoc
+  :delight " 🛈")
+
 (use-package elec-pair
   :hook
   ((emacs-lisp-mode
@@ -1138,7 +1141,8 @@ point."
         (flyspell-mode 1))))
   :hook
   ((prog-mode) . flyspell-prog-mode)
-  ((text-mode) . flyspell-mode))
+  ((text-mode) . flyspell-mode)
+  :delight " ✔")
 
 (use-package frame
   ;; http://emacsninja.com/posts/making-emacs-more-presentable.html
