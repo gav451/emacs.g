@@ -512,7 +512,7 @@ In that case, insert the number."
                ("M-w" . easy-kill))))
 
 (use-package eldoc
-  :delight " 🛈")
+  :delight eldoc-mode " 🛈")
 
 (use-package elec-pair
   :hook
@@ -1148,7 +1148,7 @@ point."
   :hook
   ((prog-mode) . flyspell-prog-mode)
   ((text-mode) . flyspell-mode)
-  :delight " ✔")
+  :delight flyspell-mode " ✔")
 
 (use-package frame
   ;; http://emacsninja.com/posts/making-emacs-more-presentable.html
@@ -1889,7 +1889,7 @@ Enable it and reexecute it."
     ielm-mode
     latex-mode
     lisp-interaction-mode) . rainbow-mode)
-  :delight " 🌈")
+  :delight rainbow-mode " 🌈")
 
 (use-package recentf
   :after no-littering
@@ -1908,7 +1908,7 @@ Enable it and reexecute it."
   ;; info -> magit -> FAQ -> FAQ - Issues and Errors.
   :hook
   ((magit-diff-visit-file) . reveal-mode)
-  :delight " 👀")
+  :delight reveal-mode " 👀")
 
 (use-package replace
   ;; https://masteringemacs.org/article/searching-buffers-occur-mode
