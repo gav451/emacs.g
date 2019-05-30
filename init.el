@@ -946,6 +946,14 @@ point."
         (start-process-shell-command "re-BOOT" nil "sudo shutdown -r -t 2 now"))
       (buffer-face-mode -1))
 
+    (defun no-exwm-window-in-frame-p ()
+      "Check for no EXWM window in the selected frame."
+      (cl-loop for window being the windows of (selected-frame)
+               when (with-current-buffer (window-buffer window)
+                      (eq major-mode 'exwm-mode))
+               return nil
+               finally return t))
+
     (defun on-exwm-update-class ()
       (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
                   (string= "gimp" exwm-instance-name))
@@ -965,13 +973,6 @@ point."
     :init
     (exwm-enable)
     :config
-    (defun no-exwm-window-in-frame-p ()
-      "Check for no EXWM window in the selected frame."
-      (cl-loop for window being the windows of (selected-frame)
-               when (with-current-buffer (window-buffer window)
-                      (eq major-mode 'exwm-mode))
-               return nil
-               finally return t))
     (advice-add 'posframe-workable-p
                 :before-while #'no-exwm-window-in-frame-p)
     (display-time-mode 1))
