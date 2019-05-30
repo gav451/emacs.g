@@ -1366,6 +1366,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   (hydra-hint-display-type 'lv)
   (hydra-verbose t)
   :commands (hydra--call-interactively-remap-maybe
+             hydra-add-font-lock
              hydra-default-pre
              hydra-keyboard-quit
              hydra-set-transient-map
