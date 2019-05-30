@@ -1985,10 +1985,6 @@ Enable it and reexecute it."
   :custom
   (transient-display-buffer-action '(display-buffer-below-selected)))
 
-(use-package undo-tree
-  :commands (global-undo-tree-mode)
-  :delight undo-tree-mode " 🌴")
-
 (use-package unfill
   :bind ((:map global-map
                ("M-q" . unfill-toggle))))
