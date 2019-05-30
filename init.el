@@ -968,6 +968,15 @@ point."
     :init
     (exwm-enable)
     :config
+    (defun no-exwm-window-in-frame-p ()
+      "Check for no EXWM window in the selected frame."
+      (cl-loop for window being the windows of (selected-frame)
+               when (with-current-buffer (window-buffer window)
+                      (eq major-mode 'exwm-mode))
+               return nil
+               finally return t))
+    (advice-add 'posframe-workable-p
+                :before-while #'no-exwm-window-in-frame-p)
     (display-time-mode 1))
 
   (use-package exwm-floating
@@ -1471,7 +1480,6 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :custom
   (ivy-case-fold-search-default 'auto)
   (ivy-count-format "(%d/%d) ")
-  (ivy-display-function 'ivy-posframe-display)
   (ivy-height 10)
   (ivy-use-ignore-default t)
   (ivy-use-virtual-buffers t)
@@ -1479,8 +1487,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
                ("C-c C-r" . ivy-resume)
                ("C-x B" . ivy-switch-buffer-other-window)
                ("C-x b" . my-ivy-switch-buffer)))
-  :commands (ivy-display-function-fallback
-             ivy-mode
+  :commands (ivy-mode
              ivy-read
              ivy-switch-buffer
              ivy-thing-at-point)
@@ -1490,22 +1497,16 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 
 (use-package ivy-posframe
   :after ivy
-  :preface
-  (when (getenv "EXWM")
-    (defun advice-skip-exwm-in-ivy-posframe-display (fun &rest args)
-      (if (cl-loop for window being the windows of (selected-frame)
-                   when (with-current-buffer (window-buffer window)
-                          (eq major-mode 'exwm-mode))
-                   return t
-                   finally return nil)
-          (apply #'ivy-display-function-fallback args)
-        (apply fun args))))
   :custom
   (ivy-posframe-border-width 2)
+  (ivy-posframe-height 10)
+  (ivy-posframe-width 80)
+  (ivy-posframe-min-height 10)
+  (ivy-posframe-min-width 80)
+  (ivy-posframe-hide-minibuffer t)
   (ivy-posframe-parameters '((left-fringe . nil)
                              (right-fringe . 0)))
-  (ivy-posframe-style 'frame-center)
-  (ivy-posframe-width 80)
+  (ivy-posframe-style 'window-center)
   :custom-face
   (ivy-posframe ((t (:foreground "LawnGreen" :background "Black"))))
   (ivy-posframe-border ((t (:background "BlueViolet"))))
@@ -1513,19 +1514,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :commands (ivy-posframe-enable)
   :demand t
   :config
-  (when (getenv "EXWM")
-    (advice-add 'ivy-posframe-display-at-frame-bottom-left
-                :around #'advice-skip-exwm-in-ivy-posframe-display)
-    (advice-add 'ivy-posframe-display-at-frame-bottom-window-center
-                :around #'advice-skip-exwm-in-ivy-posframe-display)
-    (advice-add 'ivy-posframe-display-at-frame-center
-                :around #'advice-skip-exwm-in-ivy-posframe-display)
-    (advice-add 'ivy-posframe-display-at-point
-                :around #'advice-skip-exwm-in-ivy-posframe-display)
-    (advice-add 'ivy-posframe-display-at-window-bottom-left
-                :around #'advice-skip-exwm-in-ivy-posframe-display)
-    (advice-add 'ivy-posframe-display-at-window-center
-                :around #'advice-skip-exwm-in-ivy-posframe-display))
+  (setq ivy-display-function 'ivy-posframe-display)
   (ivy-posframe-enable))
 
 (use-package ivy-prescient
