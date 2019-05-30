@@ -1107,10 +1107,6 @@ point."
     "EXWM tear down background color."
     :type 'string
     :group 'display)
-  (defcustom god-local-mode-background-color "DarkBlue"
-    "God-Local mode background color."
-    :type 'string
-    :group 'display)
   (defcustom overwrite-mode-background-color "DarkGreen"
     "Overwrite mode background color."
     :type 'string
@@ -1177,30 +1173,6 @@ point."
   :custom
   (free-keys-modifiers '("" "C" "M" "C-M" "s"))
   :commands (free-keys))
-
-(use-package god-mode
-  :preface
-  (defun on-overwrite-god-mode-toggle ()
-    "Toggle god-mode on overwrite-mode"
-    (if (bound-and-true-p overwrite-mode)
-        (progn
-          (god-local-mode-pause)
-          (buffer-face-set `(:background ,overwrite-mode-background-color)))
-      (progn
-        (god-local-mode-resume)
-        (buffer-face-mode -1))))
-  (defun on-god-local-mode-toggled ()
-    (if god-local-mode
-        (buffer-face-set `(:background ,god-local-mode-background-color))
-      (buffer-face-mode -1)))
-  :bind ((:map global-map
-               ("<f12>" . god-local-mode)))
-  :commands (god-local-mode-pause
-             god-local-mode-resume)
-  :hook
-  ((god-mode-disabled god-mode-enabled) . on-god-local-mode-toggled)
-  (overwrite-mode . on-overwrite-god-mode-toggle)
-  :delight god-local-mode " 🌪")
 
 (use-package goto-addr
   :preface
@@ -1554,7 +1526,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 
 (use-package lispy
   :custom
-  (lispy-compat '(edebug god-mode macrostep))
+  (lispy-compat '(edebug macrostep))
   :commands (lispy-mode)
   :hook
   ((emacs-lisp-mode
@@ -1973,9 +1945,16 @@ Enable it and reexecute it."
   :commands (shr-browse-url))
 
 (use-package simple
+  :preface
+  (defun on-overwrite-mode-toggle ()
+    "Toggle background-color on overwrite-mode toggle."
+    (if (bound-and-true-p overwrite-mode)
+        (buffer-face-set `(:background ,overwrite-mode-background-color))
+      (buffer-face-mode -1)))
   :commands (column-number-mode)
   :hook
   ((text-mode) . turn-on-auto-fill)
+  ((overwrite-mode) . on-overwrite-mode-toggle)
   :config
   (column-number-mode))
 

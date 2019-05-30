@@ -131,9 +131,6 @@
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
-[submodule "god-mode"]
-	path = lib/god-mode
-	url = git@github.com:chrisdone/god-mode.git
 [submodule "gpastel"]
 	path = lib/gpastel
 	url = git@github.com:DamienCassou/gpastel.git
