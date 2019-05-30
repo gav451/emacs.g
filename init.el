@@ -1468,9 +1468,9 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :after ivy
   :custom
   (ivy-posframe-border-width 2)
-  (ivy-posframe-height 10)
+  (ivy-posframe-height (1+ ivy-height))
   (ivy-posframe-width 80)
-  (ivy-posframe-min-height 10)
+  (ivy-posframe-min-height (1+ ivy-height))
   (ivy-posframe-min-width 80)
   (ivy-posframe-hide-minibuffer t)
   (ivy-posframe-parameters '((left-fringe . nil)
