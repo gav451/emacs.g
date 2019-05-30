@@ -396,11 +396,8 @@ In that case, insert the number."
 (use-package diff-hl
   :custom
   (diff-hl-draw-borders nil)
-  :commands (global-diff-hl-mode)
   :hook
-  ((magit-post-refresh) . diff-hl-magit-post-refresh)
-  :config
-  (global-diff-hl-mode))
+  ((magit-post-refresh) . diff-hl-magit-post-refresh))
 
 (use-package dired
   :preface
