@@ -1504,7 +1504,6 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   ;; Defer loading 2 seconds after loading `org' to append
   ;; `jupyter' as the last element of `org-babel-load-language'.
   :after org
-  :commands (jupyter-run-repl)
   :defer 2
   :config
   (org-babel-do-load-languages 'org-babel-load-languages
@@ -1523,7 +1522,8 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
     (((class color) (background light)) :foreground "VioletRed")))
   (jupyter-repl-traceback
    ((((class color) (background dark)) :background "DimGrey")
-    (((class color) (background light)) :background "LightGrey"))))
+    (((class color) (background light)) :background "LightGrey")))
+  :commands (jupyter-run-repl))
 
 (use-package lentic
   :custom
