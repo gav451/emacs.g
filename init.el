@@ -362,7 +362,10 @@ In that case, insert the number."
                                     ;; file names beginning with # or .
                                     "\\(?:\\`[#\\.]\\)"
                                     ;; file names ending with # or ~
-                                    "\\|\\(?:\\`.+?[#~]\\'\\)"))
+                                    "\\|\\(?:\\`.+?[#~]\\'\\)"
+                                    ;; filenames ending with .elc or pyc
+                                    "\\|\\(\\.\\(elc\\|pyc\\)\\'\\)"
+                                    ))
   (counsel-grep-swiper-limit (lsh 1 20))
   (counsel-linux-app-format-function #'counsel-linux-app-format-function-command-only)
   :commands (counsel-describe-face
