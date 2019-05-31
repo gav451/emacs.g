@@ -332,11 +332,8 @@ In that case, insert the number."
   :delight company-mode " 𝍎")
 
 (use-package company-prescient
-  :after company
-  :commands (company-prescient-mode)
-  :demand t
-  :config
-  (company-prescient-mode))
+  :hook
+  ((company-mode) . company-prescient-mode))
 
 (use-package counsel
   :preface
@@ -1481,18 +1478,11 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (ivy-posframe ((t (:foreground "LawnGreen" :background "Black"))))
   (ivy-posframe-border ((t (:background "BlueViolet"))))
   (ivy-posframe-cursor ((t (:background "LawnGreen"))))
-  :commands (ivy-posframe-enable)
-  :demand t
-  :config
-  (setq ivy-display-function 'ivy-posframe-display)
-  (ivy-posframe-enable))
+  :commands (ivy-posframe-enable))
 
 (use-package ivy-prescient
-  :after ivy
-  :commands (ivy-prescient-mode)
-  :demand t
-  :config
-  (ivy-prescient-mode))
+  :hook
+  ((after-init) . ivy-prescient-mode))
 
 (use-package jupyter
   ;; Defer loading 2 seconds after loading `org' to append
