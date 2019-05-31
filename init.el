@@ -1450,6 +1450,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :custom
   (ivy-case-fold-search-default 'auto)
   (ivy-count-format "(%d/%d) ")
+  (ivy-display-function nil)
   (ivy-height 10)
   (ivy-use-ignore-default t)
   (ivy-use-virtual-buffers t)
@@ -1466,6 +1467,18 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :delight ivy-mode " 𝝓")
 
 (use-package ivy-posframe
+  ;; https://github.com/abo-abo/oremacs/blob/github/modes/ora-ivy.el
+  :preface
+  (defun toggle-ivy-posframe ()
+    (interactive)
+    (if (assoc t ivy-display-functions-alist)
+        (setq ivy-display-functions-alist
+              (assq-delete-all t ivy-display-functions-alist))
+      (cl-pushnew '(t . ivy-posframe-display)
+                  ivy-display-functions-alist :test 'equal)
+      (unless (assoc 'ivy-posframe-display ivy-display-functions-props)
+        (require 'ivy-posframe)
+        (ivy-posframe-enable))))
   :after ivy
   :custom
   (ivy-posframe-border-width 2)
