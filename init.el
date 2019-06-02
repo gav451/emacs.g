@@ -340,24 +340,26 @@ In that case, insert the number."
   ((company-mode) . company-prescient-mode))
 
 (use-package counsel
+  ;; https://www.reddit.com/r/emacs/comments/baby94/some_ivy_hacks/
   :preface
   (defun counsel-helpful-keymap-describe ()
     "select keymap with ivy, display help with helpful"
     (interactive)
-    (ivy-read "describe keymap: " (let (cands)
-                                    (mapatoms
-                                     (lambda (x)
-                                       (and (boundp x) (keymapp (symbol-value x))
-                                            (push (symbol-name x) cands))))
-                                    cands)
+    (ivy-read "describe keymap: "
+              (let (cands)
+                (mapatoms
+                 (lambda (x)
+                   (and (boundp x) (keymapp (symbol-value x))
+                        (push (symbol-name x) cands))))
+                cands)
               :require-match t
               :history 'counsel-describe-keymap-history
-              :sort t
               :preselect (ivy-thing-at-point)
               :keymap counsel-describe-map
-              :caller 'counsel-helpful-keymap-describe
+              :sort t
               :action (lambda (map-name)
-                        (helpful-variable (intern map-name)))))
+                        (helpful-variable (intern map-name)))
+              :caller 'counsel-helpful-keymap-describe))
   :custom
   (counsel-describe-function-function 'helpful-callable)
   (counsel-describe-variable-function 'helpful-variable)
