@@ -41,6 +41,9 @@
 [submodule "buttercup"]
 	path = lib/buttercup
 	url = git@github.com:jorgenschaefer/emacs-buttercup.git
+[submodule "cheat-sh"]
+	path = lib/cheat-sh
+	url = git@github.com:davep/cheat-sh.el.git
 [submodule "closql"]
 	path = lib/closql
 	url = git@github.com:emacscollective/closql.git
@@ -54,6 +57,9 @@
 	path = lib/dash
 	url = git@github.com:magnars/dash.el.git
 	no-makeinfo = dash-template.texi
+[submodule "deferred"]
+	path = lib/deferred
+	url = git@github.com:kiwanami/emacs-deferred.git
 [submodule "delight"]
 	path = lib/delight
 	url = https://git.savannah.nongnu.org/git/delight.git
@@ -128,6 +134,9 @@
 [submodule "ghub"]
 	path = lib/ghub
 	url = git@github.com:magit/ghub.git
+[submodule "gif-screencast"]
+	path = lib/gif-screencast
+	url = git@gitlab.com:Ambrevar/emacs-gif-screencast.git
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
@@ -171,6 +180,9 @@
 [submodule "jupyter"]
 	path = lib/jupyter
 	url = git@github.com:dzop/emacs-jupyter.git
+[submodule "keycast"]
+	path = lib/keycast
+	url = git@github.com:tarsius/keycast.git
 [submodule "lentic"]
 	path = lib/lentic
 	url = git@github.com:phillord/lentic.git
@@ -222,6 +234,9 @@
 	info-path = doc
 	url = git@code.orgmode.org:bzg/org-mode.git
 	build-step = make compile autoloads info
+[submodule "org-noter"]
+	path = lib/org-noter
+	url = git@github.com:weirdNox/org-noter.git
 [submodule "org-protocol-capture-html"]
 	path = lib/org-protocol-capture-html
 	url = git@github.com:alphapapa/org-protocol-capture-html.git
@@ -266,6 +281,9 @@
 [submodule "rainbow-mode"]
 	path = lib/rainbow-mode
 	url = git@github.com:emacsmirror/rainbow-mode.git
+[submodule "request"]
+	path = lib/request
+	url = git@github.com:tkf/emacs-request.git
 [submodule "ripgrep"]
 	path = lib/ripgrep
 	url = git@github.com:nlamirault/ripgrep.el.git
@@ -284,6 +302,9 @@
 [submodule "tablist"]
 	path = lib/tablist
 	url = git@github.com:politza/tablist.git
+[submodule "tldr"]
+	path = lib/tldr
+	url = git@github.com:kuanyui/tldr.el.git
 [submodule "transient"]
 	path = lib/transient
 	url = git@github.com:magit/transient.git
