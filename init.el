@@ -1232,6 +1232,14 @@ point."
   :commands (helpful-callable
              helpful-variable))
 
+(use-package hideshow
+  ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
+  ;; https://github.com/yiufung/dot-emacs/blob/master/init.el
+  :bind (:map prog-mode-map
+              ("C-c h" . hs-toggle-hiding))
+  :hook ((prog-mode) . hs-minor-mode)
+  :delight hs-minor-mode " 🙈")
+
 (use-package hl-line
   :hook
   ((Info-mode
