@@ -1816,6 +1816,7 @@ Enable it and reexecute it."
                                        (format "\\gls*{%s}" path))
                                       (t
                                        (format "%s" path))))))
+
 (use-package org-src
   :custom
   (org-edit-src-content-indentation
