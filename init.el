@@ -285,6 +285,10 @@
   :commands (browse-url
              browse-url-generic))
 
+(use-package cheat-sh
+  :custom
+  (cheat-sh-list-timeout (* 24 60 60)))
+
 (use-package company
   ;; https://emacs.stackexchange.com/questions/9835/how-can-i-prevent-company-mode-completing-numbers
   :preface
