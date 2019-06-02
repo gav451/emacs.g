@@ -2020,6 +2020,12 @@ Enable it and reexecute it."
   :bind ((:map global-map
                ("M-q" . unfill-toggle))))
 
+(use-package uniquify
+  ;; https://github.com/yiufung/dot-emacs/blob/master/init.el
+  :custom
+  (uniquify-buffer-name-style 'forward)
+  :defer 2)
+
 (use-package wdired
   :custom
   (wdired-allow-to-change-permissions t))
