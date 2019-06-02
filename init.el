@@ -400,9 +400,11 @@ In that case, insert the number."
   (dash-enable-font-lock))
 
 (use-package diff-hl
+  ;; https://github.com/yiufung/dot-emacs/blob/master/init.el
   :custom
   (diff-hl-draw-borders nil)
   :hook
+  ((dired-mode) . diff-hl-dired-mode)
   ((magit-post-refresh) . diff-hl-magit-post-refresh))
 
 (use-package dired
