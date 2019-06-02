@@ -1468,15 +1468,17 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 
 (use-package ivy-posframe
   ;; https://github.com/abo-abo/oremacs/blob/github/modes/ora-ivy.el
+  ;; https://nullprogram.com/blog/2017/01/30/ states: since assq has
+  ;; its own opcode, assq is faster than assoc.
   :preface
   (defun toggle-ivy-posframe ()
     (interactive)
-    (if (assoc t ivy-display-functions-alist)
+    (if (assq t ivy-display-functions-alist)
         (setq ivy-display-functions-alist
               (assq-delete-all t ivy-display-functions-alist))
       (cl-pushnew '(t . ivy-posframe-display)
                   ivy-display-functions-alist :test 'equal)
-      (unless (assoc 'ivy-posframe-display ivy-display-functions-props)
+      (unless (assq 'ivy-posframe-display ivy-display-functions-props)
         (require 'ivy-posframe)
         (ivy-posframe-enable))))
   :after ivy
