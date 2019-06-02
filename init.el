@@ -2001,6 +2001,10 @@ Enable it and reexecute it."
   (display-time-format (when (getenv "EXWM")
                          " %F %R")))
 
+(use-package tldr
+  :custom
+  (tldr-use-word-at-point t))
+
 (use-package tramp
   :config
   (add-to-list 'tramp-default-proxies-alist '(nil "\\`root\\'" "/ssh:%h:"))
