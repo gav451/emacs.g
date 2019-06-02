@@ -583,6 +583,7 @@ nil if not inside any parens."
      ("http://pragmaticemacs.com/feed/" maugham)
      ("http://sachachua.com/blog/category/emacs/feed" chua)
      ("https://act.eff.org/action.atom" eff)
+     ("https://ambrevar.xyz/atom.xml" neirhardt)
      ("https://feeds.feedburner.com/InterceptedWithJeremyScahill" intercepted)
      ("https://feeds.feedburner.com/TheMouseVsThePython" python)
      ("https://nullprogram.com/feed/" wellons)
@@ -631,12 +632,13 @@ nil if not inside any parens."
        ("h" (elfeed-search-set-filter "@48-months-ago +howard") "howard")
        ("i" (elfeed-search-set-filter "@12-months-ago +intercepted") "intercepted")
        ("k" (elfeed-search-set-filter "@48-months-ago +krehel") "krehel"
-        :column "j-p")
+        :column "j-o")
        ("l" (elfeed-search-set-filter "@12-months-ago +lqdn") "lqdn")
        ("m" (elfeed-search-set-filter "@48-months-ago +maugham") "maugham")
-       ("p" (elfeed-search-set-filter "@12-months-ago +python") "python")
-       ("s" (elfeed-search-set-filter "@48-months-ago +schneidermann") "schneidermann"
-        :column "q-z")
+       ("n" (elfeed-search-set-filter "@48-months-ago +neirhardt") "neirhardt")
+       ("p" (elfeed-search-set-filter "@12-months-ago +python") "python"
+        :column "p-z")
+       ("s" (elfeed-search-set-filter "@48-months-ago +schneidermann") "schneidermann")
        ("v" (elfeed-search-set-filter "@48-months-ago +vxlabs") "vxlabs")
        ("w" (elfeed-search-set-filter "@48-months-ago +wellons") "wellons")
        ("*" (elfeed-search-toggle-all '*) "toggle *"
