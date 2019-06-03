@@ -1908,6 +1908,9 @@ Enable it and reexecute it."
   :bind ((:map dired-mode-map
                ("M-s p" . peep-dired))))
 
+(use-package posframe
+  :commands (posframe-workable-p))
+
 (use-package prescient
   :commands (prescient-persist-mode)
   :config
