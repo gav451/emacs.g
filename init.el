@@ -288,6 +288,7 @@
 (use-package cheat-sh
   :custom
   (cheat-sh-list-timeout (* 24 60 60))
+  :commands (cheat-sh-read)
   :defer 2
   :config
   ;; Patch to remove the tilde from requests to cheat.sh.
