@@ -1497,25 +1497,24 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
              ivy-read
              ivy-switch-buffer
              ivy-thing-at-point)
-  :init
+  :demand t
+  :config
   (ivy-mode)
   :delight ivy-mode " 𝝓")
 
 (use-package ivy-posframe
-  ;; https://github.com/abo-abo/oremacs/blob/github/modes/ora-ivy.el
-  ;; https://nullprogram.com/blog/2017/01/30/ states: since assq has
-  ;; its own opcode, assq is faster than assoc.
   :preface
   (defun toggle-ivy-posframe ()
+    "Advise `posframe-workable-p' to toggle `ivy-posframe-mode'.
+
+This is way too clever, but it worked before `ivy-posframe-mode'
+was a real minor mode."
     (interactive)
-    (if (assq t ivy-display-functions-alist)
-        (setq ivy-display-functions-alist
-              (assq-delete-all t ivy-display-functions-alist))
-      (cl-pushnew '(t . ivy-posframe-display)
-                  ivy-display-functions-alist :test 'equal)
-      (unless (assq 'ivy-posframe-display ivy-display-functions-props)
-        (require 'ivy-posframe)
-        (ivy-posframe-enable))))
+    (if ivy-posframe-mode
+        (if (advice-member-p #'ignore 'posframe-workable-p)
+            (advice-remove 'posframe-workable-p #'ignore)
+          (advice-add 'posframe-workable-p :override #'ignore))
+      (ivy-posframe-mode)))
   :after ivy
   :custom
   (ivy-posframe-border-width 2)
@@ -1531,7 +1530,9 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (ivy-posframe ((t (:foreground "LawnGreen" :background "Black"))))
   (ivy-posframe-border ((t (:background "BlueViolet"))))
   (ivy-posframe-cursor ((t (:background "LawnGreen"))))
-  :commands (ivy-posframe-enable))
+  :commands (ivy-posframe-mode)
+  :demand t
+  :delight ivy-posframe-mode " 🗔")
 
 (use-package ivy-prescient
   :hook
