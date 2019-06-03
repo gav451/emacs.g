@@ -347,7 +347,7 @@ In that case, insert the number."
   ((LaTeX-mode
     emacs-lisp-mode
     org-mode) . company-mode)
-  :delight company-mode " 𝍎")
+  :delight company-mode " 👫")
 
 (use-package company-prescient
   :hook
