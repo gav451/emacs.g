@@ -79,6 +79,7 @@
 \newcommand*\p[1]{\ensuremath{p_{\text{#1}}}}
 
 \newcommand{\cmark}{{\color{Green} \ding{52}}}%
+\newcommand{\omark}{{\color{Orange} \ding{111}}}%
 \newcommand{\xmark}{{\color{Red} \ding{56}}}%
 
 \newcommand{\Reynolds}{\mbox{\textit{Re}}}

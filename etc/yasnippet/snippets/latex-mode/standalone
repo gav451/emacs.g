@@ -3,15 +3,19 @@
 # key: standalone
 # expand-env: ((yas/indent-line 'fixed))
 # --
-\documentclass[${1:12pt},svgnames]{standalone}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{beamerarticle}	% Convert beamer commands into no-operations.
+\documentclass[${1:12pt},svgnames,tikz]{standalone}
 \usepackage{amsmath}
-\usepackage{textcomp}
-\usepackage{marvosym}
-\usepackage{wasysym}
 \usepackage{amssymb}
+\usepackage{marvosym}
+\usepackage{pifont}    % check marks (\ding{52}) and cross marks (\ding{56})
+\usepackage{textcomp}  % \texttimes
+\usepackage{wasysym}   % \diameter
+% LuaLaTex
+\usepackage{fontspec}
+\usepackage{unicode-math}
+
+% Convert beamer commands into no-operations.
+\usepackage[noxcolor]{beamerarticle}
 
 \usepackage{hyperref}
 \hypersetup{
@@ -36,6 +40,10 @@
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,backgrounds,patterns,plotmarks}
+
+\newcommand{\cmark}{{\color{Green} \ding{52}}}%
+\newcommand{\omark}{{\color{Orange} \ding{111}}}%
+\newcommand{\xmark}{{\color{Red} \ding{56}}}%
 
 \newcommand{\Nusselt}{\mbox{\textit{Nu}}}
 \newcommand{\Reynolds}{\mbox{\textit{Re}}}
