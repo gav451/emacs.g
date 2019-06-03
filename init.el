@@ -352,6 +352,9 @@ In that case, insert the number."
   :hook
   ((company-mode) . company-prescient-mode))
 
+(use-package compile
+  :delight compilation-in-progress " 👷")
+
 (use-package counsel
   ;; https://www.reddit.com/r/emacs/comments/baby94/some_ivy_hacks/
   :preface
