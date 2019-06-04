@@ -1624,6 +1624,10 @@ was a real minor mode."
    ("\\.md\\'" . markdown-mode)
    ("\\.markdown\\'" . markdown-mode)))
 
+(use-package monky
+  :custom
+  (monky-process-type 'cmdserver))
+
 (use-package multi-term
   :custom
   (multi-term-programe (executable-find "zsh"))
