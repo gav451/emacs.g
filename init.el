@@ -1630,7 +1630,7 @@ was a real minor mode."
 
 (use-package multi-term
   :custom
-  (multi-term-programe (executable-find "zsh"))
+  (multi-term-program (executable-find "zsh"))
   :commands (multi-term))
 
 (use-package novice
