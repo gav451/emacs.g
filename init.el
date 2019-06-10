@@ -119,20 +119,41 @@
                                       before-user-init-time))))
 
 ;; AUCTeX & friends
-(use-package auctex
-  ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
-  ;; https://gitlab.com/jabranham/emacs
-  ;; Use AUCTeX, since it is better than the built in tex mode.
-  ;; Tweak .gitmodules to make the git repository resemble the elpa package.
-  ;; Let `TeX-latex-mode' trigger loading of the `latex' and `tex' features.
-  ;; Make TeX-master a `safe-local-variable' to allow delayed loading.
-  :preface
-  (make-variable-buffer-local 'TeX-master)
-  (put 'TeX-master 'safe-local-variable
-       '(lambda (x)
-          (or (stringp x)
-              (member x (quote (t nil shared dwim))))))
+(use-package bibtex
+  :after tex-site
+  :custom
+  (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
+  (bibtex-completion-library-path '("~/VCS/research/papers"))
+  (bibtex-completion-notes-path "~/VCS/research/notes/notes.org")
+  (bibtex-user-optional-fields
+   '(("abstract")
+     ("doi" "Digital Object Identifier")
+     ("url" "Universal Ressource Locator")))
+  :demand t)
+
+(use-package latex
+  :after tex-site
   :mode ("\\.tex\\'" . TeX-latex-mode)
+  :custom
+  (LaTeX-electric-left-right-brace t)
+  :hook
+  ((LaTeX-mode) . LaTeX-math-mode)
+  :demand t)
+
+(use-package reftex
+  :after tex-site
+  :hook
+  ((LaTeX-mode) . turn-on-reftex)
+  :demand t
+  :delight reftex-mode " 📑")
+
+(use-package reftex-vars
+  :custom
+  (reftex-default-bibliography "~/VCS/research/refs.bib")
+  (reftex-plug-into-AUCTeX t))
+
+(use-package tex
+  :after tex-site
   :custom
   (TeX-auto-local ".auctex-auto-local")
   (TeX-auto-save t)
@@ -144,40 +165,24 @@
   (TeX-parse-self t)
   (TeX-source-correlate-method 'synctex)
   (TeX-source-correlate-mode t)
-  (reftex-plug-into-AUCTeX t))
-
-(use-package bibtex
-  :custom
-  (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
-  (bibtex-completion-library-path '("~/VCS/research/papers"))
-  (bibtex-completion-notes-path "~/VCS/research/notes/notes.org")
-  (bibtex-user-optional-fields
-   '(("abstract")
-     ("doi" "Digital Object Identifier")
-     ("url" "Universal Ressource Locator"))))
-
-(use-package latex
-  :custom
-  (LaTeX-electric-left-right-brace t)
-  :commands (TeX-latex-mode)
   :hook
-  ((LaTeX-mode) . LaTeX-math-mode))
-
-(use-package reftex
-  :custom
-  (reftex-default-bibliography "~/VCS/research/refs.bib")
-  :hook
-  ((LaTeX-mode) . turn-on-reftex)
-  :delight reftex-mode " 📑")
-
-(use-package tex
-  :hook
-  ((LaTeX-mode) . TeX-PDF-mode))
+  ((LaTeX-mode) . TeX-PDF-mode)
+  :demand t)
 
 (use-package tex-buf
+  :after tex-site
   :hook
   ((TeX-after-compilation-finished-functions
-    ) . TeX-revert-document-buffer))
+    ) . TeX-revert-document-buffer)
+  :demand t)
+
+(use-package tex-site
+  ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
+  ;; https://gitlab.com/jabranham/emacs
+  ;; Use AUCTeX, since it is better than the built in tex mode.
+  ;; Tweak .gitmodules to make the git repository resemble the elpa package.
+  ;; Defer requiring tex-site (instead of lazy loading auctex).
+  :defer 4)
 
 ;; alphabetical order
 (use-package ace-link
