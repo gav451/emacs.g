@@ -38,7 +38,8 @@
   range-units = brackets,
   separate-uncertainty,
 }
-% \DeclareSIUnit\dollar{\$}
+\DeclareSIUnit\dollar{\$}
+\DeclareSIUnit\euro{€}
 \DeclareSIUnit\mK{\milli\kelvin}
 \DeclareSIUnit\mbar{\milli\bar}
 \DeclareSIUnit\micron{\micro\meter}
@@ -46,14 +47,12 @@
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,backgrounds,patterns,plotmarks}
+\usepackage[marvosym]{tikzsymbols}
 
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
 \def\axisdefaultwidth{57.5mm}
 \def\axisdefaultheight{40mm}
-
-\usepackage{marvosym}
-\usepackage[marvosym]{tikzsymbols}
 
 \hypersetup{
   unicode=true,
