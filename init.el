@@ -494,7 +494,7 @@ In that case, insert the number."
      ("document viewer files"
       (extension "djvu" "dvi" "epub" "pdf" "ps"))
      ("image files"
-      (extension "gif" "jpg" "png" "tiff"))
+      (extension "gif" "jpeg" "jpg" "png" "tif" "tiff"))
      ("document editor files"
       (extension "doc" "docx" "odt" "ppt" "pptx" "xls" "xlsx"))
      ("multimedia files"
