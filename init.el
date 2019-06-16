@@ -2029,7 +2029,8 @@ Enable it and reexecute it."
 (use-package time
   :custom
   (display-time-format (when (getenv "EXWM")
-                         " %F %R")))
+                         " %R %F"))
+  :demand t)
 
 (use-package tldr
   :custom
