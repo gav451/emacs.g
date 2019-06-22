@@ -138,6 +138,7 @@
   (LaTeX-electric-left-right-brace t)
   :hook
   ((LaTeX-mode) . LaTeX-math-mode)
+  :commands (LaTeX-narrow-to-environment)
   :demand t)
 
 (use-package reftex
@@ -293,7 +294,7 @@
 (use-package cheat-sh
   :custom
   (cheat-sh-list-timeout (* 24 60 60))
-  :commands (cheat-sh-read)
+  :commands (cheat-sh cheat-sh-read)
   :defer 2
   :config
   ;; Patch to remove the tilde from requests to cheat.sh.
@@ -1769,14 +1770,15 @@ Enable it and reexecute it."
   (org-mode . on-org-mode-eval-blocks)
   (org-mode . on-org-mode-hook)
   :commands (org-babel-do-load-languages
-             org-link-set-parameters)
+             org-link-set-parameters
+             org-narrow-to-block
+             org-narrow-to-subtree)
   :demand t
   :config
   (org-babel-do-load-languages 'org-babel-load-languages
                                (append org-babel-load-languages
                                        '((calc . t)
-                                         (ditaa . t)
-                                         (dot . t)
+                                         (eshell . t)
                                          (gnuplot . t)
                                          (latex . t)
                                          (org . t)
@@ -1869,7 +1871,8 @@ Enable it and reexecute it."
   (org-src-preserve-indentation
    t "Preserve Python code block indentation.")
   (org-src-window-setup
-   'current-window "Show edit buffer in current window."))
+   'current-window "Show edit buffer in current window.")
+  :commands (org-edit-src-code))
 
 (use-package ox
   :custom
@@ -2009,12 +2012,47 @@ Enable it and reexecute it."
     (if (bound-and-true-p overwrite-mode)
         (buffer-face-set `(:background ,overwrite-mode-background-color))
       (buffer-face-mode -1)))
-  :commands (column-number-mode)
+  :commands (column-number-mode
+             region-active-p)
   :hook
   ((text-mode) . turn-on-auto-fill)
   ((overwrite-mode) . on-overwrite-mode-toggle)
   :config
   (column-number-mode))
+
+(use-package subr
+  ;; https://github.com/dakra/dmacs/blob/master/init.org
+  ;; https://gitlab.com/jabranham/emacs/blob/master/init.el
+  ;; https://endlessparentheses.com/emacs-narrow-or-widen-dwim.html
+  :preface
+  (defun narrow-or-widen-dwim (p)
+    "Widen if buffer is narrowed, narrow-dwim otherwise.
+
+Dwim means: region, org-src-block, org-subtree, or defun,
+whichever applies first.  With prefix P, don't widen, just narrow
+even if buffer is already narrowed."
+    (interactive "P")
+    (declare (interactive-only t))
+    (cond ((and (buffer-narrowed-p) (not p)) (widen))
+          ((region-active-p)
+           (narrow-to-region (region-beginning)
+                             (region-end)))
+          ((derived-mode-p 'org-mode)
+           ;; `org-edit-src-code' is not a real narrowing command.
+           ;; Remove this first conditional if you don't want it.
+           (cond ((ignore-errors (org-edit-src-code) t))
+                 ((ignore-errors (org-narrow-to-block) t))
+                 (t (org-narrow-to-subtree))))
+          ((derived-mode-p 'latex-mode)
+           (LaTeX-narrow-to-environment))
+          (t (narrow-to-defun))))
+  (bind-keys* ("C-x n" . narrow-or-widen-dwim))
+  :commands (add-hook
+             add-to-list
+             derived-mode-p
+             eval-after-load
+             narrow-to-defun
+             narrow-to-region))
 
 (use-package swiper
   :custom
@@ -2029,8 +2067,7 @@ Enable it and reexecute it."
 (use-package time
   :custom
   (display-time-format (when (getenv "EXWM")
-                         " %R %F"))
-  :demand t)
+                         " %R %F")))
 
 (use-package tldr
   :custom
