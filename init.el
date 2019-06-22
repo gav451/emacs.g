@@ -54,12 +54,7 @@
     (setq ns-right-command-modifier 'super))
   (when (eq window-system 'ns)
     (add-to-list 'initial-frame-alist '(height . 50))
-    (add-to-list 'initial-frame-alist '(width . 170)))
-  ;; Linux
-  (when (getenv "EXWM")
-    (menu-bar-mode 0))
-  (when (string= (system-name) "venus")
-    (display-battery-mode 1)))
+    (add-to-list 'initial-frame-alist '(width . 170))))
 
 (progn                                  ; `borg'
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
@@ -214,6 +209,9 @@
 (use-package alert
   :custom
   (alert-default-style 'libnotify))
+
+(use-package auto-display-battery
+  :commands (auto-display-battery-mode))
 
 (use-package autorevert
   :custom
@@ -1008,7 +1006,9 @@ point."
     :config
     (advice-add 'posframe-workable-p
                 :before-while #'no-exwm-window-in-frame-p)
-    (display-time-mode 1))
+    (auto-display-battery-mode 1)
+    (display-time-mode 1)
+    (menu-bar-mode 0))
 
   (use-package exwm-floating
     :custom
