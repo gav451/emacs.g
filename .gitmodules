@@ -1,6 +1,5 @@
 [borg]
-	pushDefault = locutus
-	collective = emacsg
+	pushDefault = gav451
 [submodule "ace-link"]
 	path = lib/ace-link
 	url = git@github.com:abo-abo/ace-link.git
