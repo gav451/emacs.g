@@ -2109,6 +2109,13 @@ even if buffer is already narrowed."
 (use-package wordnut
   :bind* (("C-z C-w" . wordnut-search)))
 
+(use-package ws-butler
+  :custom
+  (ws-butler-keep-whitespace-before-point nil)
+  :hook
+  ((prog-mode
+    text-mode) . ws-butler-mode))
+
 (use-package yasnippet
   :custom
   (yas-alias-to-yas/prefix-p nil)

@@ -345,6 +345,9 @@
 [submodule "writegood-mode"]
 	path = lib/writegood-mode
 	url = git@github.com:bnbeckwith/writegood-mode.git
+[submodule "ws-butler"]
+	path = lib/ws-butler
+	url = git@github.com:lewang/ws-butler.git
 [submodule "xelb"]
 	path = lib/xelb
 	url = git@github.com:ch11ng/xelb.git
