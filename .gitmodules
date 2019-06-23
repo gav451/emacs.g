@@ -351,6 +351,9 @@
 [submodule "xelb"]
 	path = lib/xelb
 	url = git@github.com:ch11ng/xelb.git
+[submodule "xr"]
+	path = lib/xr
+	url = git@github.com:mattiase/xr.git
 [submodule "yasnippet"]
 	path = lib/yasnippet
 	url = git@github.com:joaotavora/yasnippet.git
