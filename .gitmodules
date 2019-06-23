@@ -50,6 +50,9 @@
 [submodule "closql"]
 	path = lib/closql
 	url = git@github.com:emacscollective/closql.git
+[submodule "commander"]
+	path = lib/commander
+	url = git@github.com:rejeep/commander.el.git
 [submodule "company"]
 	path = lib/company
 	url = git@github.com:company-mode/company-mode.git
