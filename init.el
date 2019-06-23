@@ -604,6 +604,7 @@ nil if not inside any parens."
      ("http://pragmaticemacs.com/feed/" maugham)
      ("http://sachachua.com/blog/category/emacs/feed" chua)
      ("https://act.eff.org/action.atom" eff)
+     ("https://kitchingroup.cheme.cmu.edu/blog/feed" kitchin)
      ("https://ambrevar.xyz/atom.xml" neirhardt)
      ("https://feeds.feedburner.com/InterceptedWithJeremyScahill" intercepted)
      ("https://feeds.feedburner.com/TheMouseVsThePython" python)
@@ -642,25 +643,26 @@ nil if not inside any parens."
        ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
        ("S" (elfeed-search-set-filter "@12-months-ago +*") "Starred")
        ("U" (elfeed-search-set-filter "@12-months-ago +unread") "Unread")
-       ("a" (elfeed-search-set-filter "@12-months-ago +aclu") "aclu"
-        :column "a-d")
+       ("ab" (elfeed-search-set-filter "@48-months-ago +howard") "abrams"
+        :column "a-c")
+       ("ac" (elfeed-search-set-filter "@12-months-ago +aclu") "aclu")
        ("b" (elfeed-search-set-filter "@12-months-ago +bof") "bof" )
        ("c" (elfeed-search-set-filter "@48-months-ago +chua") "chua")
        ("d" (elfeed-search-set-filter "@12-months-ago +dn") "dn")
-       ("e" (elfeed-search-set-filter "@12-months-ago +emacsen") "emacsen"
-        :column "e-i")
-       ("f" (elfeed-search-set-filter "@12-months-ago +eff") "eff")
-       ("h" (elfeed-search-set-filter "@48-months-ago +howard") "howard")
+       ("ef" (elfeed-search-set-filter "@12-months-ago +eff") "eff"
+        :column "e-k")
+       ("em" (elfeed-search-set-filter "@12-months-ago +emacsen") "emacsen")
        ("i" (elfeed-search-set-filter "@12-months-ago +intercepted") "intercepted")
-       ("k" (elfeed-search-set-filter "@48-months-ago +krehel") "krehel"
-        :column "j-o")
-       ("l" (elfeed-search-set-filter "@12-months-ago +lqdn") "lqdn")
+       ("ki" (elfeed-search-set-filter "@48-months-ago +kitchin") "kitchin")
+       ("kr" (elfeed-search-set-filter "@48-months-ago +krehel") "krehel")
+       ("l" (elfeed-search-set-filter "@12-months-ago +lqdn") "lqdn"
+        :column "l-s")
        ("m" (elfeed-search-set-filter "@48-months-ago +maugham") "maugham")
        ("n" (elfeed-search-set-filter "@48-months-ago +neirhardt") "neirhardt")
-       ("p" (elfeed-search-set-filter "@12-months-ago +python") "python"
-        :column "p-z")
+       ("p" (elfeed-search-set-filter "@12-months-ago +python") "python")
        ("s" (elfeed-search-set-filter "@48-months-ago +schneidermann") "schneidermann")
-       ("v" (elfeed-search-set-filter "@48-months-ago +vxlabs") "vxlabs")
+       ("v" (elfeed-search-set-filter "@48-months-ago +vxlabs") "vxlabs"
+        :column "v-w")
        ("w" (elfeed-search-set-filter "@48-months-ago +wellons") "wellons")
        ("*" (elfeed-search-toggle-all '*) "toggle *"
         :column "Other")
