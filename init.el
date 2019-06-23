@@ -385,14 +385,14 @@ In that case, insert the number."
   (counsel-describe-function-function 'helpful-callable)
   (counsel-describe-variable-function 'helpful-variable)
   (counsel-find-file-at-point t)
-  (counsel-find-file-ignore-regexp (concat
-                                    ;; file names beginning with # or .
-                                    "\\(?:\\`[#\\.]\\)"
-                                    ;; file names ending with # or ~
-                                    "\\|\\(?:\\`.+?[#~]\\'\\)"
-                                    ;; filenames ending with .elc or pyc
-                                    "\\|\\(\\.\\(elc\\|pyc\\)\\'\\)"
-                                    ))
+  (counsel-find-file-ignore-regexp
+   (rx (or
+        ;; file names beginning with # or .
+        (seq bos (any "#."))
+        ;; file names ending with # or ~
+        (seq bos (+? nonl) (any "#~") eos)
+        ;; file names ending with .elc or .pyc
+        (group "." (group (or "el" "py") "c" eos)))))
   (counsel-grep-swiper-limit (lsh 1 20))
   (counsel-linux-app-format-function #'counsel-linux-app-format-function-command-only)
   :commands (counsel-describe-face
