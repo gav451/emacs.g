@@ -46,7 +46,7 @@
 \DeclareSIUnit\umole{\micro\mole}
 
 \usepackage{tikz}
-\usetikzlibrary{arrows,backgrounds,patterns,plotmarks}
+\usetikzlibrary{3d,arrows,backgrounds,calc,patterns,plotmarks}
 \usepackage[marvosym]{tikzsymbols}
 
 \usepackage{pgfplots}
