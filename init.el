@@ -727,7 +727,9 @@ point."
   ;; Let mpd play most sound, and mpv everything else (ideally video only).
   :custom
   (emms-player-list '(emms-player-mpd emms-player-mpv))
-  :commands (emms-player-set))
+  :commands (emms-player-set)
+  :hook
+  ((kill-emacs) . emms-stop))
 
 (use-package emms-browser
   :commands (emms-smart-browse))
