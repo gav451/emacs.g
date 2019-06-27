@@ -87,7 +87,8 @@
   (auto-compile-on-save-mode))
 
 (use-package no-littering
-  :commands (no-littering-expand-etc-file-name)
+  :commands (no-littering-expand-etc-file-name
+             no-littering-expand-var-file-name)
   :demand t)
 
 (use-package epkg
@@ -2042,14 +2043,13 @@ Enable it and reexecute it."
    `((sbcl (,inferior-lisp-program
             "--core"
             ,(no-littering-expand-var-file-name "sbcl.core-for-sly")))))
+  :bind ((:map sly-prefix-map
+               ;; C-c M-h
+               ("M-h" . sly-documentation-lookup)))
   :hook
   ((sly-mode) . (lambda ()
                   (unless (sly-connected-p)
-                    (save-excursion (sly)))))
-  :config
-  (bind-keys :map sly-prefix-map
-             ;; C-c M-h
-             ("M-h" . sly-documentation-lookup)))
+                    (save-excursion (sly))))))
 
 (use-package subr
   ;; https://github.com/dakra/dmacs/blob/master/init.org
