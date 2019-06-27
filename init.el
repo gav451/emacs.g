@@ -350,7 +350,9 @@ In that case, insert the number."
   :hook
   ((LaTeX-mode
     emacs-lisp-mode
-    org-mode) . company-mode)
+    org-mode
+    sly-mode
+    sly-mrepl-mode) . company-mode)
   :delight company-mode " 👫")
 
 (use-package company-prescient
@@ -1584,7 +1586,9 @@ was a real minor mode."
   :hook
   ((emacs-lisp-mode
     ielm-mode
-    lisp-interaction-mode) . lispy-mode)
+    lisp-interaction-mode
+    sly-mode
+    sly-mrepl-mode) . lispy-mode)
   :delight lispy-mode " 🗘")
 
 (use-package macrostep
@@ -2021,6 +2025,29 @@ Enable it and reexecute it."
   ((overwrite-mode) . on-overwrite-mode-toggle)
   :config
   (column-number-mode))
+
+(use-package sly
+  ;; https://github.com/LispCookbook/cl-cookbook
+  ;; https://lispcookbook.github.io/cl-cookbook/emacs-ide.html
+  ;; shell% cd ~/.emacs/vars
+  ;; shell% sbcl
+  ;; * (mapc 'require '(sb-bsd-sockets sb-posix sb-introspect sb-cltl2 asdf))
+  ;; * (save-lisp-and-die "sbcl.core-for-sly")
+  :custom
+  (common-lisp-hyperspec-root "file:///usr/share/doc/hyperspec-7.0/HyperSpec/")
+  (inferior-lisp-program (executable-find "sbcl"))
+  (sly-lisp-implementations
+   `((sbcl (,inferior-lisp-program
+            "--core"
+            ,(no-littering-expand-var-file-name "sbcl.core-for-sly")))))
+  :hook
+  ((sly-mode) . (lambda ()
+                  (unless (sly-connected-p)
+                    (save-excursion (sly)))))
+  :config
+  (bind-keys :map sly-prefix-map
+             ;; C-c M-h
+             ("M-h" . sly-documentation-lookup)))
 
 (use-package subr
   ;; https://github.com/dakra/dmacs/blob/master/init.org

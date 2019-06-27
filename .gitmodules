@@ -306,6 +306,14 @@
 [submodule "simple-httpd"]
 	path = lib/simple-httpd
 	url = git@github.com:skeeto/emacs-web-server.git
+[submodule "sly"]
+	path = lib/sly
+	info-path = doc
+	load-path = .
+	load-path = contrib
+	build-step = make all
+	build-step = borg-makeinfo
+	url = git@github.com:joaotavora/sly.git
 [submodule "synosaurus"]
 	path = lib/synosaurus
 	url = git@github.com:hpdeifel/synosaurus.git
