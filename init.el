@@ -1673,6 +1673,10 @@ Enable it and reexecute it."
   (org-confirm-babel-evaluate nil)
   :commands (org-babel-execute-src-block))
 
+(use-package ob-lisp
+  :custom
+  (org-babel-lisp-eval-fn #'sly-eval))
+
 (use-package ob-python
   :custom
   (org-babel-python-command "python -E"))
@@ -1790,6 +1794,7 @@ Enable it and reexecute it."
                                          (eshell . t)
                                          (gnuplot . t)
                                          (latex . t)
+                                         (lisp . t)
                                          (org . t)
                                          (python . t)
                                          (shell . t)))))
@@ -2049,7 +2054,8 @@ Enable it and reexecute it."
   :hook
   ((sly-mode) . (lambda ()
                   (unless (sly-connected-p)
-                    (save-excursion (sly))))))
+                    (save-excursion (sly)))))
+  :commands (sly-eval))
 
 (use-package subr
   ;; https://github.com/dakra/dmacs/blob/master/init.org
