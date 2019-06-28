@@ -2055,7 +2055,9 @@ Enable it and reexecute it."
   ((sly-mode) . (lambda ()
                   (unless (sly-connected-p)
                     (save-excursion (sly)))))
-  :commands (sly-eval))
+  :commands (sly
+             sly-connected-p
+             sly-eval))
 
 (use-package subr
   ;; https://github.com/dakra/dmacs/blob/master/init.org
