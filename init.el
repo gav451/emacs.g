@@ -290,6 +290,12 @@
   :commands (browse-url
              browse-url-generic))
 
+(use-package deadgrep
+  :bind ((:map global-map
+               ("C-c g" . deadgrep))
+         (:map deadgrep-mode-map
+               ("C-c C-w" . deadgrep-edit-mode))))
+
 (use-package cheat-sh
   :custom
   (cheat-sh-list-timeout (* 24 60 60))

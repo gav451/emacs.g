@@ -63,6 +63,9 @@
 	path = lib/dash
 	url = git@github.com:magnars/dash.el.git
 	no-makeinfo = dash-template.texi
+[submodule "deadgrep"]
+	path = lib/deadgrep
+	url = git@github.com:Wilfred/deadgrep.git
 [submodule "deferred"]
 	path = lib/deferred
 	url = git@github.com:kiwanami/emacs-deferred.git
@@ -294,9 +297,6 @@
 [submodule "request"]
 	path = lib/request
 	url = git@github.com:tkf/emacs-request.git
-[submodule "ripgrep"]
-	path = lib/ripgrep
-	url = git@github.com:nlamirault/ripgrep.el.git
 [submodule "s"]
 	path = lib/s
 	url = git@github.com:magnars/s.el.git
@@ -314,6 +314,9 @@
 	build-step = make all
 	build-step = borg-makeinfo
 	url = git@github.com:joaotavora/sly.git
+[submodule "spinner"]
+	path = lib/spinner
+	url = git@github.com:Malabarba/spinner.el.git
 [submodule "synosaurus"]
 	path = lib/synosaurus
 	url = git@github.com:hpdeifel/synosaurus.git
