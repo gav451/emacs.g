@@ -182,12 +182,6 @@
   :defer 4)
 
 ;; alphabetical order
-(use-package ace-link
-  :after avy
-  :commands (ace-link-setup-default)
-  :init
-  (ace-link-setup-default))
-
 (use-package ace-window
   :custom
   (aw-ignored-buffers '("*Calc Trail*"))
