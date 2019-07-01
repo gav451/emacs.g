@@ -1,6 +1,6 @@
 # name: jupyter-python block
 # key: <jp
 # --
-#+BEGIN_SRC jupyter-python :session py :pandoc t
+#+BEGIN_SRC jupyter-python :eval no-export :exports both :pandoc t :session py
 $0
 #+END_SRC
