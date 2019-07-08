@@ -835,10 +835,7 @@ point."
 
 (use-package epa
   :custom
-  (epa-pinentry-mode 'loopback)
-  :config
-  (when (eq system-type 'darwin)
-    (setq epg-gpg-program "gpg2")))
+  (epa-pinentry-mode 'loopback))
 
 (use-package eshell
   ;; http://emacshorrors.com/post/life-is-too-much
@@ -2037,7 +2034,7 @@ Enable it and reexecute it."
 (use-package sly
   ;; https://github.com/LispCookbook/cl-cookbook
   ;; https://lispcookbook.github.io/cl-cookbook/emacs-ide.html
-  ;; shell% cd ~/.emacs/vars
+  ;; shell% cd ~/.emacs/var
   ;; shell% sbcl
   ;; * (mapc 'require '(sb-bsd-sockets sb-posix sb-introspect sb-cltl2 asdf))
   ;; * (save-lisp-and-die "sbcl.core-for-sly")
