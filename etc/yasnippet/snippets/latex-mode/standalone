@@ -4,15 +4,22 @@
 # expand-env: ((yas/indent-line 'fixed))
 # --
 \documentclass[${1:12pt},svgnames,tikz]{standalone}
+\usepackage{ifthen,ifluatex,ifxetex}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{marvosym}
 \usepackage{pifont}    % check marks (\ding{52}) and cross marks (\ding{56})
 \usepackage{textcomp}  % \texttimes
 \usepackage{wasysym}   % \diameter
-% LuaLaTex
-\usepackage{fontspec}
-\usepackage{unicode-math}
+\ifthenelse{\boolean{luatex}}{
+  \usepackage{fontspec}
+  \usepackage{unicode-math}
+}{\ifthenelse{\boolean{xetex}}{
+    \usepackage{mathspec}
+  }{
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+  }
+}
 
 % Convert beamer commands into no-operations.
 \usepackage[noxcolor]{beamerarticle}
@@ -33,16 +40,18 @@
   range-units=brackets,
   separate-uncertainty,
 }
+\DeclareSIUnit\dollar{\\\$}
+\DeclareSIUnit\euro{€}
 \DeclareSIUnit\mK{\milli\kelvin}
 \DeclareSIUnit\mbar{\milli\bar}
 \DeclareSIUnit\micron{\micro\meter}
-\DeclareSIUnit\umole{\micro\mole}
+\DeclareSIUnit\nW{\nano\watt}
 
 \usepackage{tikz}
 \usetikzlibrary{3d,arrows,backgrounds,calc,patterns,plotmarks}
 
 \newcommand{\cmark}{{\color{Green} \ding{52}}}%
-\newcommand{\omark}{{\color{Orange} \ding{111}}}%
+\newcommand{\omark}{{\color{Red} \ding{44}}}%
 \newcommand{\xmark}{{\color{Red} \ding{56}}}%
 
 \newcommand{\Nusselt}{\mbox{\textit{Nu}}}
