@@ -1215,7 +1215,8 @@ point."
     (ninja-alter-frame-font-size '1-))
   (bind-keys* ("C-x C-+" . ninja-inc-frame-font-size)
               ("C-x C--" . ninja-dec-frame-font-size))
-  :commands (set-frame-font))
+  :commands (display-graphic-p
+             set-frame-font))
 
 (use-package free-keys
   :custom
