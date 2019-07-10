@@ -923,10 +923,18 @@ point."
   :if (and (eq system-type 'darwin) (display-graphic-p))
   :custom
   (exec-path-from-shell-arguments '("-l"))
-  (exec-path-from-shell-variables '("PATH" "MANPATH" "GPG_AGENT_INFO"))
+  (exec-path-from-shell-variables '("PATH"
+                                    "MANPATH"
+                                    "GPG_AGENT_INFO"
+                                    "IPYTHONDIR"
+                                    "JUPYTER_CONFIG_DIR"
+                                    "JUPYTER_DATA_DIR"
+                                    "JUPYTER_PATH"
+                                    "JUPYTER_RUNTIME_DIR"))
   :commands (exec-path-from-shell-initialize)
   :init
   (exec-path-from-shell-initialize)
+  (pyenv-mode-set "3.7.3")
   :demand t)
 
 (when (getenv "EXWM")
@@ -1939,6 +1947,10 @@ Enable it and reexecute it."
   :commands (prescient-persist-mode)
   :config
   (prescient-persist-mode))
+
+(use-package pyenv-mode
+  :if (and (eq system-type 'darwin) (display-graphic-p))
+  :commands (pyenv-mode-set))
 
 (use-package python
   :custom
