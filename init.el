@@ -925,12 +925,7 @@ point."
   (exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-variables '("PATH"
                                     "MANPATH"
-                                    "GPG_AGENT_INFO"
-                                    "IPYTHONDIR"
-                                    "JUPYTER_CONFIG_DIR"
-                                    "JUPYTER_DATA_DIR"
-                                    "JUPYTER_PATH"
-                                    "JUPYTER_RUNTIME_DIR"))
+                                    "GPG_AGENT_INFO"))
   :commands (exec-path-from-shell-initialize)
   :init
   (exec-path-from-shell-initialize)
@@ -1952,8 +1947,44 @@ Enable it and reexecute it."
   (prescient-persist-mode))
 
 (use-package pyenv-mode
-  :if (and (eq system-type 'darwin) (display-graphic-p))
-  :commands (pyenv-mode-set))
+  :preface
+  (defun update-pyenv-mode-environment ()
+    (if (member (pyenv-mode-version) '(nil "system"))
+        (mapc #'setenv '("PYTHONDIR"
+                         "JUPYTER_CONFIG_DIR"
+                         "JUPYTER_DATA_DIR"
+                         "JUPYTER_PATH"
+                         "JUPYTER_RUNTIME_DIR"))
+      (setenv "IPYTHONDIR"
+              (expand-file-name (concat "~/.ipython-"
+                                        (pyenv-mode-version))))
+      (setenv "JUPYTER_CONFIG_DIR"
+              (expand-file-name (concat "~"
+                                        (pyenv-mode-root)
+                                        "/versions/"
+                                        (pyenv-mode-version)
+                                        "/etc/jupyter")))
+      (setenv "JUPYTER_DATA_DIR"
+              (expand-file-name (concat "~/.local/share/jupyter-"
+                                        (pyenv-mode-version))))
+      (setenv "JUPYTER_PATH"
+              (expand-file-name (concat "~/"
+                                        (pyenv-mode-root)
+                                        "/versions/"
+                                        (pyenv-mode-version)
+                                        "/share/jupyter")))
+      (setenv "JUPYTER_RUNTIME_DIR"
+              (expand-file-name (concat "~/tmpfs/jupyter-"
+                                        (pyenv-mode-version))))))
+  :commands (pyenv-mode-root
+             pyenv-mode-set
+             pyenv-mode-unset
+             pyenv-mode-version)
+  :config
+  (advice-add 'pyenv-mode-set
+              :after #'update-pyenv-mode-environment)
+  (advice-add 'pyenv-mode-unset
+              :after #'update-pyenv-mode-environment))
 
 (use-package python
   :custom
