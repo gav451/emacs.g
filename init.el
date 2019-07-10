@@ -1183,6 +1183,8 @@ point."
                ("M-p" . flymake-goto-prev-error))))
 
 (use-package flyspell
+  ;; See my locale settings for Darwin in my .zprofile and:
+  ;; https://apple.stackexchange.com/questions/338638/mojave-and-its-non-respect-of-the-applelocale-preference
   :preface
   (defun toggle-flyspell-dwim-mode ()
     (interactive)
