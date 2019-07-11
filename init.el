@@ -11,22 +11,23 @@
     (defvar file-name-handler-alist-backup file-name-handler-alist)
     (setq file-name-handler-alist nil)
     (setq gc-cons-threshold (* 16 4096 4096))
-    (add-hook 'after-init-hook
-              (lambda ()
-                (run-with-idle-timer
-                 15 nil
-                 (lambda ()
-                   (setq file-name-handler-alist
-                         (cl-union file-name-handler-alist-backup
-                                   file-name-handler-alist))
-                   (message "[after-init] file-name-handler-alist restored to %S"
-                            file-name-handler-alist)
-                   (setq gc-cons-threshold
-                         (* 5 (car (get 'gc-cons-threshold 'standard-value))))
-                   (message "[after-init] gc-cons-threshold restored to %S"
-                            gc-cons-threshold)
-                   (garbage-collect))))
-              t))
+    (let ((enough (if (getenv "EXWM") 15 5)))
+      (add-hook 'after-init-hook
+                (lambda ()
+                  (run-with-idle-timer
+                   enough nil
+                   (lambda ()
+                     (setq file-name-handler-alist
+                           (cl-union file-name-handler-alist-backup
+                                     file-name-handler-alist))
+                     (message "[after-init] file-name-handler-alist restored to %S"
+                              file-name-handler-alist)
+                     (setq gc-cons-threshold
+                           (* 5 (car (get 'gc-cons-threshold 'standard-value))))
+                     (message "[after-init] gc-cons-threshold restored to %S"
+                              gc-cons-threshold)
+                     (garbage-collect))))
+                t)))
   (setq user-init-file (or load-file-name buffer-file-name))
   (setq user-emacs-directory (file-name-directory user-init-file))
   (message "Loading %s..." user-init-file)
