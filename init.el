@@ -926,9 +926,12 @@ point."
   (exec-path-from-shell-variables '("PATH"
                                     "MANPATH"
                                     "GPG_AGENT_INFO"))
-  :commands (exec-path-from-shell-initialize)
+  :commands (exec-path-from-shell-copy-envs
+             exec-path-from-shell-initialize)
   :init
   (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-envs '("SSH_AGENT_PID"
+                                    "SSH_AUTH_SOCK"))
   (pyenv-mode-set "3.7.3")
   :demand t)
 
