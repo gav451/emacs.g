@@ -700,8 +700,7 @@ and file a bug report."
   (elpy-modules '(elpy-module-sane-defaults
                   elpy-module-company
                   elpy-module-eldoc
-                  elpy-module-flymake
-                  elpy-module-pyvenv))
+                  elpy-module-flymake))
   (elpy-remove-modeline-lighter nil)
   (elpy-rpc-ignored-buffer-size (lsh 1 18))
   :commands (elpy-company-post-complete-parens
