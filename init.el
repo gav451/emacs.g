@@ -708,6 +708,7 @@ and file a bug report."
              elpy-rpc
              elpy-rpc--buffer-contents)
   :init
+  (pyenv-mode-set "3.7.3")
   (elpy-enable)
   :config
   (defun elpy-rpc-get-completions (&optional success error)
@@ -932,7 +933,6 @@ point."
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-envs '("SSH_AGENT_PID"
                                     "SSH_AUTH_SOCK"))
-  (pyenv-mode-set "3.7.3")
   :demand t)
 
 (when (getenv "EXWM")
