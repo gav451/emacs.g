@@ -1672,12 +1672,6 @@ was a real minor mode."
   :custom
   (monky-process-type 'cmdserver))
 
-(use-package multi-term
-  :disabled
-  :custom
-  (multi-term-program (executable-find "zsh"))
-  :commands (multi-term))
-
 (use-package novice
   ;; https://www.emacswiki.org/emacs/DisabledCommands
   :preface
