@@ -299,6 +299,7 @@
      (".*gitlab.*" . browse-url-generic)
      (".*google.*" . browse-url-generic)
      (".*openstreetmap.org" . browse-url-generic)
+     (".*readthedocs.org" . browser-url-generic)
      (".*reddit.com" . browse-url-generic)
      (".*wikipedia.*" . browse-url-generic)
      (".*youtube.*" . browse-url-generic)
