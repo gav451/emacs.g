@@ -731,7 +731,7 @@ and file a bug report."
              elpy-rpc
              elpy-rpc--buffer-contents)
   :init
-  (pyenv-mode-set "3.7.3")
+  (pyenv-mode-set "3.7.4")
   (elpy-enable)
   :config
   (defun elpy-rpc-get-completions (&optional success error)
