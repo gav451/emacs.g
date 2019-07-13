@@ -137,6 +137,7 @@
 [submodule "forge"]
 	path = lib/forge
 	url = git@github.com:magit/forge.git
+	info-path = docs
 [submodule "free-keys"]
 	path = lib/free-keys
 	url = git@github.com:Fuco1/free-keys.git
