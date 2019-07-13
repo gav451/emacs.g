@@ -1673,6 +1673,7 @@ was a real minor mode."
   (monky-process-type 'cmdserver))
 
 (use-package multi-term
+  :disabled
   :custom
   (multi-term-program (executable-find "zsh"))
   :commands (multi-term))
