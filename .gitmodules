@@ -223,6 +223,7 @@
 [submodule "monky"]
 	path = lib/monky
 	url = git@github.com:ananthakumaran/monky.git
+	remote = "gav451 git@github.com:gav451/monky.git"
 [submodule "mu2tex"]
 	path = lib/mu2tex
 	url = git@github.com:cdominik/mu2tex.git
