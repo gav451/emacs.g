@@ -2182,8 +2182,11 @@ even if buffer is already narrowed."
                (list (regexp-quote (system-name)) nil nil)))
 
 (use-package transient
+  :after magit
   :custom
-  (transient-display-buffer-action '(display-buffer-below-selected)))
+  (transient-display-buffer-action '(display-buffer-below-selected))
+  :custom-face
+  (transient-argument ((t :inherit font-lock-warning-face :underline t))))
 
 (use-package unfill
   :bind ((:map global-map
