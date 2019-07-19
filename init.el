@@ -304,7 +304,9 @@
      (".*wikipedia.*" . browse-url-generic)
      (".*youtube.*" . browse-url-generic)
      ("." . eww-browse-url)))
-  (browse-url-generic-program (or (executable-find "qutebrowser")
+  (browse-url-generic-program (or (when (eq system-type 'darwin)
+                                    "open")
+                                  (executable-find "qutebrowser")
                                   (executable-find "firefox")))
   :commands (browse-url
              browse-url-generic))
