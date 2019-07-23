@@ -54,8 +54,8 @@
   (when (boundp 'ns-right-command-modifier)
     (setq ns-right-command-modifier 'super))
   (when (eq window-system 'ns)
-    (add-to-list 'initial-frame-alist '(height . 50))
-    (add-to-list 'initial-frame-alist '(width . 170))))
+    (add-to-list 'initial-frame-alist '(height . 51))
+    (add-to-list 'initial-frame-alist '(width . 180))))
 
 (progn                                  ; `borg'
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
