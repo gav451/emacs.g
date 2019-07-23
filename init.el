@@ -220,7 +220,8 @@
                           :background "purple3" :foreground "gold" :height 2.0)
                          (t :foreground "gray100" :underline nil)))
   :commands (ace-window-display-mode)
-  :bind* (("M-o" . ace-window))
+  :bind (:map global-map
+              ("M-o" . ace-window))
   :after avy
   :init
   (ace-window-display-mode))
