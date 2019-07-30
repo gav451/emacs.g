@@ -735,7 +735,6 @@ and file a bug report."
              elpy-rpc
              elpy-rpc--buffer-contents)
   :init
-  (pyenv-mode-set "3.7.4")
   (elpy-enable)
   :config
   (defun elpy-rpc-get-completions (&optional success error)
@@ -1585,10 +1584,10 @@ was a real minor mode."
   ((after-init) . ivy-prescient-mode))
 
 (use-package jupyter
-  ;; Defer loading 2 seconds after loading `org' to append
-  ;; `jupyter' as the last element of `org-babel-load-language'.
-  :after org
-  :defer 2
+  ;; Load `jupyter' after `org' and `pyenv' to append `jupyter' as the
+  ;; last element of `org-babel-load-language' in a nice environment.
+  :after (org pyenv)
+  :demand t
   :config
   (org-babel-do-load-languages 'org-babel-load-languages
                                (append org-babel-load-languages
@@ -1972,6 +1971,7 @@ Enable it and reexecute it."
   (prescient-persist-mode))
 
 (use-package pyenv-mode
+  ;; Loads `elpy' and `python' automatically.
   :preface
   (defun update-pyenv-mode-environment (&rest _)
     (let ((version (pyenv-mode-version))
@@ -2002,11 +2002,13 @@ Enable it and reexecute it."
              pyenv-mode-set
              pyenv-mode-unset
              pyenv-mode-version)
+  :defer 2
   :config
   (advice-add 'pyenv-mode-set
               :after #'update-pyenv-mode-environment)
   (advice-add 'pyenv-mode-unset
-              :after #'update-pyenv-mode-environment))
+              :after #'update-pyenv-mode-environment)
+  (pyenv-mode-set "3.7.4"))
 
 (use-package python
   :custom
