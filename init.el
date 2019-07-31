@@ -1273,6 +1273,17 @@ point."
     shell-mode) . goto-address-mode)
   ((prog-mode) . goto-address-prog-mode))
 
+(use-package git-commit
+  :preface
+  (put 'git-commit-major-mode 'safe-local-variable
+       (lambda (m) (or (eq m 'gfm-mode)
+                       (eq m 'git-commit-elisp-text-mode)
+                       (eq m 'markdown-mode)
+                       (eq m 'org-mode)
+                       (eq m 'text-mode))))
+  :custom
+  (git-commit-major-mode 'gfm-mode))
+
 (use-package gpastel
   ;; Try to prevent gpaste-daemon from using 100 % cpu time by
   ;; disabling image support.
