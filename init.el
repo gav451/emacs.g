@@ -62,6 +62,11 @@
   (require  'borg)
   (borg-initialize)
 
+  (eval-when-compile
+    ;; Minimize the load time of killing the "Unknown slot `url'"
+    ;; warning in `borg-sync-drone-urls'.
+    (require 'epkg))
+
   ;; https://github.com/dakra/dmacs/blob/master/init.org#unsortet-stuff-in-no-packages
   (defun borg-sync-drone-urls ()
     "Offer to update outdated upstream urls of all drones."
@@ -116,11 +121,8 @@
   :demand t)
 
 (use-package epkg
-  :functions (epkg)
   :custom
-  (epkg-repository (expand-file-name "var/epkgs/" user-emacs-directory))
-  ;; Kill "Unknown slot `url'" warning in `borg-sync-drone-urls'.
-  :demand t)
+  (epkg-repository (expand-file-name "var/epkgs/" user-emacs-directory)))
 
 (use-package custom
   :custom
