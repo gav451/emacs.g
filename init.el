@@ -69,7 +69,7 @@
     (let (moved)
       (dolist (drone (borg-clones))
         (let ((a (borg-get drone "url"))
-              (b (ignore-errors (oref (epkg drone) url))))
+              (b (ignore-errors (slot-value (epkg drone) 'url))))
           (when (and a b (not (forge--url-equal a b)))
             (push (list drone a b) moved))))
       (when (and moved
@@ -116,8 +116,11 @@
   :demand t)
 
 (use-package epkg
+  :functions (epkg)
   :custom
-  (epkg-repository (expand-file-name "var/epkgs/" user-emacs-directory)))
+  (epkg-repository (expand-file-name "var/epkgs/" user-emacs-directory))
+  ;; Kill "Unknown slot `url'" warning in `borg-sync-drone-urls'.
+  :demand t)
 
 (use-package custom
   :custom
@@ -750,9 +753,6 @@ point."
                       (- (point)
                          (point-min)))
                 success error))))
-
-(use-package epkg
-  :commands (epkg))
 
 (use-package emms
   ;; Let mpd play most sound, and mpv everything else (ideally video only).
