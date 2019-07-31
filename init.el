@@ -751,6 +751,9 @@ point."
                          (point-min)))
                 success error))))
 
+(use-package epkg
+  :commands (epkg))
+
 (use-package emms
   ;; Let mpd play most sound, and mpv everything else (ideally video only).
   :custom
@@ -868,6 +871,7 @@ point."
   ;; http://emacshorrors.com/post/life-is-too-much
   ;; https://github.com/howardabrams/dot-files/blob/master/emacs-eshell.org
   ;; https://github.com/wasamasa/dotemacs/blob/master/init.org#eshell
+  :defines (eshell-mode-map)
   :preface
   (defun my-eshell-quit-or-delete-char (arg)
     (interactive "p")
@@ -1221,6 +1225,9 @@ point."
   ((prog-mode) . flyspell-prog-mode)
   ((text-mode) . flyspell-mode)
   :delight flyspell-mode " ✔")
+
+(use-package forge-core
+  :functions (forge--url-equal))
 
 (use-package frame
   ;; http://emacsninja.com/posts/making-emacs-more-presentable.html
