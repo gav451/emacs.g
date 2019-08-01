@@ -41,9 +41,6 @@
 [submodule "buttercup"]
 	path = lib/buttercup
 	url = git@github.com:jorgenschaefer/emacs-buttercup.git
-[submodule "cheat-sh"]
-	path = lib/cheat-sh
-	url = git@github.com:davep/cheat-sh.el.git
 [submodule "closql"]
 	path = lib/closql
 	url = git@github.com:emacscollective/closql.git

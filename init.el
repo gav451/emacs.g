@@ -323,24 +323,6 @@
          (:map deadgrep-mode-map
                ("C-c C-w" . deadgrep-edit-mode))))
 
-(use-package cheat-sh
-  :custom
-  (cheat-sh-list-timeout (* 24 60 60))
-  :commands (cheat-sh cheat-sh-read)
-  :defer 2
-  :config
-  ;; Patch to remove the tilde from requests to cheat.sh.
-  (defun cheat-sh-search (thing)
-    "Search for THING on cheat.sh and display the result."
-    (interactive "sSearch: ")
-    (cheat-sh thing))
-  (defun cheat-sh-search-topic (topic thing)
-    "Search TOPIC for THING on cheat.sh and display the result."
-    (interactive
-     (list (cheat-sh-read "Topic: ")
-           (read-string "Search: ")))
-    (cheat-sh (concat topic "/" thing))))
-
 (use-package company
   ;; https://emacs.stackexchange.com/questions/9835/how-can-i-prevent-company-mode-completing-numbers
   :preface
