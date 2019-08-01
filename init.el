@@ -1296,6 +1296,9 @@ point."
   :commands (helpful-callable
              helpful-variable))
 
+(use-package hercules
+  :commands (hercules-def))
+
 (use-package hideshow
   ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
   ;; https://github.com/yiufung/dot-emacs/blob/master/init.el
@@ -1634,6 +1637,10 @@ was a real minor mode."
          (:map lisp-interaction-mode-map
                ("C-c e" . macrostep-expand)))
   :config
+  (hercules-def
+   :show-funs #'macrostep-expand
+   :hide-funs #'macrostep-mode
+   :keymap 'macrostep-keymap)
   (use-package use-package))
 
 (use-package magit
