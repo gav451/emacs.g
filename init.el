@@ -171,7 +171,7 @@
   :hook
   ((LaTeX-mode) . turn-on-reftex)
   :demand t
-  :delight reftex-mode " 📑")
+  :delight (reftex-mode " 📑"))
 
 (use-package reftex-vars
   :custom
@@ -369,14 +369,14 @@ In that case, insert the number."
     org-mode
     sly-mode
     sly-mrepl-mode) . company-mode)
-  :delight company-mode " 👫")
+  :delight (company-mode " 👫"))
 
 (use-package company-prescient
   :hook
   ((company-mode) . company-prescient-mode))
 
 (use-package compile
-  :delight compilation-in-progress " 👷")
+  :delight (compilation-in-progress " 👷"))
 
 (use-package counsel
   ;; https://www.reddit.com/r/emacs/comments/baby94/some_ivy_hacks/
@@ -559,7 +559,7 @@ In that case, insert the number."
                ("M-w" . easy-kill))))
 
 (use-package eldoc
-  :delight eldoc-mode " 🛈")
+  :delight (eldoc-mode " 🛈"))
 
 (use-package elec-pair
   :hook
@@ -596,7 +596,7 @@ nil if not inside any parens."
 (use-package electric-operator
   :hook
   ((python-mode) . electric-operator-mode)
-  :delight electric-operator-mode " ⌤")
+  :delight (electric-operator-mode " ⨄⌤"))
 
 (use-package elfeed
   ;; http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/
@@ -736,7 +736,11 @@ point."
                       (elpy-rpc--buffer-contents)
                       (- (point)
                          (point-min)))
-                success error))))
+                success error)))
+  :delight (elpy-mode " 🐍"))
+
+(use-package elisp-mode
+  :delight (emacs-lisp-mode "🐮 " :major))
 
 (use-package emms
   ;; Let mpd play most sound, and mpv everything else (ideally video only).
@@ -1171,7 +1175,7 @@ point."
     :group 'display)
   :commands (buffer-face-mode
              buffer-face-set)
-  :delight buffer-face-mode)
+  :delight (buffer-face-mode))
 
 (use-package faces
   :when window-system
@@ -1208,7 +1212,7 @@ point."
   :hook
   ((prog-mode) . flyspell-prog-mode)
   ((text-mode) . flyspell-mode)
-  :delight flyspell-mode " ✔")
+  :delight (flyspell-mode " ✔"))
 
 (use-package forge-core
   :functions (forge--url-equal))
@@ -1305,7 +1309,7 @@ point."
   :bind (:map prog-mode-map
               ("C-c h" . hs-toggle-hiding))
   :hook ((prog-mode) . hs-minor-mode)
-  :delight hs-minor-mode " 🙈")
+  :delight (hs-minor-mode " 🙈"))
 
 (use-package hl-line
   :hook
@@ -1483,6 +1487,9 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 
 (use-package iedit
   :custom
+  (iedit-mode-line
+   '(" 🖹:" (:eval
+            (format "%d/%d" iedit-occurrence-index (iedit-counter)))))
   (iedit-toggle-key-default nil)
   ;; "Mastering Emacs" recommends this and `lispy' uses this.
   :bind ((:map global-map
@@ -1550,7 +1557,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :demand t
   :config
   (ivy-mode)
-  :delight ivy-mode " 𝝓")
+  :delight (ivy-mode " 𝝓"))
 
 (use-package ivy-posframe
   :preface
@@ -1582,7 +1589,7 @@ was a real minor mode."
   (ivy-posframe-cursor ((t (:background "LawnGreen"))))
   :commands (ivy-posframe-mode)
   :demand t
-  :delight ivy-posframe-mode " 🗔")
+  :delight (ivy-posframe-mode " 🗔"))
 
 (use-package ivy-prescient
   :hook
@@ -1629,7 +1636,7 @@ was a real minor mode."
     lisp-interaction-mode
     sly-mode
     sly-mrepl-mode) . lispy-mode)
-  :delight lispy-mode " 🗘")
+  :delight (lispy-mode " 🗘"))
 
 (use-package macrostep
   :bind ((:map emacs-lisp-mode-map
@@ -2025,7 +2032,8 @@ Enable it and reexecute it."
   :interpreter ("python" . python-mode)
   :mode ("\\.pyw?\\'" . python-mode)
   :config
-  (lentic-ensure-init))
+  (lentic-ensure-init)
+  :delight (python-mode "🐍 " :major))
 
 (use-package rainbow-mode
   :custom
@@ -2040,7 +2048,7 @@ Enable it and reexecute it."
     ielm-mode
     latex-mode
     lisp-interaction-mode) . rainbow-mode)
-  :delight rainbow-mode " 🌈")
+  :delight (rainbow-mode " 🌈"))
 
 (use-package recentf
   :after no-littering
@@ -2059,7 +2067,7 @@ Enable it and reexecute it."
   ;; info -> magit -> FAQ -> FAQ - Issues and Errors.
   :hook
   ((magit-diff-visit-file) . reveal-mode)
-  :delight reveal-mode " 👀")
+  :delight (reveal-mode " 👀"))
 
 (use-package replace
   ;; https://masteringemacs.org/article/searching-buffers-occur-mode
@@ -2217,7 +2225,7 @@ even if buffer is already narrowed."
   (wdired-allow-to-change-permissions t))
 
 (use-package which-key
-  :delight which-key-mode)
+  :delight (which-key-mode))
 
 (use-package with-editor
   :hook
@@ -2245,7 +2253,7 @@ even if buffer is already narrowed."
   ;; However, everything works fine, sofar.
   :config
   (yas-global-mode 1)
-  :delight yas-minor-mode " ✀")
+  :delight (yas-minor-mode " ✀"))
 
 (use-package zop-to-char
   :bind ((:map global-map
