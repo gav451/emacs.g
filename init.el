@@ -1596,9 +1596,10 @@ was a real minor mode."
   ((after-init) . ivy-prescient-mode))
 
 (use-package jupyter
-  ;; Load `jupyter' after `org' and `pyenv' to append `jupyter' as the
-  ;; last element of `org-babel-load-language' in a nice environment.
-  :after (org pyenv)
+  ;; Load `jupyter' after `org' and `pyenv-mode' to append `jupyter'
+  ;; as the last element of `org-babel-load-language' in a nice
+  ;; environment.
+  :after (org pyenv-mode)
   :demand t
   :config
   (org-babel-do-load-languages 'org-babel-load-languages
