@@ -246,6 +246,9 @@
 [submodule "org-noter"]
 	path = lib/org-noter
 	url = git@github.com:weirdNox/org-noter.git
+[submodule "org-pdftools"]
+	path = lib/org-pdftools
+	url = git@github.com:fuxialexander/org-pdftools.git
 [submodule "org-protocol-capture-html"]
 	path = lib/org-protocol-capture-html
 	url = git@github.com:alphapapa/org-protocol-capture-html.git
