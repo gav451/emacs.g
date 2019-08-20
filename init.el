@@ -1499,7 +1499,12 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
          (:map esc-map
                ("M-i" . iedit-execute-last-modification))
          (:map help-map
-               ("M-i" . iedit-mode-toggle-on-function))))
+               ("M-i" . iedit-mode-toggle-on-function)))
+  :config
+  (hercules-def
+   :toggle-funs #'iedit-mode
+   :hide-funs #'iedit-quit
+   :keymap 'iedit-mode-keymap))
 
 (use-package ivy
   ;; https://github.com/dakra/dmacs/blob/master/init.org#ivy
