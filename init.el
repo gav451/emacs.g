@@ -120,10 +120,6 @@
              no-littering-expand-var-file-name)
   :demand t)
 
-(use-package epkg
-  :custom
-  (epkg-repository (expand-file-name "var/epkgs/" user-emacs-directory)))
-
 (use-package custom
   :custom
   (custom-file (expand-file-name "custom.el" user-emacs-directory))
