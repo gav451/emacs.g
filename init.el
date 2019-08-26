@@ -1882,10 +1882,9 @@ Enable it and reexecute it."
   :demand t)
 
 (use-package org-element
-  :functions
-  org-element-map
-  org-element-parse-buffer
-  org-element-property)
+  :functions (org-element-map
+              org-element-parse-buffer
+              org-element-property))
 
 (use-package org-id
   :after org
@@ -2201,6 +2200,9 @@ even if buffer is already narrowed."
   (synosaurus-choose-method 'default)
   :bind* (("C-z C-s l" . synosaurus-lookup)
           ("C-z C-s r" . synosaurus-choose-and-replace)))
+
+(use-package thingatpt
+  :functions (thing-at-point-looking-at))
 
 (use-package time
   :custom
