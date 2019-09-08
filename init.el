@@ -847,9 +847,9 @@ point."
        ("o" engine/search-open-streetmap "open-streetmap")
        ("w" engine/search-wikipedia      "wikipedia")))))
 
-(use-package epa
+(use-package epg-config
   :custom
-  (epa-pinentry-mode 'loopback))
+  (epg-pinentry-mode 'loopback))
 
 (use-package eshell
   ;; http://emacshorrors.com/post/life-is-too-much
