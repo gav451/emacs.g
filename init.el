@@ -195,15 +195,14 @@
   :after tex-site
   :hook
   ((TeX-after-compilation-finished-functions
-    ) . TeX-revert-document-buffer)
-  :demand t)
+    ) . TeX-revert-document-buffer))
 
 (use-package tex-site
   ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
   ;; https://gitlab.com/jabranham/emacs
   ;; Use AUCTeX, since it is better than the built in tex mode.
   ;; Tweak .gitmodules to make the git repository resemble the elpa package.
-  ;; Defer requiring tex-site (instead of lazy loading auctex).
+  ;; Do not require auctex, since auctex.el provides no feature 'auctex'.
   :defer 4)
 
 ;; alphabetical order
@@ -684,10 +683,8 @@ nil if not inside any parens."
      elfeed-search-mode-map)))
 
 (use-package elisp-demos
-  :after helpful
   :commands (elisp-demos-advice-helpful-update)
-  :demand t
-  :config
+  :init
   (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update))
 
 (use-package elpy
