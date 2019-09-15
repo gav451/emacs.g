@@ -1276,6 +1276,13 @@ point."
               "gsettings list-recursively org.gnome.GPaste"))
     (gpastel-mode)))
 
+(use-package haskell-mode
+  ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
+  :mode (((rx (seq ".cabal" eos)) . haskell-cabal-mode)
+         ((rx (seq ".hs" (opt (or "-boot" "c")) eos)) . haskell-mode)
+         ((rx (seq ".lhs" eos)) . literate-haskell-mode))
+  :delight (haskell-mode "🍛 " :major))
+
 (use-package help
   :bind ((:map help-map
                ("M" . describe-minor-mode)))

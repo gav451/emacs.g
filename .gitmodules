@@ -93,8 +93,8 @@
 	no-byte-compile = emacsql-pg.el
 [submodule "emms"]
 	path = lib/emms
-	info-path = doc
 	url = https://git.savannah.gnu.org/git/emms.git
+	info-path = doc
 	build-step = borg-build-compile
 	build-step = borg-makeinfo
 	build-step = make emms-print-metadata
@@ -144,6 +144,10 @@
 [submodule "gpastel"]
 	path = lib/gpastel
 	url = git@github.com:DamienCassou/gpastel.git
+[submodule "haskell-mode"]
+	path = lib/haskell-mode
+	url = git@github.com:haskell/haskell-mode.git
+	info-path = doc
 [submodule "helm"]
 	path = lib/helm
 	url = git@github.com:emacs-helm/helm.git
