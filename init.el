@@ -2287,9 +2287,6 @@ even if buffer is already narrowed."
             (lambda ()
               (fringe-mode '(nil . 0))  ; left-only
               (setq-default indicate-buffer-boundaries 'left)
-              (if (fboundp 'imagemagick-types)
-                  (message "Can scale images thanks to ImageMagick support")
-                (message "Cannot scale images without ImageMagick support"))
               (message
                "Loading %s...done (%.3fs) [after-init]" user-init-file
                (float-time (time-subtract (current-time)
