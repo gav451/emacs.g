@@ -20,12 +20,9 @@
                      (setq file-name-handler-alist
                            (cl-union file-name-handler-alist-backup
                                      file-name-handler-alist))
-                     (message "[after-init] file-name-handler-alist restored to %S"
-                              file-name-handler-alist)
                      (setq gc-cons-threshold
                            (* 5 (car (get 'gc-cons-threshold 'standard-value))))
-                     (message "[after-init] gc-cons-threshold restored to %S"
-                              gc-cons-threshold)
+                     (message "[after-init] reset fast to normal speed")
                      (garbage-collect))))
                 t)))
   (setq user-init-file (or load-file-name buffer-file-name))
