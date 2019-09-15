@@ -6,9 +6,6 @@
 [submodule "alert"]
 	path = lib/alert
 	url = git@github.com:jwiegley/alert.git
-[submodule "assess"]
-	path = lib/assess
-	url = git@github.com:phillord/assess.git
 [submodule "async"]
 	path = lib/async
 	url = git@github.com:jwiegley/emacs-async.git
@@ -44,9 +41,6 @@
 [submodule "closql"]
 	path = lib/closql
 	url = git@github.com:emacscollective/closql.git
-[submodule "commander"]
-	path = lib/commander
-	url = git@github.com:rejeep/commander.el.git
 [submodule "company"]
 	path = lib/company
 	url = git@github.com:company-mode/company-mode.git
@@ -190,10 +184,6 @@
 [submodule "keycast"]
 	path = lib/keycast
 	url = git@github.com:tarsius/keycast.git
-[submodule "lentic"]
-	path = lib/lentic
-	url = git@github.com:phillord/lentic.git
-	remote = "gav451 git@github.com:gav451/lentic.git"
 [submodule "libgit"]
 	path = lib/libgit
 	url = git@github.com:magit/libegit2.git
@@ -201,15 +191,9 @@
 [submodule "lispy"]
 	path = lib/lispy
 	url = git@github.com:abo-abo/lispy.git
-[submodule "load-relative"]
-	path = lib/load-relative
-	url = git@github.com:rocky/emacs-load-relative.git
 [submodule "loop"]
 	path = lib/loop
 	url = git@github.com:Wilfred/loop.el.git
-[submodule "m-buffer"]
-	path = lib/m-buffer
-	url = git@github.com:phillord/m-buffer-el.git
 [submodule "macrostep"]
 	path = lib/macrostep
 	url = git@github.com:joddie/macrostep.git

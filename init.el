@@ -1622,12 +1622,6 @@ was a real minor mode."
     (((class color) (background light)) :background "LightGrey")))
   :commands (jupyter-run-repl))
 
-(use-package lentic
-  :custom
-  (lentic-mode-line-lighter "🎥")
-  :commands (global-lentic-mode
-             lentic-ensure-init))
-
 (use-package lispy
   :custom
   (lispy-compat '(edebug macrostep))
@@ -2047,8 +2041,6 @@ Enable it and reexecute it."
   (python-shell-interpreter-args "-E -i")
   :interpreter ("python" . python-mode)
   :mode ("\\.pyw?\\'" . python-mode)
-  :config
-  (lentic-ensure-init)
   :delight (python-mode "🐍 " :major))
 
 (use-package rainbow-mode
