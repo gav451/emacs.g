@@ -255,6 +255,9 @@
 [submodule "org-ref"]
 	path = lib/org-ref
 	url = git@github.com:jkitchin/org-ref.git
+[submodule "org-tanglesync"]
+	path = lib/org-tanglesync
+	url = git@github.com:mtekman/org-tanglesync.el.git
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git

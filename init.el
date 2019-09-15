@@ -1932,6 +1932,11 @@ Enable it and reexecute it."
                                       (t
                                        (format "%s" path))))))
 
+(use-package org-tanglesync
+  :hook
+  ((org-mode) . org-tanglesync-minor-mode)
+  :bind (("C-c t" . org-tanglesync-minor-mode)))
+
 (use-package org-src
   :custom
   (org-edit-src-content-indentation
