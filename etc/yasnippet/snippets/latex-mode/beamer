@@ -79,6 +79,7 @@
 
 \newcommand{\Reynolds}{\mbox{\textit{Re}}}
 \newcommand{\Nusselt}{\mbox{\textit{Nu}}}
+\newcommand{\Knudsen}{\mbox{\textit{Kn}}}
 
 % https://tex.stackexchange.com/questions/29082/latex-beamer-applies-the-cancel-command-only-a-specified-slides
 \usepackage[thicklines]{cancel}
