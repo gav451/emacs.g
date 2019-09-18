@@ -1932,8 +1932,8 @@ Enable it and reexecute it."
 
 (use-package org-tanglesync
   :hook
-  ((org-mode) . org-tanglesync-minor-mode)
-  :bind (("C-c t" . org-tanglesync-minor-mode)))
+  ((org-mode) . org-tanglesync-mode)
+  :bind (("C-c t" . org-tanglesync-mode)))
 
 (use-package org-src
   :custom
