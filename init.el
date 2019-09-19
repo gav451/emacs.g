@@ -1119,24 +1119,19 @@ point."
     (defun on-exwm-randr-screen-change ()
       (let* ((monitors (my-exwm-randr-connected-monitors))
              (count (length monitors))
-             (wop)
-             (command
-              (cond
-               ((eq count 2)
-                (dotimes (i 10)
-                  (if (cl-evenp i)
-                      (setq wop (plist-put wop i (car monitors)))
-                    (setq wop (plist-put wop i (cadr monitors)))))
-                (message "Exwm-randr: 2 monitors")
-                (format "xrandr --output %s --auto --above %s"
-                        (cadr monitors) (car monitors)))
-               ((eq count 1)
-                (dotimes (i 10)
-                  (setq wop (plist-put wop i (car monitors))))
-                (message "Exwm-randr: 1 monitor")
-                "xrandr"))))
-        (setq exwm-randr-workspace-monitor-plist wop)
-        (start-process-shell-command "xrandr" nil command)))
+             (wop))
+        (cond
+         ((eq count 2)
+          (dotimes (i 10)
+            (if (cl-evenp i)
+                (setq wop (plist-put wop i (car monitors)))
+              (setq wop (plist-put wop i (cadr monitors)))))
+          (message "Exwm-randr: configure 2 monitors"))
+         ((eq count 1)
+          (dotimes (i 10)
+            (setq wop (plist-put wop i (car monitors))))
+          (message "Exwm-randr: configure 1 monitor")))
+        (setq exwm-randr-workspace-monitor-plist wop)))
 
     :when (string= (system-name) "venus")
     :hook
