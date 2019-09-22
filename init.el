@@ -819,39 +819,40 @@ point."
   ;; http://emacshorrors.com/post/life-is-too-much
   ;; https://github.com/howardabrams/dot-files/blob/master/emacs-eshell.org
   ;; https://github.com/wasamasa/dotemacs/blob/master/init.org#eshell
-  :defines (eshell-mode-map)
-  :preface
-  (defun my-eshell-quit-or-delete-char (arg)
-    (interactive "p")
-    (if (and (eolp)
-             (looking-back eshell-prompt-regexp nil))
-        (eshell-life-is-too-much)
-      (delete-char arg)))
-
-  (defun on-eshell-mode ()
-    (bind-keys :map eshell-mode-map
-               ("C-d" . my-eshell-quit-or-delete-char)))
-  :custom
-  (eshell-aliases-file (no-littering-expand-etc-file-name "eshell/alias"))
-  (eshell-hist-ignoredups t)
-  (eshell-ls-initial-args nil)
-  (eshell-save-history-on-exit t)
-  (eshell-visual-commands '("htop"
-                            "ipython"
-                            "jupyter"
-                            "less"
-                            "more"
-                            "mpv"
-                            "ncftp"
-                            "tmux"
-                            "top"
-                            "watch"))
-  :hook
-  ((eshell-mode) . on-eshell-mode)
-  :defines
-  eshell-banner-message
-  eshell-prompt-regexp
-  :commands (eshell-life-is-too-much))
+  :config
+  (use-package em-alias
+    :custom
+    (eshell-aliases-file (no-littering-expand-etc-file-name "eshell/alias")))
+  (use-package em-hist
+    :custom
+    (eshell-hist-ignoredups t)
+    (eshell-save-history-on-exit t))
+  (use-package em-ls
+    :custom
+    (eshell-ls-initial-args nil))
+  (use-package em-prompt
+    :defines (eshell-prompt-regexp))
+  (use-package em-term
+    :custom
+    (eshell-visual-commands '("htop"
+                              "ipython"
+                              "jupyter"
+                              "less"
+                              "more"
+                              "mpv"
+                              "ncftp"
+                              "tmux"
+                              "top"
+                              "watch")))
+  (use-package esh-mode
+    :commands (eshell-life-is-too-much)
+    :bind (:map eshell-mode-map
+                ("C-d" . (lambda (arg)
+                           (interactive "p")
+                           (if (and (eolp)
+                                    (looking-back eshell-prompt-regexp nil))
+                               (eshell-life-is-too-much)
+                             (delete-char arg)))))) )
 
 (use-package expand-region
   :bind* (("C-=" . er/expand-region)))
