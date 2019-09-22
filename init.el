@@ -139,6 +139,7 @@
 ;; AUCTeX & friends
 (use-package bibtex
   :after tex-site
+  :mode ((rx (seq ".bib" eos)) . bibtex-mode)
   :custom
   (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
   (bibtex-completion-library-path '("~/VCS/research/papers"))
@@ -151,7 +152,7 @@
 
 (use-package latex
   :after tex-site
-  :mode ("\\.tex\\'" . TeX-latex-mode)
+  :mode ((rx (seq ".tex" eos)) . TeX-latex-mode)
   :custom
   (LaTeX-electric-left-right-brace t)
   :hook
@@ -423,7 +424,7 @@ In that case, insert the number."
           ("C-c u" . counsel-unicode-char)))
 
 (use-package cython-mode
-  :mode "\\.py[xdi]\\'")
+  :mode ((rx (seq ".py" (any "xdi") eos)) . cython-mode))
 
 (use-package dash
   :commands (dash-enable-font-lock)
@@ -1677,10 +1678,9 @@ was a real minor mode."
 (use-package markdown-mode
   :custom
   (markdown-command "pandoc -f markdown -t html5 -s --self-contained --smart")
-  :mode
-  (("README\\.md\\'" . gfm-mode)
-   ("\\.md\\'" . markdown-mode)
-   ("\\.markdown\\'" . markdown-mode)))
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)))
 
 (use-package monky
   ;; Try chg, since using `cmdserver' as `monky-process-type' fails
@@ -1825,8 +1825,7 @@ Enable it and reexecute it."
                ("C-c c"   . org-capture)
                ("C-c l"   . org-store-link)
                ("C-c C-l" . org-insert-link-global)))
-  :mode
-  ("\\.org\\'" . org-mode)
+  :mode ((rx ".org" eos) . org-mode)
   :hook
   (org-mode . on-org-mode-eval-blocks)
   (org-mode . on-org-mode-hook)
@@ -2039,7 +2038,7 @@ Enable it and reexecute it."
   :custom
   (python-shell-interpreter-args "-E -i")
   :interpreter ("python" . python-mode)
-  :mode ("\\.pyw?\\'" . python-mode)
+  :mode ((rx (seq ".py" (opt "w") eos)) . python-mode)
   :delight (python-mode "🐍 " :major))
 
 (use-package rainbow-mode
