@@ -57,35 +57,7 @@
 (progn                                  ; `borg'
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
   (require  'borg)
-  (borg-initialize)
-
-  (eval-when-compile
-    ;; Minimize the load time of killing the "Unknown slot `url'"
-    ;; warning in `borg-sync-drone-urls'.
-    (require 'epkg))
-
-  ;; https://github.com/dakra/dmacs/blob/master/init.org#unsortet-stuff-in-no-packages
-  (defun borg-sync-drone-urls ()
-    "Offer to update outdated upstream urls of all drones."
-    (interactive)
-    (let (moved)
-      (dolist (drone (borg-clones))
-        (let ((a (borg-get drone "url"))
-              (b (ignore-errors (slot-value (epkg drone) 'url))))
-          (when (and a b (not (forge--url-equal a b)))
-            (push (list drone a b) moved))))
-      (when (and moved
-                 (yes-or-no-p
-                  (concat (mapconcat (pcase-lambda (`(,drone ,a ,b))
-                                       (format "%s: %s => %s" drone a b))
-                                     moved "\n")
-                          "\n\nThese upstream repositories appear to have moved."
-                          "\s\sUpdate local configuration accordingly? ")))
-        (let ((default-directory borg-user-emacs-directory))
-          (pcase-dolist (`(,drone ,_ ,b) moved)
-            (process-file "git" nil nil nil "config" "-f" ".gitmodules"
-                          (format "submodule.%s.url" drone) b))
-          (process-file "git" nil nil nil "submodule" "sync"))))))
+  (borg-initialize))
 
 (progn                                  ; `use-package' and `delight'
   ;; Must be set before loading use-package.
