@@ -2071,7 +2071,7 @@ Enable it and reexecute it."
 
 (use-package shr
   :custom
-  (shr-max-image-proportion 1.0)
+  (shr-max-image-proportion 0.95)
   :commands (shr-browse-url))
 
 (use-package simple
