@@ -147,8 +147,7 @@
   (bibtex-user-optional-fields
    '(("abstract")
      ("doi" "Digital Object Identifier")
-     ("url" "Universal Ressource Locator")))
-  :demand t)
+     ("url" "Universal Ressource Locator"))))
 
 (use-package latex
   :after tex-site
@@ -157,14 +156,12 @@
   (LaTeX-electric-left-right-brace t)
   :hook
   ((LaTeX-mode) . LaTeX-math-mode)
-  :commands (LaTeX-narrow-to-environment)
-  :demand t)
+  :commands (LaTeX-narrow-to-environment))
 
 (use-package reftex
   :after tex-site
   :hook
   ((LaTeX-mode) . turn-on-reftex)
-  :demand t
   :delight (reftex-mode " 📑"))
 
 (use-package reftex-vars
