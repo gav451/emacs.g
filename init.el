@@ -133,7 +133,7 @@
 (use-package reftex
   :after tex-site
   :hook
-  ((LaTeX-mode) . turn-on-reftex)
+  ((LaTeX-mode) . reftex-mode)
   :delight (reftex-mode " 📑"))
 
 (use-package reftex-vars
