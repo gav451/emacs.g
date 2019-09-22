@@ -1816,7 +1816,9 @@ Enable it and reexecute it."
    '(ol-bibtex
      ol-eshell
      ol-eww
-     ol-info))
+     ol-info
+     org-id
+     org-protocol))
   (org-src-fontify-natively t)
   (org-todo-keywords (quote ((sequence "TODO" "|" "DONE" "DEFERRED" "ZAPPED"))))
   (org-use-sub-superscripts '{})
@@ -1875,13 +1877,6 @@ Enable it and reexecute it."
               org-element-parse-buffer
               org-element-property))
 
-(use-package org-id
-  :after org
-  :demand t)
-
-(use-package org-protocol
-  :after org
-  :demand t)
 
 (use-package org-protocol-capture-html
   :disabled
