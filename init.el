@@ -1446,7 +1446,12 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   :bind ((:map global-map
                ("C-x C-b" . ibuffer)))
   :hook
-  ((ibuffer-mode) . ibuffer-auto-mode))
+  ((ibuffer-mode) . ibuffer-auto-mode)
+  :config
+  (hercules-def
+   :show-funs #'ibuffer
+   :hide-funs #'quit-window
+   :keymap 'ibuffer-mode-map))
 
 (use-package iedit
   :custom
