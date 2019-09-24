@@ -922,6 +922,52 @@ point."
     ;; https://github.com/technomancy/dotfiles/blob/master/.emacs.d/phil/wm.el
     ;; https://gitlab.com/ambrevar/dotfiles/tree/master/.emacs.d
     :preface
+    (require 'dbus)
+
+    (defvar no-ac-display-battery--dbus-object nil
+      "D-Bus object remembering the return value of `dbus-register-signal'.
+Use this to unregister from the D-BUS.")
+
+    (defun no-ac-display-battery--display-battery-mode ()
+      "Hide or show the battery status on AC or battery power."
+      (if (dbus-get-property :system
+                             "org.freedesktop.UPower"
+                             "/org/freedesktop/UPower"
+                             "org.freedesktop.UPower"
+                             "OnBattery")
+          (display-battery-mode)
+        (display-battery-mode -1)))
+
+    (defun no-ac-display-battery--start-listening ()
+      "Start listening for UPower events."
+      (if (not (member "org.freedesktop.UPower" (dbus-list-names :system)))
+          (message "Install and/or launch the upower daemon")
+        (setq auto-display-battery--dbus-object
+              (dbus-register-signal
+               :system
+               "org.freedesktop.UPower"
+               "/org/freedesktop/UPower/devices/line_power_AC"
+               "org.freedesktop.DBus.Properties"
+               "PropertiesChanged"
+               (lambda (_interface _changed _invalidated)
+                 ;; "Online" is not in _CHANGED when it did not change.
+                 (no-ac-display-battery--display-battery-mode))))
+        (no-ac-display-battery--display-battery-mode)))
+
+    (defun no-ac-display-battery--stop-listening ()
+      "Stop listening for UPower events."
+      (when (dbus-unregister-object no-ac-display-battery--dbus-object)
+        (setq no-ac-display-battery--dbus-object nil))
+      (display-battery-mode -1))
+
+    (define-minor-mode no-ac-display-battery-mode
+      "Hide or show the battery status on AC or no AC power."
+      :global t
+      :init-value nil
+      (if no-ac-display-battery-mode
+          (no-ac-display-battery--start-listening)
+        (no-ac-display-battery--stop-listening)))
+
     (defcustom my-exwm-teardown-hook nil
       "Hook to power-DOWN or re-BOOT the computer cleanly."
       :type 'hook
@@ -995,7 +1041,7 @@ point."
     :config
     (advice-add 'posframe-workable-p
                 :before-while #'no-exwm-window-in-frame-p)
-    (auto-display-battery-mode 1)
+    (no-ac-display-battery-mode 1)
     (display-time-mode 1)
     (menu-bar-mode 0))
 
