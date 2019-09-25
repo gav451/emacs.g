@@ -939,7 +939,7 @@ Use this to unregister from the D-BUS.")
       "Start listening for UPower events."
       (if (not (member "org.freedesktop.UPower" (dbus-list-names :system)))
           (message "Install and/or launch the upower daemon")
-        (setq no-ac-auto-display-battery--dbus-object
+        (setq no-ac-display-battery--dbus-object
               (dbus-register-signal
                :system
                "org.freedesktop.UPower"
