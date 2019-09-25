@@ -1895,13 +1895,6 @@ Enable it and reexecute it."
               org-element-parse-buffer
               org-element-property))
 
-
-(use-package org-protocol-capture-html
-  :disabled
-  ;; https://www.reddit.com/r/emacs/comments/9ze1ln/capture_orgmode_bookmarks_from_qutebrowser_with/
-  :after org
-  :demand t)
-
 (use-package org-ref
   :after org
   :custom
