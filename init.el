@@ -1931,9 +1931,9 @@ Enable it and reexecute it."
                                        (format "%s" path))))))
 
 (use-package org-tanglesync
-  :hook
-  ((org-mode) . org-tanglesync-mode)
-  :bind (("C-c t" . org-tanglesync-mode)))
+  :bind (("C-c M-a" . org-tanglesync-process-buffer-automatic)
+         ("C-c M-i" . org-tanglesync-process-buffer-interactive)
+         ("C-c t" . org-tanglesync-mode)))
 
 (use-package org-src
   :custom
