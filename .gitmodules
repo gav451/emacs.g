@@ -50,9 +50,6 @@
 [submodule "deadgrep"]
 	path = lib/deadgrep
 	url = git@github.com:Wilfred/deadgrep.git
-[submodule "deferred"]
-	path = lib/deferred
-	url = git@github.com:kiwanami/emacs-deferred.git
 [submodule "delight"]
 	path = lib/delight
 	url = https://git.savannah.nongnu.org/git/delight.git
@@ -286,9 +283,6 @@
 [submodule "rainbow-mode"]
 	path = lib/rainbow-mode
 	url = git@github.com:emacsmirror/rainbow-mode.git
-[submodule "request"]
-	path = lib/request
-	url = git@github.com:tkf/emacs-request.git
 [submodule "s"]
 	path = lib/s
 	url = git@github.com:magnars/s.el.git
@@ -315,9 +309,6 @@
 [submodule "tablist"]
 	path = lib/tablist
 	url = git@github.com:politza/tablist.git
-[submodule "tldr"]
-	path = lib/tldr
-	url = git@github.com:kuanyui/tldr.el.git
 [submodule "transient"]
 	path = lib/transient
 	url = git@github.com:magit/transient.git
