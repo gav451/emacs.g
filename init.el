@@ -906,6 +906,7 @@ point."
   :commands (exec-path-from-shell-copy-envs
              exec-path-from-shell-initialize)
   :init
+  (cd "~")
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-envs '("SSH_AGENT_PID"
                                     "SSH_AUTH_SOCK"))
