@@ -201,6 +201,9 @@
 [submodule "markdown-mode"]
 	path = lib/markdown-mode
 	url = git@github.com:jrblevin/markdown-mode.git
+[submodule "monky"]
+	path = lib/monky
+	url = git@github.com:ananthakumaran/monky.git
 [submodule "mu2tex"]
 	path = lib/mu2tex
 	url = git@github.com:cdominik/mu2tex.git

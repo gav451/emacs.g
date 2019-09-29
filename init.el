@@ -1702,7 +1702,6 @@ was a real minor mode."
          ("\\.markdown\\'" . markdown-mode)))
 
 (use-package monky
-  :disabled
   ;; Try chg, since using `cmdserver' as `monky-process-type' fails
   ;; with mercurial-5.0.2 and emacs-27.0.9999.
   :custom
