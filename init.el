@@ -155,8 +155,7 @@
   (TeX-source-correlate-method 'synctex)
   (TeX-source-correlate-mode t)
   :hook
-  ((LaTeX-mode) . TeX-PDF-mode)
-  :demand t)
+  ((LaTeX-mode) . TeX-PDF-mode))
 
 (use-package tex-buf
   :after tex-site
