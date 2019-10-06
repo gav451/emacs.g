@@ -655,6 +655,21 @@ nil if not inside any parens."
   ;; https://github.com/jorgenschaefer/elpy/issues/1115
   ;; https://github.com/jorgenschaefer/elpy/issues/1123
   ;; https://github.com/jorgenschaefer/elpy/pull/1279
+  :after python
+  :custom
+  (elpy-company-post-completion-function #'elpy-company-post-complete-parens)
+  (elpy-modules '(elpy-module-sane-defaults
+                  elpy-module-company
+                  elpy-module-eldoc
+                  elpy-module-flymake))
+  (elpy-remove-modeline-lighter nil)
+  :commands (elpy-company-post-complete-parens
+             elpy-enable)
+  :init
+  (elpy-enable)
+  :delight (elpy-mode " 🐍"))
+
+(use-package elpy-rpc
   :preface
   (defcustom elpy-no-get-completions-rx
     "-?\\([0-9]+\\.?[0-9]*\\|0[Bb][01]+\\|0[Oo][0-8]+\\|0[Xx][0-9A-Fa-f]+\\)"
@@ -664,21 +679,11 @@ for numbers.  Extend the regexp in case you find other similar cases
 and file a bug report."
     :type 'string
     :group 'elpy)
-  :after python
   :custom
-  (elpy-company-post-completion-function #'elpy-company-post-complete-parens)
-  (elpy-modules '(elpy-module-sane-defaults
-                  elpy-module-company
-                  elpy-module-eldoc
-                  elpy-module-flymake))
-  (elpy-remove-modeline-lighter nil)
   (elpy-rpc-ignored-buffer-size (lsh 1 18))
-  :commands (elpy-company-post-complete-parens
-             elpy-enable
-             elpy-rpc
+  (elpy-rpc-virtualenv-path 'current)
+  :commands (elpy-rpc
              elpy-rpc--buffer-contents)
-  :init
-  (elpy-enable)
   :config
   (defun elpy-rpc-get-completions (&optional success error)
     "Call the get_completions API function.
@@ -692,8 +697,7 @@ point."
                       (elpy-rpc--buffer-contents)
                       (- (point)
                          (point-min)))
-                success error)))
-  :delight (elpy-mode " 🐍"))
+                success error))))
 
 (use-package elisp-mode
   :delight (emacs-lisp-mode "🐮 " :major))
