@@ -169,7 +169,7 @@
   ;; Use AUCTeX, since it is better than the built in tex mode.
   ;; Tweak .gitmodules to make the git repository resemble the elpa package.
   ;; Do not require auctex, since auctex.el provides no feature 'auctex'.
-  :defer 4)
+  :defer 2)
 
 ;; alphabetical order
 (use-package ace-window
@@ -781,7 +781,7 @@ point."
   :commands (engine-mode
              engine/execute-search
              engine/get-query)
-  :defer 4
+  :defer 2
   :config
   (require 'format-spec)
   (engine-mode 1)
@@ -1280,8 +1280,7 @@ Use this to unregister from the D-BUS.")
   ;; disabling image support.
   :when (eq system-type 'gnu/linux)
   :commands (gpastel-mode)
-  :demand t
-  :config
+  :init
   (when (= 0 (call-process-shell-command
               "gsettings list-recursively org.gnome.GPaste"))
     (gpastel-mode)))
@@ -1577,8 +1576,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
              ivy-read
              ivy-switch-buffer
              ivy-thing-at-point)
-  :demand t
-  :config
+  :init
   (ivy-mode)
   :delight (ivy-mode " 𝝓"))
 
@@ -1611,12 +1609,13 @@ was a real minor mode."
   (ivy-posframe-border ((t (:background "BlueViolet"))))
   (ivy-posframe-cursor ((t (:background "LawnGreen"))))
   :commands (ivy-posframe-mode)
-  :demand t
   :delight (ivy-posframe-mode " 🗔"))
 
 (use-package ivy-prescient
-  :hook
-  ((after-init) . ivy-prescient-mode))
+  :after ivy
+  :commands (ivy-prescient-mode)
+  :init
+  (ivy-prescient-mode))
 
 (use-package jupyter
   ;; Load `jupyter' after `org' and `pyenv-mode' to append `jupyter'
@@ -1857,7 +1856,6 @@ Enable it and reexecute it."
              org-link-set-parameters
              org-narrow-to-block
              org-narrow-to-subtree)
-  :demand t
   :config
   (org-babel-do-load-languages 'org-babel-load-languages
                                (append org-babel-load-languages
@@ -1909,7 +1907,7 @@ Enable it and reexecute it."
   (org-ref-completion-library 'org-ref-ivy-cite)
   (org-ref-default-bibliography '("~/VCS/research/refs.bib"))
   (org-ref-pdf-directory '("~/VCS/research/papers"))
-  :defer 2)
+  :demand t)
 
 (use-package org-ref-bibtex
   :bind ((:map org-mode-map
@@ -2262,7 +2260,7 @@ even if buffer is already narrowed."
   (yas-alias-to-yas/prefix-p nil)
   :commands (yas-expand-from-trigger-key
              yas-global-mode)
-  :defer 4
+  :defer 2
   ;; I fail to use alternative keys in yas-keymap and yas-minor-mode-map as explained in
   ;; https://github.com/capitaomorte/yasnippet/blob/master/doc/faq.org.
   ;; However, everything works fine, sofar.
