@@ -14,7 +14,7 @@
 (
  ;; My dutch streams:
  (*track* (type . streamlist) (name . "https://www.stream-server.nl/streams/Veronica675.pls") (metadata "Veronica 192" "https://www.stream-server.nl/streams/Veronica675.pls" 1 streamlist))
- (*track* (type . url) (name . "http://icecast.omroep.nl/3fm-bb-mp3") (metadata "NPO: Radio 3FM" "http://icecast.omroep.nl/3FM-bb-mp3" 1 url))
+ (*track* (type . url) (name . "http://icecast.omroep.nl/3fm-bb-mp3") (metadata "NPO: Radio 3FM" "http://icecast.omroep.nl/3fm-bb-mp3" 1 url))
  (*track* (type . url) (name . "http://icecast.omroep.nl/radio1-bb-mp3") (metadata "NPO: Radio 1" "http://icecast.omroep.nl/radio1-bb-mp3" 1 url))
  (*track* (type . url) (name . "http://icecast.omroep.nl/radio2-bb-mp3") (metadata "NPO: Radio 2" "http://icecast.omroep.nl/radio2-bb-mp3" 1 url))
  (*track* (type . url) (name . "http://icecast.omroep.nl/radio4-bb-mp3") (metadata "NPO: Radio 4" "http://icecast.omroep.nl/radio4-bb-mp3" 1 url))
