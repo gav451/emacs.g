@@ -377,14 +377,15 @@ In that case, insert the number."
                ("C-r" . counsel-grep-or-swiper)
                ("C-s" . counsel-grep-or-swiper)
                ;; Avoid shadowing `eshell-forward-argument'.
-               ("C-c C-f" . counsel-recentf))
+               ("C-c C-f" . counsel-recentf)
+               ;; Avoid shadowing `emms-playlist-mode-yank-pop'.
+               ("M-y" . counsel-yank-pop))
          (:map help-map
                ("S" . counsel-info-lookup-symbol)
                ("f" . counsel-describe-function)
                ("v" . counsel-describe-variable)))
   :bind* (("C-x C-f" . counsel-find-file)
           ("M-x" . counsel-M-x)
-          ("M-y" . counsel-yank-pop)
           ("C-c C-g" . counsel-rg)
           ("C-c u" . counsel-unicode-char)))
 
@@ -766,13 +767,7 @@ point."
 (use-package emms-streams
   :custom
   ;; To show the current playlist, do "M-x emms".
-  (emms-stream-bookmarks-file (no-littering-expand-etc-file-name "emms/streams"))
-  (emms-stream-default-action "play")
-  (emms-stream-repeat-p t)
-  :bind ((:map emms-stream-mode-map
-               ("?" . describe-mode)))
-  :config
-  (unbind-key "h" emms-stream-mode-map))
+  (emms-streams-file (no-littering-expand-etc-file-name "emms/streams.el")))
 
 (use-package engine-mode
   ;; https://github.com/asok/.emacs.d/blob/master/inits/init-engine-mode.el
