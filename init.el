@@ -37,7 +37,6 @@
   (setq inhibit-startup-screen t)
   (setq initial-buffer-choice t)
   (setq initial-scratch-message "")
-  (setq load-prefer-newer t)
   (setq tab-always-indent 'complete)
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width 8)
@@ -78,11 +77,7 @@
   :hook
   ((auto-compile-inhibit-compile
     ) . auto-compile-inhibit-compile-detached-git-head)
-  :commands (auto-compile-on-load-mode
-             auto-compile-on-save-mode)
-  :init
-  (auto-compile-on-load-mode)
-  (auto-compile-on-save-mode))
+  )
 
 (use-package no-littering
   :commands (no-littering-expand-etc-file-name
