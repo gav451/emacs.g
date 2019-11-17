@@ -771,8 +771,7 @@ point."
   :commands (engine-mode
              engine/execute-search
              engine/get-query)
-  :defer 2
-  :config
+  :init
   (require 'format-spec)
   (engine-mode 1)
   (defengine arch-wiki
