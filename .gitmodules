@@ -292,6 +292,7 @@
 	info-path = doc
 	load-path = .
 	load-path = contrib
+	build-step = git restore sly-autoloads.el
 	build-step = make all
 	build-step = borg-makeinfo
 	url = git@github.com:joaotavora/sly.git
