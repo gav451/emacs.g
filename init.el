@@ -29,7 +29,6 @@
   (setq user-emacs-directory (file-name-directory user-init-file))
   (message "Loading %s..." user-init-file)
   (setq package-enable-at-startup nil)
-  ;; (package-initialize)
   (setq cursor-type 'box)
   (setq eval-expression-print-length nil)
   (setq garbage-collection-messages t)
