@@ -655,8 +655,7 @@ nil if not inside any parens."
   (elpy-company-post-completion-function #'elpy-company-post-complete-parens)
   (elpy-modules '(elpy-module-sane-defaults
                   elpy-module-company
-                  elpy-module-eldoc
-                  elpy-module-flymake))
+                  elpy-module-eldoc))
   (elpy-remove-modeline-lighter nil)
   :commands (elpy-company-post-complete-parens
              elpy-enable)
@@ -1182,7 +1181,9 @@ Use this to unregister from the D-BUS.")
                                 (executable-find "ls"))))
 
 (use-package flycheck
-  :commands (flycheck-mode))
+  ;; https://www.flycheck.org/en/latest/index.html
+  :custom (flycheck-check-syntax-automatically (quote (idle-change newline save)))
+  :hook ((elpy-mode) . flycheck-mode))
 
 (use-package flymake
   :bind ((:map flymake-mode-map
