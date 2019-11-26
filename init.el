@@ -1799,6 +1799,15 @@ Enable it and reexecute it."
                     (funcall (default-value 'electric-pair-inhibit-predicate) c)))))
   :custom
   (org-adapt-indentation nil)
+  (org-babel-load-languages (quote ((calc . t)
+                                    (emacs-lisp . t)
+                                    (eshell . t)
+                                    (gnuplot . t)
+                                    (latex . t)
+                                    (lisp . t)
+                                    (org . t)
+                                    (python . t)
+                                    (shell . t))))
   (org-catch-invisible-edits 'show-and-error)
   (org-export-backends '(ascii beamer icalendar html md latex man odt org texinfo))
   (org-file-apps '((auto-mode . emacs)
@@ -1845,18 +1854,7 @@ Enable it and reexecute it."
   :commands (org-babel-do-load-languages
              org-link-set-parameters
              org-narrow-to-block
-             org-narrow-to-subtree)
-  :config
-  (org-babel-do-load-languages 'org-babel-load-languages
-                               (append org-babel-load-languages
-                                       '((calc . t)
-                                         (eshell . t)
-                                         (gnuplot . t)
-                                         (latex . t)
-                                         (lisp . t)
-                                         (org . t)
-                                         (python . t)
-                                         (shell . t)))))
+             org-narrow-to-subtree))
 
 (use-package org-agenda
   :after org
