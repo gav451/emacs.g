@@ -821,6 +821,7 @@ point."
     :defines (eshell-prompt-regexp))
   (use-package em-term
     :custom
+    (eshell-destroy-buffer-when-process-dies t)
     (eshell-visual-commands '("htop"
                               "ipython"
                               "jupyter"
@@ -839,7 +840,7 @@ point."
                            (if (and (eolp)
                                     (looking-back eshell-prompt-regexp nil))
                                (eshell-life-is-too-much)
-                             (delete-char arg)))))) )
+                             (delete-char arg)))))))
 
 (use-package expand-region
   :bind* (("C-=" . er/expand-region)))
