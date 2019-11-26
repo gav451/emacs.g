@@ -117,6 +117,9 @@
 [submodule "flycheck"]
 	path = lib/flycheck
 	url = git@github.com:flycheck/flycheck.git
+[submodule "flycheck-cython"]
+	path = lib/flycheck-cython
+	url = git@github.com:lbolla/emacs-flycheck-cython.git
 [submodule "forge"]
 	path = lib/forge
 	url = git@github.com:magit/forge.git
