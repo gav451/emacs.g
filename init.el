@@ -1707,6 +1707,9 @@ was a real minor mode."
      ("gav-overlay" . ,(expand-file-name "~/VCS/gav-overlay"))
      ("ngccdr" . ,(expand-file-name "~/VCS/ngccdr")))))
 
+(use-package nov
+  :mode ((rx (seq ".epub" eos)) . nov-mode))
+
 (use-package novice
   ;; https://www.emacswiki.org/emacs/DisabledCommands
   :preface

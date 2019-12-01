@@ -99,6 +99,9 @@
 [submodule "epl"]
 	path = lib/epl
 	url = git@github.com:cask/epl.git
+[submodule "esxml"]
+	path = lib/esxml
+	url = git@github.com:tali713/esxml.git
 [submodule "exec-path-from-shell"]
 	path = lib/exec-path-from-shell
 	url = git@github.com:purcell/exec-path-from-shell.git
@@ -183,6 +186,9 @@
 [submodule "keycast"]
 	path = lib/keycast
 	url = git@github.com:tarsius/keycast.git
+[submodule "kv"]
+	path = lib/kv
+	url = git@github.com:nicferrier/emacs-kv.git
 [submodule "libgit"]
 	path = lib/libgit
 	url = git@github.com:magit/libegit2.git
@@ -215,6 +221,9 @@
 [submodule "no-littering"]
 	path = lib/no-littering
 	url = git@github.com:emacscollective/no-littering.git
+[submodule "nov"]
+	path = lib/nov
+	url = git@github.com:wasamasa/nov.el.git
 [submodule "ob-async"]
 	path = lib/ob-async
 	url = git@github.com:astahlman/ob-async.git
