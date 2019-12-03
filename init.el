@@ -149,7 +149,8 @@
   (TeX-source-correlate-method 'synctex)
   (TeX-source-correlate-mode t)
   :hook
-  ((LaTeX-mode) . TeX-PDF-mode))
+  ((LaTeX-mode) . TeX-PDF-mode)
+  :commands (TeX-doc))
 
 (use-package tex-buf
   :after tex-site
