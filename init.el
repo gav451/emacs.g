@@ -1700,7 +1700,6 @@ was a real minor mode."
   :custom
   (monky-hg-executable (or (executable-find "chg")
                            (executable-find "hg")))
-  (monky-process-type nil)
   (monky-repository-paths
    `(("dotfiles" . ,(expand-file-name "~/VCS/dotfiles"))
      ("fudge" . ,(expand-file-name "~/VCS/fudge"))
