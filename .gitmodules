@@ -293,6 +293,9 @@
 [submodule "s"]
 	path = lib/s
 	url = git@github.com:magnars/s.el.git
+[submodule "selectrum"]
+	path = lib/selectrum
+	url = git@github.com:raxod502/selectrum.git
 [submodule "shut-up"]
 	path = lib/shut-up
 	url = git@github.com:cask/shut-up.git
