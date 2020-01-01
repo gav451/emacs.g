@@ -366,6 +366,10 @@ In that case, insert the number."
         (group "." (group (or "el" "py") "c" eos)))))
   (counsel-grep-swiper-limit (lsh 1 20))
   (counsel-linux-app-format-function #'counsel-linux-app-format-function-command-only)
+  (counsel-locate-cmd (cond ((eq system-type 'darwin)
+                             'counsel-locate-cmd-mdfind)
+                            (t
+                             'counsel-locate-cmd-default)))
   :commands (counsel-describe-face
              counsel-linux-app-format-function-command-only)
   :bind ((:map global-map
