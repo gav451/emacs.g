@@ -6,6 +6,10 @@
   (message "Loading Emacs...done (%.3fs)"
            (float-time (time-subtract before-user-init-time
                                       before-init-time)))
+  (setq                                 ; `C-source'
+   user-init-file (or load-file-name buffer-file-name)
+   user-emacs-directory (file-name-directory user-init-file))
+  (message "Loading %s..." user-init-file)
   (when t                        ; fast immediate and deferred loading
     ;; https://github.com/noctuid/dotfiles/blob/master/emacs/.emacs.d/init.el
     (defvar file-name-handler-alist-backup file-name-handler-alist)
@@ -25,22 +29,25 @@
                      (message "[after-init] reset fast to normal speed")
                      (garbage-collect))))
                 t)))
-  (setq user-init-file (or load-file-name buffer-file-name))
-  (setq user-emacs-directory (file-name-directory user-init-file))
-  (message "Loading %s..." user-init-file)
-  (setq package-enable-at-startup nil)
-  (setq cursor-type 'box)
-  (setq eval-expression-print-length nil)
-  (setq garbage-collection-messages t)
-  (setq inhibit-startup-buffer-menu t)
-  (setq inhibit-startup-screen t)
-  (setq initial-buffer-choice t)
-  (setq initial-scratch-message "")
-  (setq tab-always-indent 'complete)
-  (setq-default indent-tabs-mode nil)
-  (setq-default tab-width 8)
-  (scroll-bar-mode 0)
-  (tool-bar-mode 0)
+  (setq-default                         ; `C-source'
+   cursor-type 'box
+   indent-tabs-mode nil
+   tab-width 8)
+  (setq                                 ; `C-source'
+   garbage-collection-messages t
+   maximum-scroll-margin 0.5
+   scroll-conservatively 0
+   scroll-margin 100
+   scroll-preserve-screen-position t)
+  (setq                                 ; `startup'
+   inhibit-startup-buffer-menu t
+   inhibit-startup-screen t
+   initial-buffer-choice t
+   initial-scratch-message "")
+  (when (fboundp 'scroll-bar-mode)
+    (scroll-bar-mode 0))
+  (when (fboundp 'tool-bar-mode)
+    (tool-bar-mode 0))
   ;; Darwin
   (when (boundp 'ns-alternate-modifier)
     (setq ns-alternate-modifier nil))
@@ -2119,6 +2126,8 @@ Enable it and reexecute it."
     (if (bound-and-true-p overwrite-mode)
         (buffer-face-set `(:background ,overwrite-mode-background-color))
       (buffer-face-mode -1)))
+  :custom
+  (eval-expression-print-length nil)
   :commands (column-number-mode
              region-active-p)
   :hook
