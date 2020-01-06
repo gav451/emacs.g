@@ -21,9 +21,6 @@
   }
 }
 
-% Convert beamer commands into no-operations.
-\usepackage[noxcolor]{beamerarticle}
-
 \usepackage{hyperref}
 \hypersetup{
   unicode=true,
@@ -48,7 +45,7 @@
 \DeclareSIUnit\nW{\nano\watt}
 
 \usepackage{tikz}
-\usetikzlibrary{3d,arrows,backgrounds,calc,patterns,plotmarks}
+\usetikzlibrary{3d,arrows,backgrounds,calc,plotmarks}
 
 \newcommand{\cmark}{{\color{Green} \ding{52}}}%
 \newcommand{\omark}{{\color{Red} \ding{44}}}%
@@ -56,6 +53,15 @@
 
 \newcommand{\Nusselt}{\mbox{\textit{Nu}}}
 \newcommand{\Reynolds}{\mbox{\textit{Re}}}
+
+% Create fake beamer commands for standalone pictures.
+% https://xuc.me/blog/reuse-tikz-figures-in-articles-and-slides/
+\usepackage{xparse}
+\NewDocumentCommand{\onslide}{s t+ d<>}{}
+\NewDocumentCommand{\only}{d<>}{}
+\NewDocumentCommand{\uncover}{d<>}{}
+\NewDocumentCommand{\visible}{d<>}{}
+\NewDocumentCommand{\invisible}{d<>}{}
 
 \begin{document}
 $0
