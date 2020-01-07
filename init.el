@@ -35,9 +35,9 @@
    tab-width 8)
   (setq                                 ; `C-source'
    garbage-collection-messages t
-   maximum-scroll-margin 0.5
+   maximum-scroll-margin 0.25
    scroll-conservatively 0
-   scroll-margin 100
+   scroll-margin 0
    scroll-preserve-screen-position t)
   (setq                                 ; `startup'
    inhibit-startup-buffer-menu t
