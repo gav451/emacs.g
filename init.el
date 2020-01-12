@@ -175,6 +175,7 @@
 
 ;; alphabetical order
 (use-package ace-window
+  :disabled
   :custom
   (aw-ignored-buffers '("*Calc Trail*"))
   (aw-leading-char-style 'path)
@@ -205,6 +206,7 @@
   ((dired-mode) . auto-revert-mode))
 
 (use-package avy
+  :disabled
   :custom
   (avy-all-windows t)
   :commands (avy-setup-default)
@@ -339,6 +341,20 @@ In that case, insert the number."
   :delight (compilation-in-progress " 👷"))
 
 (use-package counsel
+  :custom
+  (counsel-grep-swiper-limit (lsh 1 20))
+  (counsel-locate-cmd (cond ((eq system-type 'darwin)
+                             'counsel-locate-cmd-mdfind)
+                            (t
+                             'counsel-locate-cmd-default)))
+  :bind ((:map global-map
+               ;; dired-mode-map and isearch-mode-map shadow "M-s".
+               ("M-s" . counsel-grep-or-swiper)
+               ;; Avoid shadowing `emms-playlist-mode-yank-pop'.
+               ("M-y" . counsel-yank-pop))))
+
+(use-package counsel
+  :disabled
   ;; https://www.reddit.com/r/emacs/comments/baby94/some_ivy_hacks/
   :preface
   (defun counsel-helpful-keymap-describe ()
@@ -1294,6 +1310,9 @@ Use this to unregister from the D-BUS.")
          ((rx (seq ".lhs" eos)) . literate-haskell-mode))
   :delight (haskell-mode "🍛 " :major))
 
+(use-package helm-config
+  :demand t)
+
 (use-package help
   :bind ((:map help-map
                ("M" . describe-minor-mode)))
@@ -1526,6 +1545,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   :commands (iedit-quit))
 
 (use-package ivy
+  :disabled
   ;; https://github.com/dakra/dmacs/blob/master/init.org#ivy
   ;; https://github.com/sam217pa/emacs-config
   ;; https://sam217pa.github.io/2016/09/11/nuclear-power-editing-via-ivy-and-ag/
@@ -1583,6 +1603,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :delight (ivy-mode " 𝝓"))
 
 (use-package ivy-posframe
+  :disabled
   :preface
   (defun toggle-ivy-posframe ()
     "Advise `posframe-workable-p' to toggle `ivy-posframe-mode'.
@@ -1672,8 +1693,8 @@ was a real minor mode."
 (use-package magit
   ;; https://stackoverflow.com/questions/4114095/how-to-revert-a-git-repository-to-a-previous-commit
   ;; https://stackoverflow.com/questions/9529078/how-do-i-use-git-reset-hard-head-to-revert-to-a-previous-commit
-  :custom
-  (magit-completing-read-function 'ivy-completing-read)
+  ;; :custom
+  ;; (magit-completing-read-function 'ivy-completing-read)
   :bind ((:map global-map
                ("C-x g"   . magit-status)
                ("C-x M-g" . magit-dispatch)))
@@ -1906,7 +1927,6 @@ Enable it and reexecute it."
   (org-ref-cite-color "LawnGreen")
   (org-ref-ref-color "OrangeRed")
   (org-ref-label-color "DeepPink")
-  (org-ref-completion-library 'org-ref-ivy-cite)
   (org-ref-default-bibliography '("~/VCS/research/refs.bib"))
   (org-ref-pdf-directory '("~/VCS/research/papers"))
   :demand t)
@@ -1982,7 +2002,6 @@ Enable it and reexecute it."
 (use-package pdf-view
   :custom
   (pdf-view-display-size 'fit-page)
-  (pdf-view-use-imagemagick t)
   :bind (:map pdf-view-mode-map
               ("C-r" . isearch-backward)
               ("C-s" . isearch-forward)
@@ -2113,6 +2132,17 @@ Enable it and reexecute it."
   :commands (save-place-mode)
   :config
   (save-place-mode))
+
+(use-package selectrum
+  :commands (selectrum-mode)
+  :init
+  (selectrum-mode +1))
+
+(use-package selectrum-prescient
+  :after selectrum
+  :commands (selectrum-prescient-mode)
+  :init
+  (selectrum-prescient-mode +1))
 
 (use-package shr
   :custom
