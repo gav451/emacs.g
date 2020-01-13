@@ -214,6 +214,14 @@
   :init
   (avy-setup-default))
 
+(use-package browse-kill-ring
+  :custom
+  (browse-kill-ring-highlight-current-entry t)
+  (browse-kill-ring-display-duplicates nil)
+  (browse-kill-ring-show-preview nil)
+  :init
+  (browse-kill-ring-default-keybindings))
+
 (use-package browse-url
   :preface
   (defun dict-en (word)
@@ -349,9 +357,7 @@ In that case, insert the number."
                              'counsel-locate-cmd-default)))
   :bind ((:map global-map
                ;; dired-mode-map and isearch-mode-map shadow "M-s".
-               ("M-s" . counsel-grep-or-swiper)
-               ;; Avoid shadowing `emms-playlist-mode-yank-pop'.
-               ("M-y" . counsel-yank-pop))))
+               ("M-s" . counsel-grep-or-swiper))))
 
 (use-package counsel
   :disabled
@@ -2158,6 +2164,7 @@ Enable it and reexecute it."
       (buffer-face-mode -1)))
   :custom
   (eval-expression-print-length nil)
+  (kill-do-not-save-duplicates t)
   :commands (column-number-mode
              region-active-p)
   :hook

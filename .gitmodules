@@ -31,6 +31,9 @@
 [submodule "borg"]
 	path = lib/borg
 	url = git@github.com:emacscollective/borg.git
+[submodule "browse-kill-ring"]
+	path = lib/browse-kill-ring
+	url = git@github.com:browse-kill-ring/browse-kill-ring.git
 [submodule "buttercup"]
 	path = lib/buttercup
 	url = git@github.com:jorgenschaefer/emacs-buttercup.git
