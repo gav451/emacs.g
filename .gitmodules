@@ -34,6 +34,7 @@
 [submodule "browse-kill-ring"]
 	path = lib/browse-kill-ring
 	url = git@github.com:browse-kill-ring/browse-kill-ring.git
+	remote = "gav451 git@github.com:gav451/browse-kill-ring.git"
 [submodule "buttercup"]
 	path = lib/buttercup
 	url = git@github.com:jorgenschaefer/emacs-buttercup.git
