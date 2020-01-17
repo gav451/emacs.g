@@ -1887,7 +1887,9 @@ Enable it and reexecute it."
                ("C-c a"   . org-agenda)
                ("C-c c"   . org-capture)
                ("C-c l"   . org-store-link)
-               ("C-c C-l" . org-insert-link-global)))
+               ("C-c C-l" . org-insert-link-global))
+         (:map org-mode-map
+               ("M-q" . org-fill-paragraph)))
   :mode ((rx ".org" eos) . org-mode)
   :hook
   (org-mode . on-org-mode-eval-blocks)
