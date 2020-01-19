@@ -215,6 +215,7 @@
   (avy-setup-default))
 
 (use-package browse-kill-ring
+  :disabled
   :custom
   (browse-kill-ring-highlight-current-entry t)
   (browse-kill-ring-display-duplicates nil)
@@ -349,6 +350,7 @@ In that case, insert the number."
   :delight (compilation-in-progress " 👷"))
 
 (use-package counsel
+  :disabled
   :custom
   (counsel-grep-swiper-limit (lsh 1 20))
   (counsel-locate-cmd (cond ((eq system-type 'darwin)
@@ -1062,8 +1064,6 @@ Use this to unregister from the D-BUS.")
     :init
     (exwm-enable)
     :config
-    (advice-add 'posframe-workable-p
-                :before-while #'no-exwm-window-in-frame-p)
     (no-ac-display-battery-mode 1)
     (display-time-mode 1)
     (menu-bar-mode 0))
@@ -1082,7 +1082,7 @@ Use this to unregister from the D-BUS.")
        ([?\s-B] . my-exwm-re-boot)
        ([?\s-D] . my-exwm-power-down)
        ([?\s-a] . my-exwm-alsamixer)
-       ([?\s-b] . ivy-switch-buffer)
+       ([?\s-b] . switch-to-buffer)
        ([?\s-i] . my-exwm-invoke)
        ([?\s-l] . my-exwm-lock-screen)
        ([?\s-o] . ace-window)
@@ -1316,8 +1316,29 @@ Use this to unregister from the D-BUS.")
          ((rx (seq ".lhs" eos)) . literate-haskell-mode))
   :delight (haskell-mode "🍛 " :major))
 
+(use-package helm-buffers
+  :bind ((:map global-map ("C-x x" . helm-mini))))
+
+(use-package helm-command
+  :bind ((:map global-map ("M-x" . helm-M-x))))
+
 (use-package helm-config
+  :after helm
   :demand t)
+
+(use-package helm-for-files
+  :bind ((:map global-map ("C-x C-f" . helm-multi-files))))
+
+(use-package helm-mode
+  :commands (helm-mode)
+  :init
+  (helm-mode +1))
+
+(use-package helm-occur
+  :bind ((:map global-map ("M-s o" . helm-occur))))
+
+(use-package helm-ring
+  :bind ((:map global-map ("M-y" . helm-show-kill-ring))))
 
 (use-package help
   :bind ((:map help-map
@@ -2024,7 +2045,11 @@ Enable it and reexecute it."
                ("M-s p" . peep-dired))))
 
 (use-package posframe
-  :commands (posframe-workable-p))
+  :commands (posframe-workable-p)
+  :config
+  (when (fboundp 'no-exwm-window-in-frame-p)
+    (advice-add 'posframe-workable-p
+                :before-while #'no-exwm-window-in-frame-p)))
 
 (use-package prescient
   :commands (prescient-persist-mode)
@@ -2142,6 +2167,7 @@ Enable it and reexecute it."
   (save-place-mode))
 
 (use-package selectrum
+  :disabled
   :commands (selectrum-mode)
   :init
   (selectrum-mode +1))
