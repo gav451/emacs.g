@@ -290,7 +290,7 @@
 
 (use-package deadgrep
   :bind ((:map global-map
-               ("C-c g" . deadgrep))
+               ("M-g d" . deadgrep))
          (:map deadgrep-mode-map
                ("C-c C-w" . deadgrep-edit-mode))))
 
@@ -1316,7 +1316,14 @@ Use this to unregister from the D-BUS.")
          ((rx (seq ".lhs" eos)) . literate-haskell-mode))
   :delight (haskell-mode "🍛 " :major))
 
+(use-package helm-adaptive
+  :commands (helm-adaptive-mode)
+  :init
+  (helm-adaptive-mode +1))
+
 (use-package helm-buffers
+  :custom
+  (helm-buffers-fuzzy-matching t)
   :bind ((:map global-map ("C-x x" . helm-mini))))
 
 (use-package helm-command
@@ -1326,8 +1333,37 @@ Use this to unregister from the D-BUS.")
   :after helm
   :demand t)
 
+(use-package helm-elisp
+  :custom
+  (helm-apropos-fuzzy-match t)
+  (helm-locate-fuzzy-match t))
+
+(use-package helm-eshell
+  :custom
+  (helm-eshell-fuzzy-match t))
+
+(use-package helm-files
+  :custom
+  (helm-ff-fuzzy-matching t)
+  :bind ((:map global-map ("C-x C-f" . helm-find-files))))
+
 (use-package helm-for-files
-  :bind ((:map global-map ("C-x C-f" . helm-multi-files))))
+  :custom
+  (helm-file-cache-fuzzy-match t)
+  (helm-recentf-fuzzy-match t))
+
+(use-package helm-grep
+  :custom
+  (helm-grep-ag-command "rg --color=always --smart-case --no-heading --line-number %s %s %s")
+  :bind ((:map global-map ("M-g a" . helm-do-grep-ag))))
+
+(use-package helm-imenu
+  :custom
+  (helm-imenu-fuzzy-match t))
+
+(use-package helm-locate
+  :custom
+  (helm-locate-fuzzy-match t))
 
 (use-package helm-mode
   :commands (helm-mode)
@@ -1339,6 +1375,18 @@ Use this to unregister from the D-BUS.")
 
 (use-package helm-ring
   :bind ((:map global-map ("M-y" . helm-show-kill-ring))))
+
+(use-package helm-semantic
+  :custom
+  (helm-semantic-fuzzy-match t))
+
+(use-package helm-tags
+  :custom
+  (helm-etags-fuzzy-match t))
+
+(use-package helm-x-files
+  :custom
+  (helm-session-fuzzy-match t))
 
 (use-package help
   :bind ((:map help-map
@@ -1765,6 +1813,10 @@ was a real minor mode."
      ("gav-gentoo" . ,(expand-file-name "~/VCS/gav-gentoo"))
      ("gav-overlay" . ,(expand-file-name "~/VCS/gav-overlay"))
      ("ngccdr" . ,(expand-file-name "~/VCS/ngccdr")))))
+
+(use-package minibuffer
+  :custom
+  (completion-styles (quote (flex))))
 
 (use-package nov
   :mode ((rx (seq ".epub" eos)) . nov-mode))
