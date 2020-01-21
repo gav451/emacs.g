@@ -1284,6 +1284,8 @@ Use this to unregister from the D-BUS.")
   :delight (haskell-mode "🍛 " :major))
 
 (use-package helm-adaptive
+  :custom
+  (helm-adaptive-sort-by-frequent-recent-usage t)
   :commands (helm-adaptive-mode)
   :init
   (helm-adaptive-mode +1))
@@ -1302,8 +1304,7 @@ Use this to unregister from the D-BUS.")
 
 (use-package helm-elisp
   :custom
-  (helm-apropos-fuzzy-match t)
-  (helm-locate-fuzzy-match t))
+  (helm-apropos-fuzzy-match t))
 
 (use-package helm-eshell
   :custom
