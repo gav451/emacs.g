@@ -1313,7 +1313,10 @@ Use this to unregister from the D-BUS.")
 (use-package helm-files
   :custom
   (helm-ff-fuzzy-matching t)
-  :bind ((:map global-map ("C-x C-f" . helm-find-files))))
+  :bind ((:map global-map
+               ("C-x C-f" . helm-find-files)
+               ("C-x p" . helm-browse-project)
+               ("C-x r p" . helm-projects-history))))
 
 (use-package helm-for-files
   :custom
@@ -1332,6 +1335,10 @@ Use this to unregister from the D-BUS.")
 (use-package helm-locate
   :custom
   (helm-locate-fuzzy-match t))
+
+(use-package helm-ls-git
+  :custom
+  (helm-ls-git-status-command 'magit-status-internal))
 
 (use-package helm-mode
   :commands (helm-mode)
