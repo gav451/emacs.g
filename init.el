@@ -1338,7 +1338,8 @@ Use this to unregister from the D-BUS.")
 
 (use-package helm-ls-git
   :custom
-  (helm-ls-git-status-command 'magit-status-internal))
+  (helm-ls-git-status-command 'magit-status-internal)
+  :demand t)
 
 (use-package helm-mode
   :commands (helm-mode)
