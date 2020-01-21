@@ -296,44 +296,8 @@
 
 (use-package company
   ;; https://emacs.stackexchange.com/questions/9835/how-can-i-prevent-company-mode-completing-numbers
-  :preface
-  (defun my-company-complete-number ()
-    "Forward to `company-complete-number'.
-
-Unless the number is potentially part of the candidate.
-In that case, insert the number."
-    (interactive)
-    (let* ((k (this-command-keys))
-           (re (concat "^" company-prefix k)))
-      (if (cl-find-if (lambda (s) (string-match re s))
-                      company-candidates)
-          (self-insert-command 1)
-        (company-complete-number
-         (if (equal k "0")
-             10
-           (string-to-number k))))))
-
-  (defun my-company-insert-abort ()
-    (interactive)
-    (company-abort)
-    (self-insert-command 1))
   :custom
   (company-show-numbers t)
-  :commands (company-abort
-             company-complete-number)
-  :bind ((:map company-active-map
-               ("0" . my-company-complete-number)
-               ("1" . my-company-complete-number)
-               ("2" . my-company-complete-number)
-               ("3" . my-company-complete-number)
-               ("4" . my-company-complete-number)
-               ("5" . my-company-complete-number)
-               ("6" . my-company-complete-number)
-               ("7" . my-company-complete-number)
-               ("8" . my-company-complete-number)
-               ("9" . my-company-complete-number)
-               ("<space>" . my-company-insert-abort)
-               ("C-y" . yas-expand-from-trigger-key)))
   :hook
   ((LaTeX-mode
     emacs-lisp-mode
@@ -345,6 +309,9 @@ In that case, insert the number."
 (use-package company-prescient
   :hook
   ((company-mode) . company-prescient-mode))
+
+(use-package company-yasnippet
+  :bind ((:map global-map ("C-c y" . company-yasnippet))))
 
 (use-package compile
   :delight (compilation-in-progress " 👷"))
