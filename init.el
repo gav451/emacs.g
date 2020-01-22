@@ -1311,7 +1311,7 @@ Use this to unregister from the D-BUS.")
   (helm-eshell-fuzzy-match t))
 
 (use-package helm-files
-  :after helm-ls-grep
+  :after helm-ls-git
   :custom
   (helm-ff-fuzzy-matching t)
   :bind ((:map global-map
