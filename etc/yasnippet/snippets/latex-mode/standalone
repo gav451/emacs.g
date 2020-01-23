@@ -31,7 +31,7 @@
   urlcolor=blue,
 }
 
-\usepackage[load-configurations=abbreviations]{siunitx}
+\usepackage{siunitx}
 \sisetup{
   range-phrase=\ensuremath{\text{\,\textendash\,}},
   range-units=brackets,
