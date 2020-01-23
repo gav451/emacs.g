@@ -1208,9 +1208,6 @@ Use this to unregister from the D-BUS.")
   ((text-mode) . flyspell-mode)
   :delight (flyspell-mode " ✔"))
 
-(use-package forge-core
-  :functions (forge--url-equal))
-
 (use-package frame
   ;; http://emacsninja.com/posts/making-emacs-more-presentable.html
   :preface
@@ -1687,6 +1684,7 @@ was a real minor mode."
   :delight (ivy-posframe-mode " 🗔"))
 
 (use-package ivy-prescient
+  :disabled
   :after ivy
   :commands (ivy-prescient-mode)
   :init
@@ -2074,6 +2072,7 @@ Enable it and reexecute it."
                ("M-s p" . peep-dired))))
 
 (use-package posframe
+  :disabled
   :commands (posframe-workable-p)
   :config
   (when (fboundp 'no-exwm-window-in-frame-p)
@@ -2202,6 +2201,7 @@ Enable it and reexecute it."
   (selectrum-mode +1))
 
 (use-package selectrum-prescient
+  :disabled
   :after selectrum
   :commands (selectrum-prescient-mode)
   :init
