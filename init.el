@@ -214,15 +214,6 @@
   :init
   (avy-setup-default))
 
-(use-package browse-kill-ring
-  :disabled
-  :custom
-  (browse-kill-ring-highlight-current-entry t)
-  (browse-kill-ring-display-duplicates nil)
-  (browse-kill-ring-show-preview nil)
-  :init
-  (browse-kill-ring-default-keybindings))
-
 (use-package browse-url
   :preface
   (defun dict-en (word)
