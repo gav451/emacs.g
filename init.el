@@ -2075,6 +2075,11 @@ Enable it and reexecute it."
   :config
   (prescient-persist-mode))
 
+(use-package psession
+  :demand t
+  :init
+  (psession-mode +1))
+
 (use-package pyenv-mode
   ;; Loads `elpy' and `python' automatically.
   :preface
