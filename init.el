@@ -1272,6 +1272,7 @@ Use this to unregister from the D-BUS.")
   :delight (haskell-mode "🍛 " :major))
 
 (use-package helm-adaptive
+  :after helm
   :custom
   (helm-adaptive-sort-by-frequent-recent-usage t)
   :commands (helm-adaptive-mode)
@@ -1287,7 +1288,6 @@ Use this to unregister from the D-BUS.")
   :bind ((:map global-map ("M-x" . helm-M-x))))
 
 (use-package helm-config
-  :after helm
   :demand t)
 
 (use-package helm-elisp
@@ -1299,7 +1299,6 @@ Use this to unregister from the D-BUS.")
   (helm-eshell-fuzzy-match t))
 
 (use-package helm-files
-  :after helm-ls-git
   :custom
   (helm-ff-fuzzy-matching t)
   :bind ((:map global-map
@@ -1326,9 +1325,10 @@ Use this to unregister from the D-BUS.")
   (helm-locate-fuzzy-match t))
 
 (use-package helm-ls-git
+  ;; Prevent recursive loading in case of "make build".
+  :no-require t
   :custom
-  (helm-ls-git-status-command 'magit-status-internal)
-  :demand t)
+  (helm-ls-git-status-command 'magit-status-internal))
 
 (use-package helm-mode
   :commands (helm-mode)
