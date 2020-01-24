@@ -2078,7 +2078,8 @@ Enable it and reexecute it."
 (use-package psession
   :demand t
   :init
-  (psession-mode +1))
+  (psession-mode +1)
+  (psession-savehist-mode +1))
 
 (use-package pyenv-mode
   ;; Loads `elpy' and `python' automatically.
@@ -2179,11 +2180,6 @@ Enable it and reexecute it."
   ((occur) . occur-rename-buffer)
   :commands (occur-1
              occur-read-primary-args))
-
-(use-package savehist
-  :commands (savehist-mode)
-  :config
-  (savehist-mode))
 
 (use-package saveplace
   :commands (save-place-mode)
