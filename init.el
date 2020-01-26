@@ -1271,6 +1271,15 @@ Use this to unregister from the D-BUS.")
          ((rx (seq ".lhs" eos)) . literate-haskell-mode))
   :delight (haskell-mode "🍛 " :major))
 
+(use-package helm
+  :custom
+  (helm-always-two-windows t)
+  (helm-reuse-last-window-split-state t)
+  (helm-split-window-default-side 'left)
+  (helm-split-window-inside-p nil)
+  (helm-use-frame-when-dedicated-window t)
+  (helm-use-frame-when-more-than-two-windows t))
+
 (use-package helm-adaptive
   :after helm
   :custom
@@ -1334,6 +1343,10 @@ Use this to unregister from the D-BUS.")
   :commands (helm-mode)
   :init
   (helm-mode +1))
+
+(use-package helm-net
+  :custom
+  (helm-net-prefer-curl (if (executable-find "curl") t nil)))
 
 (use-package helm-occur
   :bind ((:map global-map ("M-s o" . helm-occur))))
