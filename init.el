@@ -1593,7 +1593,8 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   (hercules-def
    :toggle-funs #'iedit-mode
    :hide-funs #'iedit-quit
-   :keymap 'iedit-mode-keymap))
+   :keymap 'iedit-mode-keymap
+   :flatten t))
 
 (use-package iedit-lib
   :commands (iedit-quit))
@@ -1742,7 +1743,8 @@ was a real minor mode."
   (hercules-def
    :show-funs #'macrostep-expand
    :hide-funs #'macrostep-mode
-   :keymap 'macrostep-keymap)
+   :keymap 'macrostep-keymap
+   :flatten t)
   (use-package use-package))
 
 (use-package magit
