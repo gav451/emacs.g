@@ -1535,10 +1535,12 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
       ("Doc" (or (mode . Info-mode)
                  (mode . help-mode)
                  (mode . helpful-mode)))
-      ("Ehell" (mode . eshell-mode))
+      ("Eshell" (mode . eshell-mode))
       ("Magit" (derived-mode . magit-mode))
       ("Occur" (mode . occur-mode))
-      ("EMMS" (mode . emms-stream-mode))
+      ("EMMS" (or (mode . emms-lyrics-mode)
+                  (mode . emms-mark-mode)
+                  (mode . emms-playlist-mode)))
       ("EXWM" (mode . exwm-mode)))
      ("Python"
       ("Code" (mode . python-mode))
@@ -1546,7 +1548,9 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
       ("Eshell" (mode . eshell-mode))
       ("Magit" (derived-mode . magit-mode))
       ("Occur" (mode . occur-mode))
-      ("EMMS" (mode . emms-stream-mode))
+      ("EMMS" (or (mode . emms-lyrics-mode)
+                  (mode . emms-mark-mode)
+                  (mode . emms-playlist-mode)))
       ("EXWM" (mode . exwm-mode)))
      ("Text"
       ("Org" (mode . org-mode))
@@ -1560,18 +1564,15 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
       ("Code" (or (mode . emacs-lisp-mode)
                   (mode . python-mode)
                   (mode . shell-mode)))
-      ("EMMS" (mode . emms-stream-mode))
+      ("EMMS" (or (mode . emms-lyrics-mode)
+                  (mode . emms-mark-mode)
+                  (mode . emms-playlist-mode)))
       ("EXWM" (mode . exwm-mode)))))
   (ibuffer-save-with-custom nil)
   :bind ((:map global-map
                ("C-x C-b" . ibuffer)))
   :hook
-  ((ibuffer-mode) . ibuffer-auto-mode)
-  :config
-  (hercules-def
-   :show-funs #'ibuffer
-   :hide-funs #'quit-window
-   :keymap 'ibuffer-mode-map))
+  ((ibuffer-mode) . ibuffer-auto-mode))
 
 (use-package iedit
   :custom
