@@ -327,6 +327,9 @@
 [submodule "tablist"]
 	path = lib/tablist
 	url = git@github.com:politza/tablist.git
+[submodule "toc-org"]
+	path = lib/toc-org
+	url = git@github.com:snosov1/toc-org.git
 [submodule "transient"]
 	path = lib/transient
 	url = git@github.com:magit/transient.git

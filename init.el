@@ -2317,6 +2317,10 @@ even if buffer is already narrowed."
   (display-time-format (when (getenv "EXWM")
                          " %R %F")))
 
+(use-package toc-org
+  :hook
+  ((org-mode) . toc-org-mode))
+
 (use-package tramp
   :config
   (add-to-list 'tramp-default-proxies-alist '(nil "\\`root\\'" "/ssh:%h:"))
