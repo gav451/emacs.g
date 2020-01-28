@@ -2074,7 +2074,9 @@ Enable it and reexecute it."
 
 (use-package peep-dired
   :after dired
-  :custom (peep-dired-cleanup-on-disable t)
+  :custom
+  (peep-dired-cleanup-eagerly t)
+  (peep-dired-cleanup-on-disable t)
   :bind ((:map dired-mode-map
                ("M-s p" . peep-dired))))
 
