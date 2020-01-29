@@ -2034,6 +2034,7 @@ Enable it and reexecute it."
 
 (use-package ox
   :custom
+  (org-export-with-smart-quotes t)
   (org-export-with-sub-superscripts '{}))
 
 (use-package ox-latex
