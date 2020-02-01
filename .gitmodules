@@ -197,9 +197,6 @@
 	path = lib/libgit
 	url = git@github.com:magit/libegit2.git
 	build-step = make
-[submodule "lispy"]
-	path = lib/lispy
-	url = git@github.com:abo-abo/lispy.git
 [submodule "loop"]
 	path = lib/loop
 	url = git@github.com:Wilfred/loop.el.git
