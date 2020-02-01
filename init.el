@@ -508,14 +508,6 @@
 (use-package eldoc
   :delight (eldoc-mode " 🛈"))
 
-(use-package elec-pair
-  :disabled
-  :hook
-  ((emacs-lisp-mode
-    eshell-mode
-    org-mode
-    python-mode) . electric-pair-local-mode))
-
 (use-package electric
   ;; https://github.com/davidshepherd7/dotfiles/blob/master/emacs/.emacs.d/lisp/ds-python.el
   :preface
@@ -1722,19 +1714,6 @@ was a real minor mode."
    ((((class color) (background dark)) :background "DimGrey")
     (((class color) (background light)) :background "LightGrey")))
   :commands (jupyter-run-repl))
-
-(use-package lispy
-  :disabled
-  :custom
-  (lispy-compat '(edebug macrostep))
-  :commands (lispy-mode)
-  :hook
-  ((emacs-lisp-mode
-    ielm-mode
-    lisp-interaction-mode
-    sly-mode
-    sly-mrepl-mode) . lispy-mode)
-  :delight (lispy-mode " 🗘"))
 
 (use-package macrostep
   :bind ((:map emacs-lisp-mode-map
