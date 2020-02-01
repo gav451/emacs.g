@@ -1461,10 +1461,10 @@ _b_   _f_   [_y_] yank               [_o_] open     [_x_] exchange-point-mark
      "
 _a_  ?a? auto-fill             _ii_ ?ii? iimage           _vl_ ?vl? visual-line
 _c_  ?c? column-number         _it_ ?it? indent-tabs      _vm_ ?vm? view-mode
-_d_  ?d? display-line-numbers  _l_  ?l? lispy            _wg_ ?wg? writegood
-_fc_ ?fc? flycheck              _o_  ?o? org-table        _wk_ ?wk? which-key
-_fl_ ?fl? font-lock             _p_  ?p? electric-pair    _ws_ ?ws? white-space
-_fs_ ?fs? flyspell              _r_  ?r? read-only
+_d_  ?d? display-line-numbers  _o_  ?o? org-table        _wg_ ?wg? writegood
+_fc_ ?fc? flycheck              _r_  ?r? read-only        _wk_ ?wk? which-key
+_fl_ ?fl? font-lock             _s_  ?s? smartparens      _ws_ ?ws? white-space
+_fs_ ?fs? flyspell
 _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 "
      ("a" #'auto-fill-mode
@@ -1486,14 +1486,12 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
       (if (bound-and-true-p iimage-mode) "[X]" "[ ]"))
      ("it" (setq indent-tabs-mode (not (bound-and-true-p indent-tabs-mode)))
       (if (bound-and-true-p indent-tabs-mode) "[X]" "[ ]"))
-     ("l" #'lispy-mode
-      (if (bound-and-true-p lispy-mode) "[X]" "[ ]"))
      ("o" #'orgtbl-mode
       (if (bound-and-true-p orgtbl-mode) "[X]" "[ ]"))
-     ("p" #'electric-pair-local-mode
-      (if (bound-and-true-p electric-pair-mode) "[X]" "[ ]"))
      ("r" #'read-only-mode
       (if (bound-and-true-p buffer-read-only) "[X]" "[ ]"))
+     ("s" #'smartparens-mode
+      (if (bound-and-true-p smartparens-mode) "[X]" "[ ]"))
      ("tl" #'toggle-truncate-lines
       (if (bound-and-true-p truncate-lines) "[X]" "[ ]"))
      ("vl" #'visual-line-mode
@@ -1508,7 +1506,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
       (if (bound-and-true-p whitespace-mode) "[X]" "[ ]"))
      ("C-g" nil nil :color blue)))
   :custom
-  (hydra-hint-display-type 'lv)
   (hydra-verbose t)
   :commands (hydra--call-interactively-remap-maybe
              hydra-add-font-lock
@@ -1868,15 +1865,6 @@ Enable it and reexecute it."
           (dolist (block blocks)
             (goto-char (org-element-property :begin block))
             (org-babel-execute-src-block)))))
-
-  (defun on-org-mode-hook ()
-    ;; https://emacs.stackexchange.com/questions/26225/dont-pair-quotes-in-electric-pair-mode
-    (setq-local electric-pair-inhibit-predicate
-                (lambda (c)
-                  (if (and (char-equal c ?<)
-                           (char-equal (char-before (1- (point))) ?\n))
-                      t
-                    (funcall (default-value 'electric-pair-inhibit-predicate) c)))))
   :custom
   (org-adapt-indentation nil)
   (org-babel-load-languages (quote ((calc . t)
@@ -1932,7 +1920,6 @@ Enable it and reexecute it."
   :mode ((rx ".org" eos) . org-mode)
   :hook
   (org-mode . on-org-mode-eval-blocks)
-  (org-mode . on-org-mode-hook)
   :commands (org-babel-do-load-languages
              org-link-set-parameters
              org-narrow-to-block
