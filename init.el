@@ -1279,7 +1279,8 @@ Use this to unregister from the D-BUS.")
   (helm-adaptive-sort-by-frequent-recent-usage t)
   :commands (helm-adaptive-mode)
   :init
-  (helm-adaptive-mode +1))
+  (helm-adaptive-mode +1)
+  :delight (helm-mode " 🎯"))
 
 (use-package helm-buffers
   :custom
@@ -2285,7 +2286,8 @@ Enable it and reexecute it."
   ((prog-mode) . smartparens-strict-mode)
   :config
   (show-smartparens-global-mode +1)
-  (smartparens-global-mode +1))
+  (smartparens-global-mode +1)
+  :delight (smartparens-mode (" 🗘" (:eval (if smartparens-strict-mode "/s" s)))))
 
 (use-package smartparens-config
   :demand t)
@@ -2390,7 +2392,8 @@ even if buffer is already narrowed."
   (ws-butler-keep-whitespace-before-point nil)
   :hook
   ((prog-mode
-    text-mode) . ws-butler-mode))
+    text-mode) . ws-butler-mode)
+  :delight (ws-butler-mode " 🍴"))
 
 (use-package yasnippet
   :custom
