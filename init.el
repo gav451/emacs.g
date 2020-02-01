@@ -1279,8 +1279,7 @@ Use this to unregister from the D-BUS.")
   (helm-adaptive-sort-by-frequent-recent-usage t)
   :commands (helm-adaptive-mode)
   :init
-  (helm-adaptive-mode +1)
-  :delight (helm-mode " 🎯"))
+  (helm-adaptive-mode +1))
 
 (use-package helm-buffers
   :custom
@@ -1336,7 +1335,8 @@ Use this to unregister from the D-BUS.")
 (use-package helm-mode
   :commands (helm-mode)
   :init
-  (helm-mode +1))
+  (helm-mode +1)
+  :delight (helm-mode " 🎯"))
 
 (use-package helm-net
   :custom
