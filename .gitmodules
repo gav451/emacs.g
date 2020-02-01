@@ -315,6 +315,9 @@
 	build-step = make all
 	build-step = borg-makeinfo
 	url = git@github.com:joaotavora/sly.git
+[submodule "smartparens"]
+	path = lib/smartparens
+	url = git@github.com:Fuco1/smartparens.git
 [submodule "spinner"]
 	path = lib/spinner
 	url = git@github.com:Malabarba/spinner.el.git
