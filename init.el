@@ -1752,8 +1752,6 @@ was a real minor mode."
 (use-package magit
   ;; https://stackoverflow.com/questions/4114095/how-to-revert-a-git-repository-to-a-previous-commit
   ;; https://stackoverflow.com/questions/9529078/how-do-i-use-git-reset-hard-head-to-revert-to-a-previous-commit
-  ;; :custom
-  ;; (magit-completing-read-function 'ivy-completing-read)
   :bind ((:map global-map
                ("C-x g"   . magit-status)
                ("C-x M-g" . magit-dispatch)))
@@ -1768,6 +1766,10 @@ was a real minor mode."
                           'magit-insert-ignored-files
                           'magit-insert-untracked-files
                           nil))
+
+(use-package magit-submodule
+  :custom
+  (magit-submodule-remove-trash-gitdirs t))
 
 (use-package mailcap
   :if (eq system-type 'darwin)
