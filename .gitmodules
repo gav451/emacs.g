@@ -222,9 +222,6 @@
 [submodule "nov"]
 	path = lib/nov
 	url = git@github.com:wasamasa/nov.el.git
-[submodule "ob-async"]
-	path = lib/ob-async
-	url = git@github.com:astahlman/ob-async.git
 [submodule "org"]
 	path = lib/org
 	load-path = lisp

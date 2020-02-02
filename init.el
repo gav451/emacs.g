@@ -1786,12 +1786,6 @@ Enable it and reexecute it."
   :init
   (setq disabled-command-function #'enable-me))
 
-(use-package ob-async
-  :after org
-  :demand t
-  :custom
-  (ob-async-no-async-languages-alist '("jupyter-julia" "jupyter-python")))
-
 (use-package ob-core
   :custom
   (org-confirm-babel-evaluate nil)
