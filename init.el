@@ -1743,7 +1743,8 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (mailcap-add "application/pdf" #'pdf-view-mode #'window-system))
 
 (use-package man
-  :config (setq Man-width 80))
+  :custom
+  (Man-width 80))
 
 (use-package markdown-mode
   :custom
