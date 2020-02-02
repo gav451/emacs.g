@@ -1650,18 +1650,6 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 
 (use-package ivy-posframe
   :disabled
-  :preface
-  (defun toggle-ivy-posframe ()
-    "Advise `posframe-workable-p' to toggle `ivy-posframe-mode'.
-
-This is way too clever, but it worked before `ivy-posframe-mode'
-was a real minor mode."
-    (interactive)
-    (if ivy-posframe-mode
-        (if (advice-member-p #'ignore 'posframe-workable-p)
-            (advice-remove 'posframe-workable-p #'ignore)
-          (advice-add 'posframe-workable-p :override #'ignore))
-      (ivy-posframe-mode)))
   :after ivy
   :custom
   (ivy-posframe-border-width 2)
