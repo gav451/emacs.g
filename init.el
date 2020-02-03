@@ -1393,7 +1393,6 @@ Use this to unregister from the D-BUS.")
   ((Info-mode
     elfeed-show-mode
     emms-playlist-mode
-    emms-stream
     help-mode
     magit-status-mode
     special-mode) . hl-line-mode))
