@@ -2005,11 +2005,6 @@ Enable it and reexecute it."
   ;; Requires CUSTOM_ID property to suppress LaTeX section labels.
   (org-latex-prefer-user-labels t))
 
-(use-package paren
-  :commands (show-paren-mode)
-  :init
-  (show-paren-mode))
-
 (use-package pdf-tools
   :custom
   (pdf-annot-activate-created-annotations t)
