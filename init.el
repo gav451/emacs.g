@@ -2247,11 +2247,12 @@ Enable it and reexecute it."
                ("M-F" . sp-forward-symbol)
                ("M-B" . sp-backward-symbol)))
   :hook
+  ((prog-mode
+    text-mode) . smartparens-mode)
   ((prog-mode) . smartparens-strict-mode)
   :config
   (show-smartparens-global-mode +1)
-  (smartparens-global-mode +1)
-  :delight (smartparens-mode (" 🗘" (:eval (if smartparens-strict-mode "/s" s)))))
+  :delight (smartparens-mode (" 🗘" (:eval (if smartparens-strict-mode "/s" "")))))
 
 (use-package smartparens-config
   :demand t)
