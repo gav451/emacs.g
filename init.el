@@ -821,13 +821,13 @@ point."
                               "watch")))
   (use-package esh-mode
     :commands (eshell-life-is-too-much)
-    :bind (:map eshell-mode-map
-                ("C-d" . (lambda (arg)
-                           (interactive "p")
-                           (if (and (eolp)
-                                    (looking-back eshell-prompt-regexp nil))
-                               (eshell-life-is-too-much)
-                             (delete-char arg)))))))
+    :bind ((:map eshell-mode-map
+                 ("C-d" . (lambda (arg)
+                            (interactive "p")
+                            (if (and (eolp)
+                                     (looking-back eshell-prompt-regexp nil))
+                                (eshell-life-is-too-much)
+                              (delete-char arg))))))))
 
 (use-package expand-region
   :bind* (("C-=" . er/expand-region)))
@@ -2014,10 +2014,10 @@ Enable it and reexecute it."
 (use-package pdf-view
   :custom
   (pdf-view-display-size 'fit-page)
-  :bind (:map pdf-view-mode-map
-              ("C-r" . isearch-backward)
-              ("C-s" . isearch-forward)
-              ("M-w" . pdf-view-kill-ring-save))
+  :bind ((:map pdf-view-mode-map
+               ("C-r" . isearch-backward)
+               ("C-s" . isearch-forward)
+               ("M-w" . pdf-view-kill-ring-save)))
   :magic
   ("%PDF" . pdf-view-mode))
 
