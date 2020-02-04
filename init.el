@@ -241,7 +241,7 @@
                (buffer-substring (region-beginning) (region-end))
              (read-string "Search http://www.cnrtl.fr for: "
                           (thing-at-point 'word)))))
-    (browse-url (concat "http://www.cnrtl.fr/definition/academie9/" word)))
+    (browse-url (concat "http://www.cnrtl.fr/definition/" word)))
 
   (defun webster (word)
     "Look up a word in the dictionary at 'https://webster-dictionary.org'."
