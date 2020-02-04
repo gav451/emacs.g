@@ -1755,6 +1755,11 @@ Enable it and reexecute it."
   (org-confirm-babel-evaluate nil)
   :commands (org-babel-execute-src-block))
 
+(use-package ob-jupyter
+  :commands (org-babel-jupyter-override-src-block)
+  :config
+  (org-babel-jupyter-override-src-block "python"))
+
 (use-package ob-lisp
   :custom
   (org-babel-lisp-eval-fn #'sly-eval))
