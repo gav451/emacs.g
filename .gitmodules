@@ -103,6 +103,9 @@
 [submodule "esxml"]
 	path = lib/esxml
 	url = git@github.com:tali713/esxml.git
+	no-byte-compile = css-lite.el
+	no-byte-compile = esxml-form.el
+	no-byte-compile = esxpath.el
 [submodule "exec-path-from-shell"]
 	path = lib/exec-path-from-shell
 	url = git@github.com:purcell/exec-path-from-shell.git
