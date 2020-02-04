@@ -91,9 +91,6 @@
 	info-path = doc
 	build-step = make autoloads emms-print-metadata lisp
 	build-step = borg-makeinfo
-[submodule "engine-mode"]
-	path = lib/engine-mode
-	url = git@github.com:hrs/engine-mode.git
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git
