@@ -1664,6 +1664,10 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
     (((class color) (background light)) :background "LightGrey")))
   :commands (jupyter-run-repl))
 
+(use-package keycast
+  :custom
+  (keycast-window-predicate 'keycast-active-frame-bottom-right-p))
+
 (use-package macrostep
   :bind ((:map emacs-lisp-mode-map
                ("C-c e" . macrostep-expand))
