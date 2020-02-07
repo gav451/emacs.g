@@ -28,6 +28,9 @@
 [submodule "biblio"]
 	path = lib/biblio
 	url = git@github.com:cpitclaudel/biblio.el.git
+[submodule "blacken"]
+	path = lib/blacken
+	url = git@github.com:pythonic-emacs/blacken.git
 [submodule "borg"]
 	path = lib/borg
 	url = git@github.com:emacscollective/borg.git
@@ -261,6 +264,12 @@
 [submodule "pkg-info"]
 	path = lib/pkg-info
 	url = git@github.com:lunaryorn/pkg-info.el.git
+[submodule "poly-org"]
+	path = lib/poly-org
+	url = git@github.com:polymode/poly-org.git
+[submodule "polymode"]
+	path = lib/polymode
+	url = git@github.com:polymode/polymode.git
 [submodule "posframe"]
 	path = lib/posframe
 	url = git@github.com:tumashu/posframe.git
