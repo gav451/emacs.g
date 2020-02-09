@@ -1760,9 +1760,7 @@ Enable it and reexecute it."
   :commands (org-babel-execute-src-block))
 
 (use-package ob-jupyter
-  :commands (org-babel-jupyter-override-src-block)
-  :config
-  (org-babel-jupyter-override-src-block "python"))
+  :commands (org-babel-jupyter-override-src-block))
 
 (use-package ob-lisp
   :custom
