@@ -93,7 +93,6 @@
 (use-package custom
   :custom
   (custom-file (expand-file-name "custom.el" user-emacs-directory))
-  :commands (custom-declare-variable)
   :config
   (when (file-exists-p custom-file)
     (load custom-file)))
@@ -438,7 +437,6 @@
              ("M-s y" . my-dired-rsync)))
 
 (use-package dired-aux
-  :after dired
   :commands (dired-dwim-target-directory))
 
 (use-package dired-filter
@@ -639,13 +637,11 @@ nil if not inside any parens."
   ;; https://github.com/jorgenschaefer/elpy/pull/1279
   :after python
   :custom
-  (elpy-company-post-completion-function #'elpy-company-post-complete-parens)
+  (elpy-company-post-completion-function 'elpy-company-post-complete-parens)
   (elpy-modules '(elpy-module-sane-defaults
                   elpy-module-company
                   elpy-module-eldoc))
   (elpy-remove-modeline-lighter nil)
-  :commands (elpy-company-post-complete-parens
-             elpy-enable)
   :init
   (elpy-enable)
   :delight (elpy-mode " 🐍"))
