@@ -274,8 +274,8 @@
      ("." . eww-browse-url)))
   (browse-url-generic-program (or (when (eq system-type 'darwin)
                                     "open")
-                                  (executable-find "firefox")
-                                  (executable-find "qutebrowser")))
+                                  (executable-find "midori")
+                                  (executable-find "firefox")))
   :commands (browse-url
              browse-url-generic))
 
