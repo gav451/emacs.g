@@ -1664,6 +1664,18 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :custom
   (keycast-window-predicate 'keycast-active-frame-bottom-right-p))
 
+(use-package langtool
+  ;; https://github.com/marcanuy/dot-emacs/blob/master/.emacs
+  :bind (:map ctl-x-4-map
+              ("v" . langtool-check)
+              ("V" . langtool-check-done)
+              ("l" . langtool-switch-default-language)
+              ("4" . langtool-show-message-at-point)
+              ("g" . langtool-correct-buffer))
+  :custom
+  (langtool-bin (executable-find "languagetool"))
+  (langtool-default-language "en-US"))
+
 (use-package macrostep
   :bind ((:map emacs-lisp-mode-map
                ("C-c e" . macrostep-expand))
