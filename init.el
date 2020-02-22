@@ -179,10 +179,10 @@
 
 (use-package autorevert
   :custom
-  (auto-revert-mode-text "⏎")
+  (auto-revert-mode-text "⏎ 🔃")
   :hook
   ((dired-mode) . auto-revert-mode))
-u
+
 (use-package avy
   :disabled
   :custom
