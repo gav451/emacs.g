@@ -173,37 +173,16 @@
   :defer 2)
 
 ;; alphabetical order
-(use-package ace-window
-  :disabled
-  :custom
-  (aw-ignored-buffers '("*Calc Trail*"))
-  (aw-leading-char-style 'path)
-  (aw-keys '(?0 ?1 ?2 ?3 ?4 ?5 ?6 ?7 ?8 ?9))
-  (aw-reverse-frame-list t)
-  :custom-face
-  ;; C-h i: Elisp -> Display -> Faces -> Defining Faces.
-  (aw-leading-char-face ((((class color) (background dark))
-                          :background "gold" :foreground "purple3" :height 2.0)
-                         (((class color) (background light))
-                          :background "purple3" :foreground "gold" :height 2.0)
-                         (t :foreground "gray100" :underline nil)))
-  :commands (ace-window-display-mode)
-  :bind (:map global-map
-              ("M-o" . ace-window))
-  :after avy
-  :init
-  (ace-window-display-mode))
-
 (use-package alert
   :custom
   (alert-default-style 'libnotify))
 
 (use-package autorevert
   :custom
-  (auto-revert-mode-text " ⏎")
+  (auto-revert-mode-text "⏎")
   :hook
   ((dired-mode) . auto-revert-mode))
-
+u
 (use-package avy
   :disabled
   :custom
