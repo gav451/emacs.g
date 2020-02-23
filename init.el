@@ -975,7 +975,7 @@ Use this to unregister from the D-BUS.")
        ([?\s-b] . switch-to-buffer)
        ([?\s-i] . my-exwm-invoke)
        ([?\s-l] . my-exwm-lock-screen)
-       ([?\s-o] . ace-window)
+       ([?\s-o] . switch-to-buffer)
        ([?\s-r] . exwm-reset)
        ([?\s-t] . exwm-input-toggle-keyboard)
        ([?\s-w] . exwm-workspace-switch)
@@ -2261,7 +2261,8 @@ even if buffer is already narrowed."
 
 (use-package syntactic-close
   ;; https://manuel-uberti.github.io/emacs/2017/09/17/syntactic-close/
-  :bind (("C-c C-c" . syntactic-close)))
+  :bind ((:map global-map
+               ("C-c C-c" . syntactic-close))))
 
 (use-package thingatpt
   :functions (thing-at-point-looking-at))
