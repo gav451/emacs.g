@@ -318,6 +318,9 @@
 [submodule "synosaurus"]
 	path = lib/synosaurus
 	url = git@github.com:hpdeifel/synosaurus.git
+[submodule "syntactic-close"]
+	path = lib/syntactic-close
+	url = git@github.com:emacs-berlin/syntactic-close.git
 [submodule "tablist"]
 	path = lib/tablist
 	url = git@github.com:politza/tablist.git

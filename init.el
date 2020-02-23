@@ -2259,6 +2259,10 @@ even if buffer is already narrowed."
   :bind* (("C-z C-s l" . synosaurus-lookup)
           ("C-z C-s r" . synosaurus-choose-and-replace)))
 
+(use-package syntactic-close
+  ;; https://manuel-uberti.github.io/emacs/2017/09/17/syntactic-close/
+  :bind (("C-c C-c" . syntactic-close)))
+
 (use-package thingatpt
   :functions (thing-at-point-looking-at))
 
