@@ -2044,7 +2044,7 @@ Enable it and reexecute it."
               :after #'update-pyenv-mode-environment)
   (advice-add 'pyenv-mode-unset
               :after #'update-pyenv-mode-environment)
-  (pyenv-mode-set "3.8.1"))
+  (pyenv-mode-set "3.8.2"))
 
 (use-package python
   :custom
