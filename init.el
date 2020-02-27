@@ -2334,7 +2334,7 @@ even if buffer is already narrowed."
 (use-package wordnut
   :bind* (("C-z C-w" . wordnut-search)))
 
-(use-package writegood
+(use-package writegood-mode
   :commands (writegood-mode))
 
 (use-package ws-butler
