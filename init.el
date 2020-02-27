@@ -1,4 +1,6 @@
 ;;; init.el --- user-init-file                    -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
 ;;; Early birds
 (progn                                  ; startup
   (defvar before-user-init-time (current-time)
@@ -363,6 +365,12 @@
   :config
   (dash-enable-font-lock))
 
+(use-package dbus
+  :commands (dbus-get-property
+             dbus-list-names
+             dbus-register-signal
+             dbus-unregister-object))
+
 (use-package diff-hl
   ;; https://github.com/yiufung/dot-emacs/blob/master/init.el
   :custom
@@ -568,41 +576,7 @@ nil if not inside any parens."
              elfeed-search-update
              elfeed-update)
   :config
-  (make-directory elfeed-db-directory t)
-  (with-eval-after-load 'hydra
-    (bind-key
-     "f"
-     (defhydra hydra-elfeed-filter ()
-       ("A" (elfeed-search-set-filter "@48-months-ago") "All"
-        :column "A-Z")
-       ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
-       ("S" (elfeed-search-set-filter "@12-months-ago +*") "Starred")
-       ("U" (elfeed-search-set-filter "@12-months-ago +unread") "Unread")
-       ("ab" (elfeed-search-set-filter "@48-months-ago +howard") "abrams"
-        :column "a-c")
-       ("ac" (elfeed-search-set-filter "@12-months-ago +aclu") "aclu")
-       ("b" (elfeed-search-set-filter "@12-months-ago +bof") "bof" )
-       ("c" (elfeed-search-set-filter "@48-months-ago +chua") "chua")
-       ("d" (elfeed-search-set-filter "@12-months-ago +dn") "dn")
-       ("ef" (elfeed-search-set-filter "@12-months-ago +eff") "eff"
-        :column "e-k")
-       ("em" (elfeed-search-set-filter "@12-months-ago +emacsen") "emacsen")
-       ("i" (elfeed-search-set-filter "@12-months-ago +intercepted") "intercepted")
-       ("ki" (elfeed-search-set-filter "@48-months-ago +kitchin") "kitchin")
-       ("kr" (elfeed-search-set-filter "@48-months-ago +krehel") "krehel")
-       ("l" (elfeed-search-set-filter "@12-months-ago +lqdn") "lqdn"
-        :column "l-s")
-       ("m" (elfeed-search-set-filter "@48-months-ago +maugham") "maugham")
-       ("n" (elfeed-search-set-filter "@48-months-ago +neirhardt") "neirhardt")
-       ("p" (elfeed-search-set-filter "@12-months-ago +python") "python")
-       ("s" (elfeed-search-set-filter "@48-months-ago +schneidermann") "schneidermann")
-       ("v" (elfeed-search-set-filter "@48-months-ago +vxlabs") "vxlabs"
-        :column "v-w")
-       ("w" (elfeed-search-set-filter "@48-months-ago +wellons") "wellons")
-       ("*" (elfeed-search-toggle-all '*) "toggle *"
-        :column "Other")
-       ("C-g" nil "quit" :color blue))
-     elfeed-search-mode-map)))
+  (make-directory elfeed-db-directory t))
 
 (use-package elisp-demos
   :commands (elisp-demos-advice-helpful-update)
@@ -615,6 +589,7 @@ nil if not inside any parens."
   ;; https://github.com/jorgenschaefer/elpy/issues/1123
   ;; https://github.com/jorgenschaefer/elpy/pull/1279
   :after python
+  :commands (elpy-enable)
   :custom
   (elpy-company-post-completion-function 'elpy-company-post-complete-parens)
   (elpy-modules '(elpy-module-sane-defaults
@@ -837,6 +812,11 @@ point."
     ;; https://github.com/technomancy/dotfiles/blob/master/.emacs.d/phil/wm.el
     ;; https://gitlab.com/ambrevar/dotfiles/tree/master/.emacs.d
     :preface
+    (defcustom exwm-tear-down-background-color "DarkRed"
+      "EXWM tear down background color."
+      :type 'string
+      :group 'display)
+
     (require 'dbus)
 
     (defvar no-ac-display-battery--dbus-object nil
@@ -913,7 +893,7 @@ Use this to unregister from the D-BUS.")
       "Save all Emacs buffers and power-DOWN the computer."
       (interactive)
       (buffer-face-set `(:background ,exwm-tear-down-background-color))
-      (when (y-or-n-p "Really want to power-DOWN?")
+      (when (y-or-n-p "Really want to power-DOWN? ")
         (my-exwm-teardown)
         (start-process-shell-command "power-DOWN" nil "sudo shutdown -h -t 2 now"))
       (buffer-face-mode -1))
@@ -922,7 +902,7 @@ Use this to unregister from the D-BUS.")
       "Save all Emacs buffers and re-BOOT the computer."
       (interactive)
       (buffer-face-set `(:background ,exwm-tear-down-background-color))
-      (when (y-or-n-p "Really want to re-BOOT?")
+      (when (y-or-n-p "Really want to re-BOOT? ")
         (my-exwm-teardown)
         (start-process-shell-command "re-BOOT" nil "sudo shutdown -r -t 2 now"))
       (buffer-face-mode -1))
@@ -1079,15 +1059,6 @@ Use this to unregister from the D-BUS.")
                exwm-workspace-switch-create)))
 
 (use-package face-remap
-  :preface
-  (defcustom exwm-tear-down-background-color "DarkRed"
-    "EXWM tear down background color."
-    :type 'string
-    :group 'display)
-  (defcustom overwrite-mode-background-color "DarkGreen"
-    "Overwrite mode background color."
-    :type 'string
-    :group 'display)
   :commands (buffer-face-mode
              buffer-face-set)
   :delight (buffer-face-mode))
@@ -1107,8 +1078,10 @@ Use this to unregister from the D-BUS.")
 
 (use-package flycheck
   ;; https://www.flycheck.org/en/latest/index.html
+  ;; https://emacs.stackexchange.com/questions/10244/flycheck-could-not-find-file-under-load-path
   :custom (flycheck-check-syntax-automatically (quote (idle-change newline save)))
-  :hook ((elpy-mode) . flycheck-mode))
+  :hook ((elpy-mode
+          emacs-lisp-mode) . flycheck-mode))
 
 (use-package flymake
   :bind ((:map flymake-mode-map
@@ -1338,7 +1311,49 @@ Use this to unregister from the D-BUS.")
 
 (use-package hydra
   ;; http://oremacs.com/2016/04/04/hydra-doc-syntax/
-  :preface
+  :custom
+  (hydra-verbose t)
+  :commands (hydra--call-interactively-remap-maybe
+             hydra-add-font-lock
+             hydra-default-pre
+             hydra-keyboard-quit
+             hydra-set-transient-map
+             hydra-show-hint)
+  :init
+  (with-eval-after-load 'elfeed
+    (bind-key
+     "f"
+     (defhydra hydra-elfeed-filter ()
+       ("A" (elfeed-search-set-filter "@48-months-ago") "All"
+        :column "A-Z")
+       ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
+       ("S" (elfeed-search-set-filter "@12-months-ago +*") "Starred")
+       ("U" (elfeed-search-set-filter "@12-months-ago +unread") "Unread")
+       ("ab" (elfeed-search-set-filter "@48-months-ago +howard") "abrams"
+        :column "a-c")
+       ("ac" (elfeed-search-set-filter "@12-months-ago +aclu") "aclu")
+       ("b" (elfeed-search-set-filter "@12-months-ago +bof") "bof" )
+       ("c" (elfeed-search-set-filter "@48-months-ago +chua") "chua")
+       ("d" (elfeed-search-set-filter "@12-months-ago +dn") "dn")
+       ("ef" (elfeed-search-set-filter "@12-months-ago +eff") "eff"
+        :column "e-k")
+       ("em" (elfeed-search-set-filter "@12-months-ago +emacsen") "emacsen")
+       ("i" (elfeed-search-set-filter "@12-months-ago +intercepted") "intercepted")
+       ("ki" (elfeed-search-set-filter "@48-months-ago +kitchin") "kitchin")
+       ("kr" (elfeed-search-set-filter "@48-months-ago +krehel") "krehel")
+       ("l" (elfeed-search-set-filter "@12-months-ago +lqdn") "lqdn"
+        :column "l-s")
+       ("m" (elfeed-search-set-filter "@48-months-ago +maugham") "maugham")
+       ("n" (elfeed-search-set-filter "@48-months-ago +neirhardt") "neirhardt")
+       ("p" (elfeed-search-set-filter "@12-months-ago +python") "python")
+       ("s" (elfeed-search-set-filter "@48-months-ago +schneidermann") "schneidermann")
+       ("v" (elfeed-search-set-filter "@48-months-ago +vxlabs") "vxlabs"
+        :column "v-w")
+       ("w" (elfeed-search-set-filter "@48-months-ago +wellons") "wellons")
+       ("*" (elfeed-search-toggle-all '*) "toggle *"
+        :column "Other")
+       ("C-g" nil "quit" :color blue))
+     elfeed-search-mode-map))
   (bind-key*
    "C-z C-a"
    (defhydra hydra-insert-arrow (:hint none :base-map (make-sparse-keymap))
@@ -1392,7 +1407,6 @@ _b_   _f_   [_y_] yank               [_o_] open     [_x_] exchange-point-mark
      ("x" exchange-point-and-mark nil) ;; C-x C-x
 
      ("C-g" nil nil :color blue)))
-
   (bind-key*
    "C-z C-t"
    (defhydra hydra-toggle-mode (:color pink :hint none)
@@ -1443,14 +1457,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
      ("ws" #'whitespace-mode
       (if (bound-and-true-p whitespace-mode) "[X]" "[ ]"))
      ("C-g" nil nil :color blue)))
-  :custom
-  (hydra-verbose t)
-  :commands (hydra--call-interactively-remap-maybe
-             hydra-add-font-lock
-             hydra-default-pre
-             hydra-keyboard-quit
-             hydra-set-transient-map
-             hydra-show-hint)
   :config
   (hydra-add-font-lock))
 
@@ -1660,6 +1666,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
                ("C-c e" . macrostep-expand))
          (:map lisp-interaction-mode-map
                ("C-c e" . macrostep-expand)))
+  :commands (macrostep-mode)
   :config
   (hercules-def
    :show-funs #'macrostep-expand
@@ -1928,6 +1935,9 @@ Enable it and reexecute it."
                                       (t
                                        (format "%s" path))))))
 
+(use-package org-table
+  :commands (orgtbl-mode))
+
 (use-package org-tanglesync
   :bind (("C-c M-a" . org-tanglesync-process-buffer-automatic)
          ("C-c M-i" . org-tanglesync-process-buffer-interactive)
@@ -2001,6 +2011,8 @@ Enable it and reexecute it."
   (prescient-persist-mode))
 
 (use-package psession
+  :commands (psession-mode
+             psession-savehist-mode)
   :demand t
   :init
   (psession-mode +1)
@@ -2131,6 +2143,11 @@ Enable it and reexecute it."
 
 (use-package simple
   :preface
+  (defcustom overwrite-mode-background-color "DarkGreen"
+    "Overwrite mode background color."
+    :type 'string
+    :group 'display)
+
   (defun on-overwrite-mode-toggle ()
     "Toggle background-color on overwrite-mode toggle."
     (if (bound-and-true-p overwrite-mode)
@@ -2204,6 +2221,7 @@ Enable it and reexecute it."
                ("C-M-SPC" . sp-mark-sexp)
                ("M-F" . sp-forward-symbol)
                ("M-B" . sp-backward-symbol)))
+  :commands (show-smartparens-global-mode)
   :hook
   ((prog-mode
     text-mode) . smartparens-mode)
@@ -2305,6 +2323,7 @@ even if buffer is already narrowed."
   (wdired-allow-to-change-permissions t))
 
 (use-package which-key
+  :commands (which-key-mode)
   :delight (which-key-mode))
 
 (use-package with-editor
@@ -2314,6 +2333,9 @@ even if buffer is already narrowed."
 
 (use-package wordnut
   :bind* (("C-z C-w" . wordnut-search)))
+
+(use-package writegood
+  :commands (writegood-mode))
 
 (use-package ws-butler
   :custom
