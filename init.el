@@ -127,7 +127,7 @@
   :after tex-site
   :mode ((rx (seq ".tex" eos)) . TeX-latex-mode)
   :custom
-  (LaTeX-electric-left-right-brace (unless (featurep 'smartparens)))
+  (LaTeX-electric-left-right-brace (not (featurep 'smartparens)))
   :hook
   ((LaTeX-mode) . LaTeX-math-mode)
   :commands (LaTeX-narrow-to-environment))
