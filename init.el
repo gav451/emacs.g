@@ -112,7 +112,6 @@
 
 ;; AUCTeX & friends
 (use-package bibtex
-  :after tex-site
   :mode ((rx (seq ".bib" eos)) . bibtex-mode)
   :custom
   (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
@@ -124,16 +123,14 @@
      ("url" "Universal Ressource Locator"))))
 
 (use-package latex
-  :after tex-site
   :mode ((rx (seq ".tex" eos)) . TeX-latex-mode)
   :custom
-  (LaTeX-electric-left-right-brace (not (featurep 'smartparens)))
+  (LaTeX-electric-left-right-brace nil "Let smartparens handle braces")
   :hook
   ((LaTeX-mode) . LaTeX-math-mode)
   :commands (LaTeX-narrow-to-environment))
 
 (use-package reftex
-  :after tex-site
   :hook
   ((LaTeX-mode) . reftex-mode)
   :delight (reftex-mode " 📑"))
@@ -144,7 +141,6 @@
   (reftex-plug-into-AUCTeX t))
 
 (use-package tex
-  :after tex-site
   :custom
   (TeX-auto-local ".auctex-auto-local")
   (TeX-auto-save t)
