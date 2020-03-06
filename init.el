@@ -127,7 +127,7 @@
   :after tex-site
   :mode ((rx (seq ".tex" eos)) . TeX-latex-mode)
   :custom
-  (LaTeX-electric-left-right-brace t)
+  (LaTeX-electric-left-right-brace (unless (featurep 'smartparens)))
   :hook
   ((LaTeX-mode) . LaTeX-math-mode)
   :commands (LaTeX-narrow-to-environment))
@@ -172,7 +172,7 @@
   ;; Use AUCTeX, since it is better than the built in tex mode.
   ;; Tweak .gitmodules to make the git repository resemble the elpa package.
   ;; Do not require auctex, since auctex.el provides no feature 'auctex'.
-  :defer 2)
+  :demand t)
 
 ;; alphabetical order
 (use-package alert
