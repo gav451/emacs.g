@@ -1075,6 +1075,10 @@ Use this to unregister from the D-BUS.")
 (use-package flycheck
   ;; https://www.flycheck.org/en/latest/index.html
   ;; https://emacs.stackexchange.com/questions/10244/flycheck-could-not-find-file-under-load-path
+  :preface
+  (put 'flycheck-emacs-lisp-load-path 'safe-local-variable
+       (lambda (p) (and (eq p 'inherit)
+                        (string-equal (buffer-file-name) user-init-file))))
   :custom (flycheck-check-syntax-automatically (quote (idle-change newline save)))
   :hook ((elpy-mode
           emacs-lisp-mode) . flycheck-mode))
@@ -2380,6 +2384,7 @@ even if buffer is already narrowed."
       (load file))))
 
 ;; Local Variables:
+;; flycheck-emacs-lisp-load-path: inherit
 ;; indent-tabs-mode: nil
 ;; End:
 ;;; init.el ends here
