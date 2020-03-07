@@ -66,11 +66,14 @@
   (require  'borg)
   (borg-initialize))
 
-(progn                                  ; `use-package' and `delight'
-  ;; Must be set before loading use-package.
-  (setq use-package-enable-imenu-support t)
+(progn                                  ; `use-package'
+  (defvar use-package-enable-imenu-support t
+    "If non-nil, cause imenu to see `use-package' declarations.
+This is done by adjusting `lisp-imenu-generic-expression' to
+include support for finding `use-package' and `require' forms.
+
+Must be set before loading use-package.")
   (require 'use-package)
-  (require 'delight)
   (setq use-package-always-defer t)
   (setq use-package-minimum-reported-time 0.001)
   (setq use-package-verbose t))
@@ -673,9 +676,6 @@ point."
                            (and "." (or "flac" "m3u" "mp3" "ogg" "opus" "pls" "soundcloud")))
                        eos)))
 
-(use-package emms-player-mpv
-  :after emms-setup)
-
 (use-package emms-playing-time
   :custom
   (emms-playing-time-display-format " %s "))
@@ -721,7 +721,6 @@ point."
     (eshell-destroy-buffer-when-process-dies t)
     (eshell-visual-commands '("htop"
                               "ipython"
-                              "jupyter"
                               "less"
                               "more"
                               "mpv"
@@ -1089,8 +1088,6 @@ Use this to unregister from the D-BUS.")
                ("M-p" . flymake-goto-prev-error))))
 
 (use-package flyspell
-  ;; See my locale settings for Darwin in my .zprofile and:
-  ;; https://apple.stackexchange.com/questions/338638/mojave-and-its-non-respect-of-the-applelocale-preference
   :preface
   (defun toggle-flyspell-dwim-mode ()
     (interactive)
@@ -1619,17 +1616,6 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :init
   (ivy-prescient-mode))
 
-(use-package jupyter
-  ;; Load `jupyter' after `org' and `pyenv-mode' to append `jupyter'
-  ;; as the last element of `org-babel-load-language' in a nice
-  ;; environment.
-  :after (org pyenv-mode)
-  :demand t
-  :config
-  (org-babel-do-load-languages 'org-babel-load-languages
-                               (append org-babel-load-languages
-                                       '((jupyter . t)))))
-
 (use-package jupyter-repl
   ;; Looks nice with 'c.interactive.colors = "Linux"' in
   ;; ipython_kernel_config.py.
@@ -1642,8 +1628,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
     (((class color) (background light)) :foreground "VioletRed")))
   (jupyter-repl-traceback
    ((((class color) (background dark)) :background "DimGrey")
-    (((class color) (background light)) :background "LightGrey")))
-  :commands (jupyter-run-repl))
+    (((class color) (background light)) :background "LightGrey"))))
 
 (use-package keycast
   :custom
@@ -1814,6 +1799,8 @@ Enable it and reexecute it."
             (org-babel-execute-src-block)))))
   :custom
   (org-adapt-indentation nil)
+  ;; See jupyter's README: jupyter must be the last item, since it
+  ;; depends on other languages.
   (org-babel-load-languages (quote ((calc . t)
                                     (emacs-lisp . t)
                                     (eshell . t)
@@ -1822,7 +1809,8 @@ Enable it and reexecute it."
                                     (lisp . t)
                                     (org . t)
                                     (python . t)
-                                    (shell . t))))
+                                    (shell . t)
+                                    (jupyter . t))))
   (org-catch-invisible-edits 'show-and-error)
   (org-export-backends '(ascii beamer icalendar html md latex man odt org texinfo))
   (org-file-apps '((auto-mode . emacs)
@@ -1867,8 +1855,7 @@ Enable it and reexecute it."
   :mode ((rx ".org" eos) . org-mode)
   :hook
   (org-mode . on-org-mode-eval-blocks)
-  :commands (org-babel-do-load-languages
-             org-link-set-parameters
+  :commands (org-link-set-parameters
              org-narrow-to-block
              org-narrow-to-subtree))
 
