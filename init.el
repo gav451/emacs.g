@@ -1872,15 +1872,31 @@ Enable it and reexecute it."
   :demand t)
 
 (use-package org-capture
+  ;; https://github.com/sprig/org-capture-extension
+  ;; https://gitlab.com/marcowahl/org-capture-button
+  :preface
+  (defun filter-org-link-description (description)
+    "Replace square brackets with round brackets in DESCRIPTION."
+    (replace-regexp-in-string
+     "[][]"
+     (lambda (match)
+       (cond ((string= match "]") ")")
+             ((string= match "[") "(")))
+     description))
   :after org
   :custom
   (org-capture-templates
-   '(("t" "Task" entry (file+headline "~/tmpfs/tasks.org" "Tasks")
+   (quote
+    (("t" "Task" entry (file+headline "~/tmpfs/tasks.org" "Tasks")
       "* TODO %?\n  %u\n  %a")
      ("p" "Protocol" entry (file+headline "~/tmpfs/notes.org" "Inbox")
-      "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+      "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n%?")
      ("L" "Protocol Link" entry (file+headline "~/tmpfs/notes.org" "Inbox")
-      "* %? [[%:link][%:description]] \nCaptured On: %U")))
+      "* %?[[%:link][%(filter-org-link-description \"%:description\")]]\nCaptured On: %U")
+     ("X" "Capture with org-capture-button" entry (file "~/tmpfs/notes.org")
+      "* %:description%? :webcapture:
+:PROPERTIES:\n:CAPTURE_DATE: %U\n:END:\n- see %a %l\n%i\n"
+      :prepend t :empty-lines 1))))
   :demand t)
 
 (use-package org-element
