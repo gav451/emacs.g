@@ -194,6 +194,7 @@ Must be set before loading use-package.")
   (avy-setup-default))
 
 (use-package browse-url
+  :unless noninteractive
   :preface
   (defun dict-en (word)
     "Look up a word in the dictionary at 'https://thefreedictionary.com'."
@@ -265,7 +266,7 @@ Must be set before loading use-package.")
                ("C-c C-w" . deadgrep-edit-mode))))
 
 (use-package company
-  ;; https://emacs.stackexchange.com/questions/9835/how-can-i-prevent-company-mode-completing-numbers
+  :unless noninteractive
   :custom
   (company-show-numbers t)
   :hook
@@ -379,6 +380,7 @@ Must be set before loading use-package.")
   ((magit-post-refresh) . diff-hl-magit-post-refresh))
 
 (use-package dired
+  :unless noninteractive
   :preface
   (defun my-dired-eww-find-file ()
     "Visit dired file with eww."
@@ -703,6 +705,7 @@ point."
   ;; http://emacshorrors.com/post/life-is-too-much
   ;; https://github.com/howardabrams/dot-files/blob/master/emacs-eshell.org
   ;; https://github.com/wasamasa/dotemacs/blob/master/init.org#eshell
+  :unless noninteractive
   :config
   (use-package em-alias
     :custom
@@ -799,7 +802,7 @@ point."
                                     "SSH_AUTH_SOCK"))
   :demand t)
 
-(when (getenv "EXWM")
+(when (and (getenv "EXWM") (not noninteractive))
   (use-package exwm
     ;; https://github.com/DamienCassou/emacs.d/blob/master/init.el
     ;; https://github.com/ch11ng/exwm/wiki
@@ -1088,6 +1091,7 @@ Use this to unregister from the D-BUS.")
                ("M-p" . flymake-goto-prev-error))))
 
 (use-package flyspell
+  :unless noninteractive
   :preface
   (defun toggle-flyspell-dwim-mode ()
     (interactive)
@@ -1183,6 +1187,7 @@ Use this to unregister from the D-BUS.")
   (helm-use-frame-when-more-than-two-windows t))
 
 (use-package helm-adaptive
+  :unless noninteractive
   :after helm
   :custom
   (helm-adaptive-sort-by-frequent-recent-usage t)
@@ -1199,6 +1204,7 @@ Use this to unregister from the D-BUS.")
   :bind ((:map global-map ("M-x" . helm-M-x))))
 
 (use-package helm-config
+  :unless noninteractive
   :demand t)
 
 (use-package helm-elisp
@@ -1308,6 +1314,7 @@ Use this to unregister from the D-BUS.")
 
 (use-package hydra
   ;; http://oremacs.com/2016/04/04/hydra-doc-syntax/
+  :unless noninteractive
   :custom
   (hydra-verbose t)
   :commands (hydra--call-interactively-remap-maybe
@@ -1459,6 +1466,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 
 (use-package ibuffer
   ;; http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html
+  :unless noninteractive
   :custom
   (ibuffer-expert nil)
   (ibuffer-saved-filter-groups
@@ -2014,6 +2022,7 @@ Enable it and reexecute it."
   (prescient-persist-mode))
 
 (use-package psession
+  :unless noninteractive
   :commands (psession-mode
              psession-savehist-mode)
   :demand t
@@ -2145,6 +2154,7 @@ Enable it and reexecute it."
   :commands (shr-browse-url))
 
 (use-package simple
+  :unless noninteractive
   :preface
   (defcustom overwrite-mode-background-color "DarkGreen"
     "Overwrite mode background color."
@@ -2195,6 +2205,7 @@ Enable it and reexecute it."
 (use-package smartparens
   ;; https://github.com/Fuco1/.emacs.d/blob/master/files/smartparens.el
   ;; https://github.com/ebzzry/dotfiles/blob/master/emacs/fkd/klavoj.el
+  :unless noninteractive
   :bind ((:map smartparens-mode-map
                ;; I have copied sp-smartparens-bindings.
                ("C-M-f" . sp-forward-sexp)
@@ -2234,6 +2245,7 @@ Enable it and reexecute it."
   :delight (smartparens-mode (" 🗘" (:eval (if smartparens-strict-mode "/s" "")))))
 
 (use-package smartparens-config
+  :after smartparens
   :demand t)
 
 (use-package subr
