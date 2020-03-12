@@ -272,6 +272,7 @@ Must be set before loading use-package.")
   :hook
   ((LaTeX-mode
     emacs-lisp-mode
+    ielm-mode
     org-mode
     sly-mode
     sly-mrepl-mode) . company-mode)
