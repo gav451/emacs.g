@@ -1082,8 +1082,8 @@ Use this to unregister from the D-BUS.")
        (lambda (p) (and (eq p 'inherit)
                         (string-equal (buffer-file-name) user-init-file))))
   :custom (flycheck-check-syntax-automatically (quote (idle-change newline save)))
-  :hook ((elpy-mode
-          emacs-lisp-mode) . flycheck-mode))
+  :hook ((emacs-lisp-mode
+          python-mode) . flycheck-mode))
 
 (use-package flymake
   :bind ((:map flymake-mode-map
@@ -2237,9 +2237,11 @@ Enable it and reexecute it."
                ("M-B" . sp-backward-symbol)))
   :commands (show-smartparens-global-mode)
   :hook
-  ((prog-mode
+  ((ielm-mode
+    prog-mode
     text-mode) . smartparens-mode)
-  ((prog-mode) . smartparens-strict-mode)
+  ((ielm-mode
+    prog-mode) . smartparens-strict-mode)
   :config
   (show-smartparens-global-mode +1)
   :delight (smartparens-mode (" 🗘" (:eval (if smartparens-strict-mode "/s" "")))))
