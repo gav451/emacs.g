@@ -1193,7 +1193,7 @@ Use this to unregister from the D-BUS.")
   :custom
   (helm-adaptive-sort-by-frequent-recent-usage t)
   :commands (helm-adaptive-mode)
-  :init
+  :config
   (helm-adaptive-mode +1))
 
 (use-package helm-buffers
@@ -1249,6 +1249,7 @@ Use this to unregister from the D-BUS.")
   (helm-ls-git-status-command 'magit-status-internal))
 
 (use-package helm-mode
+  :unless noninteractive
   :commands (helm-mode)
   :init
   (helm-mode +1)
