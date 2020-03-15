@@ -1153,11 +1153,12 @@ Use this to unregister from the D-BUS.")
 (use-package git-commit
   :preface
   (put 'git-commit-major-mode 'safe-local-variable
-       (lambda (m) (or (eq m 'gfm-mode)
-                       (eq m 'git-commit-elisp-text-mode)
-                       (eq m 'markdown-mode)
-                       (eq m 'org-mode)
-                       (eq m 'text-mode))))
+       (let ((modes (quote (git-commit-mode
+                            git-commit-elisp-text-mode
+                            markdown-mode
+                            org-mode
+                            textmode))))
+         (lambda (mode) (member mode modes))))
   :custom
   (git-commit-major-mode 'gfm-mode))
 
