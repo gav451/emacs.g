@@ -2113,13 +2113,13 @@ Enable it and reexecute it."
   :custom
   (recentf-max-saved-items 100)
   :config
-  (mapc #'(lambda (element) (add-to-list 'recentf-exclude element))
-        `(no-littering-etc-directory
-          no-littering-var-directory
-          ,(expand-file-name "~/.orhc-bibtex-cache")
-          "/\\.git/.*\\'"
-          "/\\.hg/.*\\'"
-          "^/\\(?:ssh\\|su\\|sudo\\)?:")))
+  (mapc (function (lambda (element)
+                    (add-to-list 'recentf-exclude element)))
+        (quote (no-littering-etc-directory
+                no-littering-var-directory
+                "/\\.git/.*\\'"
+                "/\\.hg/.*\\'"
+                "^/\\(?:ssh\\|su\\|sudo\\)?:"))))
 
 (use-package reveal
   ;; info -> magit -> FAQ -> FAQ - Issues and Errors.
