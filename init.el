@@ -1164,7 +1164,7 @@ Use this to unregister from the D-BUS.")
 (use-package gpastel
   ;; Try to prevent gpaste-daemon from using 100 % cpu time by
   ;; disabling image support.
-  :when (eq system-type 'gnu/linux)
+  :when (and (eq system-type 'gnu/linux) (not noninteractive))
   :commands (gpastel-mode)
   :init
   (when (= 0 (call-process-shell-command
@@ -1263,7 +1263,8 @@ Use this to unregister from the D-BUS.")
   :bind ((:map global-map ("M-s o" . helm-occur))))
 
 (use-package helm-org
-  :after org helm
+  :unless noninteractive
+  :after helm-mode org
   :demand t
   :config
   (mapc (function (lambda (element)
