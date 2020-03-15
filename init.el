@@ -1687,6 +1687,11 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
                           'magit-insert-untracked-files
                           nil))
 
+(use-package magit-git
+  ;; Info: (magit) MacOS Performance
+  :custom
+  (magit-git-executable (executable-find "git")))
+
 (use-package magit-submodule
   :custom
   (magit-submodule-remove-trash-gitdirs t))
