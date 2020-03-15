@@ -1262,6 +1262,15 @@ Use this to unregister from the D-BUS.")
 (use-package helm-occur
   :bind ((:map global-map ("M-s o" . helm-occur))))
 
+(use-package helm-org
+  :after org helm
+  :demand t
+  :config
+  (mapc (function (lambda (element)
+                    (add-to-list 'helm-completing-read-handlers-alist element)))
+        (quote ((org-capture . helm-org-completing-read-tags)
+                (org-set-tags . helm-org-completing-read-tags)))))
+
 (use-package helm-ring
   :bind ((:map global-map ("M-y" . helm-show-kill-ring))))
 
