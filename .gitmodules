@@ -230,7 +230,6 @@
 	url = git@github.com:wasamasa/nov.el.git
 [submodule "org"]
 	path = lib/org
-	branch = maint
 	url = git@code.orgmode.org:bzg/org-mode.git
 	load-path = lisp
 	load-path = contrib/lisp
