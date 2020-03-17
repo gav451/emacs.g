@@ -1143,10 +1143,10 @@ Use this to unregister from the D-BUS.")
           (goto-address-mode -1)
         (goto-address-mode 1))))
   :bind ((:map goto-address-highlight-keymap
-               ("<RET>" . goto-address-at-point)
-               ("M-<RET>" . new-line)))
+               ("C-c C-o" . goto-address-at-point)))
   :hook
-  ((eshell-mode
+  ((compilation-mode
+    eshell-mode
     shell-mode) . goto-address-mode)
   ((prog-mode) . goto-address-prog-mode))
 
