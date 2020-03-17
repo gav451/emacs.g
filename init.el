@@ -1725,19 +1725,6 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode)))
 
-(use-package monky
-  ;; Try chg, since using `cmdserver' as `monky-process-type' fails
-  ;; with mercurial-5.0.2 and emacs-27.0.9999.
-  :custom
-  (monky-hg-executable (or (executable-find "chg")
-                           (executable-find "hg")))
-  (monky-repository-paths
-   `(("dotfiles" . ,(expand-file-name "~/VCS/dotfiles"))
-     ("fudge" . ,(expand-file-name "~/VCS/fudge"))
-     ("gav-gentoo" . ,(expand-file-name "~/VCS/gav-gentoo"))
-     ("gav-overlay" . ,(expand-file-name "~/VCS/gav-overlay"))
-     ("ngccdr" . ,(expand-file-name "~/VCS/ngccdr")))))
-
 (use-package minibuffer
   :custom
   (completion-styles (quote (flex))))
