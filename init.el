@@ -2340,6 +2340,11 @@ even if buffer is already narrowed."
   (uniquify-buffer-name-style 'forward)
   :defer 2)
 
+(use-package vc-hg
+  :custom
+  (vc-hg-program (or (executable-find "chg")
+                     (executable-find "hg"))))
+
 (use-package wdired
   :custom
   (wdired-allow-to-change-permissions t))
