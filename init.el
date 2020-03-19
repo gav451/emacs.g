@@ -254,7 +254,6 @@ Must be set before loading use-package.")
      ("." . eww-browse-url)))
   (browse-url-generic-program (or (when (eq system-type 'darwin)
                                     "open")
-                                  (executable-find "midori")
                                   (executable-find "firefox")))
   :commands (browse-url
              browse-url-generic))
