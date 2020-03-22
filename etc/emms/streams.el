@@ -10,6 +10,7 @@
 ;; https://www.hendrikjansen.nl/henk/streaming.html
 ;; https://mediamagazine.nl/live-links-nederland/livestreams-nederland-landelijk/
 ;; https://doc.ubuntu-fr.org/liste_radio_france
+;; https://www.classicfm.fr/
 
 (
  ;; My dutch streams:
@@ -28,6 +29,8 @@
  (*track* (type . url) (name . "http://icecast.radiofrance.fr/francemusique-midfi.mp3") (metadata "Radio France Musique" "http://icecast.radiofrance.fr/francemusique-midfi.mp3" 1 url))
  ;; My french stream lists:
  (*track* (type . streamlist) (name . "http://ecoutez.radio-libertaire.org:8080/radiolib.m3u") (metadata "Radio Libertaire" "http://ecoutez.radio-libertaire.org:8080/radiolib.m3u" 1 streamlist))
+ ;; My swiss urls:
+ (*track* (type . url) (name . "https://classicfm.ice.infomaniak.ch/classic-fm.mp3") (metadata "Radio Classic FM" "https://classicfm.ice.infomaniak.ch/classic-fm.mp3" 1 url))
  ;; EMMS streams:
  ;; (*track* (type . streamlist) (name . "http://www.somafm.com/beatblender.pls") (metadata "SomaFM: Beatblender" "http://www.somafm.com/beatblender.pls" 1 streamlist))
  ;; (*track* (type . streamlist) (name . "http://www.somafm.com/secretagent.pls") (metadata "SomaFM: Secret Agent" "http://www.somafm.com/secretagent.pls" 1 streamlist))
