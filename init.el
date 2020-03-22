@@ -1476,34 +1476,44 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   :config
   (hydra-add-font-lock))
 
-(use-package ibuffer
-  ;; http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html
-  :unless noninteractive
+(use-package ibuf-ext
+  :after ibuffer
   :custom
-  (ibuffer-expert nil)
   (ibuffer-saved-filter-groups
    '(("Emacs"
-      ("Code" (mode . emacs-lisp-mode))
+      ("Elisp" (mode . emacs-lisp-mode))
       ("Doc" (or (mode . Info-mode)
                  (mode . help-mode)
                  (mode . helpful-mode)))
       ("Eshell" (mode . eshell-mode))
       ("Magit" (derived-mode . magit-mode))
-      ("Occur" (mode . occur-mode))
+      ("VC" (or (mode . vc-annotate-mode)
+                (mode . vc-dir-mode)))
+      ("Dired" (mode . dired-mode))
+      ("Helm" (mode . helm-major-mode))
+      ("Code" (or (mode . python-mode)
+                  (mode . shell-mode)))
       ("EMMS" (or (mode . emms-lyrics-mode)
                   (mode . emms-mark-mode)
                   (mode . emms-playlist-mode)))
-      ("EXWM" (mode . exwm-mode)))
+      ("EXWM" (mode . exwm-mode))
+      ("Setup" (derived-mode . conf-mode)))
      ("Python"
-      ("Code" (mode . python-mode))
+      ("Python" (mode . python-mode))
       ("Doc" (mode . Info-mode))
       ("Eshell" (mode . eshell-mode))
       ("Magit" (derived-mode . magit-mode))
-      ("Occur" (mode . occur-mode))
+      ("VC" (or (mode . vc-annotate-mode)
+                (mode . vc-dir-mode)))
+      ("Dired" (mode . dired-mode))
+      ("Helm" (mode . helm-major-mode))
+      ("Code" (or (mode . emacs-lisp-mode)
+                  (mode . shell-mode)))
       ("EMMS" (or (mode . emms-lyrics-mode)
                   (mode . emms-mark-mode)
                   (mode . emms-playlist-mode)))
-      ("EXWM" (mode . exwm-mode)))
+      ("EXWM" (mode . exwm-mode))
+      ("Setup" (derived-mode . conf-mode)))
      ("Text"
       ("Org" (mode . org-mode))
       ("TeX" (or (derived-mode . tex-mode)
@@ -1512,15 +1522,31 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
       ("Doc" (mode . Info-mode))
       ("Eshell" (mode . eshell-mode))
       ("Magit" (derived-mode . magit-mode))
-      ("Occur" (mode . occur-mode))
+      ("VC" (or (mode . vc-annotate-mode)
+                (mode . vc-dir-mode)))
+      ("Dired" (mode . dired-mode))
+      ("Helm" (mode . helm-major-mode))
       ("Code" (or (mode . emacs-lisp-mode)
                   (mode . python-mode)
                   (mode . shell-mode)))
       ("EMMS" (or (mode . emms-lyrics-mode)
                   (mode . emms-mark-mode)
                   (mode . emms-playlist-mode)))
-      ("EXWM" (mode . exwm-mode)))))
+      ("EXWM" (mode . exwm-mode))1
+      ("Setup" (derived-mode . conf-mode)))))
+  :hook
+  ((ibuffer-mode) . (lambda ()
+                      (ibuffer-switch-to-saved-filter-groups
+                       (caar ibuffer-saved-filter-groups))))
+  :commands (ibuffer-switch-to-saved-filter-groups))
+
+(use-package ibuffer
+  ;; http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html
+  :unless noninteractive
+  :custom
+  (ibuffer-expert nil)
   (ibuffer-save-with-custom nil)
+  (ibuffer-show-empty-filter-groups nil)
   :bind ((:map global-map
                ("C-x C-b" . ibuffer)))
   :hook
