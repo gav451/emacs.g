@@ -2207,9 +2207,17 @@ Enable it and reexecute it."
              sly-eval))
 
 (use-package smartparens
+  ;; https://ebzzry.io/en/emacs-pairs/
   ;; https://github.com/Fuco1/.emacs.d/blob/master/files/smartparens.el
   ;; https://github.com/ebzzry/dotfiles/blob/master/emacs/fkd/klavoj.el
+  ;; http://xenodium.com/emacs-smartparens-auto-indent/index.html
   :unless noninteractive
+  :preface
+  (defun indent-between-pair (&rest _ignored)
+    (newline)
+    (indent-according-to-mode)
+    (forward-line -1)
+    (indent-according-to-mode))
   :bind ((:map smartparens-mode-map
                ;; I have copied sp-smartparens-bindings.
                ("C-M-f" . sp-forward-sexp)
@@ -2239,15 +2247,19 @@ Enable it and reexecute it."
                ("C-M-SPC" . sp-mark-sexp)
                ("M-F" . sp-forward-symbol)
                ("M-B" . sp-backward-symbol)))
-  :commands (show-smartparens-global-mode)
   :hook
   ((ielm-mode
     prog-mode
     text-mode) . smartparens-mode)
   ((ielm-mode
     prog-mode) . smartparens-strict-mode)
+  :commands (show-smartparens-global-mode
+             sp-local-pair)
   :config
   (show-smartparens-global-mode +1)
+  (sp-local-pair 'prog-mode "(" nil :post-handlers '((indent-between-pair "RET")))
+  (sp-local-pair 'prog-mode "[" nil :post-handlers '((indent-between-pair "RET")))
+  (sp-local-pair 'prog-mode "{" nil :post-handlers '((indent-between-pair "RET")))
   :delight (smartparens-mode (" 🗘" (:eval (if smartparens-strict-mode "/s" "")))))
 
 (use-package smartparens-config
