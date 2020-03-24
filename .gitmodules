@@ -203,6 +203,9 @@
 	path = lib/libgit
 	url = git@github.com:magit/libegit2.git
 	build-step = make
+[submodule "log4e"]
+	path = lib/log4e
+	url = git@github.com:aki2o/log4e.git
 [submodule "loop"]
 	path = lib/loop
 	url = git@github.com:Wilfred/loop.el.git
