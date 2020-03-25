@@ -1532,7 +1532,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
       ("EMMS" (or (mode . emms-lyrics-mode)
                   (mode . emms-mark-mode)
                   (mode . emms-playlist-mode)))
-      ("EXWM" (mode . exwm-mode))1
+      ("EXWM" (mode . exwm-mode))
       ("Setup" (derived-mode . conf-mode)))))
   :hook
   ((ibuffer-mode) . (lambda ()
