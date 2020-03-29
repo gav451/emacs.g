@@ -40,6 +40,9 @@
 [submodule "company"]
 	path = lib/company
 	url = git@github.com:company-mode/company-mode.git
+[submodule "company-org-roam"]
+	path = lib/company-org-roam
+	url = git@github.com:jethrokuan/company-org-roam.git
 [submodule "cython-mode"]
 	path = lib/cython-mode
 	url = git@github.com:emacsmirror/cython-mode.git
