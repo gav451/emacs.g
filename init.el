@@ -535,10 +535,6 @@ nil if not inside any parens."
     (elfeed-db-load)
     (elfeed-search-update :force)
     (elfeed-update))
-  (defun elfeed-db-save+quit ()
-    (interactive)
-    (elfeed-db-save)
-    (quit-window))
   :custom
   (elfeed-db-directory "~/SYNC/elfeed/db")
   (elfeed-feeds
@@ -557,27 +553,40 @@ nil if not inside any parens."
      ;; https://www.emacswiki.org/emacs/PlanetEmacsen
      ("https://planet.emacslife.com/atom.xml" emacsen)
      ("https://realpython.com/atom.xml" python)
+     ("https://sciencescitoyennes.org/feed/" science)
      ("https://vxlabs.com/index.xml" vxlabs)
      ("https://www.aclu.org/taxonomy/feed-term/2152/feed" aclu)
      ("https://www.bof.nl/rss/" bof)
      ("https://www.democracynow.org/podcast-video.xml" dn)
-     ("https://www.laquadrature.net/fr/rss.xml" lqdn)))
+     ("https://www.laquadrature.net/fr/rss.xml" lqdn)
+     ("https://www.lemonde.fr/blog/huet/feed/" science)))
   (elfeed-enclosure-default-dir (expand-file-name "~/tmpfs/"))
   :bind* (("C-x w" . elfeed+db-load+update))
-  :bind ((:map elfeed-search-mode-map
-               ("?" . describe-mode)
-               ("q" . elfeed-db-save+quit))
-         (:map elfeed-show-mode-map
-               ("?" . describe-mode)))
   :commands (elfeed
-             elfeed-db-load
-             elfeed-db-save
-             elfeed-search-set-filter
-             elfeed-search-toggle-all
-             elfeed-search-update
              elfeed-update)
   :config
   (make-directory elfeed-db-directory t))
+
+(use-package elfeed-db
+  :commands (elfeed-db-load
+             elfeed-db-save))
+
+(use-package elfeed-search
+  :preface
+  (defun elfeed-db-save+quit ()
+    (interactive)
+    (elfeed-db-save)
+    (quit-window))
+  :bind ((:map elfeed-search-mode-map
+               ("?" . describe-mode)
+               ("q" . elfeed-db-save+quit)))
+  :commands (elfeed-search-set-filter
+             elfeed-search-toggle-all
+             elfeed-search-update))
+
+(use-package elfeed-show
+  :bind ((:map elfeed-show-mode-map
+               ("?" . describe-mode))))
 
 (use-package elisp-demos
   :commands (elisp-demos-advice-helpful-update)
@@ -1346,7 +1355,7 @@ Use this to unregister from the D-BUS.")
        ("S" (elfeed-search-set-filter "@12-months-ago +*") "Starred")
        ("U" (elfeed-search-set-filter "@12-months-ago +unread") "Unread")
        ("ab" (elfeed-search-set-filter "@48-months-ago +howard") "abrams"
-        :column "a-c")
+        :column "a-d")
        ("ac" (elfeed-search-set-filter "@12-months-ago +aclu") "aclu")
        ("b" (elfeed-search-set-filter "@12-months-ago +bof") "bof" )
        ("c" (elfeed-search-set-filter "@48-months-ago +chua") "chua")
@@ -1362,9 +1371,10 @@ Use this to unregister from the D-BUS.")
        ("m" (elfeed-search-set-filter "@48-months-ago +maugham") "maugham")
        ("n" (elfeed-search-set-filter "@48-months-ago +neirhardt") "neirhardt")
        ("p" (elfeed-search-set-filter "@12-months-ago +python") "python")
-       ("s" (elfeed-search-set-filter "@48-months-ago +schneidermann") "schneidermann")
-       ("v" (elfeed-search-set-filter "@48-months-ago +vxlabs") "vxlabs"
+       ("s" (elfeed-search-set-filter "@48months-ago +science") "science")
+       ("vs" (elfeed-search-set-filter "@48-months-ago +schneidermann") "schneidermann"
         :column "v-w")
+       ("vx" (elfeed-search-set-filter "@48-months-ago +vxlabs") "vxlabs")
        ("w" (elfeed-search-set-filter "@48-months-ago +wellons") "wellons")
        ("*" (elfeed-search-toggle-all '*) "toggle *"
         :column "Other")
