@@ -2065,6 +2065,9 @@ Enable it and reexecute it."
 
 (use-package psession
   :unless noninteractive
+  :custom (psession-save-buffers-unwanted-buffers-regexp
+           (rx (or (seq "diary" eol)
+                   (seq ".newsticker-cache" eol))))
   :commands (psession-mode
              psession-savehist-mode)
   :demand t
