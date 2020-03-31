@@ -1829,7 +1829,7 @@ Enable it and reexecute it."
                        (unless (file-exists-p path) path)))))))
           (if paths
               (message "Found broken org-mode file links:\n%s"
-                       (mapconcat #'identity paths "\n"))
+                       (mapconcat (function identity) paths "\n"))
             (message "Found no broken org-mode file links")))
       (message "Failed to find broken links (major mode is not org-mode)")))
 
@@ -1861,7 +1861,7 @@ Enable it and reexecute it."
                                     (python . t)
                                     (shell . t)
                                     (jupyter . t))))
-  (org-catch-invisible-edits 'show-and-error)
+  (org-catch-invisible-edits 'smart)
   (org-export-backends '(ascii beamer icalendar html md latex man odt org texinfo))
   (org-file-apps '((auto-mode . emacs)
                    ("\\.mm\\'" . default)
@@ -1869,6 +1869,7 @@ Enable it and reexecute it."
                                         (message "Open %s" link)
                                         (eww-open-file path)))
                    ("\\.pdf\\'" . emacs)))
+  (org-image-actual-width '(400))
   (org-latex-default-packages-alist
    '(("AUTO"                 "inputenc"     t ("pdflatex"))
      ("T1"                   "fontenc"      t ("pdflatex"))
@@ -2011,19 +2012,43 @@ Enable it and reexecute it."
   (org-export-with-smart-quotes t)
   (org-export-with-sub-superscripts '{}))
 
+(use-package ox-extra
+  :after ox
+  :commands (ox-extras-activate)
+  :demand t
+  :config
+  (ox-extras-activate '(ignore-headlines)))
+
 (use-package ox-latex
+  :after ox
   :custom
   (org-latex-caption-above nil)
-  (org-latex-compiler "lualatex")
+  (org-latex-compiler "pdflatex")
   (org-latex-hyperref-template nil)
   (org-latex-logfiles-extensions '("blg" "lof" "log" "lot" "out" "toc"))
   (org-latex-pdf-process
-   '("lualatex -interaction nonstopmode -output-directory %o %f"
-     "bibtex %b.aux"
-     "lualatex -interaction nonstopmode -output-directory %o %f"
-     "lualatex -interaction nonstopmode -output-directory %o %f"))
+   (mapconcat
+    (function identity)
+    (list "latexmk"
+          "-pdflatex='pdflatex -shell-escape -interaction nonstopmode'"
+          "-pdf -bibtex -f %f")
+    " "))
   ;; Requires CUSTOM_ID property to suppress LaTeX section labels.
-  (org-latex-prefer-user-labels t))
+  (org-latex-prefer-user-labels t)
+  :demand t
+  :config
+  ;; Elsarticle is Elsevier class for publications.
+  (add-to-list 'org-latex-classes
+               '("elsarticle"
+                 "\\documentclass{elsarticle}
+ [NO-DEFAULT-PACKAGES]
+ [PACKAGES]
+ [EXTRA]"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
 (use-package pdf-tools
   :custom
