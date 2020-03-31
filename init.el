@@ -19,7 +19,7 @@
     (setq gc-cons-threshold (* 16 4096 4096))
     (let ((enough (if (getenv "EXWM") 15 5)))
       (add-hook 'after-init-hook
-                (lambda ()
+                (defun on-after-init-hook-delay-reset ()
                   (run-with-idle-timer
                    enough nil
                    (lambda ()
@@ -511,13 +511,14 @@ nil if not inside any parens."
                    (looking-back "\\blambda\\b.*" (point))))
           'after
         nil)))
-  (defun on-python-mode-hook-electric-layout ()
-    (make-local-variable 'electric-layout-rules)
-    (add-to-list 'electric-layout-rules (cons ?: #'my-python-electric-newline))
-    (electric-layout-mode))
   :commands (electric-layout-mode)
-  :hook
-  ((python-mode) . on-python-mode-hook-electric-layout))
+  :config
+  (add-hook 'python-mode-hook
+            (defun on-python-mode-hook-electric-layout ()
+              (make-local-variable 'electric-layout-rules)
+              (add-to-list 'electric-layout-rules
+                           (cons ?: #'my-python-electric-newline))
+              (electric-layout-mode))))
 
 (use-package electric-operator
   :hook
@@ -765,17 +766,6 @@ point."
     "List of urls to show using `eww-readable'."
     :type '(repeat string)
     :group 'eww)
-  (defun on-eww-readable ()
-    (let ((url (eww-current-url)))
-      (when (catch 'found
-              (mapc (lambda (site)
-                      (when (string-match (regexp-quote site) url)
-                        (throw 'found site)))
-                    eww-readable-sites)
-              nil)
-        (eww-readable))))
-  (defun on-eww-rename-buffer ()
-    (rename-buffer "eww" t))
   (defun reddit-browser ()
     (interactive)
     (eww-browse-url (format "https://www.reddit.com/r/%s/.mobile"
@@ -787,13 +777,25 @@ point."
   :defines
   eww-link-keymap
   eww-mode-map
-  :hook
-  ((eww-mode . on-eww-rename-buffer)
-   (eww-after-render . on-eww-readable))
   :commands (eww-browse-url
              eww-current-url
-             eww-open-filed
-             eww-readable))
+             eww-open-file
+             eww-readable)
+  :config
+  (add-hook 'eww-mode-hook
+            (defun on-eww-mode-hook-rename-buffer ()
+              (rename-buffer "eww" t)))
+  (add-hook 'eww-after-render-hook
+            (defun on-eww-after-render-hook-make-readable ()
+              (let ((url (eww-current-url)))
+                (when (catch 'found
+                        (mapc
+                         (lambda (site)
+                           (when (string-match (regexp-quote site) url)
+                             (throw 'found site)))
+                         eww-readable-sites)
+                        nil)
+                  (eww-readable))))))
 
 (use-package exec-path-from-shell
   :if (and (eq system-type 'darwin) (display-graphic-p))
@@ -2200,22 +2202,22 @@ Enable it and reexecute it."
     "Overwrite mode background color."
     :type 'string
     :group 'display)
-
-  (defun on-overwrite-mode-toggle ()
-    "Toggle background-color on overwrite-mode toggle."
-    (if (bound-and-true-p overwrite-mode)
-        (buffer-face-set `(:background ,overwrite-mode-background-color))
-      (buffer-face-mode -1)))
   :custom
   (eval-expression-print-length nil)
   (kill-do-not-save-duplicates t)
   :commands (column-number-mode
              region-active-p)
   :hook
-  ((text-mode) . turn-on-auto-fill)
-  ((overwrite-mode) . on-overwrite-mode-toggle)
+  ((text-mode) . visual-line-mode)
   :config
-  (column-number-mode))
+  (column-number-mode)
+  (add-hook 'overwrite-mode-hook
+            (defun on-overwrite-mode-toggle-background-color ()
+              "Toggle background-color on overwrite-mode toggle."
+              (if (bound-and-true-p overwrite-mode)
+                  (buffer-face-set
+                   `(:background ,overwrite-mode-background-color))
+                (buffer-face-mode -1)))))
 
 (use-package sly
   ;; https://github.com/LispCookbook/cl-cookbook
@@ -2442,7 +2444,7 @@ even if buffer is already narrowed."
            (float-time (time-subtract (current-time)
                                       before-user-init-time)))
   (add-hook 'after-init-hook
-            (lambda ()
+            (defun on-after-init-hook-finalize ()
               (fringe-mode '(nil . 0))  ; left-only
               (setq-default indicate-buffer-boundaries 'left)
               (message
