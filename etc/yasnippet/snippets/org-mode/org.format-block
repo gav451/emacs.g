@@ -1,9 +1,18 @@
 # name: format block
 # key: <f
 # --
-#+BEGIN_${1:$$(yas-auto-next
+#+begin_${1:$$(yas-auto-next
                 (yas-completing-read
                  "Format: "
-                 '("CENTER" "COMMENT" "HINT" "EXAMPLE" "JUSTIFYLEFT" "JUSTIFYRIGHT" "QUOTE" "VERSE")))}
+                 (list "abstract"
+                       "center"
+                       "comment"
+                       "hint"
+                       "example"
+                       "justifyleft"
+                       "justifyright"
+                       "keyword"
+                       "quote"
+                       "verse")))}
 $0
-#+END_$1
+#+end_$1
