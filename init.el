@@ -2397,6 +2397,22 @@ even if buffer is already narrowed."
   (vc-hg-program (or (executable-find "chg")
                      (executable-find "hg"))))
 
+(use-package view
+  ;; https://gist.github.com/ivan-krukov/63a586f2121519ca51b201c634402a84
+  ;; https://www.reddit.com/r/emacs/comments/fojc1y/using_viewmode_for_modal_navigation/
+  ;; https://www.youtube.com/watch?v=kZARKLxTeYQ
+  :bind ((:map global-map
+               ("M-g v" . view-mode))
+         (:map view-mode-map
+               ("n" . next-line)
+               ("p" . previous-line)))
+  :custom
+  (view-read-only nil "Since C-x C-q fails to toggle both modes.")
+  :config
+  (add-hook 'view-mode-hook
+            (defun on-view-mode-hook-change-cursor-type ()
+              (setq cursor-type (if view-mode '(hbar . 3) 'box)))))
+
 (use-package wdired
   :custom
   (wdired-allow-to-change-permissions t))
