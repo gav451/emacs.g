@@ -872,6 +872,21 @@ Use this to unregister from the D-BUS.")
           (no-ac-display-battery--start-listening)
         (no-ac-display-battery--stop-listening)))
 
+    (defcustom exwm-pointer-mode-name "PS/2 Synaptics TouchPad"
+      "Device name of the X11 pointer to toggle."
+      :type 'string
+      :group 'exwm)
+
+    (define-minor-mode exwm-pointer-mode
+      "Toggle X11 pointer."
+      :global t
+      :init-value t
+      (if exwm-pointer-mode
+          (shell-command-to-string
+           (format "xinput enable '%s'" exwm-pointer-mode-name))
+        (shell-command-to-string
+         (format "xinput disable '%s'" exwm-pointer-mode-name))))
+
     (defcustom my-exwm-teardown-hook nil
       "Hook to power-DOWN or re-BOOT the computer cleanly."
       :type 'hook
@@ -964,7 +979,7 @@ Use this to unregister from the D-BUS.")
        ([?\s-b] . switch-to-buffer)
        ([?\s-i] . my-exwm-invoke)
        ([?\s-l] . my-exwm-lock-screen)
-       ([?\s-o] . switch-to-buffer)
+       ([?\s-o] . other-window)
        ([?\s-r] . exwm-reset)
        ([?\s-t] . exwm-input-toggle-keyboard)
        ([?\s-w] . exwm-workspace-switch)
