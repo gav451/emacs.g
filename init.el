@@ -821,10 +821,23 @@ point."
     ;; https://github.com/technomancy/dotfiles/blob/master/.emacs.d/phil/wm.el
     ;; https://gitlab.com/ambrevar/dotfiles/tree/master/.emacs.d
     :preface
-    (defcustom exwm-tear-down-background-color "DarkRed"
-      "EXWM tear down background color."
+    (defcustom exwm-pointer-mode-name "PS/2 Synaptics TouchPad"
+      "Device name of the X11 pointer to toggle."
       :type 'string
-      :group 'display)
+      :group 'exwm
+      :options '("PS/2 Synaptics TouchPad"
+                 "Logitech USB Mouse"
+                 "Logitech USB Optical Mouse"))
+
+    (define-minor-mode exwm-pointer-mode
+      "Toggle X11 pointer."
+      :global t
+      :init-value t
+      (if exwm-pointer-mode
+          (shell-command-to-string
+           (format "xinput enable '%s'" exwm-pointer-mode-name))
+        (shell-command-to-string
+         (format "xinput disable '%s'" exwm-pointer-mode-name))))
 
     (require 'dbus)
 
@@ -872,20 +885,10 @@ Use this to unregister from the D-BUS.")
           (no-ac-display-battery--start-listening)
         (no-ac-display-battery--stop-listening)))
 
-    (defcustom exwm-pointer-mode-name "PS/2 Synaptics TouchPad"
-      "Device name of the X11 pointer to toggle."
+    (defcustom exwm-tear-down-background-color "DarkRed"
+      "EXWM tear down background color."
       :type 'string
-      :group 'exwm)
-
-    (define-minor-mode exwm-pointer-mode
-      "Toggle X11 pointer."
-      :global t
-      :init-value t
-      (if exwm-pointer-mode
-          (shell-command-to-string
-           (format "xinput enable '%s'" exwm-pointer-mode-name))
-        (shell-command-to-string
-         (format "xinput disable '%s'" exwm-pointer-mode-name))))
+      :group 'display)
 
     (defcustom my-exwm-teardown-hook nil
       "Hook to power-DOWN or re-BOOT the computer cleanly."
@@ -958,9 +961,10 @@ Use this to unregister from the D-BUS.")
     :init
     (exwm-enable)
     :config
+    (exwm-pointer-mode -1)
     (no-ac-display-battery-mode 1)
     (display-time-mode 1)
-    (menu-bar-mode 0))
+    (menu-bar-mode -1))
 
   (use-package exwm-floating
     :custom
