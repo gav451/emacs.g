@@ -821,11 +821,13 @@ point."
     ;; https://github.com/technomancy/dotfiles/blob/master/.emacs.d/phil/wm.el
     ;; https://gitlab.com/ambrevar/dotfiles/tree/master/.emacs.d
     :preface
-    (defcustom exwm-pointer-mode-name "PS/2 Synaptics TouchPad"
+
+    ;; Mouse or touch-pad stuff
+    (defcustom exwm-pointer-mode-name "SynPS/2 Synaptics TouchPad"
       "Device name of the X11 pointer to toggle."
       :type 'string
       :group 'exwm
-      :options '("PS/2 Synaptics TouchPad"
+      :options '("SynPS/2 Synaptics TouchPad"
                  "Logitech USB Mouse"
                  "Logitech USB Optical Mouse"))
 
@@ -839,6 +841,7 @@ point."
         (shell-command-to-string
          (format "xinput disable '%s'" exwm-pointer-mode-name))))
 
+    ;; Battery stuff
     (require 'dbus)
 
     (defvar no-ac-display-battery--dbus-object nil
@@ -885,6 +888,7 @@ Use this to unregister from the D-BUS.")
           (no-ac-display-battery--start-listening)
         (no-ac-display-battery--stop-listening)))
 
+    ;; Reboot or shutdown
     (defcustom exwm-tear-down-background-color "DarkRed"
       "EXWM tear down background color."
       :type 'string
@@ -894,18 +898,6 @@ Use this to unregister from the D-BUS.")
       "Hook to power-DOWN or re-BOOT the computer cleanly."
       :type 'hook
       :group 'exwm)
-
-    (defun my-exwm-alsamixer ()
-      (interactive)
-      (start-process-shell-command "alsamixer" nil "xterm -e alsamixer"))
-
-    (defun my-exwm-invoke (command)
-      (interactive (list (read-shell-command "$ ")))
-      (start-process-shell-command command nil command))
-
-    (defun my-exwm-lock-screen ()
-      (interactive)
-      (shell-command-to-string "i3lock -c 000000"))
 
     (defun my-exwm-teardown ()
       "This saves all buffers and runs `kill-emacs-hook' without killing exwm or Emacs."
@@ -933,6 +925,19 @@ Use this to unregister from the D-BUS.")
         (my-exwm-teardown)
         (start-process-shell-command "re-BOOT" nil "sudo shutdown -r -t 2 now"))
       (buffer-face-mode -1))
+
+    ;; User interface
+    (defun my-exwm-alsamixer ()
+      (interactive)
+      (start-process-shell-command "alsamixer" nil "xterm -e alsamixer"))
+
+    (defun my-exwm-invoke (command)
+      (interactive (list (read-shell-command "$ ")))
+      (start-process-shell-command command nil command))
+
+    (defun my-exwm-lock-screen ()
+      (interactive)
+      (shell-command-to-string "i3lock -c 000000"))
 
     (defun no-exwm-window-in-frame-p ()
       "Check for no EXWM window in the selected frame."
