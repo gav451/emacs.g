@@ -125,6 +125,10 @@ Must be set before loading use-package.")
      ("doi" "Digital Object Identifier")
      ("url" "Universal Ressource Locator"))))
 
+(use-package font-latex
+  :custom
+  (font-latex-fontify-sectioning 'color))
+
 (use-package latex
   :mode ((rx (seq ".tex" eos)) . TeX-latex-mode)
   :custom
