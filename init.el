@@ -2474,6 +2474,13 @@ even if buffer is already narrowed."
   :commands (which-key-mode)
   :delight (which-key-mode))
 
+(use-package winner
+  :bind ((:map winner-mode-map
+               ("s-<right>" . winner-redo)
+               ("s-<left>" . winner-undo)))
+  :custom
+  (winner-dont-bind-my-keys t))
+
 (use-package with-editor
   :hook
   ((eshell-mode
