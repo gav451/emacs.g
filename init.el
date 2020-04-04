@@ -827,13 +827,16 @@ point."
     :preface
 
     ;; Mouse or touch-pad stuff
-    (defcustom exwm-pointer-mode-name "SynPS/2 Synaptics TouchPad"
+    ;; An idea is to initialize `exwm-pointer-mode-name' using
+    ;; (shell-command-to-string "xinput list --name-only")
+    (defcustom exwm-pointer-mode-name "PS/2 Synaptics TouchPad"
       "Device name of the X11 pointer to toggle."
-      :type 'string
-      :group 'exwm
-      :options '("SynPS/2 Synaptics TouchPad"
-                 "Logitech USB Mouse"
-                 "Logitech USB Optical Mouse"))
+      :type '(choice
+              (const "Logitech USB Mouse")
+              (const "Logitech USB Optical Mouse")
+              (const "PS/2 Synaptics TouchPad")
+              (const "SynPS/2 Synaptics TouchPad"))
+      :group 'exwm)
 
     (define-minor-mode exwm-pointer-mode
       "Toggle X11 pointer."
@@ -898,48 +901,48 @@ Use this to unregister from the D-BUS.")
       :type 'string
       :group 'display)
 
-    (defcustom my-exwm-teardown-hook nil
+    (defcustom exwm-tear-down-hook nil
       "Hook to power-DOWN or re-BOOT the computer cleanly."
       :type 'hook
       :group 'exwm)
 
-    (defun my-exwm-teardown ()
-      "This saves all buffers and runs `kill-emacs-hook' without killing exwm or Emacs."
+    (defun exwm-tear-down ()
+      "Save all buffers and run `kill-emacs-hook' without killing exwm or Emacs."
       (save-some-buffers t)
       ;; `run-hooks' does not work with let binding.
-      (setq my-exwm-teardown-hook (thread-last kill-emacs-hook
-                                    (remove 'exwm--server-stop)
-                                    (remove 'server-force-stop)))
-      (run-hooks 'my-exwm-teardown-hook))
+      (setq exwm-tear-down-hook (thread-last kill-emacs-hook
+                                 (remove 'exwm--server-stop)
+                                 (remove 'server-force-stop)))
+      (run-hooks 'exwm-tear-down-hook))
 
-    (defun my-exwm-power-down ()
+    (defun exwm-power-down ()
       "Save all Emacs buffers and power-DOWN the computer."
       (interactive)
       (buffer-face-set `(:background ,exwm-tear-down-background-color))
       (when (y-or-n-p "Really want to power-DOWN? ")
-        (my-exwm-teardown)
+        (exwm-tear-down)
         (start-process-shell-command "power-DOWN" nil "sudo shutdown -h -t 2 now"))
       (buffer-face-mode -1))
 
-    (defun my-exwm-re-boot ()
+    (defun exwm-re-boot ()
       "Save all Emacs buffers and re-BOOT the computer."
       (interactive)
       (buffer-face-set `(:background ,exwm-tear-down-background-color))
       (when (y-or-n-p "Really want to re-BOOT? ")
-        (my-exwm-teardown)
+        (exwm-tear-down)
         (start-process-shell-command "re-BOOT" nil "sudo shutdown -r -t 2 now"))
       (buffer-face-mode -1))
 
     ;; User interface
-    (defun my-exwm-alsamixer ()
+    (defun exwm-alsamixer ()
       (interactive)
       (start-process-shell-command "alsamixer" nil "xterm -e alsamixer"))
 
-    (defun my-exwm-invoke (command)
+    (defun exwm-invoke (command)
       (interactive (list (read-shell-command "$ ")))
       (start-process-shell-command command nil command))
 
-    (defun my-exwm-lock-screen ()
+    (defun exwm-lock-screen ()
       (interactive)
       (shell-command-to-string "i3lock -c 000000"))
 
@@ -985,14 +988,18 @@ Use this to unregister from the D-BUS.")
     ;; Bind `s-' prefix exwm specific keys when exwm gets enabled,
     ;; since those key-bindings may conflict with other window managers.
     (exwm-input-global-keys
-     `(([?\s-&] . my-exwm-invoke)
-       ([?\s-B] . my-exwm-re-boot)
-       ([?\s-D] . my-exwm-power-down)
-       ([?\s-a] . my-exwm-alsamixer)
-       ([?\s-b] . switch-to-buffer)
-       ([?\s-i] . my-exwm-invoke)
-       ([?\s-l] . my-exwm-lock-screen)
+     `(([?\s-&] . exwm-invoke)
+       ([?\s-B] . exwm-re-boot)
+       ([?\s-D] . exwm-power-down)
+       ([?\s-a] . exwm-alsamixer)
+       ([?\s-b] . exwm-workspace-switch-to-buffer)
+       ([?\s-i] . exwm-invoke)
+       ([?\s-l] . exwm-lock-screen)
+       ([?\s-m] . exwm-pointer-mode)
+       ([?\s-n] . next-window-any-frame)
        ([?\s-o] . other-window)
+       ([?\s-p] . previous-window-any-frame)
+       ([?\s-q] . window-toggle-side-windows)
        ([?\s-r] . exwm-reset)
        ([?\s-t] . exwm-input-toggle-keyboard)
        ([?\s-w] . exwm-workspace-switch)
