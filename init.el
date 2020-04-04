@@ -2264,7 +2264,8 @@ Enable it and reexecute it."
   :commands (column-number-mode
              region-active-p)
   :hook
-  ((text-mode) . visual-line-mode)
+  ((help-mode
+    text-mode) . visual-line-mode)
   :config
   (column-number-mode)
   (add-hook 'overwrite-mode-hook
@@ -2473,6 +2474,26 @@ even if buffer is already narrowed."
 (use-package which-key
   :commands (which-key-mode)
   :delight (which-key-mode))
+
+(use-package window
+  :custom
+  (display-buffer-alist
+   (backquote
+    ((,(rx "*Help" (zero-or-more nonl) "*" )
+      (display-buffer-in-side-window)
+      (window-width . 0.30)
+      (side . left)
+      (slot . -1))
+     (,(rx (seq "*eshell" (zero-or-more nonl) "*"))
+      (display-buffer-in-side-window)
+      (window-height . 0.30)
+      (side . left)
+      (slot . 0))
+     (,(rx "*Faces*")
+      (display-buffer-in-side-window)
+      (window-width . 0.30)
+      (side . left)
+      (slot . +1))))))
 
 (use-package winner
   :bind ((:map winner-mode-map
