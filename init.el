@@ -692,9 +692,7 @@ point."
   ;; Bug: use of `rx' instead of `emms-player-simple-regexp'
   ;; implies that `case-fold-search' must be non-nil.
   (emms-player-set emms-player-mpd 'regex
-                   (rx (or "-bb-mp3"
-                           (and "." (or "flac" "m3u" "mp3" "ogg" "opus" "pls" "soundcloud")))
-                       eos)))
+                   (rx "." (or "flac" "m3u" "mp3" "ogg" "opus" "pls" "soundcloud") eos)))
 
 (use-package emms-playing-time
   :custom
