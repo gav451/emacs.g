@@ -543,7 +543,8 @@ nil if not inside any parens."
   :custom
   (elfeed-db-directory "~/SYNC/elfeed/db")
   (elfeed-feeds
-   '(("http://emacshorrors.com/feed.atom" schneidermann)
+   '(("http://www.cachestocaches.com/feed" g-stein)
+     ("http://emacshorrors.com/feed.atom" schneidermann)
      ("http://emacsninja.com/feed.atom" schneidermann)
      ("http://www.howardism.org/index.xml" howard)
      ("http://pragmaticemacs.com/feed/" maugham)
@@ -557,6 +558,7 @@ nil if not inside any parens."
      ("https://oremacs.com/atom.xml" krehel)
      ;; https://www.emacswiki.org/emacs/PlanetEmacsen
      ("https://planet.emacslife.com/atom.xml" emacsen)
+     ("https://protesilaos.com/codelog.xml" p-stavrou)
      ("https://realpython.com/atom.xml" python)
      ("https://sciencescitoyennes.org/feed/" science)
      ("https://vxlabs.com/index.xml" vxlabs)
@@ -591,7 +593,9 @@ nil if not inside any parens."
 
 (use-package elfeed-show
   :bind ((:map elfeed-show-mode-map
-               ("?" . describe-mode))))
+               ("?" . describe-mode)))
+  :hook (elfeed-show . (lambda ()
+                         (setq-local shr-max-image-proportion 0.6))))
 
 (use-package elisp-demos
   :commands (elisp-demos-advice-helpful-update)
@@ -1400,6 +1404,7 @@ Use this to unregister from the D-BUS.")
        ("ef" (elfeed-search-set-filter "@12-months-ago +eff") "eff"
         :column "e-k")
        ("em" (elfeed-search-set-filter "@12-months-ago +emacsen") "emacsen")
+       ("gs" (elfeed-search-set-filter "@48-months-ago +g-stein") "g-stein")
        ("i" (elfeed-search-set-filter "@12-months-ago +intercepted") "intercepted")
        ("ki" (elfeed-search-set-filter "@48-months-ago +kitchin") "kitchin")
        ("kr" (elfeed-search-set-filter "@48-months-ago +krehel") "krehel")
@@ -1407,7 +1412,8 @@ Use this to unregister from the D-BUS.")
         :column "l-s")
        ("m" (elfeed-search-set-filter "@48-months-ago +maugham") "maugham")
        ("n" (elfeed-search-set-filter "@48-months-ago +neirhardt") "neirhardt")
-       ("p" (elfeed-search-set-filter "@12-months-ago +python") "python")
+       ("py" (elfeed-search-set-filter "@12-months-ago +python") "python")
+       ("ps" (elfeed-search-set-filter "@48-months-ago +p-stavrou") "p-stavrou")
        ("s" (elfeed-search-set-filter "@48months-ago +science") "science")
        ("vs" (elfeed-search-set-filter "@48-months-ago +schneidermann") "schneidermann"
         :column "v-w")
