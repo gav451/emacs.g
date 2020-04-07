@@ -840,6 +840,10 @@ point."
               (const "SynPS/2 Synaptics TouchPad"))
       :group 'exwm)
 
+    (defvar exwm-pointer-mode--timer-object nil
+      "Timer object holding the result of calling `run-with-idle-timer'.
+Use this cancel the timer by calling `cancel-timer'.")
+
     (define-minor-mode exwm-pointer-mode
       "Toggle X11 pointer."
       :global t
@@ -849,6 +853,17 @@ point."
            (format "xinput enable '%s'" exwm-pointer-mode-name))
         (shell-command-to-string
          (format "xinput disable '%s'" exwm-pointer-mode-name))))
+
+    (defun exwm-pointer-mode-off-unless-exwm-mode ()
+      (unless (with-current-buffer (window-buffer (selected-window))
+                (eq major-mode 'exwm-mode))
+        (exwm-pointer-mode -1)))
+
+    ;; returns a timer object for use in cancel-timer
+    (setq exwm-pointer-mode--timer-object
+          (run-with-idle-timer
+           1.0 t
+           (function exwm-pointer-mode-off-unless-exwm-mode)))
 
     ;; Battery stuff
     (require 'dbus)
