@@ -28,6 +28,7 @@
  (*track* (type . url) (name . "http://icecast.radiofrance.fr/franceinter-midfi.mp3") (metadata "Radio France Inter" "http://icecast.radiofrance.fr/franceinter-midfi.mp3" 1 url))
  (*track* (type . url) (name . "http://icecast.radiofrance.fr/francemusique-midfi.mp3") (metadata "Radio France Musique" "http://icecast.radiofrance.fr/francemusique-midfi.mp3" 1 url))
  ;; My french stream lists:
+ (*track* (type . streamlist) (name . "http://live.francra.org:8000/radiocanut.m3u") (metadate "Radio Canut" "http://live.francra.org:8000/radiocanut.m3u" 1 streamlist))
  (*track* (type . streamlist) (name . "http://ecoutez.radio-libertaire.org:8080/radiolib.m3u") (metadata "Radio Libertaire" "http://ecoutez.radio-libertaire.org:8080/radiolib.m3u" 1 streamlist))
  ;; My swiss urls:
  (*track* (type . url) (name . "https://classicfm.ice.infomaniak.ch/classic-fm.mp3") (metadata "Radio Classic FM" "https://classicfm.ice.infomaniak.ch/classic-fm.mp3" 1 url))
