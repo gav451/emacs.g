@@ -913,8 +913,8 @@ Use this to unregister from the D-BUS.")
       (save-some-buffers t)
       ;; `run-hooks' does not work with let binding.
       (setq exwm-tear-down-hook (thread-last kill-emacs-hook
-                                 (remove 'exwm--server-stop)
-                                 (remove 'server-force-stop)))
+                                  (remove 'exwm--server-stop)
+                                  (remove 'server-force-stop)))
       (run-hooks 'exwm-tear-down-hook))
 
     (defun exwm-power-down ()
