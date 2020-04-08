@@ -2063,6 +2063,7 @@ Enable it and reexecute it."
 
 (use-package ox
   :custom
+  (org-export-allow-bind-keywords t)
   (org-export-with-smart-quotes t)
   (org-export-with-sub-superscripts '{}))
 
@@ -2091,18 +2092,56 @@ Enable it and reexecute it."
   (org-latex-prefer-user-labels t)
   :demand t
   :config
-  ;; Elsarticle is Elsevier class for publications.
-  (add-to-list 'org-latex-classes
-               '("elsarticle"
-                 "\\documentclass{elsarticle}
- [NO-DEFAULT-PACKAGES]
- [PACKAGES]
- [EXTRA]"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+  (mapc (function (lambda (element)
+                    (add-to-list 'org-latex-classes element)))
+        (nreverse
+         (quote (;; The postfixes +1, +2, +3, -1, -2, and -3 denote:
+                 ;; +1 => [DEFAULT-PACKAGES]
+                 ;; +2 => [PACKAGES]
+                 ;; +3 => [EXTRA]
+                 ;; -1 => [NO-DEFAULT-PACKAGES]
+                 ;; -2 => [NO-PACKAGES]
+                 ;; -3 => [NO-EXTRA]
+                 ("elsarticle-1+2+3"	; Elsevier journals
+                  "\\documentclass{elsarticle}
+[NO-DEFAULT-PACKAGES]
+[PACKAGES]
+[EXTRA]"
+                  ("\\section{%s}" . "\\section*{%s}")
+                  ("\\subsection{%s}" . "\\subsection*{%s}")
+                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+                 ("article-1+2+3"
+                  "\\documentclass{article}
+[NO-DEFAULT-PACKAGES]
+[PACKAGES]
+[EXTRA]"
+                  ("\\section{%s}" . "\\section*{%s}")
+                  ("\\subsection{%s}" . "\\subsection*{%s}")
+                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+                 ("report-1+2+3"
+                  "\\documentclass[11pt]{report}
+[NO-DEFAULT-PACKAGES]
+[PACKAGES]
+[EXTRA]"
+                  ("\\part{%s}" . "\\part*{%s}")
+                  ("\\chapter{%s}" . "\\chapter*{%s}")
+                  ("\\section{%s}" . "\\section*{%s}")
+                  ("\\subsection{%s}" . "\\subsection*{%s}")
+                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+                 ("book-1+2+3"
+                  "\\documentclass[11pt]{book}
+[NO-DEFAULT-PACKAGES]
+[PACKAGES]
+[EXTRA]"
+                  ("\\part{%s}" . "\\part*{%s}")
+                  ("\\chapter{%s}" . "\\chapter*{%s}")
+                  ("\\section{%s}" . "\\section*{%s}")
+                  ("\\subsection{%s}" . "\\subsection*{%s}")
+                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))))))
 
 (use-package pdf-tools
   :custom
