@@ -1238,7 +1238,7 @@ Use this to unregister from the D-BUS.")
   ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
   :mode (((rx (seq ".cabal" eos)) . haskell-cabal-mode)
          ((rx (seq ".hs" (opt (or "-boot" "c")) eos)) . haskell-mode)
-         ((rx (seq ".lhs" eos)) . literate-haskell-mode))
+         ((rx (seq ".lhs" eos)) . haskell-literate-mode))
   :delight (haskell-mode "🍛 " :major))
 
 (use-package helm
