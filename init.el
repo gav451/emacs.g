@@ -829,41 +829,116 @@ point."
     :preface
 
     ;; Mouse or touch-pad stuff
-    ;; An idea is to initialize `exwm-pointer-mode-name' using
-    ;; (shell-command-to-string "xinput list --name-only")
-    (defcustom exwm-pointer-mode-name "PS/2 Synaptics TouchPad"
-      "Device name of the X11 pointer to toggle."
+    (defun xinput--pointer-device-names (goal)
+      (with-temp-buffer
+        (call-process "xinput" nil t nil "list" "--name-only")
+        (cl-loop with output = (buffer-string)
+                 for line in (split-string output "\n")
+                 when (string-match-p goal line)
+                 collect line)))
+
+    (defun xinput-mouse-names ()
+      (xinput--pointer-device-names (rx "mouse")))
+
+    (defun xinput-touchpad-names ()
+      (xinput--pointer-device-names (rx (or "glidepoint" "touchpad"))))
+
+    (defcustom xinput-mouse-name nil
+      "Device name of the `xinput' mouse."
+      :set (lambda (symbol _value)
+             (set-default symbol
+                          (car (xinput-mouse-names))))
       :type '(choice
               (const "Logitech USB Mouse")
-              (const "Logitech USB Optical Mouse")
+              (const "Logitech USB Optical Mouse"))
+      :group 'exwm)
+
+    (defcustom xinput-touchpad-name nil
+      "Device name of the `xinput' touch-pad."
+      :set (lambda (symbol _value)
+             (set-default symbol
+                          (car (xinput-touchpad-names))))
+      :type '(choice
               (const "PS/2 Synaptics TouchPad")
               (const "SynPS/2 Synaptics TouchPad"))
       :group 'exwm)
 
-    (defvar exwm-pointer-mode--timer-object nil
-      "Timer object holding the result of calling `run-with-idle-timer'.
-Use this cancel the timer by calling `cancel-timer'.")
+    (defun xinput--set-pointer-device-enabled-to (name to)
+      (cl-assert (member to '("0" "1")))
+      (if (= 0 (call-process "xinput" nil nil nil
+                             "--set-prop" name "Device Enabled" to))
+          (if (equal "0" to)
+              (message "Set `%s' to disabled" name)
+            (message "Set `%s' to enabled" name))
+        (message "Fail to set `%s' `Device Enabled' to `%s'" name to)))
 
-    (define-minor-mode exwm-pointer-mode
-      "Toggle X11 pointer."
-      :global t
-      :init-value t
-      (if exwm-pointer-mode
-          (shell-command-to-string
-           (format "xinput enable '%s'" exwm-pointer-mode-name))
-        (shell-command-to-string
-         (format "xinput disable '%s'" exwm-pointer-mode-name))))
+    (defun xinput--pointer-device-enabled-p (name)
+      (setq name (format "%s" name))	; force name to be a string
+      (with-temp-buffer
+        (if (= 0 (call-process "xinput" nil t nil "list-props" name))
+            (let ((goal (rx "Device Enabled" (+ any) (group (or "0" "1") eos))))
+              (cl-loop with output = (buffer-string)
+                       for line in (split-string output "\n")
+                       when (string-match goal line)
+                       return (match-string-no-properties 1 line)))
+          (message "Fail to call `xinput' to read the `%s' status" name))))
 
-    (defun exwm-pointer-mode-off-unless-exwm-mode ()
-      (unless (with-current-buffer (window-buffer (selected-window))
-                (eq major-mode 'exwm-mode))
-        (exwm-pointer-mode -1)))
+    (defun xinput--disable-pointer-device (name)
+      (let ((status (xinput--pointer-device-enabled-p name)))
+        (cond
+         ((equal "0" status)
+          (message "No need to set `%s' to disabled" name))
+         ((equal "1" status)
+          (xinput--set-pointer-device-enabled-to name "0"))
+         ((not status)
+          (message "Fail to parse the `%s' `Device Enabled' status" name))
+         (t status))))
 
-    ;; returns a timer object for use in cancel-timer
-    (setq exwm-pointer-mode--timer-object
-          (run-with-idle-timer
-           1.0 t
-           (function exwm-pointer-mode-off-unless-exwm-mode)))
+    (defun xinput--enable-pointer-device (name)
+      (let ((status (xinput--pointer-device-enabled-p name)))
+        (cond
+         ((equal "0" status)
+          (xinput--set-pointer-device-enabled-to name "1"))
+         ((equal "1" status)
+          (message "No need to set `%s' to enabled" name))
+         ((not status)
+          (message "Fail to parse the `%s' `Device Enabled' status" name))
+         (t status))))
+
+    (defun xinput--toggle-pointer-device (name)
+      (let ((status (xinput--pointer-device-enabled-p name)))
+        (cond
+         ((equal "0" status)
+          (xinput--set-pointer-device-enabled-to name "1"))
+         ((equal "1" status)
+          (xinput--set-pointer-device-enabled-to name "0"))
+         ((not status)
+          (message "Fail to parse the `%s' `Device Enabled' status" name))
+         (t status))))
+
+    (defun xinput-disable-mouse ()
+      (interactive)
+      (xinput--disable-pointer-device xinput-mouse-name))
+
+    (defun xinput-disable-touchpad ()
+      (interactive)
+      (xinput--disable-pointer-device xinput-touchpad-name))
+
+    (defun xinput-enable-mouse ()
+      (interactive)
+      (xinput--enable-pointer-device xinput-mouse-name))
+
+    (defun xinput-enable-touchpad ()
+      (interactive)
+      (xinput--enable-pointer-device xinput-touchpad-name))
+
+    (defun xinput-toggle-mouse ()
+      (interactive)
+      (xinput--toggle-pointer-device xinput-mouse-name))
+
+    (defun xinput-toggle-touchpad ()
+      (interactive)
+      (xinput--toggle-pointer-device xinput-touchpad-name))
 
     ;; Battery stuff
     (require 'dbus)
@@ -990,7 +1065,7 @@ Use this to unregister from the D-BUS.")
     :init
     (exwm-enable)
     :config
-    (exwm-pointer-mode -1)
+    (xinput-toggle-touchpad)
     (no-ac-display-battery-mode 1)
     (display-time-mode 1)
     (menu-bar-mode -1))
@@ -1011,14 +1086,15 @@ Use this to unregister from the D-BUS.")
        ([?\s-a] . exwm-alsamixer)
        ([?\s-b] . exwm-workspace-switch-to-buffer)
        ([?\s-i] . exwm-invoke)
+       ([?\s-k] . exwm-input-toggle-keyboard)
        ([?\s-l] . exwm-lock-screen)
-       ([?\s-m] . exwm-pointer-mode)
+       ([?\s-m] . xinput-toggle-mouse)
        ([?\s-n] . next-window-any-frame)
        ([?\s-o] . other-window)
        ([?\s-p] . previous-window-any-frame)
        ([?\s-q] . window-toggle-side-windows)
        ([?\s-r] . exwm-reset)
-       ([?\s-t] . exwm-input-toggle-keyboard)
+       ([?\s-t] . xinput-toggle-touchpad)
        ([?\s-w] . exwm-workspace-switch)
        ,@(mapcar (lambda (i)
                    `(,(kbd (format "s-%d" i)) .
