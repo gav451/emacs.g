@@ -1076,19 +1076,18 @@ Use this to unregister from the D-BUS.")
     ;; https://emacs.stackexchange.com/questions/7148/get-all-regexp-matches-in-buffer-as-a-list
     ;; https://github.com/ch11ng/exwm/wiki
     :preface
-    (defun my-exwm-randr-connected-monitors ()
+    (defun exwm-randr-connected-monitors ()
       (with-temp-buffer
         (call-process "xrandr" nil t nil)
-        (goto-char (point-min))
-        (save-match-data
-          (let (matches)
-            (while (re-search-forward
-                    "\\(eDP1\\|DP1\\|HDMI1\\|VIRTUAL1\\) connected" nil t)
-              (push (match-string-no-properties 1) matches))
-            (nreverse matches)))))
+        (let* ((goal (rx (group (or "DP1" "HDMI1" "VIRTUAL1" "eDP1")) " connected"))
+               (found (cl-loop with output = (buffer-string)
+                               for line in (split-string output "\n")
+                               when (string-match goal line)
+                               collect (match-string 1 line))))
+          found)))
 
     (defun on-exwm-randr-screen-change ()
-      (let* ((monitors (my-exwm-randr-connected-monitors))
+      (let* ((monitors (exwm-randr-connected-monitors))
              (count (length monitors))
              (wop))
         (cond
