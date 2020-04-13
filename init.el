@@ -828,8 +828,8 @@ point."
     ;; https://gitlab.com/ambrevar/dotfiles/tree/master/.emacs.d
     :preface
 
-    ;; Mouse or touch-pad stuff
-    (defun xinput--pointer-device-names (goal)
+    ;; Handle pointer devices using xinput.
+    (defun xpointer--pointer-device-names (goal)
       (with-temp-buffer
         (call-process "xinput" nil t nil "list" "--name-only")
         (cl-loop with output = (buffer-string)
@@ -837,45 +837,45 @@ point."
                  when (string-match-p goal line)
                  collect line)))
 
-    (defun xinput-mouse-names ()
-      (xinput--pointer-device-names (rx "mouse")))
+    (defun xpointer-mouse-names ()
+      (xpointer--pointer-device-names (rx "mouse")))
 
-    (defun xinput-touchpad-names ()
-      (xinput--pointer-device-names (rx (or "glidepoint" "touchpad"))))
+    (defun xpointer-touchpad-names ()
+      (xpointer--pointer-device-names (rx (or "glidepoint" "touchpad"))))
 
-    (defcustom xinput-mouse-name nil
+    (defcustom xpointer-mouse-name nil
       "Device name of the `xinput' mouse."
       :set (lambda (symbol _value)
              (set-default symbol
-                          (car (xinput-mouse-names))))
+                          (car (xpointer-mouse-names))))
       :type '(choice
               (const "Logitech USB Mouse")
               (const "Logitech USB Optical Mouse"))
       :group 'exwm)
 
-    (defcustom xinput-touchpad-name nil
+    (defcustom xpointer-touchpad-name nil
       "Device name of the `xinput' touch-pad."
       :set (lambda (symbol _value)
              (set-default symbol
-                          (car (xinput-touchpad-names))))
+                          (car (xpointer-touchpad-names))))
       :type '(choice
               (const "PS/2 Synaptics TouchPad")
               (const "SynPS/2 Synaptics TouchPad"))
       :group 'exwm)
 
-    (defun xinput--set-pointer-device-enabled-to (name to)
+    (defun xpointer--set-device-enabled-to (name to)
       (cl-assert (member to '("0" "1")))
-      (if (= 0 (call-process "xinput" nil nil nil
-                             "--set-prop" name "Device Enabled" to))
+      (if (zerop (call-process "xinput" nil nil nil
+                               "--set-prop" name "Device Enabled" to))
           (if (equal "0" to)
               (message "Set `%s' to disabled" name)
             (message "Set `%s' to enabled" name))
         (message "Fail to set `%s' `Device Enabled' to `%s'" name to)))
 
-    (defun xinput--pointer-device-enabled-p (name)
+    (defun xpointer--device-enabled-p (name)
       (setq name (format "%s" name))	; force name to be a string
       (with-temp-buffer
-        (if (= 0 (call-process "xinput" nil t nil "list-props" name))
+        (if (zerop (call-process "xinput" nil t nil "list-props" name))
             (let ((goal (rx "Device Enabled" (+ any) (group (or "0" "1") eos))))
               (cl-loop with output = (buffer-string)
                        for line in (split-string output "\n")
@@ -883,62 +883,62 @@ point."
                        return (match-string-no-properties 1 line)))
           (message "Fail to call `xinput' to read the `%s' status" name))))
 
-    (defun xinput--disable-pointer-device (name)
-      (let ((status (xinput--pointer-device-enabled-p name)))
+    (defun xpointer--disable-device (name)
+      (let ((status (xpointer--device-enabled-p name)))
         (cond
          ((equal "0" status)
           (message "No need to set `%s' to disabled" name))
          ((equal "1" status)
-          (xinput--set-pointer-device-enabled-to name "0"))
+          (xpointer--set-device-enabled-to name "0"))
          ((not status)
           (message "Fail to parse the `%s' `Device Enabled' status" name))
          (t status))))
 
-    (defun xinput--enable-pointer-device (name)
-      (let ((status (xinput--pointer-device-enabled-p name)))
+    (defun xpointer--enable-device (name)
+      (let ((status (xpointer--device-enabled-p name)))
         (cond
          ((equal "0" status)
-          (xinput--set-pointer-device-enabled-to name "1"))
+          (xpointer--set-device-enabled-to name "1"))
          ((equal "1" status)
           (message "No need to set `%s' to enabled" name))
          ((not status)
           (message "Fail to parse the `%s' `Device Enabled' status" name))
          (t status))))
 
-    (defun xinput--toggle-pointer-device (name)
-      (let ((status (xinput--pointer-device-enabled-p name)))
+    (defun xpointer--toggle-device (name)
+      (let ((status (xpointer--device-enabled-p name)))
         (cond
          ((equal "0" status)
-          (xinput--set-pointer-device-enabled-to name "1"))
+          (xpointer--set-device-enabled-to name "1"))
          ((equal "1" status)
-          (xinput--set-pointer-device-enabled-to name "0"))
+          (xpointer--set-device-enabled-to name "0"))
          ((not status)
           (message "Fail to parse the `%s' `Device Enabled' status" name))
          (t status))))
 
-    (defun xinput-disable-mouse ()
+    (defun xpointer-disable-mouse ()
       (interactive)
-      (xinput--disable-pointer-device xinput-mouse-name))
+      (xpointer--disable-device xpointer-mouse-name))
 
-    (defun xinput-disable-touchpad ()
+    (defun xpointer-disable-touchpad ()
       (interactive)
-      (xinput--disable-pointer-device xinput-touchpad-name))
+      (xpointer--disable-device xpointer-touchpad-name))
 
-    (defun xinput-enable-mouse ()
+    (defun xpointer-enable-mouse ()
       (interactive)
-      (xinput--enable-pointer-device xinput-mouse-name))
+      (xpointer--enable-device xpointer-mouse-name))
 
-    (defun xinput-enable-touchpad ()
+    (defun xpointer-enable-touchpad ()
       (interactive)
-      (xinput--enable-pointer-device xinput-touchpad-name))
+      (xpointer--enable-device xpointer-touchpad-name))
 
-    (defun xinput-toggle-mouse ()
+    (defun xpointer-toggle-mouse ()
       (interactive)
-      (xinput--toggle-pointer-device xinput-mouse-name))
+      (xpointer--toggle-device xpointer-mouse-name))
 
-    (defun xinput-toggle-touchpad ()
+    (defun xpointer-toggle-touchpad ()
       (interactive)
-      (xinput--toggle-pointer-device xinput-touchpad-name))
+      (xpointer--toggle-device xpointer-touchpad-name))
 
     ;; Battery stuff
     (require 'dbus)
@@ -1065,7 +1065,7 @@ Use this to unregister from the D-BUS.")
     :init
     (exwm-enable)
     :config
-    (xinput-toggle-touchpad)
+    (xpointer-toggle-touchpad)
     (no-ac-display-battery-mode 1)
     (display-time-mode 1)
     (menu-bar-mode -1))
@@ -1088,13 +1088,13 @@ Use this to unregister from the D-BUS.")
        ([?\s-i] . exwm-invoke)
        ([?\s-k] . exwm-input-toggle-keyboard)
        ([?\s-l] . exwm-lock-screen)
-       ([?\s-m] . xinput-toggle-mouse)
+       ([?\s-m] . xpointer-toggle-mouse)
        ([?\s-n] . next-window-any-frame)
        ([?\s-o] . other-window)
        ([?\s-p] . previous-window-any-frame)
        ([?\s-q] . window-toggle-side-windows)
        ([?\s-r] . exwm-reset)
-       ([?\s-t] . xinput-toggle-touchpad)
+       ([?\s-t] . xpointer-toggle-touchpad)
        ([?\s-w] . exwm-workspace-switch)
        ,@(mapcar (lambda (i)
                    `(,(kbd (format "s-%d" i)) .
