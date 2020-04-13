@@ -1305,8 +1305,8 @@ Use this to unregister from the D-BUS.")
   :when (and (eq system-type 'gnu/linux) (not noninteractive))
   :commands (gpastel-mode)
   :init
-  (when (= 0 (call-process-shell-command
-              "gsettings list-recursively org.gnome.GPaste"))
+  (when (zerop (call-process-shell-command
+                "gsettings list-recursively org.gnome.GPaste"))
     (gpastel-mode)))
 
 (use-package haskell-mode
