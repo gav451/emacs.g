@@ -2147,7 +2147,36 @@ Enable it and reexecute it."
   :commands (ox-extras-activate)
   :demand t
   :config
-  (ox-extras-activate '(ignore-headlines)))
+  ;; This is a public API fix of `org-latex-header-blocks-filter', but
+  ;; it is maybe not the fastest fix.  Another (less memory hungry and
+  ;; therefore faster) fix is to use the (original) positions instead
+  ;; of blocks and to steal code from `org-src--contents-area' to get
+  ;; the begin/end positions of the export block contents.
+  (defun org-latex-header-blocks-filter (backend)
+    (when (org-export-derived-backend-p backend 'latex)
+      (let ((blocks
+	     (org-element-map (org-element-parse-buffer 'greater-element nil) 'export-block
+	       (lambda (block)
+	         (when (and (string= (org-element-property :type block) "LATEX")
+			    (string= (org-export-read-attribute
+				      :header block :header)
+				     "yes"))
+		   block)))))
+        (mapc (lambda (block)
+	        (goto-char (org-element-property :post-affiliated block))
+                (let ((contents-lines (split-string
+                                       (org-element-property :value block)
+                                       "\n")))
+                  (delete-region (org-element-property :begin block)
+                                 (org-element-property :end block))
+                  (dolist (line contents-lines)
+                    (insert (concat "#+latex_header: "
+                                    (replace-regexp-in-string "\\` *" "" line)
+                                    "\n")))))
+	      ;; go in reverse, to avoid wrecking the numeric positions
+	      ;; earlier in the file
+	      (reverse blocks)))))
+  (ox-extras-activate '(ignore-headlines latex-header-blocks)))
 
 (use-package ox-latex
   :after ox
