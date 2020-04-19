@@ -225,6 +225,9 @@
 [submodule "multiple-cursors"]
 	path = lib/multiple-cursors
 	url = git@github.com:magnars/multiple-cursors.el.git
+[submodule "native-complete"]
+	path = lib/native-complete
+	url = git@github.com:CeleritasCelery/emacs-native-shell-complete.git
 [submodule "no-littering"]
 	path = lib/no-littering
 	url = git@github.com:emacscollective/no-littering.git

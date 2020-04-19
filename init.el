@@ -269,24 +269,35 @@ Must be set before loading use-package.")
                ("C-c C-w" . deadgrep-edit-mode))))
 
 (use-package company
+  ;; https://github.com/CeleritasCelery/emacs.d/blob/master/emacs.org
   :unless noninteractive
   :custom
   (company-show-numbers t)
+  :bind ((:map company-active-map
+               ("<return>" . nil)
+               ("C-l" . company-complete-selection)
+               ("C-m" . nil)
+               ))
   :hook
   ((LaTeX-mode
     emacs-lisp-mode
     ielm-mode
     org-mode
+    shell-mode
     sly-mode
     sly-mrepl-mode) . company-mode)
   :delight (company-mode " 👫"))
 
+(use-package company-native-complete
+  :after native-complete
+  :demand t
+  :config
+  (bind-keys :map shell-mode-map
+             ("<tab>" . company-complete)))
+
 (use-package company-prescient
   :hook
   ((company-mode) . company-prescient-mode))
-
-(use-package company-yasnippet
-  :bind ((:map global-map ("C-c y" . company-yasnippet))))
 
 (use-package compile
   :delight (compilation-in-progress " 👷"))
@@ -1895,6 +1906,12 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :custom
   (completion-styles (quote (flex))))
 
+(use-package native-complete
+  ;; http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.html
+  ;; https://coredumped.dev/2020/01/04/native-shell-completion-in-emacs/
+  :after shell
+  :demand t)
+
 (use-package nov
   :mode ((rx (seq ".epub" eos)) . nov-mode))
 
@@ -2414,6 +2431,13 @@ Enable it and reexecute it."
   :commands (selectrum-prescient-mode)
   :init
   (selectrum-prescient-mode +1))
+
+(use-package shell
+  :hook
+  ((shell-mode) . (lambda ()
+                    (setq-local company-backends '((company-native-complete)))))
+  :config
+  (add-hook 'completion-at-point-functions #'native-complete-at-point))
 
 (use-package shr
   :custom
