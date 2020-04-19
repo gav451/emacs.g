@@ -1907,7 +1907,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (completion-styles (quote (flex))))
 
 (use-package native-complete
-  ;; http://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.html
+  ;; https://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.html
   ;; https://coredumped.dev/2020/01/04/native-shell-completion-in-emacs/
   :after shell
   :demand t)
