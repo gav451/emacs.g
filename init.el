@@ -605,8 +605,8 @@ nil if not inside any parens."
 (use-package elfeed-show
   :bind ((:map elfeed-show-mode-map
                ("?" . describe-mode)))
-  :hook (elfeed-show . (lambda ()
-                         (setq-local shr-max-image-proportion 0.6))))
+  :hook ((elfeed-show) . (lambda ()
+                           (setq-local shr-max-image-proportion 0.6))))
 
 (use-package elisp-demos
   :commands (elisp-demos-advice-helpful-update)
