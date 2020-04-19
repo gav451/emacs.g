@@ -1920,7 +1920,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :preface
   (defun enable-me (&rest _args)
     "Called when a disabled command is executed.
-Enable it and reexecute it."
+Enable it and re-execute it."
     (put this-command 'disabled nil)
     (message "You typed %s.  %s was disabled.  It ain't no more."
              (key-description (this-command-keys)) this-command)
