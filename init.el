@@ -2157,7 +2157,9 @@ Enable it and re-execute it."
   :custom
   (org-export-allow-bind-keywords t)
   (org-export-with-smart-quotes t)
-  (org-export-with-sub-superscripts '{}))
+  (org-export-with-sub-superscripts '{})
+  :commands (org-export-derived-backend-p
+             org-export-read-attribute))
 
 (use-package ox-extra
   :after ox
