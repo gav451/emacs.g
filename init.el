@@ -275,7 +275,7 @@ Must be set before loading use-package.")
   (company-show-numbers t)
   :bind ((:map company-active-map
                ("<return>" . nil)
-               ("C-l" . company-complete-selection)
+               ("C-j" . company-complete-selection)
                ("C-m" . nil)
                ))
   :hook
@@ -290,10 +290,7 @@ Must be set before loading use-package.")
 
 (use-package company-native-complete
   :after native-complete
-  :demand t
-  :config
-  (bind-keys :map shell-mode-map
-             ("<tab>" . company-complete)))
+  :demand t)
 
 (use-package company-prescient
   :hook
@@ -1910,7 +1907,10 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   ;; https://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.html
   ;; https://coredumped.dev/2020/01/04/native-shell-completion-in-emacs/
   :after shell
-  :demand t)
+  :commands (native-complete-setup-bash)
+  :demand t
+  :config
+  (native-complete-setup-bash))
 
 (use-package nov
   :mode ((rx (seq ".epub" eos)) . nov-mode))
@@ -2436,8 +2436,10 @@ Enable it and re-execute it."
   :hook
   ((shell-mode) . (lambda ()
                     (setq-local company-backends '((company-native-complete)))))
+  :bind ((:map shell-mode-map
+               ("<tab>" . company-complete)))
   :config
-  (add-hook 'completion-at-point-functions #'native-complete-at-point))
+  (setenv "PAGER" "cat"))
 
 (use-package shr
   :custom
