@@ -1935,7 +1935,14 @@ Enable it and re-execute it."
   :commands (org-babel-execute-src-block))
 
 (use-package ob-jupyter
-  :commands (org-babel-jupyter-override-src-block))
+  :custom
+  (org-babel-default-header-args:jupyter-python
+   (quote ((:async . "yes")
+           (:eval . "noexport")
+           (:exports . "both")
+           (:hlines . "no")
+           (:kernel . "python3")
+           (:session . "py")))))
 
 (use-package ob-lisp
   :custom
