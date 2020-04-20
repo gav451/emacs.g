@@ -2435,11 +2435,13 @@ Enable it and re-execute it."
   (selectrum-prescient-mode +1))
 
 (use-package shell
+  :custom
+  (shell-file-name (executable-find "bash"))
+  :bind ((:map shell-mode-map
+               ("<tab>" . company-complete)))
   :hook
   ((shell-mode) . (lambda ()
                     (setq-local company-backends '((company-native-complete)))))
-  :bind ((:map shell-mode-map
-               ("<tab>" . company-complete)))
   :config
   (setenv "PAGER" "cat"))
 
