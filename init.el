@@ -1334,12 +1334,13 @@ Use this to unregister from the D-BUS.")
   (helm-use-frame-when-more-than-two-windows t))
 
 (use-package helm-adaptive
+  ;; Works only with `helm-bookmark' and `helm-grep' out of the box.
   :unless noninteractive
   :after helm
   :custom
   (helm-adaptive-sort-by-frequent-recent-usage t)
   :commands (helm-adaptive-mode)
-  :config
+  :init
   (helm-adaptive-mode +1))
 
 (use-package helm-buffers
@@ -1348,6 +1349,8 @@ Use this to unregister from the D-BUS.")
   :bind ((:map global-map ("C-x x" . helm-mini))))
 
 (use-package helm-command
+  :custom
+  (helm-M-x-reverse-history nil)
   :bind ((:map global-map ("M-x" . helm-M-x))))
 
 (use-package helm-config
