@@ -2,6 +2,13 @@
 ;;; Commentary:
 ;;; Code:
 ;;; Early birds
+
+(defcustom use-helm-or-selectrum 'use-selectrum
+  "Use helm-mode or selectrum-mode."
+  :type '(choice (const :tag "Helm" 'use-helm)
+                 (const :tag "Selectrum" 'use-selectrum))
+  :group 'emacs)
+
 (progn                                  ; startup
   (defvar before-user-init-time (current-time)
     "Value of `current-time' when Emacs begins loading `user-init-file'.")
@@ -1351,7 +1358,10 @@ Use this to unregister from the D-BUS.")
 (use-package helm-command
   :custom
   (helm-M-x-reverse-history nil)
-  :bind ((:map global-map ("M-x" . helm-M-x))))
+  :init
+  (when (eq use-helm-or-selectrum 'use-helm)
+    (bind-keys :map global-map
+               ("M-x" . helm-M-x))))
 
 (use-package helm-config
   :unless noninteractive
@@ -1401,7 +1411,8 @@ Use this to unregister from the D-BUS.")
   :unless noninteractive
   :commands (helm-mode)
   :init
-  (helm-mode +1)
+  (when (eq use-helm-or-selectrum 'use-helm)
+    (helm-mode +1))
   :delight (helm-mode " 🎯"))
 
 (use-package helm-net
@@ -2432,13 +2443,13 @@ Enable it and re-execute it."
   (save-place-mode))
 
 (use-package selectrum
-  :disabled
+  :unless noninteractive
   :commands (selectrum-mode)
   :init
-  (selectrum-mode +1))
+  (when (eq use-helm-or-selectrum 'use-selectrum)
+    (selectrum-mode +1)))
 
 (use-package selectrum-prescient
-  :disabled
   :after selectrum
   :commands (selectrum-prescient-mode)
   :init
