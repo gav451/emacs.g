@@ -190,10 +190,9 @@ Must be set before loading use-package.")
   (alert-default-style 'libnotify))
 
 (use-package autorevert
-  :custom
-  (auto-revert-mode-text "⏎ 🔃")
   :hook
-  ((dired-mode) . auto-revert-mode))
+  ((dired-mode) . auto-revert-mode)
+  :delight (auto-revert-mode))
 
 (use-package avy
   :disabled
