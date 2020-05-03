@@ -2288,9 +2288,11 @@ Enable it and re-execute it."
                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))))))
 
 (use-package pdf-tools
+  :after pdf-view
   :custom
   (pdf-annot-activate-created-annotations t)
   :commands (pdf-tools-install)
+  :demand t
   :config
   (pdf-tools-install t))
 
@@ -2298,8 +2300,6 @@ Enable it and re-execute it."
   :custom
   (pdf-view-display-size 'fit-page)
   :bind ((:map pdf-view-mode-map
-               ("C-r" . isearch-backward)
-               ("C-s" . isearch-forward)
                ("M-w" . pdf-view-kill-ring-save)))
   :magic
   ("%PDF" . pdf-view-mode))
