@@ -1357,6 +1357,7 @@ Use this to unregister from the D-BUS.")
 (use-package helm-command
   :custom
   (helm-M-x-reverse-history nil)
+  :commands (helm-M-x)
   :init
   (when (eq use-helm-or-selectrum 'use-helm)
     (bind-keys :map global-map
@@ -2117,9 +2118,9 @@ Enable it and re-execute it."
   :demand t)
 
 (use-package org-element
-  :functions (org-element-map
-              org-element-parse-buffer
-              org-element-property))
+  :commands (org-element-map
+             org-element-parse-buffer
+             org-element-property))
 
 (use-package org-ref
   :after org
