@@ -1641,62 +1641,48 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 
 (use-package ibuf-ext
   :after ibuffer
+  :preface
+  (defmacro make-ibuffer-saved-filter-group (group-name &rest filter-names)
+    `(cons ,group-name
+           (mapcar
+            (lambda (filter-name)
+              (assoc filter-name ibuffer-saved-filters))
+            ',filter-names)))
   :custom
+  (ibuffer-saved-filters
+   '(("Code" (or (mode . python-mode)
+                 (mode . shell-mode)))
+     ("Dired" (mode . dired-mode))
+     ("Doc" (or (mode . Info-mode)
+                (mode . help-mode)
+                (mode . helpful-mode)))
+     ("EMMS" (or (mode . emms-lyrics-mode)
+                 (mode . emms-mark-mode)
+                 (mode . emms-playlist-mode)))
+     ("EXWM" (mode . exwm-mode))
+     ("Elisp" (mode . emacs-lisp-mode))
+     ("Eshell" (mode . eshell-mode))
+     ("Helm" (mode . helm-major-mode))
+     ("Magit" (derived-mode . magit-mode))
+     ("Org" (mode . org-mode))
+     ("PDF" (mode . pdf-view-mode))
+     ("Python" (mode . python-mode))
+     ("Setup" (derived-mode . conf-mode))
+     ("TeX" (or (derived-mode . tex-mode)
+                (mode . bibtex-mode)))
+     ("VC" (or (mode . vc-annotate-mode)
+               (mode . vc-dir-mode)))))
   (ibuffer-saved-filter-groups
-   '(("Emacs"
-      ("Elisp" (mode . emacs-lisp-mode))
-      ("Doc" (or (mode . Info-mode)
-                 (mode . help-mode)
-                 (mode . helpful-mode)))
-      ("Eshell" (mode . eshell-mode))
-      ("Magit" (derived-mode . magit-mode))
-      ("VC" (or (mode . vc-annotate-mode)
-                (mode . vc-dir-mode)))
-      ("Dired" (mode . dired-mode))
-      ("Helm" (mode . helm-major-mode))
-      ("Code" (or (mode . python-mode)
-                  (mode . shell-mode)))
-      ("EMMS" (or (mode . emms-lyrics-mode)
-                  (mode . emms-mark-mode)
-                  (mode . emms-playlist-mode)))
-      ("EXWM" (mode . exwm-mode))
-      ("Setup" (derived-mode . conf-mode)))
-     ("Python"
-      ("Python" (mode . python-mode))
-      ("Doc" (mode . Info-mode))
-      ("Eshell" (mode . eshell-mode))
-      ("Magit" (derived-mode . magit-mode))
-      ("VC" (or (mode . vc-annotate-mode)
-                (mode . vc-dir-mode)))
-      ("Dired" (mode . dired-mode))
-      ("Helm" (mode . helm-major-mode))
-      ("Code" (or (mode . emacs-lisp-mode)
-                  (mode . shell-mode)))
-      ("EMMS" (or (mode . emms-lyrics-mode)
-                  (mode . emms-mark-mode)
-                  (mode . emms-playlist-mode)))
-      ("EXWM" (mode . exwm-mode))
-      ("Setup" (derived-mode . conf-mode)))
-     ("Text"
-      ("Org" (mode . org-mode))
-      ("TeX" (or (derived-mode . tex-mode)
-                 (mode . bibtex-mode)))
-      ("PDF" (mode . pdf-view-mode))
-      ("Doc" (mode . Info-mode))
-      ("Eshell" (mode . eshell-mode))
-      ("Magit" (derived-mode . magit-mode))
-      ("VC" (or (mode . vc-annotate-mode)
-                (mode . vc-dir-mode)))
-      ("Dired" (mode . dired-mode))
-      ("Helm" (mode . helm-major-mode))
-      ("Code" (or (mode . emacs-lisp-mode)
-                  (mode . python-mode)
-                  (mode . shell-mode)))
-      ("EMMS" (or (mode . emms-lyrics-mode)
-                  (mode . emms-mark-mode)
-                  (mode . emms-playlist-mode)))
-      ("EXWM" (mode . exwm-mode))
-      ("Setup" (derived-mode . conf-mode)))))
+   (list
+    (make-ibuffer-saved-filter-group
+     "Emacs" "Elisp" "Doc" "Eshell" "Code" "Org" "TeX" "PDF"
+     "Magit" "VC" "Dired" "Helm" "EMMS" "EXWM" "Setup")
+    (make-ibuffer-saved-filter-group
+     "Python" "Python" "Doc" "Eshell" "Code" "Org" "TeX" "PDF"
+     "Magit" "VC" "Dired" "Helm" "EMMS" "EXWM" "Setup")
+    (make-ibuffer-saved-filter-group
+     "Text" "Org" "TeX" "PDF" "Doc" "Eshell" "Python" "Code"
+     "Magit" "VC" "Dired" "Helm" "EMMS" "EXWM" "Setup")))
   :hook
   ((ibuffer-mode) . (lambda ()
                       (ibuffer-switch-to-saved-filter-groups
