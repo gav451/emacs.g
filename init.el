@@ -1859,9 +1859,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   ;; https://stackoverflow.com/questions/4114095/how-to-revert-a-git-repository-to-a-previous-commit
   ;; https://stackoverflow.com/questions/9529078/how-do-i-use-git-reset-hard-head-to-revert-to-a-previous-commit
   :bind ((:map global-map
-               ("C-x g"   . magit-status)
                ("C-x M-g" . magit-dispatch)))
-  :commands (magit-add-section-hook)
   :config
   ;; https://github.com/dakra/dmacs/blob/master/init.org#magit
   (magit-add-section-hook 'magit-status-sections-hook
@@ -1877,6 +1875,13 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   ;; Info: (magit) MacOS Performance
   :custom
   (magit-git-executable (executable-find "git")))
+
+(use-package magit-section
+  :commands (magit-add-section-hook))
+
+(use-package magit-status
+  :bind ((:map global-map
+               ("C-x g" . magit-status))))
 
 (use-package magit-submodule
   :custom
