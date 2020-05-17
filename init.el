@@ -2682,6 +2682,10 @@ even if buffer is already narrowed."
   :custom
   (wdired-allow-to-change-permissions t))
 
+(use-package wgrep
+  :after (:any helm-grep helm-occur)
+  :demand t)
+
 (use-package which-key
   :commands (which-key-mode)
   :delight (which-key-mode))
