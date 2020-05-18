@@ -1379,7 +1379,6 @@ Use this to unregister from the D-BUS.")
   :custom
   (helm-ff-fuzzy-matching t)
   :bind ((:map global-map
-               ("C-x C-f" . helm-find-files)
                ("C-x p" . helm-browse-project)
                ("C-x r p" . helm-projects-history))))
 
@@ -1389,9 +1388,55 @@ Use this to unregister from the D-BUS.")
   (helm-recentf-fuzzy-match t))
 
 (use-package helm-grep
+  ;; https://www.manueluberti.eu/emacs/2020/02/22/ripgrepping-with-helm/
+  :preface
+  (defun !-helm--project-root ()
+    "Return the project root directory or `default-directory'."
+    (let ((root default-directory)
+          (project (project-current)))
+      (when project
+        (setq root (cdr project)))
+      root))
+
+  (defun !-helm-rg (directory &optional with-types)
+    "Grep for a string in DIRECTORY using rg.
+WITH-TYPES, if non-nil, ask for file types to search in."
+    (interactive "P")
+    (require 'helm-adaptive)
+    (helm-grep-ag-1 (expand-file-name directory)
+                    (helm-aif (and with-types
+                                   (helm-grep-ag-get-types))
+                        (helm-comp-read
+                         "RG type: " it
+                         :must-match t
+                         :marked-candidates t
+                         :fc-transformer 'helm-adaptive-sort
+                         :buffer "*helm rg types*"))))
+
+  (defun !-helm-project-search (&optional with-types)
+    "Grep for a string in current project using rg.
+WITH-TYPES, if non-nil, ask for file types to search in."
+    (interactive "P")
+    (!-helm-rg (!-helm--project-root) with-types))
+
+  (defun !-helm-file-search (&optional with-types)
+    "Grep for a string in `default-directory' using rg.
+WITH-TYPES, if non-nil, ask for file types to search in."
+    (interactive "P")
+    (!-helm-rg default-directory with-types))
+
+  (bind-keys :map global-map
+             ("C-*" . !-helm-file-search)
+             ("M-*" . !-helm-project-search))
   :custom
-  (helm-grep-ag-command "rg --color=always --smart-case --no-heading --line-number %s %s %s")
-  :bind ((:map global-map ("M-g a" . helm-do-grep-ag))))
+  (helm-grep-ag-command (concat "rg"
+                                " --color=never"
+                                " --smart-case"
+                                " --no-heading"
+                                " --line-number %s %s %s"))
+  :bind ((:map global-map ("M-g a" . helm-do-grep-ag)))
+  :commands (helm-grep-ag-1
+             helm-grep-ag-get-types))
 
 (use-package helm-imenu
   :custom
@@ -1405,11 +1450,12 @@ Use this to unregister from the D-BUS.")
   ;; Prevent recursive loading in case of "make build".
   :no-require t
   :custom
-  (helm-ls-git-status-command 'magit-status-internal))
+  (helm-ls-git-status-command 'magit-status-setup-buffer))
 
 (use-package helm-mode
   :unless noninteractive
-  :commands (helm-mode)
+  :commands (helm-comp-read
+             helm-mode)
   :init
   (when (eq use-helm-or-selectrum 'use-helm)
     (helm-mode +1))
@@ -2681,10 +2727,6 @@ even if buffer is already narrowed."
 (use-package wdired
   :custom
   (wdired-allow-to-change-permissions t))
-
-(use-package wgrep
-  :after (:any helm-grep helm-occur)
-  :demand t)
 
 (use-package which-key
   :commands (which-key-mode)
