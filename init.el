@@ -1413,21 +1413,21 @@ WITH-TYPES, if non-nil, ask for file types to search in."
                          :fc-transformer 'helm-adaptive-sort
                          :buffer "*helm rg types*"))))
 
+  (defun !-helm-default-directory-search (&optional with-types)
+    "Grep for a string in `default-directory' using rg.
+WITH-TYPES, if non-nil, ask for file types to search in."
+    (interactive "P")
+    (!-helm-rg default-directory with-types))
+
   (defun !-helm-project-search (&optional with-types)
     "Grep for a string in current project using rg.
 WITH-TYPES, if non-nil, ask for file types to search in."
     (interactive "P")
     (!-helm-rg (!-helm--project-root) with-types))
 
-  (defun !-helm-file-search (&optional with-types)
-    "Grep for a string in `default-directory' using rg.
-WITH-TYPES, if non-nil, ask for file types to search in."
-    (interactive "P")
-    (!-helm-rg default-directory with-types))
-
   (bind-keys :map global-map
-             ("C-*" . !-helm-file-search)
-             ("M-*" . !-helm-project-search))
+             ("C-:" . !-helm-default-directory-search)
+             ("C-!" . !-helm-project-search))
   :custom
   (helm-grep-ag-command (concat "rg"
                                 " --color=never"
