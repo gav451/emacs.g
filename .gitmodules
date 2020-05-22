@@ -42,7 +42,7 @@
 	url = git@github.com:company-mode/company-mode.git
 [submodule "company-org-roam"]
 	path = lib/company-org-roam
-	url = git@github.com:jethrokuan/company-org-roam.git
+	url = git@github.com:org-roam/company-org-roam.git
 [submodule "cython-mode"]
 	path = lib/cython-mode
 	url = git@github.com:emacsmirror/cython-mode.git
@@ -233,7 +233,7 @@
 	url = git@github.com:emacscollective/no-littering.git
 [submodule "nov"]
 	path = lib/nov
-	url = git@github.com:wasamasa/nov.el.git
+	url = https://depp.brause.cc/nov.el.git
 [submodule "org"]
 	path = lib/org
 	url = git@code.orgmode.org:bzg/org-mode.git
@@ -252,7 +252,7 @@
 	url = git@github.com:jkitchin/org-ref.git
 [submodule "org-roam"]
 	path = lib/org-roam
-	url = git@github.com:jethrokuan/org-roam.git
+	url = git@github.com:org-roam/org-roam.git
 [submodule "org-tanglesync"]
 	path = lib/org-tanglesync
 	url = git@github.com:mtekman/org-tanglesync.el.git
@@ -275,7 +275,7 @@
 	url = git@github.com:asok/peep-dired.git
 [submodule "pkg-info"]
 	path = lib/pkg-info
-	url = git@github.com:lunaryorn/pkg-info.el.git
+	url = git@github.com:emacsorphanage/pkg-info.git
 [submodule "posframe"]
 	path = lib/posframe
 	url = git@github.com:tumashu/posframe.git
@@ -290,10 +290,10 @@
 	url = git@github.com:thierryvolpiatto/psession.git
 [submodule "pyenv-mode"]
 	path = lib/pyenv-mode
-	url = git@github.com:proofit404/pyenv-mode.git
+	url = git@github.com:pythonic-emacs/pyenv-mode.git
 [submodule "pythonic"]
 	path = lib/pythonic
-	url = git@github.com:proofit404/pythonic.git
+	url = git@github.com:pythonic-emacs/pythonic.git
 [submodule "pyvenv"]
 	path = lib/pyvenv
 	url = git@github.com:jorgenschaefer/pyvenv.git

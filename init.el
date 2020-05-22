@@ -731,6 +731,25 @@ point."
   :custom
   (epg-pinentry-mode 'loopback))
 
+(use-package epkg
+  ;; https://github.com/dakra/dmacs/blob/master/init.org#unsortet-stuff-in-no-packages
+  :config
+  (when (fboundp 'epkg)
+    (defun borg-check-drone-urls ()
+      "Check all drones for outdated upstream urls."
+      (interactive)
+      (let (moved)
+        (dolist (drone (borg-clones))
+          (let ((a (borg-get drone "url"))
+                (b (ignore-errors (eieio-oref (epkg drone) 'url))))
+            (when (and a b (not (forge--url-equal a b)))
+              (push (list drone a b) moved))))
+        (when moved
+          (message (concat "These upstream repositories appear to have moved:\n"
+                           (mapconcat (pcase-lambda (`(,drone ,a ,b))
+                                        (format "%s: %s => %s" drone a b))
+                                      moved "\n"))))))))
+
 (use-package eshell
   ;; http://emacshorrors.com/post/life-is-too-much
   ;; https://github.com/howardabrams/dot-files/blob/master/emacs-eshell.org
@@ -1256,6 +1275,10 @@ Use this to unregister from the D-BUS.")
   ((prog-mode) . flyspell-prog-mode)
   ((text-mode) . flyspell-mode)
   :delight (flyspell-mode " ✔"))
+
+(use-package forge
+  :commands
+  (forge--url-equal))
 
 (use-package frame
   ;; http://emacsninja.com/posts/making-emacs-more-presentable.html
