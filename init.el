@@ -694,7 +694,6 @@ point."
 
 (use-package emms-player-mpd
   ;; Let mpd play most (ideally all) sound.
-  ;; Get the *-bb-mp3 links from the NPO m3u files that mpd fails to grok.
   :after emms-setup
   :custom
   (emms-player-mpd-music-directory "/home/gav/Music")
