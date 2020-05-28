@@ -504,7 +504,10 @@ Must be set before loading use-package.")
     prog-mode) . display-line-numbers-mode))
 
 (use-package djvu
-  ;; Assumes the installation of djvused, djview, ddjvu, and dvjm.
+  :when (cl-loop for command in '("ddjvu" "djview" "djvm" "djvused")
+                 unless (executable-find command)
+                 return nil
+                 finally return t)
   :mode ((rx (seq ".djvu" eos)) . djvu-dummy-mode))
 
 (use-package easy-kill
