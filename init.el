@@ -503,6 +503,10 @@ Must be set before loading use-package.")
     org-mode
     prog-mode) . display-line-numbers-mode))
 
+(use-package djvu
+  ;; Assumes the installation of djvused, djview, ddjvu, and dvjm.
+  :mode ((rx (seq ".djvu" eos)) . djvu-dummy-mode))
+
 (use-package easy-kill
   ;; https://emacsredux.com/blog/2018/11/09/an-easy-kill/
   ;; https://emacsredux.com/blog/2019/01/10/the-emacs-year-in-review/

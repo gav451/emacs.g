@@ -65,6 +65,9 @@
 	no-byte-compile = dired-columns.el
 	no-byte-compile = dired-images.el
 	no-byte-compile = dired-tagsistant.el
+[submodule "djvu"]
+	path = lib/djvu
+	url = git@github.com:emacsmirror/djvu.git
 [submodule "easy-kill"]
 	path = lib/easy-kill
 	url = git@github.com:leoliu/easy-kill.git
