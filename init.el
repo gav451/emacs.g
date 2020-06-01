@@ -1968,6 +1968,19 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :config
   (mailcap-add "application/pdf" #'pdf-view-mode #'window-system))
 
+(use-package message
+  ;; https://emacs.stackexchange.com/a/3653
+  ;; Info: (emacs) Sending Mail
+  :custom
+  (message-sendmail-envelope-from 'header)
+  (message-send-mail-function 'message-send-mail-with-sendmail)
+  :init
+  (use-package sendmail
+    :custom
+    (mail-specify-envelope-from t)
+    (mail-envelope-from 'header)
+    (sendmail-program (executable-find "msmtp"))))
+
 (use-package man
   :custom
   (Man-width 80))
