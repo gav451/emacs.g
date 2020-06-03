@@ -1475,12 +1475,6 @@ WITH-TYPES, if non-nil, ask for file types to search in."
   :custom
   (helm-locate-fuzzy-match t))
 
-(use-package helm-ls-git
-  ;; Prevent recursive loading in case of "make build".
-  :no-require t
-  :custom
-  (helm-ls-git-status-command 'magit-status-setup-buffer))
-
 (use-package helm-mode
   :unless noninteractive
   :commands (helm-comp-read

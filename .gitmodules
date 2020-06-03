@@ -162,9 +162,6 @@
 [submodule "helm-bibtex"]
 	path = lib/helm-bibtex
 	url = git@github.com:tmalsburg/helm-bibtex.git
-[submodule "helm-ls-git"]
-	path = lib/helm-ls-git
-	url = git@github.com:emacs-helm/helm-ls-git.git
 [submodule "helm-org"]
 	path = lib/helm-org
 	url = git@github.com:emacs-helm/helm-org.git
