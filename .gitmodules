@@ -247,6 +247,9 @@
 	load-path = contrib/lisp
 	info-path = doc
 	build-step = make compile autoloads info
+[submodule "org-mime"]
+	path = lib/org-mime
+	url = git@github.com:org-mime/org-mime.git
 [submodule "org-noter"]
 	path = lib/org-noter
 	url = git@github.com:weirdNox/org-noter.git
