@@ -2199,7 +2199,7 @@ Enable it and re-execute it."
 (use-package org-mime
   :after org
   :bind ((:map message-mode-map
-               ("C-c M-o" . org-mime-htlmize))
+               ("C-c M-o" . org-mime-htmlize))
          (:map org-mode-map
                ("C-c M-o" . org-mime-org-buffer-htmlize)))
   :config
