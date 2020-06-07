@@ -2196,6 +2196,26 @@ Enable it and re-execute it."
              org-element-parse-buffer
              org-element-property))
 
+(use-package org-mime
+  :after org
+  :bind ((:map message-mode-map
+               ("C-c M-o" . org-mime-htlmize))
+         (:map org-mode-map
+               ("C-c M-o" . org-mime-org-buffer-htmlize)))
+  :config
+  (setq org-mime-export-options
+        (list :section-numbers nil
+              :with-author nil
+              :with-toc nil))
+  (add-hook 'org-mime-html-hook
+            (defun on-org-mime-html-hook-setup ()
+              (org-mime-change-element-style
+               "pre"
+               "color:#E6E1DC; background-color:#232323; padding:0.5em;")
+              (org-mime-change-element-style
+               "blockquote"
+               "border-left: 2px solid gray; padding-left: 4px;"))))
+
 (use-package org-ref
   :after org
   :custom
