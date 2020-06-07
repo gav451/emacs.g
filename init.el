@@ -740,7 +740,8 @@ point."
 (use-package epkg
   ;; https://github.com/dakra/dmacs/blob/master/init.org#unsortet-stuff-in-no-packages
   :config
-  (when (fboundp 'epkg)
+  (when (and (fboundp 'eieio-oref)
+             (fboundp 'epkg))
     (defun borg-check-drone-urls ()
       "Check all drones for outdated upstream urls."
       (interactive)
