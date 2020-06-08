@@ -2198,6 +2198,7 @@ Enable it and re-execute it."
 
 (use-package org-mime
   :after org
+  :commands (org-mime-change-element-style)
   :bind ((:map message-mode-map
                ("C-c M-o" . org-mime-htmlize))
          (:map org-mode-map
