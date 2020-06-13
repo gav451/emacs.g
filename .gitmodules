@@ -98,8 +98,8 @@
 	path = lib/emms
 	url = https://git.savannah.gnu.org/git/emms.git
 	info-path = doc
-	build-step = make autoloads emms-print-metadata lisp
-	build-step = borg-makeinfo
+	build-step = make emms-auto.el emms-print-metadata
+	build-step = borg-byte-compile
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git
