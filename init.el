@@ -2056,6 +2056,16 @@ Enable it and re-execute it."
 
 (use-package org
   :preface
+  (defun !-org-active-current-time-stamp ()
+    "Insert an active org-mode `current-time' timestamp."
+    (interactive)
+    (org-insert-time-stamp (current-time) 'with-hm))
+
+  (defun !-org-inactive-current-time-stamp ()
+    "Insert an inactive org-mode `current-time' timestamp."
+    (interactive)
+    (org-insert-time-stamp (current-time) 'with-hm 'inactive))
+
   (defun find-broken-org-file-links ()
     "Find broken org-mode file links in an org-mode buffer."
     (interactive)
@@ -2147,7 +2157,8 @@ Enable it and re-execute it."
   :mode ((rx ".org" eos) . org-mode)
   :hook
   (org-mode . on-org-mode-eval-blocks)
-  :commands (org-link-set-parameters
+  :commands (org-insert-time-stamp
+             org-link-set-parameters
              org-narrow-to-block
              org-narrow-to-subtree))
 
