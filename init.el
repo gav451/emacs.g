@@ -2160,7 +2160,9 @@ Enable it and re-execute it."
   :commands (org-insert-time-stamp
              org-link-set-parameters
              org-narrow-to-block
-             org-narrow-to-subtree))
+             org-narrow-to-subtree)
+  :init
+  (require 'pyenv-mode))
 
 (use-package org-agenda
   :after org
