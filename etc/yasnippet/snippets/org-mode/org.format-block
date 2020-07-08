@@ -1,7 +1,7 @@
 # name: format block
 # key: <f
 # --
-#+begin_${1:$$(yas-auto-next
+#+BEGIN_${1:$$(yas-auto-next
                 (yas-completing-read
                  "Format: "
                  (list "abstract"
@@ -15,4 +15,4 @@
                        "quote"
                        "verse")))}
 $0
-#+end_$1
+#+END_$1

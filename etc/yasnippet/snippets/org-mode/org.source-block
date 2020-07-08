@@ -1,9 +1,9 @@
 # name: source block
 # key: <s
 # --
-#+begin_src ${1:$$(yas-auto-next
+#+BEGIN_SRC ${1:$$(yas-auto-next
                     (completing-read "Language: "
                                      (mapcar 'symbol-name
                                              (mapcar 'car org-babel-load-languages))))}
 $0
-#+end_src
+#+END_SRC
