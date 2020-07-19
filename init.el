@@ -1410,7 +1410,8 @@ Use this to unregister from the D-BUS.")
   (helm-ff-fuzzy-matching t)
   :bind ((:map global-map
                ("C-x p" . helm-browse-project)
-               ("C-x r p" . helm-projects-history))))
+               ("C-x r p" . helm-projects-history)))
+  :delight (helm-ff-cache-mode))
 
 (use-package helm-for-files
   :custom
