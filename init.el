@@ -398,6 +398,7 @@ Must be set before loading use-package.")
   ((magit-post-refresh) . diff-hl-magit-post-refresh))
 
 (use-package dired
+  ;; https://alexschroeder.ch/wiki/2020-07-16_Emacs_everything
   :unless noninteractive
   :preface
   (defun my-dired-eww-find-file ()
@@ -2774,6 +2775,12 @@ even if buffer is already narrowed."
   :custom
   (uniquify-buffer-name-style 'forward)
   :defer 2)
+
+(use-package url-cookie
+  ;; https://alexschroeder.ch/wiki/2020-07-16_Emacs_everything
+  :custom
+  (url-cookie-trusted-urls nil)
+  (url-cookie-untrusted-urls '(".*")))
 
 (use-package vc-hg
   :custom
