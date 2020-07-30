@@ -2269,11 +2269,6 @@ Enable it and re-execute it."
 (use-package org-table
   :commands (orgtbl-mode))
 
-(use-package org-tanglesync
-  :bind (("C-c M-a" . org-tanglesync-process-buffer-automatic)
-         ("C-c M-i" . org-tanglesync-process-buffer-interactive)
-         ("C-c t" . org-tanglesync-mode)))
-
 (use-package org-src
   :custom
   (org-edit-src-content-indentation
