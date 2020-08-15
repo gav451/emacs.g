@@ -43,9 +43,6 @@
 [submodule "company-org-roam"]
 	path = lib/company-org-roam
 	url = git@github.com:org-roam/company-org-roam.git
-[submodule "cython-mode"]
-	path = lib/cython-mode
-	url = git@github.com:emacsmirror/cython-mode.git
 [submodule "dash"]
 	path = lib/dash
 	url = git@github.com:magnars/dash.el.git
@@ -131,9 +128,6 @@
 [submodule "flycheck"]
 	path = lib/flycheck
 	url = git@github.com:flycheck/flycheck.git
-[submodule "flycheck-cython"]
-	path = lib/flycheck-cython
-	url = git@github.com:lbolla/emacs-flycheck-cython.git
 [submodule "forge"]
 	path = lib/forge
 	url = git@github.com:magit/forge.git
