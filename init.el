@@ -375,6 +375,9 @@ Must be set before loading use-package.")
           ("C-c C-g" . counsel-rg)
           ("C-c u" . counsel-unicode-char)))
 
+(use-package cython-mode
+  :mode ((rx (seq ".py" (any "xdi") eos)) . cython-mode))
+
 (use-package dash
   :commands (dash-enable-font-lock)
   :config
