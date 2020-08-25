@@ -3,7 +3,7 @@
 ;;; Code:
 ;;; Early birds
 
-(defcustom use-helm-or-selectrum 'use-selectrum
+(defcustom use-helm-or-selectrum 'use-helm
   "Use helm-mode or selectrum-mode."
   :type '(choice (const :tag "Helm" 'use-helm)
                  (const :tag "Selectrum" 'use-selectrum))
@@ -38,16 +38,10 @@
                      (message "[after-init] reset fast to normal speed")
                      (garbage-collect))))
                 t)))
-  (setq-default                         ; `C-source'
+  (setq-default                         ; `emacs'
    cursor-type 'box
    indent-tabs-mode nil
    tab-width 8)
-  (setq                                 ; `C-source'
-   garbage-collection-messages t
-   maximum-scroll-margin 0.25
-   scroll-conservatively 0
-   scroll-margin 0
-   scroll-preserve-screen-position t)
   (setq                                 ; `startup'
    inhibit-startup-buffer-menu t
    inhibit-startup-screen t
@@ -108,6 +102,18 @@ Must be set before loading use-package.")
   :config
   (when (file-exists-p custom-file)
     (load custom-file)))
+
+(use-package emacs
+  :custom
+  (garbage-collection-messages t)
+  ;; https://tech.toryanderson.com/2020/08/24/helm-duplicates-history/
+  (history-delete-duplicates t)
+  (history-length 100)
+  ;; (emacs)Top > Display > Auto Scrolling
+  (maximum-scroll-margin 0.25)
+  (scroll-conservatively 0)
+  (scroll-margin 0)
+  (scroll-preserve-screen-position t))
 
 (use-package server
   :when window-system
@@ -1412,6 +1418,10 @@ Use this to unregister from the D-BUS.")
   :bind ((:map global-map
                ("C-x p" . helm-browse-project)
                ("C-x r p" . helm-projects-history)))
+  :init
+  (when (eq use-helm-or-selectrum 'use-helm)
+    (bind-keys :map global-map
+               ("C-x C-f" . helm-find-files)))
   :delight (helm-ff-cache-mode))
 
 (use-package helm-for-files
@@ -1480,8 +1490,7 @@ WITH-TYPES, if non-nil, ask for file types to search in."
 
 (use-package helm-mode
   :unless noninteractive
-  :commands (helm-comp-read
-             helm-mode)
+  :commands (helm-mode)
   :init
   (when (eq use-helm-or-selectrum 'use-helm)
     (helm-mode +1))
