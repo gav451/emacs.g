@@ -109,6 +109,7 @@
 	url = git@github.com:tali713/esxml.git
 	no-byte-compile = css-lite.el
 	no-byte-compile = esxml-form.el
+	no-byte-compile = esxml-html.el
 	no-byte-compile = esxpath.el
 [submodule "exec-path-from-shell"]
 	path = lib/exec-path-from-shell
@@ -194,9 +195,6 @@
 [submodule "keycast"]
 	path = lib/keycast
 	url = git@github.com:tarsius/keycast.git
-[submodule "kv"]
-	path = lib/kv
-	url = git@github.com:nicferrier/emacs-kv.git
 [submodule "langtool"]
 	path = lib/langtool
 	url = git@github.com:mhayashi1120/Emacs-langtool.git
