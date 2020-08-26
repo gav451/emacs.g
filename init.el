@@ -407,11 +407,11 @@ Must be set before loading use-package.")
   ;; https://alexschroeder.ch/wiki/2020-07-16_Emacs_everything
   :unless noninteractive
   :preface
-  (defun my-dired-eww-find-file ()
+  (defun !-dired-eww-find-file ()
     "Visit dired file with eww."
     (interactive)
     (eww-open-file (dired-get-file-for-visit)))
-  (defun my-dired-rsync (target)
+  (defun !-dired-rsync (target)
     "Copy marked files with `rsync' to TARGET directory."
     (interactive
      (list (expand-file-name
@@ -446,8 +446,8 @@ Must be set before loading use-package.")
              dired-get-marked-files)
   :config
   (bind-keys :map dired-mode-map
-             ("E" . my-dired-eww-find-file)
-             ("M-s y" . my-dired-rsync)))
+             ("E" . !-dired-eww-find-file)
+             ("M-s y" . !-dired-rsync)))
 
 (use-package dired-aux
   :commands (dired-dwim-target-directory))
@@ -529,14 +529,14 @@ Must be set before loading use-package.")
 (use-package electric
   ;; https://github.com/davidshepherd7/dotfiles/blob/master/emacs/.emacs.d/lisp/ds-python.el
   :preface
-  (defun my-enclosing-paren ()
+  (defun !-enclosing-paren ()
     "Return the opening parenthesis of the enclosing parens, or
 nil if not inside any parens."
     (let ((ppss (syntax-ppss)))
       (when (nth 1 ppss)
         (char-after (nth 1 ppss)))))
-  (defun my-python-electric-newline ()
-    (let ((paren (my-enclosing-paren)))
+  (defun !-python-electric-newline ()
+    (let ((paren (!-enclosing-paren)))
       (if (not (or (eq paren ?\{)
                    (eq paren ?\[)
                    (eq paren ?\()
@@ -549,7 +549,7 @@ nil if not inside any parens."
             (defun on-python-mode-hook-electric-layout ()
               (make-local-variable 'electric-layout-rules)
               (add-to-list 'electric-layout-rules
-                           (cons ?: #'my-python-electric-newline))
+                           (cons ?: #'!-python-electric-newline))
               (electric-layout-mode))))
 
 (use-package electric-operator
@@ -561,7 +561,7 @@ nil if not inside any parens."
   ;; http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/
   ;; https://gitlab.com/jabranham/emacs/blob/master/init.el
   :preface
-  (defun elfeed+db-load+update ()
+  (defun !-elfeed+db-load+update ()
     "Enter elfeed, load the database, and update."
     (interactive)
     (elfeed)
@@ -596,7 +596,7 @@ nil if not inside any parens."
      ("https://www.laquadrature.net/fr/rss.xml" lqdn)
      ("https://www.lemonde.fr/blog/huet/feed/" science)))
   (elfeed-enclosure-default-dir (expand-file-name "~/tmpfs/"))
-  :bind* (("C-x w" . elfeed+db-load+update))
+  :bind* (("C-x w" . !-elfeed+db-load+update))
   :commands (elfeed
              elfeed-update)
   :config
@@ -608,13 +608,13 @@ nil if not inside any parens."
 
 (use-package elfeed-search
   :preface
-  (defun elfeed-db-save+quit ()
+  (defun !-elfeed-db-save+quit ()
     (interactive)
     (elfeed-db-save)
     (quit-window))
   :bind ((:map elfeed-search-mode-map
                ("?" . describe-mode)
-               ("q" . elfeed-db-save+quit)))
+               ("q" . !-elfeed-db-save+quit)))
   :commands (elfeed-search-set-filter
              elfeed-search-toggle-all
              elfeed-search-update))
@@ -749,7 +749,7 @@ point."
   :config
   (when (and (fboundp 'eieio-oref)
              (fboundp 'epkg))
-    (defun borg-check-drone-urls ()
+    (defun !-borg-check-drone-urls ()
       "Check all drones for outdated upstream urls."
       (interactive)
       (let (moved)
@@ -819,7 +819,7 @@ point."
     "List of urls to show using `eww-readable'."
     :type '(repeat string)
     :group 'eww)
-  (defun reddit-browser ()
+  (defun !-reddit-browser ()
     (interactive)
     (eww-browse-url (format "https://www.reddit.com/r/%s/.mobile"
                             (completing-read "sub-reddit: "
@@ -864,6 +864,7 @@ point."
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-envs '("SSH_AGENT_PID"
                                     "SSH_AUTH_SOCK"))
+
   :demand t)
 
 (when (and (getenv "EXWM") (not noninteractive))
@@ -1415,6 +1416,7 @@ Use this to unregister from the D-BUS.")
 (use-package helm-files
   :custom
   (helm-ff-fuzzy-matching t)
+  :commands (helm-find-files)
   :bind ((:map global-map
                ("C-x p" . helm-browse-project)
                ("C-x r p" . helm-projects-history)))
@@ -1490,7 +1492,8 @@ WITH-TYPES, if non-nil, ask for file types to search in."
 
 (use-package helm-mode
   :unless noninteractive
-  :commands (helm-mode)
+  :commands (helm-comp-read
+             helm-mode)
   :init
   (when (eq use-helm-or-selectrum 'use-helm)
     (helm-mode +1))
@@ -2017,7 +2020,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 (use-package novice
   ;; https://www.emacswiki.org/emacs/DisabledCommands
   :preface
-  (defun enable-me (&rest _args)
+  (defun !-enable-this-command (&rest _args)
     "Called when a disabled command is executed.
 Enable it and re-execute it."
     (put this-command 'disabled nil)
@@ -2026,7 +2029,7 @@ Enable it and re-execute it."
     (sit-for 0)
     (call-interactively this-command))
   :init
-  (setq disabled-command-function #'enable-me))
+  (setq disabled-command-function #'!-enable-this-command))
 
 (use-package ob-core
   :custom
@@ -2814,26 +2817,6 @@ even if buffer is already narrowed."
 (use-package which-key
   :commands (which-key-mode)
   :delight (which-key-mode))
-
-(use-package window
-  :custom
-  (display-buffer-alist
-   (backquote
-    ((,(rx "*Help" (zero-or-more nonl) "*" )
-      (display-buffer-in-side-window)
-      (window-width . 0.30)
-      (side . left)
-      (slot . -1))
-     (,(rx (seq "*eshell" (zero-or-more nonl) "*"))
-      (display-buffer-in-side-window)
-      (window-height . 0.30)
-      (side . left)
-      (slot . 0))
-     (,(rx "*Faces*")
-      (display-buffer-in-side-window)
-      (window-width . 0.30)
-      (side . left)
-      (slot . +1))))))
 
 (use-package winner
   :bind ((:map winner-mode-map
