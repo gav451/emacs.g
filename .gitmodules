@@ -104,9 +104,6 @@
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git
-[submodule "epl"]
-	path = lib/epl
-	url = git@github.com:cask/epl.git
 [submodule "esxml"]
 	path = lib/esxml
 	url = git@github.com:tali713/esxml.git
@@ -275,9 +272,6 @@
 [submodule "peep-dired"]
 	path = lib/peep-dired
 	url = git@github.com:asok/peep-dired.git
-[submodule "pkg-info"]
-	path = lib/pkg-info
-	url = git@github.com:emacsorphanage/pkg-info.git
 [submodule "posframe"]
 	path = lib/posframe
 	url = git@github.com:tumashu/posframe.git
