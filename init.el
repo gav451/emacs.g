@@ -81,15 +81,14 @@ Must be set before loading use-package.")
 
 (use-package auto-compile
   :custom
-  (auto-compile-display-buffer               nil)
-  (auto-compile-mode-line-counter            t)
+  (auto-compile-display-buffer nil)
+  (auto-compile-mode-line-counter t)
   (auto-compile-source-recreate-deletes-dest t)
-  (auto-compile-toggle-deletes-nonlib-dest   t)
-  (auto-compile-update-autoloads             t)
+  (auto-compile-toggle-deletes-nonlib-dest t)
+  (auto-compile-update-autoloads t)
   :hook
-  ((auto-compile-inhibit-compile
-    ) . auto-compile-inhibit-compile-detached-git-head)
-  )
+  ((auto-compile-inhibit-compile)
+   . auto-compile-inhibit-compile-detached-git-head))
 
 (use-package no-littering
   :commands (no-littering-expand-etc-file-name
@@ -118,8 +117,7 @@ Must be set before loading use-package.")
 (use-package server
   :when window-system
   :unless (or noninteractive (daemonp))
-  :hook
-  (after-init . server-start))
+  :hook (after-init . server-start))
 
 (progn                                  ; startup
   (message "Loading early birds...done (%.3fs)"
@@ -146,13 +144,11 @@ Must be set before loading use-package.")
   :mode ((rx (seq ".tex" eos)) . TeX-latex-mode)
   :custom
   (LaTeX-electric-left-right-brace nil "Let smartparens handle braces")
-  :hook
-  ((LaTeX-mode) . LaTeX-math-mode)
+  :hook ((LaTeX-mode) . LaTeX-math-mode)
   :commands (LaTeX-narrow-to-environment))
 
 (use-package reftex
-  :hook
-  ((LaTeX-mode) . reftex-mode)
+  :hook ((LaTeX-mode) . reftex-mode)
   :delight (reftex-mode " 📑"))
 
 (use-package reftex-vars
@@ -172,15 +168,14 @@ Must be set before loading use-package.")
   (TeX-parse-self t)
   (TeX-source-correlate-method 'synctex)
   (TeX-source-correlate-mode t)
-  :hook
-  ((LaTeX-mode) . TeX-PDF-mode)
+  :hook ((LaTeX-mode) . TeX-PDF-mode)
   :commands (TeX-doc))
 
 (use-package tex-buf
   :after tex-site
   :hook
-  ((TeX-after-compilation-finished-functions
-    ) . TeX-revert-document-buffer))
+  ((TeX-after-compilation-finished-functions)
+   . TeX-revert-document-buffer))
 
 (use-package tex-site
   ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
@@ -196,8 +191,7 @@ Must be set before loading use-package.")
   (alert-default-style 'libnotify))
 
 (use-package autorevert
-  :hook
-  ((dired-mode) . auto-revert-mode)
+  :hook ((dired-mode) . auto-revert-mode)
   :delight (auto-revert-mode))
 
 (use-package avy
@@ -291,13 +285,8 @@ Must be set before loading use-package.")
                ("C-m" . nil)
                ))
   :hook
-  ((LaTeX-mode
-    emacs-lisp-mode
-    ielm-mode
-    org-mode
-    shell-mode
-    sly-mode
-    sly-mrepl-mode) . company-mode)
+  ((LaTeX-mode emacs-lisp-mode ielm-mode org-mode) . company-mode)
+  ((shell-mode sly-mode sly-mrepl-mode) . company-mode)
   :delight (company-mode " 👫"))
 
 (use-package company-native-complete
@@ -305,8 +294,7 @@ Must be set before loading use-package.")
   :demand t)
 
 (use-package company-prescient
-  :hook
-  ((company-mode) . company-prescient-mode))
+  :hook ((company-mode) . company-prescient-mode))
 
 (use-package compile
   :delight (compilation-in-progress " 👷"))
@@ -506,9 +494,7 @@ Must be set before loading use-package.")
   :custom-face
   (line-number-current-line ((t (:inherit highlight))))
   :hook
-  ((LaTeX-mode
-    org-mode
-    prog-mode) . display-line-numbers-mode))
+  ((LaTeX-mode org-mode prog-mode) . display-line-numbers-mode))
 
 (use-package djvu
   :when (cl-loop for command in '("ddjvu" "djview" "djvm" "djvused")
@@ -553,8 +539,7 @@ nil if not inside any parens."
               (electric-layout-mode))))
 
 (use-package electric-operator
-  :hook
-  ((python-mode) . electric-operator-mode)
+  :hook ((python-mode) . electric-operator-mode)
   :delight (electric-operator-mode " ⨄⌤"))
 
 (use-package elfeed
@@ -622,8 +607,10 @@ nil if not inside any parens."
 (use-package elfeed-show
   :bind ((:map elfeed-show-mode-map
                ("?" . describe-mode)))
-  :hook ((elfeed-show) . (lambda ()
-                           (setq-local shr-max-image-proportion 0.6))))
+  :config
+  (add-hook 'elfeed-show-hook
+            (defun on-elfeed-show-hook ()
+              (setq-local shr-max-image-proportion 0.6))))
 
 (use-package elisp-demos
   :commands (elisp-demos-advice-helpful-update)
@@ -685,8 +672,7 @@ point."
   :custom
   (emms-player-list '(emms-player-mpd emms-player-mpv))
   :commands (emms-player-set)
-  :hook
-  ((kill-emacs) . emms-stop))
+  :hook ((kill-emacs) . emms-stop))
 
 (use-package emms-browser
   :commands (emms-smart-browse))
@@ -1094,20 +1080,6 @@ Use this to unregister from the D-BUS.")
                return nil
                finally return t))
 
-    (defun on-exwm-update-class ()
-      (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
-                  (string= "gimp" exwm-instance-name))
-        (exwm-workspace-rename-buffer exwm-class-name)))
-
-    (defun on-exwm-update-title ()
-      (when (or (not exwm-instance-name)
-                (string-prefix-p "sun-awt-X11-" exwm-instance-name)
-                (string= "gimp" exwm-instance-name))
-        (exwm-workspace-rename-buffer exwm-title)))
-
-    :hook
-    (exwm-update-class . on-exwm-update-class)
-    (exwm-update-title . on-exwm-update-title)
     :commands (exwm-enable
                exwm-reset)
     :init
@@ -1116,7 +1088,20 @@ Use this to unregister from the D-BUS.")
     (xpointer-toggle-touchpad)
     (no-ac-display-battery-mode 1)
     (display-time-mode 1)
-    (menu-bar-mode -1))
+    (menu-bar-mode -1)
+    (add-hook
+     'exwm-update-class-hook
+     (defun on-exwm-update-class-hook ()
+       (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+                   (string= "gimp" exwm-instance-name))
+         (exwm-workspace-rename-buffer exwm-class-name))))
+    (add-hook
+     'exwm-update-title-hook
+     (defun on-exwm-update-title ()
+       (when (or (not exwm-instance-name)
+                 (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+                 (string= "gimp" exwm-instance-name))
+         (exwm-workspace-rename-buffer exwm-title)))))
 
   (use-package exwm-floating
     :custom
@@ -1210,29 +1195,28 @@ Use this to unregister from the D-BUS.")
                                collect (match-string 1 line))))
           found)))
 
-    (defun on-exwm-randr-screen-change ()
-      (let* ((monitors (exwm-randr-connected-monitors))
-             (count (length monitors))
-             (wop))
-        (cond
-         ((eq count 2)
-          (dotimes (i 10)
-            (if (cl-evenp i)
-                (setq wop (plist-put wop i (car monitors)))
-              (setq wop (plist-put wop i (cadr monitors)))))
-          (message "Exwm-randr: configure 2 monitors"))
-         ((eq count 1)
-          (dotimes (i 10)
-            (setq wop (plist-put wop i (car monitors))))
-          (message "Exwm-randr: configure 1 monitor")))
-        (setq exwm-randr-workspace-monitor-plist wop)))
-
     :when (string= (system-name) "venus")
-    :hook
-    (exwm-randr-screen-change . on-exwm-randr-screen-change)
     :commands (exwm-randr-enable)
     :init
-    (exwm-randr-enable))
+    (exwm-randr-enable)
+    (add-hook
+     'exwm-randr-screen-change-hook
+     (defun on-exwm-randr-screen-change-hook ()
+       (let* ((monitors (exwm-randr-connected-monitors))
+              (count (length monitors))
+              (wop))
+         (cond
+          ((eq count 2)
+           (dotimes (i 10)
+             (if (cl-evenp i)
+                 (setq wop (plist-put wop i (car monitors)))
+               (setq wop (plist-put wop i (cadr monitors)))))
+           (message "Exwm-randr: configure 2 monitors"))
+          ((eq count 1)
+           (dotimes (i 10)
+             (setq wop (plist-put wop i (car monitors))))
+           (message "Exwm-randr: configure 1 monitor")))
+         (setq exwm-randr-workspace-monitor-plist wop)))))
 
   (use-package exwm-workspace
     :custom
@@ -1268,8 +1252,7 @@ Use this to unregister from the D-BUS.")
        (lambda (p) (and (eq p 'inherit)
                         (string-equal (buffer-file-name) user-init-file))))
   :custom (flycheck-check-syntax-automatically (quote (idle-change newline save)))
-  :hook ((emacs-lisp-mode
-          python-mode) . flycheck-mode))
+  :hook ((emacs-lisp-mode python-mode) . flycheck-mode))
 
 (use-package flymake
   :bind ((:map flymake-mode-map
@@ -1334,9 +1317,7 @@ Use this to unregister from the D-BUS.")
   :bind ((:map goto-address-highlight-keymap
                ("C-c C-o" . goto-address-at-point)))
   :hook
-  ((compilation-mode
-    eshell-mode
-    shell-mode) . goto-address-mode)
+  ((compilation-mode eshell-mode shell-mode) . goto-address-mode)
   ((prog-mode) . goto-address-prog-mode))
 
 (use-package git-commit
@@ -1561,12 +1542,8 @@ WITH-TYPES, if non-nil, ask for file types to search in."
 
 (use-package hl-line
   :hook
-  ((Info-mode
-    elfeed-show-mode
-    emms-playlist-mode
-    help-mode
-    magit-status-mode
-    special-mode) . hl-line-mode))
+  ((Info-mode elfeed-show-mode emms-playlist-mode) . hl-line-mode)
+  ((help-mode magit-status-mode special-mode) . hl-line-mode))
 
 (use-package hydra
   ;; http://oremacs.com/2016/04/04/hydra-doc-syntax/
@@ -1767,11 +1744,12 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
     (make-ibuffer-saved-filter-group
      "Text" "Org" "TeX" "PDF" "Doc" "Eshell" "Python" "Code"
      "Magit" "VC" "Dired" "Helm" "EMMS" "EXWM" "Setup")))
-  :hook
-  ((ibuffer-mode) . (lambda ()
-                      (ibuffer-switch-to-saved-filter-groups
-                       (caar ibuffer-saved-filter-groups))))
-  :commands (ibuffer-switch-to-saved-filter-groups))
+  :commands (ibuffer-switch-to-saved-filter-groups)
+  :config
+  (add-hook 'ibuffer-mode-hook
+            (defun on-ibuffer-mode-hook-to-saved-filter-groups ()
+              (ibuffer-switch-to-saved-filter-groups
+               (caar ibuffer-saved-filter-groups)))))
 
 (use-package ibuffer
   ;; http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html
@@ -2098,20 +2076,6 @@ Enable it and re-execute it."
             (message "Found no broken org-mode file links")))
       (message "Failed to find broken links (major mode is not org-mode)")))
 
-  (defun on-org-mode-eval-blocks ()
-    "Evaluate all org-mode source blocks named `org-mode-hook-eval-block'."
-    (interactive)
-    (if (eq major-mode 'org-mode)
-        (let ((blocks
-               (org-element-map
-                   (org-element-parse-buffer) 'src-block
-                 (lambda (element)
-                   (when (string= "org-mode-hook-eval-block"
-                                  (org-element-property :name element))
-                     element)))))
-          (dolist (block blocks)
-            (goto-char (org-element-property :begin block))
-            (org-babel-execute-src-block)))))
   :custom
   (org-adapt-indentation nil)
   ;; See jupyter's README: jupyter must be the last item, since it
@@ -2169,14 +2133,28 @@ Enable it and re-execute it."
          (:map org-mode-map
                ("M-q" . org-fill-paragraph)))
   :mode ((rx ".org" eos) . org-mode)
-  :hook
-  (org-mode . on-org-mode-eval-blocks)
   :commands (org-insert-time-stamp
              org-link-set-parameters
              org-narrow-to-block
              org-narrow-to-subtree)
   :init
-  (require 'pyenv-mode))
+  (require 'pyenv-mode)
+  (add-hook
+   'org-mode-hook
+   (defun on-org-mode-hook-eval-blocks ()
+     "Evaluate all \"org-mode-hook-eval-block\" source blocks."
+     (interactive)
+     (if (eq major-mode 'org-mode)
+         (let ((blocks
+                (org-element-map
+                    (org-element-parse-buffer) 'src-block
+                  (lambda (element)
+                    (when (string= "org-mode-hook-eval-block"
+                                   (org-element-property :name element))
+                      element)))))
+           (dolist (block blocks)
+             (goto-char (org-element-property :begin block))
+             (org-babel-execute-src-block)))))))
 
 (use-package org-agenda
   :after org
@@ -2236,7 +2214,7 @@ Enable it and re-execute it."
               :with-author nil
               :with-toc nil))
   (add-hook 'org-mime-html-hook
-            (defun on-org-mime-html-hook-setup ()
+            (defun on-org-mime-html-hook-change-element-styles ()
               (org-mime-change-element-style
                "pre"
                "color:#E6E1DC; background-color:#232323; padding:0.5em;")
@@ -2510,10 +2488,8 @@ Enable it and re-execute it."
                                       c++-mode
                                       java-mode))
   :hook
-  ((emacs-lisp-mode
-    ielm-mode
-    latex-mode
-    lisp-interaction-mode) . rainbow-mode)
+  ((emacs-lisp-mode ielm-mode) . rainbow-mode)
+  ((latex-mode lisp-interaction-mode) . rainbow-mode)
   :delight (rainbow-mode " 🌈"))
 
 (use-package recentf
@@ -2531,8 +2507,7 @@ Enable it and re-execute it."
 
 (use-package reveal
   ;; info -> magit -> FAQ -> FAQ - Issues and Errors.
-  :hook
-  ((magit-diff-visit-file) . reveal-mode)
+  :hook ((magit-diff-visit-file) . reveal-mode)
   :delight (reveal-mode " 👀"))
 
 (use-package replace
@@ -2549,8 +2524,7 @@ Enable it and re-execute it."
               collect buffer)))
   :custom
   (list-matching-lines-default-context-lines 0)
-  :hook
-  ((occur) . occur-rename-buffer)
+  :hook ((occur) . occur-rename-buffer)
   :commands (occur-1
              occur-read-primary-args))
 
@@ -2577,11 +2551,12 @@ Enable it and re-execute it."
   (shell-file-name (executable-find "bash"))
   :bind ((:map shell-mode-map
                ("<tab>" . company-complete)))
-  :hook
-  ((shell-mode) . (lambda ()
-                    (setq-local company-backends '((company-native-complete)))))
   :config
-  (setenv "PAGER" "cat"))
+  (setenv "PAGER" "cat")
+  (add-hook 'shell-mode-hook
+            (defun on-shell-mode-hook ()
+              (setq-local company-backends
+                          '((company-native-complete))))))
 
 (use-package shr
   :custom
@@ -2600,14 +2575,12 @@ Enable it and re-execute it."
   (kill-do-not-save-duplicates t)
   :commands (column-number-mode
              region-active-p)
-  :hook
-  ((help-mode
-    text-mode) . visual-line-mode)
+  :hook ((help-mode text-mode) . visual-line-mode)
   :config
   (column-number-mode)
   (add-hook 'overwrite-mode-hook
             (defun on-overwrite-mode-toggle-background-color ()
-              "Toggle background-color on overwrite-mode toggle."
+              "Toggle background-color when toggling overwrite-mode."
               (if (bound-and-true-p overwrite-mode)
                   (buffer-face-set
                    `(:background ,overwrite-mode-background-color))
@@ -2630,13 +2603,14 @@ Enable it and re-execute it."
   :bind ((:map sly-prefix-map
                ;; C-c M-h
                ("M-h" . sly-documentation-lookup)))
-  :hook
-  ((sly-mode) . (lambda ()
-                  (unless (sly-connected-p)
-                    (save-excursion (sly)))))
   :commands (sly
              sly-connected-p
-             sly-eval))
+             sly-eval)
+  :init
+  (add-hook 'sly-mode-hook
+            (defun on-sly-mode-hook ()
+              (unless (sly-connected-p)
+                (save-excursion (sly))))))
 
 (use-package smartparens
   ;; https://ebzzry.io/en/emacs-pairs/
@@ -2680,11 +2654,8 @@ Enable it and re-execute it."
                ("M-F" . sp-forward-symbol)
                ("M-B" . sp-backward-symbol)))
   :hook
-  ((ielm-mode
-    prog-mode
-    text-mode) . smartparens-mode)
-  ((ielm-mode
-    prog-mode) . smartparens-strict-mode)
+  ((ielm-mode prog-mode text-mode) . smartparens-mode)
+  ((ielm-mode prog-mode) . smartparens-strict-mode)
   :commands (show-smartparens-global-mode
              sp-local-pair)
   :config
@@ -2756,8 +2727,7 @@ even if buffer is already narrowed."
                          " %R %F")))
 
 (use-package toc-org
-  :hook
-  ((org-mode) . toc-org-mode))
+  :hook ((org-mode) . toc-org-mode))
 
 (use-package tramp
   :config
@@ -2826,9 +2796,7 @@ even if buffer is already narrowed."
   (winner-dont-bind-my-keys t))
 
 (use-package with-editor
-  :hook
-  ((eshell-mode
-    shell-mode) . with-editor-export-editor))
+  :hook ((eshell-mode shell-mode) . with-editor-export-editor))
 
 (use-package wordnut
   :bind* (("C-z C-w" . wordnut-search)))
@@ -2839,9 +2807,7 @@ even if buffer is already narrowed."
 (use-package ws-butler
   :custom
   (ws-butler-keep-whitespace-before-point nil)
-  :hook
-  ((prog-mode
-    text-mode) . ws-butler-mode)
+  :hook ((prog-mode text-mode) . ws-butler-mode)
   :delight (ws-butler-mode " 🍴"))
 
 (use-package yasnippet
