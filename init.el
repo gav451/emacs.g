@@ -1922,7 +1922,8 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
                           nil))
 
 (use-package magit-git
-  ;; Info: (magit) MacOS Performance
+  ;; (magit)Top > Customizing > Essential Settings > Performance >
+  ;; MacOS Performance
   :custom
   (magit-git-executable (executable-find "git")))
 
@@ -1945,7 +1946,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 
 (use-package message
   ;; https://emacs.stackexchange.com/a/3653
-  ;; Info: (emacs) Sending Mail
+  ;; (emacs)Top > Sending Mail
   :custom
   (message-sendmail-envelope-from 'header)
   (message-send-mail-function 'message-send-mail-with-sendmail)
@@ -2494,7 +2495,8 @@ Enable it and re-execute it."
                 "^/\\(?:ssh\\|su\\|sudo\\)?:"))))
 
 (use-package reveal
-  ;; info -> magit -> FAQ -> FAQ - Issues and Errors.
+  ;; (magit)Top > FAQ > FAQ - Issues and Errors > Point ends up inside
+  ;; invisible text when jumping to a file-visiting buffer
   :hook ((magit-diff-visit-file) . reveal-mode)
   :delight (reveal-mode " 👀"))
 
