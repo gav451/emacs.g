@@ -1369,11 +1369,7 @@ Use this to unregister from the D-BUS.")
 (use-package helm-command
   :custom
   (helm-M-x-reverse-history nil)
-  :commands (helm-M-x)
-  :init
-  (when (eq use-helm-or-selectrum 'use-helm)
-    (bind-keys :map global-map
-               ("M-x" . helm-M-x))))
+  :commands (helm-M-x))
 
 (use-package helm-config
   :unless noninteractive
@@ -1394,10 +1390,6 @@ Use this to unregister from the D-BUS.")
   :bind ((:map global-map
                ("C-x p" . helm-browse-project)
                ("C-x r p" . helm-projects-history)))
-  :init
-  (when (eq use-helm-or-selectrum 'use-helm)
-    (bind-keys :map global-map
-               ("C-x C-f" . helm-find-files)))
   :delight (helm-ff-cache-mode))
 
 (use-package helm-for-files
@@ -1470,7 +1462,10 @@ WITH-TYPES, if non-nil, ask for file types to search in."
              helm-mode)
   :init
   (when (eq use-helm-or-selectrum 'use-helm)
-    (helm-mode +1))
+    (helm-mode +1)
+    (bind-keys :map global-map
+               ("C-x C-f" . helm-find-files)
+               ("M-x" . helm-M-x)))
   :delight (helm-mode " 🎯"))
 
 (use-package helm-net
