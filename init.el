@@ -775,13 +775,18 @@ point."
                               "watch")))
   (use-package esh-mode
     :commands (eshell-life-is-too-much)
-    :bind ((:map eshell-mode-map
-                 ("C-d" . (lambda (arg)
-                            (interactive "p")
-                            (if (and (eolp)
-                                     (looking-back eshell-prompt-regexp nil))
-                                (eshell-life-is-too-much)
-                              (delete-char arg))))))))
+    :init
+    (add-hook
+     'eshell-mode-hook
+     (defun on-eshell-mode-hook ()
+       (bind-key
+        "C-d"
+        (defun !-eshell-quit-or-delete-char (arg)
+          (interactive "p")
+          (if (and (eolp) (looking-back eshell-prompt-regexp nil))
+              (eshell-life-is-too-much)
+            (delete-char arg)))
+        eshell-mode-map)))))
 
 (use-package expand-region
   :bind* (("C-=" . er/expand-region)))
