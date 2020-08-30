@@ -2388,14 +2388,6 @@ Enable it and re-execute it."
   :magic
   ("%PDF" . pdf-view-mode))
 
-(use-package peep-dired
-  :after dired
-  :custom
-  (peep-dired-cleanup-eagerly t)
-  (peep-dired-cleanup-on-disable t)
-  :bind ((:map dired-mode-map
-               ("M-s p" . peep-dired))))
-
 (use-package posframe
   :disabled
   :commands (posframe-workable-p)

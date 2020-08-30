@@ -264,9 +264,6 @@
 	build-step = make -s
 	build-step = borg-byte-compile
 	build-step = borg-update-autoloads
-[submodule "peep-dired"]
-	path = lib/peep-dired
-	url = git@github.com:asok/peep-dired.git
 [submodule "posframe"]
 	path = lib/posframe
 	url = git@github.com:tumashu/posframe.git
