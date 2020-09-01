@@ -277,6 +277,9 @@ Must be set before loading use-package.")
 (use-package company
   ;; https://github.com/CeleritasCelery/emacs.d/blob/master/emacs.org
   :unless noninteractive
+  :preface
+  ;; Because company disables a new local variable (Emacs-28.1).
+  (put 'project-vc-merge-submodules 'safe-local-variable #'null)
   :custom
   (company-show-numbers t)
   :bind ((:map company-active-map
