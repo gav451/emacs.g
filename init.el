@@ -1957,6 +1957,17 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :config
   (mailcap-add "application/pdf" #'pdf-view-mode #'window-system))
 
+(use-package man
+  :custom
+  (Man-width 80))
+
+(use-package markdown-mode
+  :custom
+  (markdown-command "pandoc -f markdown -t html5 -s --self-contained --smart")
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)))
+
 (use-package message
   ;; https://emacs.stackexchange.com/a/3653
   ;; (emacs)Top > Sending Mail
@@ -1969,17 +1980,6 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
     (mail-specify-envelope-from t)
     (mail-envelope-from 'header)
     (sendmail-program (executable-find "msmtp"))))
-
-(use-package man
-  :custom
-  (Man-width 80))
-
-(use-package markdown-mode
-  :custom
-  (markdown-command "pandoc -f markdown -t html5 -s --self-contained --smart")
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode)))
 
 (use-package minibuffer
   :custom
