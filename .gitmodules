@@ -212,6 +212,12 @@
 [submodule "markdown-mode"]
 	path = lib/markdown-mode
 	url = git@github.com:jrblevin/markdown-mode.git
+[submodule "modus-operandi-theme"]
+	path = lib/modus-operandi-theme
+	url = git@github.com:emacsmirror/modus-operandi-theme.git
+[submodule "modus-vivendi-theme"]
+	path = lib/modus-vivendi-theme
+	url = git@github.com:emacsmirror/modus-vivendi-theme.git
 [submodule "multiple-cursors"]
 	path = lib/multiple-cursors
 	url = git@github.com:magnars/multiple-cursors.el.git

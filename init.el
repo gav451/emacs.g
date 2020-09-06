@@ -1994,6 +1994,25 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :config
   (native-complete-setup-bash))
 
+(use-package modus-operandi-theme
+  ;; https://protesilaos.com/modus-themes/
+  :init
+  (load-theme 'modus-operandi t t))
+
+(use-package modus-vivendi-theme
+  ;; https://protesilaos.com/modus-themes/
+  :init
+  (load-theme 'modus-vivendi t)
+  (defun !-modus-themes-toggle ()
+    "Toggle between `modus-operandi' and `modus-vivendi' themes."
+    (interactive)
+    (if (eq (car custom-enabled-themes) 'modus-operandi)
+        (progn
+          (disable-theme 'modus-operandi)
+          (load-theme 'modus-vivendi t))
+      (disable-theme 'modus-vivendi)
+      (load-theme 'modus-operandi t))))
+
 (use-package nov
   :mode ((rx (seq ".epub" eos)) . nov-mode))
 
