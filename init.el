@@ -1994,14 +1994,10 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   :config
   (native-complete-setup-bash))
 
-(use-package modus-operandi-theme
+(use-package modus-themes
   ;; https://protesilaos.com/modus-themes/
   :init
-  (load-theme 'modus-operandi t t))
-
-(use-package modus-vivendi-theme
-  ;; https://protesilaos.com/modus-themes/
-  :init
+  (load-theme 'modus-operandi t t)
   (load-theme 'modus-vivendi t)
   (defun !-modus-themes-toggle ()
     "Toggle between `modus-operandi' and `modus-vivendi' themes."
