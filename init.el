@@ -1233,15 +1233,10 @@ Use this to unregister from the D-BUS.")
   :delight (buffer-face-mode))
 
 (use-package faces
-  :commands (invert-face)
   :init
-  (when window-system
-    (invert-face 'default))
-  (set-face-attribute 'default nil
-                      :family "Hack"
-                      :height 110
-                      :weight 'normal
-                      :width 'normal))
+  (set-face-attribute 'default nil :family "Hack" :height 110)
+  (set-face-attribute 'fixed-pitch nil :family "Hack")
+  (set-face-attribute 'variable-pitch nil :family "DejaVu Sans"))
 
 (use-package files
   :commands (executable-find
