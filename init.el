@@ -2435,8 +2435,11 @@ Enable it and re-execute it."
 (use-package psession
   :unless noninteractive
   :custom (psession-save-buffers-unwanted-buffers-regexp
-           (rx (or (seq "diary" eol)
-                   (seq ".newsticker-cache" eol))))
+           (rx (or (seq ".bz2" eol)
+                   (seq ".gpg" eol)
+                   (seq ".gz" eol)
+                   (seq ".newsticker-cache" eol)
+                   (seq "diary" eol))))
   :commands (psession-mode
              psession-savehist-mode)
   :demand t
