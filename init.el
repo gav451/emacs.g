@@ -2575,8 +2575,10 @@ Enable it and re-execute it."
                           '((company-native-complete))))))
 
 (use-package shr
+  ;; (modus-themes)Top > Notes for individual packages > Note on shr colours
   :custom
   (shr-max-image-proportion 0.8)
+  (shr-use-colors nil)
   :commands (shr-browse-url))
 
 (use-package simple
