@@ -1228,9 +1228,17 @@ Use this to unregister from the D-BUS.")
                exwm-workspace-switch-create)))
 
 (use-package face-remap
+  ;; https://protesilaos.com/dotemacs/
   :commands (buffer-face-mode
-             buffer-face-set)
-  :delight (buffer-face-mode))
+             buffer-face-set
+             variable-pitch-mode)
+  :delight (buffer-face-mode)
+  :init
+  (defun !-toggle-variable-pitch-mode-unless-prog-mode ()
+    "Toggle `variable-pitch-mode' unless in `prog-mode'."
+    (interactive)
+    (unless (derived-mode-p 'prog-mode)
+      (call-interactively #'variable-pitch-mode))))
 
 (use-package faces
   :init
@@ -2002,7 +2010,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   ;; https://protesilaos.com/modus-themes/
   :init
   (load-theme 'modus-vivendi t)
-  (defun !-modus-themes-toggle ()
+  (defun !-toggle-modus-theme ()
     "Toggle between `modus-operandi' and `modus-vivendi' themes."
     (interactive)
     (if (eq (car custom-enabled-themes) 'modus-operandi)
