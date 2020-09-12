@@ -1273,13 +1273,11 @@ Use this to unregister from the D-BUS.")
 (use-package flyspell
   :unless noninteractive
   :preface
-  (defun toggle-flyspell-dwim-mode ()
+  (defun !-toggle-flyspell-dwim-mode ()
     (interactive)
-    (if flyspell-mode
-        (flyspell-mode -1)
-      (if (derived-mode-p 'prog-mode)
-          (flyspell-prog-mode)
-        (flyspell-mode 1))))
+    (if (derived-mode-p 'prog-mode)
+        (call-interactively #'flyspell-prog-mode)
+      (call-interactively #'flyspell-mode)))
   :hook
   ((prog-mode) . flyspell-prog-mode)
   ((text-mode) . flyspell-mode)
@@ -1316,15 +1314,11 @@ Use this to unregister from the D-BUS.")
 
 (use-package goto-addr
   :preface
-  (defun toggle-goto-address-dwim-mode ()
+  (defun !-toggle-goto-address-dwim-mode ()
     (interactive)
     (if (derived-mode-p 'prog-mode)
-        (if goto-address-prog-mode
-            (goto-address-prog-mode -1)
-          (goto-address-prog-mode 1))
-      (if goto-address-mode
-          (goto-address-mode -1)
-        (goto-address-mode 1))))
+        (call-interactively #'goto-address-prog-mode)
+      (call-interactively #'goto-address-mode)))
   :bind ((:map goto-address-highlight-keymap
                ("C-c C-o" . goto-address-at-point)))
   :hook
@@ -1675,9 +1669,9 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
       (if (bound-and-true-p flycheck-mode) "[X]" "[ ]"))
      ("fl" #'font-lock-mode
       (if (bound-and-true-p font-lock-mode) "[X]" "[ ]"))
-     ("fs" #'toggle-flyspell-dwim-mode
+     ("fs" #'!-toggle-flyspell-dwim-mode
       (if (bound-and-true-p flyspell-mode) "[X]" "[ ]"))
-     ("g" #'toggle-goto-address-dwim-mode
+     ("g" #'!-toggle-goto-address-dwim-mode
       (if (or (bound-and-true-p goto-address-prog-mode)
               (bound-and-true-p goto-address-mode)) "[X]" "[ ]"))
      ("ii" #'iimage-mode
