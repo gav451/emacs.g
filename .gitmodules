@@ -180,9 +180,6 @@
 	path = lib/ivy
 	url = git@github.com:abo-abo/swiper.git
 	info-path = doc
-[submodule "ivy-posframe"]
-	path = lib/ivy-posframe
-	url = git@github.com:tumashu/ivy-posframe.git
 [submodule "julia-mode"]
 	path = lib/julia-mode
 	url = git@github.com:JuliaEditorSupport/julia-emacs.git
@@ -268,9 +265,6 @@
 	build-step = make -s
 	build-step = borg-byte-compile
 	build-step = borg-update-autoloads
-[submodule "posframe"]
-	path = lib/posframe
-	url = git@github.com:tumashu/posframe.git
 [submodule "prescient"]
 	path = lib/prescient
 	url = git@github.com:raxod502/prescient.el.git

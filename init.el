@@ -1073,14 +1073,6 @@ Use this to unregister from the D-BUS.")
       (interactive)
       (shell-command-to-string "i3lock -c 000000"))
 
-    (defun no-exwm-window-in-frame-p ()
-      "Check for no EXWM window in the selected frame."
-      (cl-loop for window being the windows of (selected-frame)
-               when (with-current-buffer (window-buffer window)
-                      (eq major-mode 'exwm-mode))
-               return nil
-               finally return t))
-
     :commands (exwm-enable
                exwm-reset)
     :init
@@ -1860,26 +1852,6 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   (ivy-mode)
   :delight (ivy-mode " 𝝓"))
 
-(use-package ivy-posframe
-  :disabled
-  :after ivy
-  :custom
-  (ivy-posframe-border-width 2)
-  (ivy-posframe-height (1+ ivy-height))
-  (ivy-posframe-width 80)
-  (ivy-posframe-min-height (1+ ivy-height))
-  (ivy-posframe-min-width 80)
-  (ivy-posframe-hide-minibuffer t)
-  (ivy-posframe-parameters '((left-fringe . nil)
-                             (right-fringe . 0)))
-  (ivy-posframe-style 'window-center)
-  :custom-face
-  (ivy-posframe ((t (:foreground "LawnGreen" :background "Black"))))
-  (ivy-posframe-border ((t (:background "BlueViolet"))))
-  (ivy-posframe-cursor ((t (:background "LawnGreen"))))
-  :commands (ivy-posframe-mode)
-  :delight (ivy-posframe-mode " 🗔"))
-
 (use-package ivy-prescient
   :disabled
   :after ivy
@@ -2432,14 +2404,6 @@ Enable it and re-execute it."
                ("M-w" . pdf-view-kill-ring-save)))
   :magic
   ("%PDF" . pdf-view-mode))
-
-(use-package posframe
-  :disabled
-  :commands (posframe-workable-p)
-  :config
-  (when (fboundp 'no-exwm-window-in-frame-p)
-    (advice-add 'posframe-workable-p
-                :before-while #'no-exwm-window-in-frame-p)))
 
 (use-package prescient
   :commands (prescient-persist-mode)
