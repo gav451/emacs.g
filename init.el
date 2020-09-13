@@ -1473,11 +1473,21 @@ WITH-TYPES, if non-nil, ask for file types to search in."
   :commands (helm-comp-read
              helm-mode)
   :init
+  (add-hook 'helm-mode-hook
+            (defun on-helm-mode-hook ()
+              (if helm-mode
+                  (bind-keys :map global-map
+                             ("C-x C-f" . helm-find-files)
+                             ("M-s o" . helm-occur)
+                             ("M-x" . helm-M-x)
+                             ("M-y" . helm-show-kill-ring))
+                (bind-keys :map global-map
+                           ("C-x C-f" . find-file)
+                           ("M-s o" . occur)
+                           ("M-x" . execute-extended-command)
+                           ("M-y" . yank-pop)))))
   (when (eq use-helm-or-selectrum 'use-helm)
-    (helm-mode +1)
-    (bind-keys :map global-map
-               ("C-x C-f" . helm-find-files)
-               ("M-x" . helm-M-x)))
+    (helm-mode +1))
   :delight (helm-mode " 🎯"))
 
 (use-package helm-net
@@ -1485,7 +1495,7 @@ WITH-TYPES, if non-nil, ask for file types to search in."
   (helm-net-prefer-curl (if (executable-find "curl") t nil)))
 
 (use-package helm-occur
-  :bind ((:map global-map ("M-s o" . helm-occur))))
+  :commands (helm-occur))
 
 (use-package helm-org
   :unless noninteractive
@@ -1498,7 +1508,7 @@ WITH-TYPES, if non-nil, ask for file types to search in."
                 (org-set-tags . helm-org-completing-read-tags)))))
 
 (use-package helm-ring
-  :bind ((:map global-map ("M-y" . helm-show-kill-ring))))
+  :commands (helm-show-kill-ring))
 
 (use-package helm-semantic
   :custom
