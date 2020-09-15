@@ -1356,12 +1356,12 @@ Use this to unregister from the D-BUS.")
 
 (use-package helm
   :custom
-  (helm-always-two-windows t)
-  (helm-reuse-last-window-split-state t)
-  (helm-split-window-default-side 'left)
+  (helm-always-two-windows nil)
+  (helm-reuse-last-window-split-state nil)
+  (helm-split-window-default-side 'same)
   (helm-split-window-inside-p nil)
-  (helm-use-frame-when-dedicated-window t)
-  (helm-use-frame-when-more-than-two-windows t))
+  (helm-use-frame-when-dedicated-window nil)
+  (helm-use-frame-when-more-than-two-windows nil))
 
 (use-package helm-adaptive
   ;; Works only with `helm-bookmark' and `helm-grep' out of the box.
