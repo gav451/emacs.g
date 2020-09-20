@@ -271,9 +271,6 @@
 [submodule "projectile"]
 	path = lib/projectile
 	url = git@github.com:bbatsov/projectile.git
-[submodule "psession"]
-	path = lib/psession
-	url = git@github.com:thierryvolpiatto/psession.git
 [submodule "pyenv-mode"]
 	path = lib/pyenv-mode
 	url = git@github.com:pythonic-emacs/pyenv-mode.git

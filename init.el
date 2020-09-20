@@ -386,6 +386,23 @@ Must be set before loading use-package.")
              dbus-register-signal
              dbus-unregister-object))
 
+(use-package desktop
+  :unless noninteractive
+  :custom
+  (desktop-auto-save-timeout 30)
+  (desktop-files-not-to-save
+   (rx (or (group (or (seq bos "/" (0+ (not (any "/:"))) ":")
+                      (seq "(ftp)" eos)))
+           (seq ".bz2" eos)
+           (seq ".gpg" eos)
+           (seq ".gz" eos))))
+  (desktop-load-locked-desktop t)
+  (desktop-restore-eager 20)
+  (desktop-restore-frames nil)
+  :commands (desktop-save-mode)
+  :init
+  (desktop-save-mode +1))
+
 (use-package diff-hl
   ;; https://github.com/yiufung/dot-emacs/blob/master/init.el
   :custom
@@ -2413,21 +2430,6 @@ Enable it and re-execute it."
   :commands (prescient-persist-mode)
   :config
   (prescient-persist-mode))
-
-(use-package psession
-  :unless noninteractive
-  :custom (psession-save-buffers-unwanted-buffers-regexp
-           (rx (or (seq ".bz2" eol)
-                   (seq ".gpg" eol)
-                   (seq ".gz" eol)
-                   (seq ".newsticker-cache" eol)
-                   (seq "diary" eol))))
-  :commands (psession-mode
-             psession-savehist-mode)
-  :demand t
-  :init
-  (psession-mode +1)
-  (psession-savehist-mode +1))
 
 (use-package pyenv-mode
   ;; Loads `elpy' and `python' automatically.
