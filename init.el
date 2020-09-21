@@ -2408,8 +2408,7 @@ Enable it and re-execute it."
                   ("\\chapter{%s}" . "\\chapter*{%s}")
                   ("\\section{%s}" . "\\section*{%s}")
                   ("\\subsection{%s}" . "\\subsection*{%s}")
-                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))))
-  (add-to-list 'org-latex-packages-alist '(("" "minted"))))
+                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))))))
 
 (use-package pdf-tools
   :after pdf-view
