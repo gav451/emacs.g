@@ -2346,6 +2346,7 @@ Enable it and re-execute it."
   (org-latex-caption-above nil)
   (org-latex-compiler "pdflatex")
   (org-latex-hyperref-template nil)
+  (org-latex-listings 'minted)
   (org-latex-logfiles-extensions '("blg" "lof" "log" "lot" "out" "toc"))
   (org-latex-pdf-process
    (mapconcat
@@ -2407,7 +2408,8 @@ Enable it and re-execute it."
                   ("\\chapter{%s}" . "\\chapter*{%s}")
                   ("\\section{%s}" . "\\section*{%s}")
                   ("\\subsection{%s}" . "\\subsection*{%s}")
-                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))))))
+                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))))
+  (add-to-list 'org-latex-packages-alist '(("" "minted"))))
 
 (use-package pdf-tools
   :after pdf-view
