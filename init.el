@@ -396,6 +396,19 @@ Must be set before loading use-package.")
            (seq ".bz2" eos)
            (seq ".gpg" eos)
            (seq ".gz" eos))))
+  (desktop-globals-to-save
+   (quote (desktop-missing-file-warning
+           tags-file-name
+           tags-table-list
+           search-ring
+           regexp-search-ring
+           register-alist
+           file-name-history
+           ;; https://github.com/thierryvolpiatto/psession/blob/master/psession.el
+           extended-command-history
+           helm-browse-project-history
+           helm-ff-history
+           helm-surfraw-engines-history)))
   (desktop-load-locked-desktop t)
   (desktop-restore-eager 20)
   (desktop-restore-frames nil)
