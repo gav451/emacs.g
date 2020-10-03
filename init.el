@@ -1406,7 +1406,8 @@ Use this to unregister from the D-BUS.")
 (use-package helm-buffers
   :custom
   (helm-buffers-fuzzy-matching t)
-  :bind ((:map global-map ("C-x x" . helm-mini))))
+  :bind ((:map global-map
+               ("C-x x" . helm-mini))))
 
 (use-package helm-command
   :custom
@@ -1486,7 +1487,8 @@ WITH-TYPES, if non-nil, ask for file types to search in."
                                 " --smart-case"
                                 " --no-heading"
                                 " --line-number %s %s %s"))
-  :bind ((:map global-map ("M-g a" . helm-do-grep-ag)))
+  :bind ((:map global-map
+               ("M-g a" . helm-do-grep-ag)))
   :commands (helm-grep-ag-1
              helm-grep-ag-get-types))
 
@@ -1509,13 +1511,11 @@ WITH-TYPES, if non-nil, ask for file types to search in."
                   (bind-keys :map global-map
                              ("C-x C-f" . helm-find-files)
                              ("M-s o" . helm-occur)
-                             ("M-x" . helm-M-x)
-                             ("M-y" . helm-show-kill-ring))
+                             ("M-x" . helm-M-x))
                 (bind-keys :map global-map
                            ("C-x C-f" . find-file)
                            ("M-s o" . occur)
-                           ("M-x" . execute-extended-command)
-                           ("M-y" . yank-pop)))))
+                           ("M-x" . execute-extended-command)))))
   :delight (helm-mode " 🎯"))
 
 (use-package helm-net
@@ -1536,7 +1536,8 @@ WITH-TYPES, if non-nil, ask for file types to search in."
                 (org-set-tags . helm-org-completing-read-tags)))))
 
 (use-package helm-ring
-  :commands (helm-show-kill-ring))
+  :bind ((:map global-map
+               ("M-y" . helm-show-kill-ring))))
 
 (use-package helm-semantic
   :custom
