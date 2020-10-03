@@ -262,12 +262,6 @@ Must be set before loading use-package.")
   :commands (browse-url
              browse-url-generic))
 
-(use-package deadgrep
-  :bind ((:map global-map
-               ("M-g d" . deadgrep))
-         (:map deadgrep-mode-map
-               ("C-c C-w" . deadgrep-edit-mode))))
-
 (use-package company
   ;; https://github.com/CeleritasCelery/emacs.d/blob/master/emacs.org
   :unless noninteractive
@@ -379,6 +373,12 @@ Must be set before loading use-package.")
              dbus-list-names
              dbus-register-signal
              dbus-unregister-object))
+
+(use-package deadgrep
+  :bind ((:map global-map
+               ("M-g d" . deadgrep))
+         (:map deadgrep-mode-map
+               ("C-c C-w" . deadgrep-edit-mode))))
 
 (use-package desktop
   :unless noninteractive
