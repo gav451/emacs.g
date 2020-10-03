@@ -1286,7 +1286,9 @@ Use this to unregister from the D-BUS.")
   (put 'flycheck-emacs-lisp-load-path 'safe-local-variable
        (lambda (p) (and (eq p 'inherit)
                         (string-equal (buffer-file-name) user-init-file))))
-  :custom (flycheck-check-syntax-automatically (quote (idle-change newline save)))
+  :custom
+  (flycheck-check-syntax-automatically (quote (idle-change newline save)))
+  (flycheck-mode-line-prefix "⻜")
   :hook ((emacs-lisp-mode python-mode) . flycheck-mode))
 
 (use-package flymake
