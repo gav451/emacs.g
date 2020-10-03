@@ -25,6 +25,9 @@
 [submodule "biblio"]
 	path = lib/biblio
 	url = git@github.com:cpitclaudel/biblio.el.git
+[submodule "bibtex-completion"]
+	path = lib/bibtex-completion
+	url = git@github.com:tmalsburg/helm-bibtex.git
 [submodule "blacken"]
 	path = lib/blacken
 	url = git@github.com:pythonic-emacs/blacken.git
@@ -152,9 +155,6 @@
 [submodule "helm"]
 	path = lib/helm
 	url = git@github.com:emacs-helm/helm.git
-[submodule "helm-bibtex"]
-	path = lib/helm-bibtex
-	url = git@github.com:tmalsburg/helm-bibtex.git
 [submodule "helm-org"]
 	path = lib/helm-org
 	url = git@github.com:emacs-helm/helm-org.git
