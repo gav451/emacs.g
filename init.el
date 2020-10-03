@@ -3,12 +3,6 @@
 ;;; Code:
 ;;; Early birds
 
-(defcustom use-helm-or-selectrum 'use-helm
-  "Use helm-mode or selectrum-mode."
-  :type '(choice (const :tag "Helm" 'use-helm)
-                 (const :tag "Selectrum" 'use-selectrum))
-  :group 'emacs)
-
 (progn                                  ; startup
   (defvar before-user-init-time (current-time)
     "Value of `current-time' when Emacs begins loading `user-init-file'.")
@@ -1516,8 +1510,6 @@ WITH-TYPES, if non-nil, ask for file types to search in."
                            ("M-s o" . occur)
                            ("M-x" . execute-extended-command)
                            ("M-y" . yank-pop)))))
-  (when (eq use-helm-or-selectrum 'use-helm)
-    (helm-mode +1))
   :delight (helm-mode " 🎯"))
 
 (use-package helm-net
@@ -2551,8 +2543,7 @@ Enable it and re-execute it."
   :unless noninteractive
   :commands (selectrum-mode)
   :init
-  (when (eq use-helm-or-selectrum 'use-selectrum)
-    (selectrum-mode +1)))
+  (selectrum-mode +1))
 
 (use-package selectrum-prescient
   :after selectrum
