@@ -122,9 +122,6 @@ Must be set before loading use-package.")
 (use-package bibtex
   :mode ((rx (seq ".bib" eos)) . bibtex-mode)
   :custom
-  (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
-  (bibtex-completion-library-path '("~/VCS/research/papers"))
-  (bibtex-completion-notes-path "~/VCS/research/notes/notes.org")
   (bibtex-user-optional-fields
    '(("abstract")
      ("doi" "Digital Object Identifier")
@@ -196,6 +193,13 @@ Must be set before loading use-package.")
   :bind* (("C-:" . avy-goto-word-1))
   :init
   (avy-setup-default))
+
+(use-package bibtex-completion
+  :custom
+  (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
+  (bibtex-completion-library-path '("~/VCS/research/papers"))
+  (bibtex-completion-notes-path "~/VCS/research/notes/notes.org")
+  (bibtex-completion-pdf-extension (quote (".pdf" ".djvu"))))
 
 (use-package browse-url
   :unless noninteractive
