@@ -530,8 +530,10 @@ Must be set before loading use-package.")
 (use-package easy-kill
   ;; https://emacsredux.com/blog/2018/11/09/an-easy-kill/
   ;; https://emacsredux.com/blog/2019/01/10/the-emacs-year-in-review/
-  :bind ((:map global-map
-               ("M-w" . easy-kill))))
+  :bind (;; M-w
+         ([remap kill-ring-save] . easy-kill)
+         ;; C-M-@
+         ([remap mark-sexp] . easy-mark)))
 
 (use-package eldoc
   :delight (eldoc-mode " 🛈"))
