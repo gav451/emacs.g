@@ -114,9 +114,6 @@
 [submodule "exec-path-from-shell"]
 	path = lib/exec-path-from-shell
 	url = git@github.com:purcell/exec-path-from-shell.git
-[submodule "expand-region"]
-	path = lib/expand-region
-	url = git@github.com:magnars/expand-region.el.git
 [submodule "exwm"]
 	path = lib/exwm
 	url = git@github.com:ch11ng/exwm.git

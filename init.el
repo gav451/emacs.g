@@ -819,9 +819,6 @@ point."
             (delete-char arg)))
         eshell-mode-map)))))
 
-(use-package expand-region
-  :bind* (("C-=" . er/expand-region)))
-
 (use-package eww
   ;; http://ergoemacs.org/emacs/emacs_eww_web_browser.html
   ;; https://emacs.stackexchange.com/questions/36284/how-to-open-eww-in-readable-mode
