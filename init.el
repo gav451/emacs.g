@@ -1524,16 +1524,6 @@ WITH-TYPES, if non-nil, ask for file types to search in."
 (use-package helm-occur
   :commands (helm-occur))
 
-(use-package helm-org
-  :unless noninteractive
-  :after helm-mode org
-  :demand t
-  :config
-  (mapc (function (lambda (element)
-                    (add-to-list 'helm-completing-read-handlers-alist element)))
-        (quote ((org-capture . helm-org-completing-read-tags)
-                (org-set-tags . helm-org-completing-read-tags)))))
-
 (use-package helm-ring
   :bind ((:map global-map
                ("M-y" . helm-show-kill-ring))))
