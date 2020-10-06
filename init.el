@@ -1367,6 +1367,7 @@ Use this to unregister from the D-BUS.")
   (git-commit-major-mode 'gfm-mode))
 
 (use-package gpastel
+  ;; GAV: gpaste-3.36.3 fails, but gpaste-3.36.4-r451 works.
   ;; Try to prevent gpaste-daemon from using 100 % cpu time by
   ;; disabling image support.
   :when (and (eq system-type 'gnu/linux) (not noninteractive))
