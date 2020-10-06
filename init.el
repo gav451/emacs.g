@@ -2746,6 +2746,15 @@ even if buffer is already narrowed."
   :custom-face
   (transient-argument ((t :inherit font-lock-warning-face :underline t))))
 
+(use-package undo-tree
+  ;; http://www.dr-qubit.org/undo-tree.html
+  ;; http://pragmaticemacs.com/emacs/advanced-undoredo-with-undo-tree/
+  :commands (global-undo-tree-mode
+             undo-tree-mode)
+  :init
+  (global-undo-tree-mode +1)
+  :delight (undo-tree-mode " ⎌"))
+
 (use-package unfill
   :bind ((:map global-map
                ("M-q" . unfill-toggle))))

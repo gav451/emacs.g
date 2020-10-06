@@ -326,6 +326,9 @@
 [submodule "undercover"]
 	path = lib/undercover
 	url = git@github.com:undercover-el/undercover.el.git
+[submodule "undo-tree"]
+	path = lib/undo-tree
+	url = http://www.dr-qubit.org/git/undo-tree.git
 [submodule "unfill"]
 	path = lib/unfill
 	url = git@github.com:purcell/unfill.git
