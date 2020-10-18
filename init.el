@@ -2430,6 +2430,10 @@ Enable it and re-execute it."
   ("%PDF" . pdf-view-mode))
 
 (use-package prescient
+  ;; `prescient' does not use `completion-styles', see:
+  ;; https://github.com/oantolin/orderless
+  :custom
+  (prescient-filter-method (quote (anchored fuzzy literal regexp)))
   :commands (prescient-persist-mode)
   :config
   (prescient-persist-mode))
