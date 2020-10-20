@@ -136,9 +136,6 @@
 [submodule "ghub"]
 	path = lib/ghub
 	url = git@github.com:magit/ghub.git
-[submodule "gif-screencast"]
-	path = lib/gif-screencast
-	url = git@gitlab.com:Ambrevar/emacs-gif-screencast.git
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
