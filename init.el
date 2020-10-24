@@ -1341,6 +1341,14 @@ Use this to unregister from the D-BUS.")
   (free-keys-modifiers '("" "C" "M" "C-M" "s"))
   :commands (free-keys))
 
+(use-package geiser-impl
+  :custom
+  (geiser-active-implementations
+   (cl-loop for scheme in '(chicken guile)
+            when (executable-find (symbol-name scheme))
+            collect scheme))
+  (geiser-default-implementation (car geiser-active-implementations)))
+
 (use-package goto-addr
   :preface
   (defun !-toggle-goto-address-dwim-mode ()
@@ -2663,7 +2671,7 @@ Enable it and re-execute it."
                ("M-B" . sp-backward-symbol)))
   :hook
   ((ielm-mode prog-mode text-mode) . smartparens-mode)
-  ((ielm-mode prog-mode) . smartparens-strict-mode)
+  ((geiser-repl-mode ielm-mode prog-mode) . smartparens-strict-mode)
   :commands (show-smartparens-global-mode
              sp-local-pair)
   :config
