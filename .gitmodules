@@ -96,11 +96,11 @@
 	url = git@github.com:cireu/emacsql-sqlite3.git
 [submodule "emms"]
 	path = lib/emms
+	url = https://git.savannah.gnu.org/git/emms.git
 	info-path = doc
 	build-step = make emms-auto.el emms-print-metadata
 	build-step = borg-byte-compile
 	build-step = borg-makeinfo
-	url = https://git.savannah.gnu.org/git/emms.git
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git

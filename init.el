@@ -1349,6 +1349,18 @@ Use this to unregister from the D-BUS.")
             collect scheme))
   (geiser-default-implementation (car geiser-active-implementations)))
 
+(use-package git-commit
+  :preface
+  (put 'git-commit-major-mode 'safe-local-variable
+       (let ((modes (quote (git-commit-mode
+                            git-commit-elisp-text-mode
+                            markdown-mode
+                            org-mode
+                            textmode))))
+         (lambda (mode) (member mode modes))))
+  :custom
+  (git-commit-major-mode 'gfm-mode))
+
 (use-package goto-addr
   :preface
   (defun !-toggle-goto-address-dwim-mode ()
@@ -1361,18 +1373,6 @@ Use this to unregister from the D-BUS.")
   :hook
   ((compilation-mode eshell-mode shell-mode) . goto-address-mode)
   ((prog-mode) . goto-address-prog-mode))
-
-(use-package git-commit
-  :preface
-  (put 'git-commit-major-mode 'safe-local-variable
-       (let ((modes (quote (git-commit-mode
-                            git-commit-elisp-text-mode
-                            markdown-mode
-                            org-mode
-                            textmode))))
-         (lambda (mode) (member mode modes))))
-  :custom
-  (git-commit-major-mode 'gfm-mode))
 
 (use-package gpastel
   ;; GAV: gpaste-3.36.3 fails, but gpaste-3.36.4-r451 works.
