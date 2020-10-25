@@ -140,6 +140,7 @@
 	build-step = ./autogen.sh
 	build-step = ./configure
 	build-step = make
+	build-step = borg-update-autoloads
 [submodule "ghub"]
 	path = lib/ghub
 	url = git@github.com:magit/ghub.git
