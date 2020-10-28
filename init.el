@@ -1748,9 +1748,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
             ',filter-names)))
   :custom
   (ibuffer-saved-filters
-   '(("Code" (or (mode . python-mode)
-                 (mode . shell-mode)))
-     ("Dired" (mode . dired-mode))
+   '(("Dired" (mode . dired-mode))
      ("Doc" (or (mode . Info-mode)
                 (mode . help-mode)
                 (mode . helpful-mode)))
@@ -1766,6 +1764,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
      ("PDF" (mode . pdf-view-mode))
      ("Python" (mode . python-mode))
      ("Setup" (derived-mode . conf-mode))
+     ("Shell" (mode . shell-mode))
      ("TeX" (or (derived-mode . tex-mode)
                 (mode . bibtex-mode)))
      ("VC" (or (mode . vc-annotate-mode)
@@ -1773,14 +1772,14 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   (ibuffer-saved-filter-groups
    (list
     (make-ibuffer-saved-filter-group
-     "Emacs" "Elisp" "Doc" "Eshell" "Code" "Org" "TeX" "PDF"
-     "Magit" "VC" "Dired" "Helm" "EMMS" "EXWM" "Setup")
+     "Emacs" "Elisp" "Org" "Doc" "Dired" "PDF" "Python" "Eshell" "TeX"
+     "Magit" "VC" "Shell" "Helm" "EMMS" "EXWM" "Setup")
     (make-ibuffer-saved-filter-group
-     "Python" "Python" "Doc" "Eshell" "Code" "Org" "TeX" "PDF"
-     "Magit" "VC" "Dired" "Helm" "EMMS" "EXWM" "Setup")
+     "Python" "Python" "Org" "Doc" "Dired" "PDF" "Elisp" "Eshell" "TeX"
+     "Magit" "VC" "Shell" "Helm" "EMMS" "EXWM" "Setup")
     (make-ibuffer-saved-filter-group
-     "Text" "Org" "TeX" "PDF" "Doc" "Eshell" "Python" "Code"
-     "Magit" "VC" "Dired" "Helm" "EMMS" "EXWM" "Setup")))
+     "Text" "Org" "TeX" "PDF" "Doc" "Dired" "Python" "Elisp" "Eshell"
+     "Magit" "VC" "Shell" "Helm" "EMMS" "EXWM" "Setup")))
   :commands (ibuffer-switch-to-saved-filter-groups)
   :config
   (add-hook 'ibuffer-mode-hook
