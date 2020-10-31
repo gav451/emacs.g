@@ -569,66 +569,37 @@ nil if not inside any parens."
   :delight (electric-operator-mode " ⨄⌤"))
 
 (use-package elfeed
-  ;; http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/
-  ;; https://gitlab.com/jabranham/emacs/blob/master/init.el
-  :preface
-  (defun !-elfeed+db-load+update ()
-    "Enter elfeed, load the database, and update."
-    (interactive)
-    (elfeed)
-    (elfeed-db-load)
-    (elfeed-search-update :force)
-    (elfeed-update))
+  ;; https://github.com/skeeto/elfeed
   :custom
-  (elfeed-db-directory "~/SYNC/elfeed/db")
   (elfeed-feeds
-   '(("http://www.cachestocaches.com/feed" g-stein)
-     ("http://emacshorrors.com/feed.atom" schneidermann)
-     ("http://emacsninja.com/feed.atom" schneidermann)
-     ("http://www.howardism.org/index.xml" howard)
-     ("http://pragmaticemacs.com/feed/" maugham)
-     ("http://sachachua.com/blog/category/emacs/feed" chua)
-     ("https://act.eff.org/action.atom" eff)
-     ("https://kitchingroup.cheme.cmu.edu/blog/feed" kitchin)
-     ("https://ambrevar.xyz/atom.xml" neirhardt)
-     ("https://feeds.feedburner.com/InterceptedWithJeremyScahill" intercepted)
+   '(("http://emacshorrors.com/feed.atom" v-schneidermann)
+     ("http://emacsninja.com/feed.atom" v-schneidermann)
+     ("http://pragmaticemacs.com/feed/" b-maugham)
+     ("http://sachachua.com/blog/category/emacs/feed" s-chua)
+     ("http://www.cachestocaches.com/feed" g-stein)
+     ("http://www.howardism.org/index.xml" h-abrams)
+     ("https://ambrevar.xyz/atom.xml" p-neirhardt)
+     ("https://feeds.feedburner.com/InterceptedWithJeremyScahill" j-scahill)
      ("https://feeds.feedburner.com/TheMouseVsThePython" python)
-     ("https://nullprogram.com/feed/" wellons)
-     ("https://oremacs.com/atom.xml" krehel)
-     ;; https://www.emacswiki.org/emacs/PlanetEmacsen
-     ("https://planet.emacslife.com/atom.xml" emacsen)
+     ("https://nullprogram.com/feed/" c-wellons)
+     ("https://oremacs.com/atom.xml" o-krehel)
+     ("https://planet.emacslife.com/atom.xml" planet-emacs)
      ("https://protesilaos.com/codelog.xml" p-stavrou)
      ("https://realpython.com/atom.xml" python)
-     ("https://sciencescitoyennes.org/feed/" science)
-     ("https://vxlabs.com/index.xml" vxlabs)
+     ("https://sciencescitoyennes.org/feed/" sciences)
+     ("https://updates.orgmode.org/feed/updates" org-updates)
      ("https://www.aclu.org/taxonomy/feed-term/2152/feed" aclu)
      ("https://www.bof.nl/rss/" bof)
      ("https://www.democracynow.org/podcast-video.xml" dn)
      ("https://www.laquadrature.net/fr/rss.xml" lqdn)
-     ("https://www.lemonde.fr/blog/huet/feed/" science)))
-  (elfeed-enclosure-default-dir (expand-file-name "~/tmpfs/"))
-  :bind* (("C-x w" . !-elfeed+db-load+update))
-  :commands (elfeed
-             elfeed-update)
-  :config
-  (make-directory elfeed-db-directory t))
-
-(use-package elfeed-db
-  :commands (elfeed-db-load
-             elfeed-db-save))
+     ("https://www.lemonde.fr/blog/huet/feed/" sciences)))
+  :bind* (("C-x w" . elfeed)))
 
 (use-package elfeed-search
-  :preface
-  (defun !-elfeed-db-save+quit ()
-    (interactive)
-    (elfeed-db-save)
-    (quit-window))
   :bind ((:map elfeed-search-mode-map
-               ("?" . describe-mode)
-               ("q" . !-elfeed-db-save+quit)))
+               ("?" . describe-mode)))
   :commands (elfeed-search-set-filter
-             elfeed-search-toggle-all
-             elfeed-search-update))
+             elfeed-search-toggle-all))
 
 (use-package elfeed-show
   :bind ((:map elfeed-show-mode-map
@@ -1603,30 +1574,28 @@ WITH-TYPES, if non-nil, ask for file types to search in."
        ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
        ("S" (elfeed-search-set-filter "@12-months-ago +*") "Starred")
        ("U" (elfeed-search-set-filter "@12-months-ago +unread") "Unread")
-       ("ab" (elfeed-search-set-filter "@48-months-ago +howard") "abrams"
-        :column "a-d")
-       ("ac" (elfeed-search-set-filter "@12-months-ago +aclu") "aclu")
-       ("b" (elfeed-search-set-filter "@12-months-ago +bof") "bof" )
-       ("c" (elfeed-search-set-filter "@48-months-ago +chua") "chua")
-       ("d" (elfeed-search-set-filter "@12-months-ago +dn") "dn")
-       ("ef" (elfeed-search-set-filter "@12-months-ago +eff") "eff"
-        :column "e-k")
-       ("em" (elfeed-search-set-filter "@12-months-ago +emacsen") "emacsen")
+       ("bf" (elfeed-search-set-filter "@12-months-ago +bof") "bof"
+        :column "b-g")
+       ("bm" (elfeed-search-set-filter "@48-months-ago +b-maugham") "b-maugham")
+       ("cl" (elfeed-search-set-filter "@12-months-ago +aclu") "aclu")
+       ("cw" (elfeed-search-set-filter "@48-months-ago +c-wellons") "c-wellons")
+       ("dn" (elfeed-search-set-filter "@12-months-ago +dn") "dn")
        ("gs" (elfeed-search-set-filter "@48-months-ago +g-stein") "g-stein")
-       ("i" (elfeed-search-set-filter "@12-months-ago +intercepted") "intercepted")
-       ("ki" (elfeed-search-set-filter "@48-months-ago +kitchin") "kitchin")
-       ("kr" (elfeed-search-set-filter "@48-months-ago +krehel") "krehel")
-       ("l" (elfeed-search-set-filter "@12-months-ago +lqdn") "lqdn"
-        :column "l-s")
-       ("m" (elfeed-search-set-filter "@48-months-ago +maugham") "maugham")
-       ("n" (elfeed-search-set-filter "@48-months-ago +neirhardt") "neirhardt")
+       ("ha" (elfeed-search-set-filter "@48-months-ago +h-abrams") "h-abrams"
+        :column "h-o")
+       ("js" (elfeed-search-set-filter "@12-months-ago +j-scahill") "j-scahill")
+       ("qn" (elfeed-search-set-filter "@12-months-ago +lqdn") "lqdn")
+       ("ok" (elfeed-search-set-filter "@48-months-ago +o-krehel") "o-krehel")
+       ("ou" (elfeed-search-set-filter "@12-months-ago +org-updates") "org-updates")
+       ("pe" (elfeed-search-set-filter "@12-months-ago +planet-emacs") "planet-emacs"
+        :column "p-s")
+       ("pn" (elfeed-search-set-filter "@48-months-ago +p-neirhardt") "p-neirhardt")
        ("py" (elfeed-search-set-filter "@12-months-ago +python") "python")
        ("ps" (elfeed-search-set-filter "@48-months-ago +p-stavrou") "p-stavrou")
-       ("s" (elfeed-search-set-filter "@48months-ago +science") "science")
-       ("vs" (elfeed-search-set-filter "@48-months-ago +schneidermann") "schneidermann"
-        :column "v-w")
-       ("vx" (elfeed-search-set-filter "@48-months-ago +vxlabs") "vxlabs")
-       ("w" (elfeed-search-set-filter "@48-months-ago +wellons") "wellons")
+       ("sc" (elfeed-search-set-filter "@48-months-ago +s-chua") "s-chua"
+        :column "s-v")
+       ("ss" (elfeed-search-set-filter "@48months-ago +sciences") "sciences")
+       ("vs" (elfeed-search-set-filter "@48-months-ago +v-schneidermann") "v-schneidermann")
        ("*" (elfeed-search-toggle-all '*) "toggle *"
         :column "Other")
        ("C-g" nil "quit" :color blue))
