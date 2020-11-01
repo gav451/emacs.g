@@ -2414,7 +2414,7 @@ Enable it and re-execute it."
   ;; `prescient' does not use `completion-styles', see:
   ;; https://github.com/oantolin/orderless
   :custom
-  (prescient-filter-method (quote (anchored fuzzy literal regexp)))
+  (prescient-filter-method (quote (anchored initialism literal regexp)))
   :commands (prescient-persist-mode)
   :config
   (prescient-persist-mode))
