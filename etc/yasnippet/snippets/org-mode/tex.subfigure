@@ -2,7 +2,7 @@
 # key  : subfigure
 # expand-env : ((yas-indent-line 'fixed))
 # --
-#+BEGIN_SRC latex
+#+begin_src latex
 \begin{figure}
   \begin{subfigure}[b]{.5\linewidth}
     \centering
@@ -36,4 +36,4 @@
   XXX
 }\label{fig:`yas-selected-text`$1}
 \end{figure}
-#+END_SRC
+#+end_src

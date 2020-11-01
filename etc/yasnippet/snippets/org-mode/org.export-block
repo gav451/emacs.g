@@ -1,8 +1,8 @@
 # name: export block
 # key: <e
 # --
-#+BEGIN_EXPORT ${1:$$(yas-auto-next
+#+begin_export ${1:$$(yas-auto-next
                        (completing-read "Back-end: "
                                         (mapcar 'symbol-name org-export-backends)))}
 $0
-#+END_EXPORT
+#+end_export
