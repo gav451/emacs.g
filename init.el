@@ -266,6 +266,10 @@ Must be set before loading use-package.")
   :commands (browse-url
              browse-url-generic))
 
+(use-package cdlatex
+  :hook
+  ((LaTeX-mode) . turn-on-cdlatex))
+
 (use-package company
   ;; https://github.com/CeleritasCelery/emacs.d/blob/master/emacs.org
   :unless noninteractive
@@ -2138,6 +2142,7 @@ Enable it and re-execute it."
          (:map org-mode-map
                ("M-q" . org-fill-paragraph)))
   :mode ((rx ".org" eos) . org-mode)
+  :hook ((org-mode) . turn-on-org-cdlatex)
   :commands (org-insert-time-stamp
              org-link-set-parameters
              org-narrow-to-block
