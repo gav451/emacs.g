@@ -2562,9 +2562,9 @@ Enable it and re-execute it."
   :custom
   (eval-expression-print-length nil)
   (kill-do-not-save-duplicates t)
+  :hook ((help-mode text-mode) . visual-line-mode)
   :commands (column-number-mode
              region-active-p)
-  :hook ((help-mode text-mode) . visual-line-mode)
   :config
   (column-number-mode)
   (add-hook 'overwrite-mode-hook
