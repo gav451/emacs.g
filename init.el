@@ -2687,6 +2687,7 @@ even if buffer is already narrowed."
   (bind-keys* ("C-x n" . narrow-or-widen-dwim))
   :commands (add-hook
              add-to-list
+             assq-delete-all
              derived-mode-p
              eval-after-load
              narrow-to-defun
