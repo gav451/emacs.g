@@ -2695,10 +2695,12 @@ even if buffer is already narrowed."
   :init
   (add-hook 'after-load-functions
             (defun on-after-load-functions-hook (_file)
-              (unless (eq (caar minor-mode-map-alist) 'cdlatex-mode)
-                (let ((map (assq 'cdlatex-mode minor-mode-map-alist)))
-                  (assq-delete-all 'cdlatex-mode minor-mode-map-alist)
-                  (push map minor-mode-map-alist))))))
+              (cl-loop for mode in '(cdlatex-mode org-cdlatex-mode)
+                       do (unless (eq (caar minor-mode-map-alist) mode)
+                            (let ((map (assq mode minor-mode-map-alist)))
+                              (when map
+                                (assq-delete-all mode minor-mode-map-alist)
+                                (push map minor-mode-map-alist))))))))
 
 (use-package swiper
   :custom
