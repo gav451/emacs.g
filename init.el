@@ -267,6 +267,8 @@ Must be set before loading use-package.")
              browse-url-generic))
 
 (use-package cdlatex
+  :custom
+  (cdlatex-make-sub-superscript-roman-if-pressed-twice t)
   :hook
   ((LaTeX-mode) . turn-on-cdlatex))
 
