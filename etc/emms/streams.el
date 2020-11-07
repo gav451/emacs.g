@@ -30,9 +30,9 @@
  (*track* (type . url) (name . "http://icecast.radiofrance.fr/francemusique-midfi.mp3") (metadata "Radio France Musique" "http://icecast.radiofrance.fr/francemusique-midfi.mp3" 1 url))
  ;; My french stream lists:
  (*track* (type . streamlist) (name . "http://live.francra.org:8000/radiocanut.m3u") (metadata "Radio Canut" "http://live.francra.org:8000/radiocanut.m3u" 1 streamlist))
+ (*track* (type . streamlist) (name . "http://media.radio-libertaire.org:8080/radiolib.mp3.m3u") (metadata "Radio Libertaire" "http://media.radio-libertaire.org:8080/radiolib.mp3.m3u" 1 streamlist))
  (*track* (type . streamlist) (name . "http://radio.toile-libre.org:8000/fpp.mp3.m3u") (metadata "Radio Fréquence Paris Plurielle" "http://radio.toile-libre.org:8000/fpp.mp3.m3u" 1 streamlist))
- (*track* (type . streamlist) (name . "http://stream.p-node.org/radiolib.mp3.m3u") (metadata "Radio Libertaire" "http://stream.p-node.org/radiolib.mp3.m3u" 1 streamlist))
-;; My swiss urls:
+ ;; My swiss urls:
  (*track* (type . url) (name . "https://classicfm.ice.infomaniak.ch/classic-fm.mp3") (metadata "Radio Classic FM" "https://classicfm.ice.infomaniak.ch/classic-fm.mp3" 1 url))
  ;; EMMS streams:
  ;; (*track* (type . streamlist) (name . "http://www.somafm.com/beatblender.pls") (metadata "SomaFM: Beatblender" "http://www.somafm.com/beatblender.pls" 1 streamlist))
