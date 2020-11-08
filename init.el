@@ -270,7 +270,13 @@ Must be set before loading use-package.")
   :custom
   (cdlatex-make-sub-superscript-roman-if-pressed-twice t)
   :hook
-  ((LaTeX-mode) . turn-on-cdlatex))
+  ((LaTeX-mode) . turn-on-cdlatex)
+  :init
+  (add-hook 'cdlatex-mode-hook
+            (defun on-cdlatex-mode-hook ()
+              (if cdlatex-mode
+                  (company-mode -1)
+                (company-mode +1)))))
 
 (use-package company
   ;; https://github.com/CeleritasCelery/emacs.d/blob/master/emacs.org
@@ -2151,6 +2157,11 @@ Enable it and re-execute it."
              org-narrow-to-subtree)
   :init
   (require 'pyenv-mode)
+  (add-hook 'org-cdlatex-mode-hook
+            (defun on-org-cdlatex-mode-hook ()
+              (if org-cdlatex-mode
+                  (company-mode -1)
+                (company-mode +1))))
   (add-hook
    'org-mode-hook
    (defun on-org-mode-hook-eval-blocks ()
@@ -2693,16 +2704,7 @@ even if buffer is already narrowed."
              derived-mode-p
              eval-after-load
              narrow-to-defun
-             narrow-to-region)
-  :init
-  (add-hook 'after-load-functions
-            (defun on-after-load-functions-hook (_file)
-              (cl-loop for mode in '(cdlatex-mode org-cdlatex-mode)
-                       do (unless (eq (caar minor-mode-map-alist) mode)
-                            (let ((map (assq mode minor-mode-map-alist)))
-                              (when map
-                                (assq-delete-all mode minor-mode-map-alist)
-                                (push map minor-mode-map-alist))))))))
+             narrow-to-region))
 
 (use-package swiper
   :custom
