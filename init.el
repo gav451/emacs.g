@@ -1919,6 +1919,8 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   ;; https://stackoverflow.com/questions/9529078/how-do-i-use-git-reset-hard-head-to-revert-to-a-previous-commit
   :bind ((:map global-map
                ("C-x M-g" . magit-dispatch)))
+  :custom
+  (magit-define-global-key-bindings nil)
   :config
   ;; https://github.com/dakra/dmacs/blob/master/init.org#magit
   (magit-add-section-hook 'magit-status-sections-hook
@@ -1929,6 +1931,10 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
                           'magit-insert-ignored-files
                           'magit-insert-untracked-files
                           nil))
+
+(use-package magit-files
+  :bind ((:map global-map
+               ("C-c M-g" . magit-file-dispatch))))
 
 (use-package magit-git
   ;; (magit)Top > Customizing > Essential Settings > Performance >
