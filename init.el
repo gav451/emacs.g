@@ -57,10 +57,10 @@
     (add-to-list 'initial-frame-alist '(width . 180))))
 
 (progn                                  ; `borg'
+  (defvar epkg-repository "~/.emacs.d/var/epkgs/")
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
-  (require 'borg)
-  (borg-initialize)
-  (require 'borg-elpa))
+  (require 'borg-elpa)
+  (borg-elpa-initialize))
 
 (progn                                  ; `use-package'
   (defvar use-package-enable-imenu-support t
