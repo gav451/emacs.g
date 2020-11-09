@@ -1809,7 +1809,8 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 (use-package indent
   ;; https://with-emacs.com/posts/tutorials/customize-completion-at-point/
   :custom
-  (tab-always-indent 'complete))
+  (tab-always-indent 'complete)
+  :commands (indent-according-to-mode))
 
 (use-package ivy
   :disabled
