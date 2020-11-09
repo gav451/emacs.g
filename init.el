@@ -1805,6 +1805,11 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 (use-package iedit-lib
   :commands (iedit-quit))
 
+(use-package indent
+  ;; https://with-emacs.com/posts/tutorials/customize-completion-at-point/
+  :custom
+  (tab-always-indent 'complete))
+
 (use-package ivy
   :disabled
   ;; https://github.com/dakra/dmacs/blob/master/init.org#ivy
