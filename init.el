@@ -58,8 +58,9 @@
 
 (progn                                  ; `borg'
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
-  (require  'borg)
-  (borg-initialize))
+  (require 'borg)
+  (borg-initialize)
+  (require 'borg-elpa))
 
 (progn                                  ; `use-package'
   (defvar use-package-enable-imenu-support t
