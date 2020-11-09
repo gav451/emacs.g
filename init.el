@@ -292,8 +292,8 @@ Must be set before loading use-package.")
                ("C-m" . nil)
                ))
   :hook
-  ((LaTeX-mode emacs-lisp-mode ielm-mode org-mode) . company-mode)
-  ((shell-mode sly-mode sly-mrepl-mode) . company-mode)
+  ((emacs-lisp-mode lisp-interaction-mode ielm-mode) . company-mode)
+  ((sly-mode sly-mrepl-mode) . company-mode)
   :delight (company-mode " 👫"))
 
 (use-package company-native-complete
