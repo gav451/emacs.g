@@ -10,4 +10,5 @@
 (auto-compile-on-load-mode)
 (auto-compile-on-save-mode)
 
+(setq package-enable-at-startup nil)
 ;;; early-init.el ends here

@@ -57,10 +57,10 @@
     (add-to-list 'initial-frame-alist '(width . 180))))
 
 (progn                                  ; `borg'
-  (defvar epkg-repository "~/.emacs.d/var/epkgs/")
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
-  (require 'borg-elpa)
-  (borg-elpa-initialize))
+  (if (require 'borg-elpa nil t)
+      (borg-elpa-initialize)
+    (package-initialize)))
 
 (progn                                  ; `use-package'
   (defvar use-package-enable-imenu-support t
@@ -149,6 +149,7 @@ Must be set before loading use-package.")
   (reftex-plug-into-AUCTeX t))
 
 (use-package tex
+  :ensure auctex
   :custom
   (TeX-auto-local ".auctex-auto-local")
   (TeX-auto-save t)
@@ -169,14 +170,6 @@ Must be set before loading use-package.")
   :hook
   ((TeX-after-compilation-finished-functions)
    . TeX-revert-document-buffer))
-
-(use-package tex-site
-  ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
-  ;; https://gitlab.com/jabranham/emacs
-  ;; Use AUCTeX, since it is better than the built in tex mode.
-  ;; Tweak .gitmodules to make the git repository resemble the elpa package.
-  ;; Do not require auctex, since auctex.el provides no feature 'auctex'.
-  :demand t)
 
 ;; alphabetical order
 (use-package alert
@@ -743,6 +736,8 @@ point."
 
 (use-package epkg
   ;; https://github.com/dakra/dmacs/blob/master/init.org#unsortet-stuff-in-no-packages
+  :custom
+  (epkg-repository (expand-file-name "epkg" user-emacs-directory))
   :config
   (when (and (fboundp 'eieio-oref)
              (fboundp 'epkg))
