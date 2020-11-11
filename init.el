@@ -56,6 +56,10 @@
     (add-to-list 'initial-frame-alist '(height . 51))
     (add-to-list 'initial-frame-alist '(width . 180))))
 
+(declare-function borg-clones "borg" ())
+(declare-function borg-elpa-initialize "borg-elpa" ())
+(declare-function borg-get "borg" (clone variable &optional all))
+
 (progn                                  ; `borg'
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
   (if (require 'borg-elpa nil t)
