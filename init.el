@@ -437,11 +437,11 @@ Must be set before loading use-package.")
   ;; https://alexschroeder.ch/wiki/2020-07-16_Emacs_everything
   :unless noninteractive
   :preface
-  (defun !-dired-eww-find-file ()
+  (defun gav:dired-eww-find-file ()
     "Visit dired file with eww."
     (interactive)
     (eww-open-file (dired-get-file-for-visit)))
-  (defun !-dired-rsync (target)
+  (defun gav:dired-rsync (target)
     "Copy marked files with `rsync' to TARGET directory."
     (interactive
      (list (expand-file-name
@@ -476,8 +476,8 @@ Must be set before loading use-package.")
              dired-get-marked-files)
   :config
   (bind-keys :map dired-mode-map
-             ("E" . !-dired-eww-find-file)
-             ("M-s y" . !-dired-rsync)))
+             ("E" . gav:dired-eww-find-file)
+             ("M-s y" . gav:dired-rsync)))
 
 (use-package dired-aux
   :commands (dired-dwim-target-directory))
@@ -552,14 +552,14 @@ Must be set before loading use-package.")
 (use-package electric
   ;; https://github.com/davidshepherd7/dotfiles/blob/master/emacs/.emacs.d/lisp/ds-python.el
   :preface
-  (defun !-enclosing-paren ()
+  (defun gav:enclosing-paren ()
     "Return the opening parenthesis of the enclosing parens, or
 nil if not inside any parens."
     (let ((ppss (syntax-ppss)))
       (when (nth 1 ppss)
         (char-after (nth 1 ppss)))))
-  (defun !-python-electric-newline ()
-    (let ((paren (!-enclosing-paren)))
+  (defun gav:python-electric-newline ()
+    (let ((paren (gav:enclosing-paren)))
       (if (not (or (eq paren ?\{)
                    (eq paren ?\[)
                    (eq paren ?\()
@@ -572,7 +572,7 @@ nil if not inside any parens."
             (defun on-python-mode-hook-electric-layout ()
               (make-local-variable 'electric-layout-rules)
               (add-to-list 'electric-layout-rules
-                           (cons ?: #'!-python-electric-newline))
+                           (cons ?: #'gav:python-electric-newline))
               (electric-layout-mode))))
 
 (use-package electric-operator
@@ -745,7 +745,7 @@ point."
   :config
   (when (and (fboundp 'eieio-oref)
              (fboundp 'epkg))
-    (defun !-borg-check-drone-urls ()
+    (defun gav:borg-check-drone-urls ()
       "Check all drones for outdated upstream urls."
       (interactive)
       (let (moved)
@@ -798,7 +798,7 @@ point."
      (defun on-eshell-mode-hook ()
        (bind-key
         "C-d"
-        (defun !-eshell-quit-or-delete-char (arg)
+        (defun gav:eshell-quit-or-delete-char (arg)
           (interactive "p")
           (if (and (eolp) (looking-back eshell-prompt-regexp nil))
               (eshell-life-is-too-much)
@@ -817,7 +817,7 @@ point."
     "List of urls to show using `eww-readable'."
     :type '(repeat string)
     :group 'eww)
-  (defun !-reddit-browser ()
+  (defun gav:reddit-browser ()
     (interactive)
     (eww-browse-url (format "https://www.reddit.com/r/%s/.mobile"
                             (completing-read "sub-reddit: "
@@ -1237,7 +1237,7 @@ Use this to unregister from the D-BUS.")
              variable-pitch-mode)
   :delight (buffer-face-mode)
   :init
-  (defun !-toggle-variable-pitch-mode-unless-prog-mode ()
+  (defun gav:toggle-variable-pitch-mode-unless-prog-mode ()
     "Toggle `variable-pitch-mode' unless in `prog-mode'."
     (interactive)
     (unless (derived-mode-p 'prog-mode)
@@ -1286,7 +1286,7 @@ Use this to unregister from the D-BUS.")
 (use-package flyspell
   :unless noninteractive
   :preface
-  (defun !-toggle-flyspell-dwim-mode ()
+  (defun gav:toggle-flyspell-dwim-mode ()
     (interactive)
     (if (derived-mode-p 'prog-mode)
         (call-interactively #'flyspell-prog-mode)
@@ -1347,7 +1347,7 @@ Use this to unregister from the D-BUS.")
 
 (use-package goto-addr
   :preface
-  (defun !-toggle-goto-address-dwim-mode ()
+  (defun gav:toggle-goto-address-dwim-mode ()
     (interactive)
     (if (derived-mode-p 'prog-mode)
         (call-interactively #'goto-address-prog-mode)
@@ -1435,7 +1435,7 @@ Use this to unregister from the D-BUS.")
 (use-package helm-grep
   ;; https://www.manueluberti.eu/emacs/2020/02/22/ripgrepping-with-helm/
   :preface
-  (defun !-helm--project-root ()
+  (defun gav:helm--project-root ()
     "Return the project root directory or `default-directory'."
     (let ((root default-directory)
           (project (project-current)))
@@ -1443,7 +1443,7 @@ Use this to unregister from the D-BUS.")
         (setq root (cdr project)))
       root))
 
-  (defun !-helm-rg (directory &optional with-types)
+  (defun gav:helm-rg (directory &optional with-types)
     "Grep for a string in DIRECTORY using rg.
 WITH-TYPES, if non-nil, ask for file types to search in."
     (interactive "P")
@@ -1458,21 +1458,21 @@ WITH-TYPES, if non-nil, ask for file types to search in."
                          :fc-transformer 'helm-adaptive-sort
                          :buffer "*helm rg types*"))))
 
-  (defun !-helm-default-directory-search (&optional with-types)
+  (defun gav:helm-default-directory-search (&optional with-types)
     "Grep for a string in `default-directory' using rg.
 WITH-TYPES, if non-nil, ask for file types to search in."
     (interactive "P")
-    (!-helm-rg default-directory with-types))
+    (gav:helm-rg default-directory with-types))
 
-  (defun !-helm-project-search (&optional with-types)
+  (defun gav:helm-project-search (&optional with-types)
     "Grep for a string in current project using rg.
 WITH-TYPES, if non-nil, ask for file types to search in."
     (interactive "P")
-    (!-helm-rg (!-helm--project-root) with-types))
+    (gav:helm-rg (gav:helm--project-root) with-types))
 
   (bind-keys :map global-map
-             ("C-:" . !-helm-default-directory-search)
-             ("C-!" . !-helm-project-search))
+             ("C-:" . gav:helm-default-directory-search)
+             ("C-!" . gav:helm-project-search))
   :custom
   (helm-grep-ag-command (concat "rg"
                                 " --color=never"
@@ -1688,9 +1688,9 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
       (if (bound-and-true-p flycheck-mode) "[X]" "[ ]"))
      ("fl" #'font-lock-mode
       (if (bound-and-true-p font-lock-mode) "[X]" "[ ]"))
-     ("fs" #'!-toggle-flyspell-dwim-mode
+     ("fs" #'gav:toggle-flyspell-dwim-mode
       (if (bound-and-true-p flyspell-mode) "[X]" "[ ]"))
-     ("g" #'!-toggle-goto-address-dwim-mode
+     ("g" #'gav:toggle-goto-address-dwim-mode
       (if (or (bound-and-true-p goto-address-prog-mode)
               (bound-and-true-p goto-address-mode)) "[X]" "[ ]"))
      ("ii" #'iimage-mode
@@ -2012,7 +2012,7 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
   ;; https://protesilaos.com/modus-themes/
   :init
   (load-theme 'modus-vivendi t)
-  (defun !-toggle-modus-theme ()
+  (defun gav:toggle-modus-theme ()
     "Toggle between `modus-operandi' and `modus-vivendi' themes."
     (interactive)
     (if (eq (car custom-enabled-themes) 'modus-operandi)
@@ -2028,16 +2028,16 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
 (use-package novice
   ;; https://www.emacswiki.org/emacs/DisabledCommands
   :preface
-  (defun !-enable-this-command (&rest _args)
+  (defun gav:enable-this-command (&rest _args)
     "Called when a disabled command is executed.
 Enable it and re-execute it."
     (put this-command 'disabled nil)
-    (message "You typed %s.  %s was disabled.  It ain't no more."
+    (message "You typed %s.  %s was disabled.  It is enabled."
              (key-description (this-command-keys)) this-command)
     (sit-for 0)
     (call-interactively this-command))
   :init
-  (setq disabled-command-function #'!-enable-this-command))
+  (setq disabled-command-function #'gav:enable-this-command))
 
 (use-package ob-core
   :custom
@@ -2078,12 +2078,12 @@ Enable it and re-execute it."
 
 (use-package org
   :preface
-  (defun !-org-active-current-time-stamp ()
+  (defun gav:org-active-current-time-stamp ()
     "Insert an active org-mode `current-time' timestamp."
     (interactive)
     (org-insert-time-stamp (current-time) 'with-hm))
 
-  (defun !-org-inactive-current-time-stamp ()
+  (defun gav:org-inactive-current-time-stamp ()
     "Insert an inactive org-mode `current-time' timestamp."
     (interactive)
     (org-insert-time-stamp (current-time) 'with-hm 'inactive))
