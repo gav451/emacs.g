@@ -1259,6 +1259,9 @@ Use this to unregister from the D-BUS.")
     (set-face-attribute 'fixed-pitch nil :family "Hack")
     (set-face-attribute 'variable-pitch nil :family "DejaVu Sans"))))
 
+(use-package ffap
+  :commands (ffap-file-at-point))
+
 (use-package files
   :commands (executable-find
              file-remote-p)
@@ -1991,8 +1994,21 @@ With one prefix arg, show only EXWM buffers. With two, show all buffers."
     (sendmail-program (executable-find "msmtp"))))
 
 (use-package minibuffer
+  ;; https://github.com/raxod502/selectrum/wiki/Additional-Configuration#complete-file-names-at-point
   :custom
-  (completion-styles (quote (flex))))
+  (completion-styles (quote (flex)))
+  :config
+  (add-hook 'completion-at-point-functions
+            (defun gav:complete-path-at-point ()
+              (let ((fap (ffap-file-at-point))
+                    (tap (thing-at-point 'filename)))
+                (when (and (or fap
+                               (equal "/" tap))
+                           (save-excursion
+                             (search-backward tap (line-beginning-position) t)))
+                  (list (match-beginning 0)
+                        (match-end 0)
+                        #'completion-file-name-table)))) 'append))
 
 (use-package native-complete
   ;; https://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.html
