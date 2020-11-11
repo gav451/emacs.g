@@ -2518,6 +2518,9 @@ Enable it and re-execute it."
                 "/\\.hg/.*\\'"
                 "^/\\(?:ssh\\|su\\|sudo\\)?:"))))
 
+(use-package repeat
+  :commands (repeat))
+
 (use-package reveal
   ;; (magit)Top > FAQ > FAQ - Issues and Errors > Point ends up inside
   ;; invisible text when jumping to a file-visiting buffer
@@ -2558,8 +2561,16 @@ Enable it and re-execute it."
 
 (use-package selectrum
   :unless noninteractive
-  :commands (selectrum-mode)
+  :commands (selectrum-mode
+             selectrum-repeat)
   :init
+  (add-hook 'selectrum-mode-hook
+            (defun on-selectrum-mode-hook ()
+              (if selectrum-mode
+                  (bind-keys :map global-map
+                             ("C-x z" . selectrum-repeat))
+                (bind-keys :map global-map
+                           ("C-x z" . repeat)))))
   (selectrum-mode +1))
 
 (use-package selectrum-prescient
