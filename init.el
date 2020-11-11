@@ -737,7 +737,7 @@ point."
 (use-package epkg
   ;; https://github.com/dakra/dmacs/blob/master/init.org#unsortet-stuff-in-no-packages
   :custom
-  (epkg-repository (expand-file-name "epkg" user-emacs-directory))
+  (epkg-repository (expand-file-name "epkgs" user-emacs-directory))
   :config
   (when (and (fboundp 'eieio-oref)
              (fboundp 'epkg))
