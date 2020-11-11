@@ -2526,6 +2526,7 @@ Enable it and re-execute it."
 
 (use-package replace
   ;; https://masteringemacs.org/article/searching-buffers-occur-mode
+  ;; https://github.com/raxod502/selectrum/wiki/Additional-Configuration#improve-the-completion-of-multi-occur
   :preface
   (defun multi-occur-with-this-mode (regexp &optional nlines)
     "Show all lines matching REGEXP in buffers with this major mode."
@@ -2540,7 +2541,15 @@ Enable it and re-execute it."
   (list-matching-lines-default-context-lines 0)
   :hook ((occur) . occur-rename-buffer)
   :commands (occur-1
-             occur-read-primary-args))
+             occur-read-primary-args)
+  :config
+  (defun multi-occur (bufs regexp &optional nlines)
+    (interactive (cons
+                  (mapcar #'get-buffer
+                          (completing-read-multiple "Buffer: "
+                                                    #'internal-complete-buffer))
+                  (occur-read-primary-args)))
+    (occur-1 regexp nlines bufs)))
 
 (use-package saveplace
   :commands (save-place-mode)
