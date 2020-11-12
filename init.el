@@ -1803,51 +1803,12 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   ;; https://github.com/dakra/dmacs/blob/master/init.org#ivy
   ;; https://github.com/sam217pa/emacs-config
   ;; https://sam217pa.github.io/2016/09/11/nuclear-power-editing-via-ivy-and-ag/
-  :preface
-  (defun ivy-ignore-exwm-buffers (str)
-    (let ((buf (get-buffer str)))
-      (when buf
-        (with-current-buffer buf
-          (or
-           (file-remote-p (or (buffer-file-name) default-directory))
-           (eq major-mode 'exwm-mode))))))
-  (defun ivy-ignore-non-exwm-buffers (str)
-    (let ((buf (get-buffer str)))
-      (if buf
-          (with-current-buffer buf
-            (or
-             (file-remote-p (or (buffer-file-name) default-directory))
-             (not (eq major-mode 'exwm-mode))))
-        t)))
-  (defun ivy-switch-buffer-exwm ()
-    "Like ivy-switch-buffer, but show only EXWM buffers."
-    (interactive)
-    (let ((ivy-ignore-buffers (append ivy-ignore-buffers '(ivy-ignore-non-exwm-buffers))))
-      (ivy-switch-buffer)))
-  (defun ivy-switch-buffer-non-exwm ()
-    "Like ivy-switch-buffer, but hide all EXWM buffers."
-    (interactive)
-    (let ((ivy-ignore-buffers (append ivy-ignore-buffers '(ivy-ignore-exwm-buffers))))
-      (ivy-switch-buffer)))
-  (defun my-ivy-switch-buffer (p)
-    "Like ivy-switch-buffer, but hide all EXWM buffers by default.
-With one prefix arg, show only EXWM buffers. With two, show all buffers."
-    (interactive "p")
-    (cl-case p
-      (1 (ivy-switch-buffer-non-exwm))
-      (4 (ivy-switch-buffer-exwm))
-      (16 (ivy-switch-buffer))))
   :custom
-  (ivy-case-fold-search-default 'auto)
   (ivy-count-format "(%d/%d) ")
-  (ivy-display-function nil)
-  (ivy-height 10)
-  (ivy-use-ignore-default t)
   (ivy-use-virtual-buffers t)
   :bind ((:map global-map
                ("C-c C-r" . ivy-resume)
-               ("C-x B" . ivy-switch-buffer-other-window)
-               ("C-x b" . my-ivy-switch-buffer)))
+               ("C-x B" . ivy-switch-buffer-other-window)))
   :commands (ivy-mode
              ivy-read
              ivy-switch-buffer
