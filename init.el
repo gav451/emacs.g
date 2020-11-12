@@ -1617,23 +1617,6 @@ WITH-TYPES, if non-nil, ask for file types to search in."
        ("C-g" nil "quit" :color blue))
      elfeed-search-mode-map))
   (bind-key*
-   "C-z C-a"
-   (defhydra hydra-insert-arrow (:hint none :base-map (make-sparse-keymap))
-     "
-_7_ _8_ _9_ 🡬 🡩 🡭
-_4_ ^ ^ _6_ 🡨   🡪
-_1_ _2_ _3_ 🡯 🡫 🡮
-"
-     ("1" (insert-char ?🡯))
-     ("2" (insert-char ?🡫))
-     ("3" (insert-char ?🡮))
-     ("4" (insert-char ?🡨))
-     ("6" (insert-char ?🡪))
-     ("7" (insert-char ?🡬))
-     ("8" (insert-char ?🡩))
-     ("9" (insert-char ?🡭))
-     ("C-g" nil nil :color blue)))
-  (bind-key*
    "C-z C-r"
    (defhydra hydra-rectangle (:body-pre (rectangle-mark-mode 1)
                                         :color pink
