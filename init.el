@@ -1545,13 +1545,14 @@ WITH-TYPES, if non-nil, ask for file types to search in."
 
 (use-package helpful
   :bind ((:map help-map
-               ("M-a" . helpful-at-point)
-               ("M-c" . helpful-command)
-               ("M-f" . helpful-function)
-               ("M-k" . helpful-key)
-               ("M-m" . helpful-macro)))
-  :commands (helpful-callable
-             helpful-variable))
+               ("f" . helpful-function)
+               ("k" . helpful-key)
+               ("o" . helpful-symbol)
+               ("u" . helpful-callable)
+               ("v" . helpful-variable)
+               ("x" . helpful-command)
+               ("y" . helpful-macro)
+               ("z" . helpful-at-point))))
 
 (use-package hercules
   :commands (hercules-def))
