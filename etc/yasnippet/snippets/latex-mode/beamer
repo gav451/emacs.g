@@ -3,7 +3,14 @@
 # key: beamer
 # expand-env: ((yas-indent-line 'fixed))
 # --
-\documentclass[svgnames]{beamer}
+\documentclass[xcolor=svgnames,hyperref={
+  colorlinks=true,
+  citecolor=blue,
+  filecolor=blue,
+  linkcolor=blue,
+  unicode=true,
+  urlcolor=blue
+}]{beamer}
 %\usepackage{pgfpages}
 %\pgfpagesuselayout{2 on 1}[a4paper,border shrink=5mm]
 
@@ -60,17 +67,10 @@
 \def\axisdefaultwidth{57.5mm}
 \def\axisdefaultheight{40mm}
 
-\hypersetup{
-  unicode=true,
-  colorlinks=true,
-  filecolor=blue,
-  linkcolor=blue,
-  urlcolor=blue,
-}
-
 \graphicspath{
   {../2015-03-09/TEX/}
   {../2015-04-13/TEX/}
+  {./float/}
 }
 
 
