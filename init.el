@@ -2567,7 +2567,8 @@ Enable it and re-execute it."
   :custom
   (eval-expression-print-length nil)
   (kill-do-not-save-duplicates t)
-  :hook ((help-mode text-mode) . visual-line-mode)
+  :hook (((help-mode text-mode) . visual-line-mode)
+         ((LaTeX-mode) . turn-on-auto-fill))
   :commands (column-number-mode
              region-active-p)
   :config
