@@ -266,10 +266,9 @@ Must be set before loading use-package.")
              browse-url-generic))
 
 (use-package cdlatex
+  ;; Binds `cdlatex-tab' to <TAB> hiding `indent-for-tab-command'.
   :custom
   (cdlatex-make-sub-superscript-roman-if-pressed-twice t)
-  :hook
-  ((LaTeX-mode) . turn-on-cdlatex)
   :init
   (add-hook 'cdlatex-mode-hook
             (defun on-cdlatex-mode-hook ()
@@ -2124,7 +2123,6 @@ Enable it and re-execute it."
          (:map org-mode-map
                ("M-q" . org-fill-paragraph)))
   :mode ((rx ".org" eos) . org-mode)
-  :hook ((org-mode) . turn-on-org-cdlatex)
   :commands (org-insert-time-stamp
              org-link-set-parameters
              org-narrow-to-block
