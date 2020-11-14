@@ -139,7 +139,7 @@ Must be set before loading use-package.")
 (use-package latex
   :mode ((rx (seq ".tex" eos)) . TeX-latex-mode)
   :custom
-  (LaTeX-electric-left-right-brace nil "Let smartparens handle braces")
+  (LaTeX-electric-left-right-brace t "Conflicts with smartparens-mode.")
   :hook ((LaTeX-mode) . LaTeX-math-mode)
   :commands (LaTeX-narrow-to-environment))
 
@@ -2673,9 +2673,9 @@ Enable it and re-execute it."
                ("C-M-SPC" . sp-mark-sexp)
                ("M-F" . sp-forward-symbol)
                ("M-B" . sp-backward-symbol)))
-  :hook
-  ((ielm-mode prog-mode text-mode) . smartparens-mode)
-  ((geiser-repl-mode ielm-mode prog-mode) . smartparens-strict-mode)
+  :hook (((LaTeX-mode) . turn-off-smartparens-mode)
+         ((ielm-mode prog-mode text-mode) . turn-on-smartparens-mode)
+         ((geiser-repl-mode ielm-mode prog-mode) . turn-on-smartparens-strict-mode))
   :commands (show-smartparens-global-mode
              sp-local-pair)
   :config
