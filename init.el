@@ -167,7 +167,31 @@ Must be set before loading use-package.")
   (TeX-source-correlate-method 'synctex)
   (TeX-source-correlate-mode t)
   :hook ((LaTeX-mode) . TeX-PDF-mode)
-  :commands (TeX-doc))
+  :commands (TeX-doc)
+  :config
+  ;; https://emacs.stackexchange.com/questions/17396/indentation-in-square-brackets
+  (defun TeX-brace-count-line ()
+    "Count number of open/closed braces."
+    (save-excursion
+      (let ((count 0) (limit (line-end-position)) char)
+        (while (progn
+                 (skip-chars-forward "^{}[]\\\\" limit)
+                 (when (and (< (point) limit) (not (TeX-in-comment)))
+                   (setq char (char-after))
+                   (forward-char)
+                   (cond ((eq char ?\{)
+                          (setq count (+ count TeX-brace-indent-level)))
+                         ((eq char ?\})
+                          (setq count (- count TeX-brace-indent-level)))
+                         ((eq char ?\[)
+                          (setq count (+ count TeX-brace-indent-level)))
+                         ((eq char ?\])
+                          (setq count (- count TeX-brace-indent-level)))
+                         ((eq char ?\\)
+                          (when (< (point) limit)
+                            (forward-char)
+                            t))))))
+        count))))
 
 (use-package tex-buf
   :after tex-site
