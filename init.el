@@ -154,6 +154,7 @@ Must be set before loading use-package.")
 
 (use-package tex
   :ensure auctex
+  :functions (TeX-in-comment)
   :custom
   (TeX-auto-local ".auctex-auto-local")
   (TeX-auto-save t)
