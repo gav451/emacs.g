@@ -2750,6 +2750,7 @@ even if buffer is already narrowed."
   :delight (undo-tree-mode " ⎌"))
 
 (use-package unfill
+  :disabled
   :bind ((:map global-map
                ("M-q" . unfill-toggle))))
 
