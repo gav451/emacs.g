@@ -294,12 +294,14 @@ Must be set before loading use-package.")
   ;; Binds `cdlatex-tab' to <TAB> hiding `indent-for-tab-command'.
   :custom
   (cdlatex-make-sub-superscript-roman-if-pressed-twice t)
+  (cdlatex-use-dollar-to-ensure-math nil)
   :init
   (add-hook 'cdlatex-mode-hook
             (defun on-cdlatex-mode-hook ()
               (if cdlatex-mode
                   (company-mode -1)
-                (company-mode +1)))))
+                (when (member 'company-mode LaTeX-mode-hook)
+                  (company-mode +1))))))
 
 (use-package company
   ;; https://github.com/CeleritasCelery/emacs.d/blob/master/emacs.org
@@ -314,9 +316,9 @@ Must be set before loading use-package.")
                ("C-j" . company-complete-selection)
                ("C-m" . nil)
                ))
-  :hook
-  ((emacs-lisp-mode lisp-interaction-mode ielm-mode) . company-mode)
-  ((sly-mode sly-mrepl-mode) . company-mode)
+  :hook (((LaTeX-mode org-mode) . company-mode)
+         ((emacs-lisp-mode lisp-interaction-mode ielm-mode) . company-mode)
+         ((sly-mode sly-mrepl-mode) . company-mode))
   :delight (company-mode " 👫"))
 
 (use-package company-native-complete
@@ -2158,7 +2160,8 @@ Enable it and re-execute it."
             (defun on-org-cdlatex-mode-hook ()
               (if org-cdlatex-mode
                   (company-mode -1)
-                (company-mode +1))))
+                (when (member 'company-mode org-mode-hook)
+                  (company-mode +1)))))
   (add-hook
    'org-mode-hook
    (defun on-org-mode-hook-eval-blocks ()
