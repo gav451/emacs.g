@@ -3,7 +3,7 @@
 # key: beamer
 # expand-env: ((yas-indent-line 'fixed))
 # --
-\documentclass[xcolor=svgnames,
+\documentclass[
   hyperref={
     colorlinks=true,
     citecolor=blue,
@@ -11,7 +11,8 @@
     linkcolor=blue,
     unicode=true,
     urlcolor=blue
-  }]{beamer}
+  },
+  xcolor={table,svgnames}]{beamer}
 %\usepackage{pgfpages}
 %\pgfpagesuselayout{2 on 1}[a4paper,border shrink=5mm]
 
@@ -40,6 +41,7 @@
     \usepackage[utf8]{inputenc}
   }
 }
+\usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{colortbl}
 \usepackage{comment}
@@ -88,22 +90,16 @@
 \renewcommand\CancelColor{\color{Red}}
 \newcommand<>{\overlayxcancel}[1]{\alt#2{\xcancel{#1}\vphantom{#1}}{#1}}
 
-\title{
-  ${1:Closed Cycle Dilution Refrigerator}
-}
-\subtitle{
-  ${2:CCDR and LiteBIRD}
-}
-\author{
-  Gerard Vermeulen \and
-  Ariel Haziot \and
-  Sébastien Triqueneaux \and
-  Pierre-Fréderic Sibeud
-}
-\institute[Néel Institute]{
-  Néel Institute (CNRS)
-}
-\date[Paris, 2017-10-23]{LiteBIRD-Europe, Paris, 2017-10-23}
+\title{${1:Closed Cycle Dilution Refrigerator}}
+
+\subtitle{${2:CCDR}}
+
+\author{Gerard Vermeulen \inst{1} \and Camille Noûs \inst{2}}
+
+\institute{\inst{1} Néel Institute (CNRS) \and \inst{2} Cogitamus Laboratory}
+
+\date[Grenoble, ${3:`(format-time-string "%Y-%m-%d")`}]{Grenoble, ${4:`(format-time-string "%Y-%m-%d")`}}
+
 \AtBeginSection[]{
   \begin{frame}<beamer>{Outline}
     \tableofcontents[currentsection,hideallsubsections]
@@ -127,6 +123,6 @@ $0
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: t
-%%% compile-command: "latexmk -interaction=nonstopmode -lualatex -pvc -synctex=1 ${3:`(file-name-nondirectory (buffer-file-name))`}"
+%%% compile-command: "latexmk -interaction=nonstopmode -lualatex -pvc -synctex=1 ${5:`(file-name-nondirectory (buffer-file-name))`}"
 %%% fill-column: 88
 %%% End:
