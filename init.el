@@ -2529,7 +2529,7 @@ Enable it and re-execute it."
   ;; (magit)Top > FAQ > FAQ - Issues and Errors > Point ends up inside
   ;; invisible text when jumping to a file-visiting buffer
   :hook ((magit-diff-visit-file) . reveal-mode)
-  :delight (reveal-mode " 👀"))
+  :delight (reveal-mode " ⏿"))
 
 (use-package replace
   ;; https://masteringemacs.org/article/searching-buffers-occur-mode
@@ -2817,19 +2817,16 @@ even if buffer is already narrowed."
 
 (use-package view
   ;; https://gist.github.com/ivan-krukov/63a586f2121519ca51b201c634402a84
+  ;; https://karthinks.com/software/batteries-included-with-emacs/
   ;; https://www.reddit.com/r/emacs/comments/fojc1y/using_viewmode_for_modal_navigation/
   ;; https://www.youtube.com/watch?v=kZARKLxTeYQ
-  :bind ((:map global-map
-               ("M-g v" . view-mode))
-         (:map view-mode-map
-               ("n" . next-line)
-               ("p" . previous-line)))
   :custom
-  (view-read-only nil "Since C-x C-q fails to toggle both modes.")
+  (view-read-only t "See whether C-x C-q toggles both modes.")
   :config
   (add-hook 'view-mode-hook
             (defun on-view-mode-hook-change-cursor-type ()
-              (setq cursor-type (if view-mode '(hbar . 3) 'box)))))
+              (setq cursor-type (if view-mode 'hollow 'box))))
+  :delight (view-mode " 👀"))
 
 (use-package wdired
   :custom
