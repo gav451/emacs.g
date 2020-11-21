@@ -1825,6 +1825,13 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   (tab-always-indent 'complete)
   :commands (indent-according-to-mode))
 
+(use-package isearch
+  :custom
+  (isearch-lazy-count t)
+  (isearch-lazy-highlight t)
+  (lazy-count-prefix-format "%s/%s ")
+  (lazy-highlight-cleanup t))
+
 (use-package ivy
   :disabled
   ;; https://github.com/dakra/dmacs/blob/master/init.org#ivy
