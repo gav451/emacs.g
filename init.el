@@ -2432,6 +2432,23 @@ Enable it and re-execute it."
   :config
   (prescient-persist-mode))
 
+(use-package pulse
+  ;; https://karthinks.com/software/batteries-included-with-emacs/
+  ;; https://www.reddit.com/r/emacs/comments/jwhr6g/batteries_included_with_emacs/
+  :custom
+  (pulse-iterations 16)
+  (pulse-delay 0.1)
+  :init
+  (defun gav:pulse-line (&rest _)
+    "Pulse the current line."
+    (pulse-momentary-highlight-one-line (point)))
+
+  (dolist (command (quote (scroll-up-command
+                           scroll-down-command
+                           recenter-top-bottom
+                           other-window)))
+    (advice-add command :after #'gav:pulse-line)))
+
 (use-package pyenv-mode
   ;; Loads `elpy' and `python' automatically.
   :preface
