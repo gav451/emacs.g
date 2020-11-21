@@ -228,6 +228,9 @@ Must be set before loading use-package.")
 (use-package browse-url
   :unless noninteractive
   :preface
+  (defun gav:browse-url-mpv (url &optional single)
+    (start-process "mpv" nil "mpv" url))
+
   (defun dict-en (word)
     "Look up a word in the dictionary at 'https://thefreedictionary.com'."
     (interactive
@@ -274,6 +277,7 @@ Must be set before loading use-package.")
                           (thing-at-point 'word)))))
     (browse-url (concat "http://wttr.in/" place)))
   :custom
+  ;; https://karthinks.com/software/lazy-elfeed/
   (browse-url-browser-function
    '((".*github.*" . browse-url-generic)
      (".*gitlab.*" . browse-url-generic)
@@ -282,7 +286,7 @@ Must be set before loading use-package.")
      (".*readthedocs.org" . browser-url-generic)
      (".*reddit.com" . browse-url-generic)
      (".*wikipedia.*" . browse-url-generic)
-     (".*youtube.*" . browse-url-generic)
+     ("https:\\/\\/www\\.youtu\\.*be." . gav:browse-url-mpv)
      ("." . eww-browse-url)))
   (browse-url-generic-program (or (when (eq system-type 'darwin)
                                     "open")
