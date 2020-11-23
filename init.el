@@ -228,7 +228,7 @@ Must be set before loading use-package.")
 (use-package browse-url
   :unless noninteractive
   :preface
-  (defun gav:browse-url-mpv (url &optional single)
+  (defun gav:browse-url-mpv (url &optional _)
     (start-process "mpv" nil "mpv" url))
 
   (defun dict-en (word)
