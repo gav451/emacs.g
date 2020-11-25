@@ -140,6 +140,11 @@ Must be set before loading use-package.")
   :mode ((rx (seq ".tex" eos)) . TeX-latex-mode)
   :custom
   (LaTeX-electric-left-right-brace t "Conflicts with smartparens-mode.")
+  (LaTeX-section-hook '(LaTeX-section-heading
+                        LaTeX-section-title
+                        LaTeX-section-toc
+                        LaTeX-section-section
+                        LaTeX-section-label))
   :hook ((LaTeX-mode) . LaTeX-math-mode)
   :commands (LaTeX-narrow-to-environment))
 
