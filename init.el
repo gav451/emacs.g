@@ -2450,14 +2450,14 @@ Enable it and re-execute it."
 (use-package pulse
   ;; https://karthinks.com/software/batteries-included-with-emacs/
   ;; https://www.reddit.com/r/emacs/comments/jwhr6g/batteries_included_with_emacs/
+  :preface
+  (defun gav:pulse-line (&rest _)
+    "Pulse the current line."
+    (pulse-momentary-highlight-one-line (point)))
   :custom
   (pulse-iterations 16)
   (pulse-delay 0.1)
   :init
-  (defun gav:pulse-line (&rest _)
-    "Pulse the current line."
-    (pulse-momentary-highlight-one-line (point)))
-
   (dolist (command (quote (scroll-up-command
                            scroll-down-command
                            recenter-top-bottom
@@ -2712,6 +2712,7 @@ Enable it and re-execute it."
          ((ielm-mode prog-mode text-mode) . turn-on-smartparens-mode)
          ((geiser-repl-mode ielm-mode prog-mode) . turn-on-smartparens-strict-mode))
   :commands (show-smartparens-global-mode
+             smartparens-mode
              sp-local-pair)
   :config
   (show-smartparens-global-mode +1)
