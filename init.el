@@ -2019,24 +2019,10 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   :config
   (native-complete-setup-bash))
 
-(use-package modus-operandi-theme
-  ;; https://protesilaos.com/modus-themes/
+(use-package modus-themes
+  :commands (modus-themes-load-vivendi)
   :init
-  (load-theme 'modus-operandi t t))
-
-(use-package modus-vivendi-theme
-  ;; https://protesilaos.com/modus-themes/
-  :init
-  (load-theme 'modus-vivendi t)
-  (defun gav:toggle-modus-theme ()
-    "Toggle between `modus-operandi' and `modus-vivendi' themes."
-    (interactive)
-    (if (eq (car custom-enabled-themes) 'modus-operandi)
-        (progn
-          (disable-theme 'modus-operandi)
-          (load-theme 'modus-vivendi t))
-      (disable-theme 'modus-vivendi)
-      (load-theme 'modus-operandi t))))
+  (modus-themes-load-vivendi))
 
 (use-package nov
   :mode ((rx (seq ".epub" eos)) . nov-mode))
