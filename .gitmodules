@@ -201,10 +201,6 @@
 [submodule "markdown-mode"]
 	path = lib/markdown-mode
 	url = git@github.com:jrblevin/markdown-mode.git
-[submodule "modus-themes"]
-	path = lib/modus-themes
-	url = git@gitlab.com:protesilaos/modus-themes.git
-	info-path = doc
 [submodule "multiple-cursors"]
 	path = lib/multiple-cursors
 	url = git@github.com:magnars/multiple-cursors.el.git
