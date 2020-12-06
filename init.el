@@ -18,7 +18,7 @@
     (defvar file-name-handler-alist-backup file-name-handler-alist)
     (setq file-name-handler-alist nil)
     (setq gc-cons-threshold (* 16 4096 4096))
-    (let ((enough (if (getenv "EXWM") 15 5)))
+    (let ((enough 5))
       (add-hook 'after-init-hook
                 (defun on-after-init-hook-delay-reset ()
                   (run-with-idle-timer
@@ -913,371 +913,6 @@ point."
 
   :demand t)
 
-(when (and (getenv "EXWM") (not noninteractive))
-  (use-package exwm
-    ;; https://github.com/DamienCassou/emacs.d/blob/master/init.el
-    ;; https://github.com/ch11ng/exwm/wiki
-    ;; https://github.com/dakra/dmacs/blob/master/init.org
-    ;; https://github.com/technomancy/dotfiles/blob/master/.emacs.d/phil/wm.el
-    ;; https://gitlab.com/ambrevar/dotfiles/tree/master/.emacs.d
-    :preface
-
-    ;; Handle pointer devices using xinput.
-    (defun xpointer--pointer-device-names (goal)
-      (with-temp-buffer
-        (call-process "xinput" nil t nil "list" "--name-only")
-        (cl-loop with output = (buffer-string)
-                 for line in (split-string output "\n")
-                 when (string-match-p goal line)
-                 collect line)))
-
-    (defun xpointer-mouse-names ()
-      (xpointer--pointer-device-names (rx "mouse")))
-
-    (defun xpointer-touchpad-names ()
-      (xpointer--pointer-device-names (rx (or "glidepoint" "touchpad"))))
-
-    (defcustom xpointer-mouse-name nil
-      "Device name of the `xinput' mouse."
-      :set (lambda (symbol _value)
-             (set-default symbol
-                          (car (xpointer-mouse-names))))
-      :type '(choice
-              (const "Logitech USB Mouse")
-              (const "Logitech USB Optical Mouse"))
-      :group 'exwm)
-
-    (defcustom xpointer-touchpad-name nil
-      "Device name of the `xinput' touch-pad."
-      :set (lambda (symbol _value)
-             (set-default symbol
-                          (car (xpointer-touchpad-names))))
-      :type '(choice
-              (const "PS/2 Synaptics TouchPad")
-              (const "SynPS/2 Synaptics TouchPad"))
-      :group 'exwm)
-
-    (defun xpointer--set-device-enabled-to (name to)
-      (cl-assert (member to '("0" "1")))
-      (if (zerop (call-process "xinput" nil nil nil
-                               "--set-prop" name "Device Enabled" to))
-          (if (equal "0" to)
-              (message "Set `%s' to disabled" name)
-            (message "Set `%s' to enabled" name))
-        (message "Fail to set `%s' `Device Enabled' to `%s'" name to)))
-
-    (defun xpointer--device-enabled-p (name)
-      (setq name (format "%s" name))	; force name to be a string
-      (with-temp-buffer
-        (if (zerop (call-process "xinput" nil t nil "list-props" name))
-            (let ((goal (rx "Device Enabled" (+ any) (group (or "0" "1") eos))))
-              (cl-loop with output = (buffer-string)
-                       for line in (split-string output "\n")
-                       when (string-match goal line)
-                       return (match-string-no-properties 1 line)))
-          (message "Fail to call `xinput' to read the `%s' status" name))))
-
-    (defun xpointer--disable-device (name)
-      (let ((status (xpointer--device-enabled-p name)))
-        (cond
-         ((equal "0" status)
-          (message "No need to set `%s' to disabled" name))
-         ((equal "1" status)
-          (xpointer--set-device-enabled-to name "0"))
-         ((not status)
-          (message "Fail to parse the `%s' `Device Enabled' status" name))
-         (t status))))
-
-    (defun xpointer--enable-device (name)
-      (let ((status (xpointer--device-enabled-p name)))
-        (cond
-         ((equal "0" status)
-          (xpointer--set-device-enabled-to name "1"))
-         ((equal "1" status)
-          (message "No need to set `%s' to enabled" name))
-         ((not status)
-          (message "Fail to parse the `%s' `Device Enabled' status" name))
-         (t status))))
-
-    (defun xpointer--toggle-device (name)
-      (let ((status (xpointer--device-enabled-p name)))
-        (cond
-         ((equal "0" status)
-          (xpointer--set-device-enabled-to name "1"))
-         ((equal "1" status)
-          (xpointer--set-device-enabled-to name "0"))
-         ((not status)
-          (message "Fail to parse the `%s' `Device Enabled' status" name))
-         (t status))))
-
-    (defun xpointer-disable-mouse ()
-      (interactive)
-      (xpointer--disable-device xpointer-mouse-name))
-
-    (defun xpointer-disable-touchpad ()
-      (interactive)
-      (xpointer--disable-device xpointer-touchpad-name))
-
-    (defun xpointer-enable-mouse ()
-      (interactive)
-      (xpointer--enable-device xpointer-mouse-name))
-
-    (defun xpointer-enable-touchpad ()
-      (interactive)
-      (xpointer--enable-device xpointer-touchpad-name))
-
-    (defun xpointer-toggle-mouse ()
-      (interactive)
-      (xpointer--toggle-device xpointer-mouse-name))
-
-    (defun xpointer-toggle-touchpad ()
-      (interactive)
-      (xpointer--toggle-device xpointer-touchpad-name))
-
-    ;; Battery stuff
-    (require 'dbus)
-
-    (defvar no-ac-display-battery--dbus-object nil
-      "D-Bus object remembering the return value of `dbus-register-signal'.
-Use this to unregister from the D-BUS.")
-
-    (defun no-ac-display-battery--display-battery-mode ()
-      "Hide or show the battery status on AC or battery power."
-      (if (dbus-get-property :system
-                             "org.freedesktop.UPower"
-                             "/org/freedesktop/UPower"
-                             "org.freedesktop.UPower"
-                             "OnBattery")
-          (display-battery-mode)
-        (display-battery-mode -1)))
-
-    (defun no-ac-display-battery--start-listening ()
-      "Start listening for UPower events."
-      (if (not (member "org.freedesktop.UPower" (dbus-list-names :system)))
-          (message "Install and/or launch the upower daemon")
-        (setq no-ac-display-battery--dbus-object
-              (dbus-register-signal
-               :system
-               "org.freedesktop.UPower"
-               "/org/freedesktop/UPower/devices/line_power_AC"
-               "org.freedesktop.DBus.Properties"
-               "PropertiesChanged"
-               (lambda (_interface _changed _invalidated)
-                 ;; "Online" is not in _CHANGED when it did not change.
-                 (no-ac-display-battery--display-battery-mode))))
-        (no-ac-display-battery--display-battery-mode)))
-
-    (defun no-ac-display-battery--stop-listening ()
-      "Stop listening for UPower events."
-      (when (dbus-unregister-object no-ac-display-battery--dbus-object)
-        (setq no-ac-display-battery--dbus-object nil))
-      (display-battery-mode -1))
-
-    (define-minor-mode no-ac-display-battery-mode
-      "Hide or show the battery status on AC or no AC power."
-      :global t
-      :init-value nil
-      (if no-ac-display-battery-mode
-          (no-ac-display-battery--start-listening)
-        (no-ac-display-battery--stop-listening)))
-
-    ;; Reboot or shutdown
-    (defcustom exwm-tear-down-background-color "DarkRed"
-      "EXWM tear down background color."
-      :type 'string
-      :group 'display)
-
-    (defcustom exwm-tear-down-hook nil
-      "Hook to power-DOWN or re-BOOT the computer cleanly."
-      :type 'hook
-      :group 'exwm)
-
-    (defun exwm-tear-down ()
-      "Save all buffers and run `kill-emacs-hook' without killing exwm or Emacs."
-      (save-some-buffers t)
-      ;; `run-hooks' does not work with let binding.
-      (setq exwm-tear-down-hook (thread-last kill-emacs-hook
-                                  (remove 'exwm--server-stop)
-                                  (remove 'server-force-stop)))
-      (run-hooks 'exwm-tear-down-hook))
-
-    (defun exwm-power-down ()
-      "Save all Emacs buffers and power-DOWN the computer."
-      (interactive)
-      (buffer-face-set `(:background ,exwm-tear-down-background-color))
-      (when (y-or-n-p "Really want to power-DOWN? ")
-        (exwm-tear-down)
-        (start-process-shell-command "power-DOWN" nil "sudo shutdown -h -t 2 now"))
-      (buffer-face-mode -1))
-
-    (defun exwm-re-boot ()
-      "Save all Emacs buffers and re-BOOT the computer."
-      (interactive)
-      (buffer-face-set `(:background ,exwm-tear-down-background-color))
-      (when (y-or-n-p "Really want to re-BOOT? ")
-        (exwm-tear-down)
-        (start-process-shell-command "re-BOOT" nil "sudo shutdown -r -t 2 now"))
-      (buffer-face-mode -1))
-
-    ;; User interface
-    (defun exwm-alsamixer ()
-      (interactive)
-      (start-process-shell-command "alsamixer" nil "xterm -e alsamixer"))
-
-    (defun exwm-invoke (command)
-      (interactive (list (read-shell-command "$ ")))
-      (start-process-shell-command command nil command))
-
-    (defun exwm-lock-screen ()
-      (interactive)
-      (shell-command-to-string "i3lock -c 000000"))
-
-    :commands (exwm-enable
-               exwm-reset)
-    :init
-    (exwm-enable)
-    :config
-    (xpointer-toggle-touchpad)
-    (no-ac-display-battery-mode 1)
-    (display-time-mode 1)
-    (menu-bar-mode -1)
-    (add-hook
-     'exwm-update-class-hook
-     (defun on-exwm-update-class-hook ()
-       (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
-                   (string= "gimp" exwm-instance-name))
-         (exwm-workspace-rename-buffer exwm-class-name))))
-    (add-hook
-     'exwm-update-title-hook
-     (defun on-exwm-update-title ()
-       (when (or (not exwm-instance-name)
-                 (string-prefix-p "sun-awt-X11-" exwm-instance-name)
-                 (string= "gimp" exwm-instance-name))
-         (exwm-workspace-rename-buffer exwm-title)))))
-
-  (use-package exwm-floating
-    :custom
-    (exwm-floating-border-color "BlueViolet")
-    (exwm-floating-border-width 3))
-
-  (use-package exwm-input
-    :custom
-    ;; Bind `s-' prefix exwm specific keys when exwm gets enabled,
-    ;; since those key-bindings may conflict with other window managers.
-    (exwm-input-global-keys
-     `(([?\s-&] . exwm-invoke)
-       ([?\s-B] . exwm-re-boot)
-       ([?\s-D] . exwm-power-down)
-       ([?\s-a] . exwm-alsamixer)
-       ([?\s-b] . exwm-workspace-switch-to-buffer)
-       ([?\s-i] . exwm-invoke)
-       ([?\s-k] . exwm-input-toggle-keyboard)
-       ([?\s-l] . exwm-lock-screen)
-       ([?\s-m] . xpointer-toggle-mouse)
-       ([?\s-n] . next-window-any-frame)
-       ([?\s-o] . other-window)
-       ([?\s-p] . previous-window-any-frame)
-       ([?\s-q] . window-toggle-side-windows)
-       ([?\s-r] . exwm-reset)
-       ([?\s-t] . xpointer-toggle-touchpad)
-       ([?\s-w] . exwm-workspace-switch)
-       ,@(mapcar (lambda (i)
-                   `(,(kbd (format "s-%d" i)) .
-                     (lambda ()
-                       (interactive)
-                       (exwm-workspace-switch-create ,i))))
-                 (number-sequence 0 9))))
-    :commands (exwm-input-set-key
-               exwm-input-toggle-keyboard))
-
-  (use-package exwm-layout
-    :custom
-    (exwm-layout-show-all-buffers t))
-
-  (use-package exwm-manage
-    :custom
-    (exwm-manage-configurations
-     '(((or (equal "Alacritty" exwm-class-name)
-            (equal "XTerm" exwm-class-name)
-            (equal "kitty" exwm-class-name))
-        char-mode t
-        simulation-keys (([?\C-c ?\C-c] . [?\C-c])))
-       ((equal "Firefox" exwm-class-name)
-        simulation-keys (([?\C-b] . [left])
-                         ([?\M-b] . [C-left])
-                         ([?\C-f] . [right])
-                         ([?\M-f] . [C-right])
-                         ([?\C-p] . [up])
-                         ([?\C-n] . [down])
-                         ([?\C-a] . [home])
-                         ([?\C-e] . [end])
-                         ([?\M-v] . [prior])
-                         ([?\C-v] . [next])
-                         ([?\C-d] . [delete])
-                         ([?\C-k] . [S-end delete])
-                         ;; cut, copy, and paste:
-                         ([?\C-w] . [?\C-x])
-                         ([?\M-w] . [?\C-c])
-                         ([?\C-y] . [?\C-v])
-                         ;; search:
-                         ([?\C-s] . [?\C-f])
-                         ;; close tab instead of quitting Firefox:
-                         ([?\C-q] . [?\C-w])))
-       ;; Remove the gimp state directory with "rm -rf ~/.config/GIMP".
-       ((equal "GNU Image Manipulation Program" exwm-title)
-        floating t
-        floating-mode-line nil
-        height 0.5
-        width 0.5)
-       ((string-prefix-p "sun-awt-X11-" exwm-instance-name)
-        floating t
-        floating-mode-line nil))))
-
-  (use-package exwm-randr
-    ;; https://emacs.stackexchange.com/questions/7148/get-all-regexp-matches-in-buffer-as-a-list
-    ;; https://github.com/ch11ng/exwm/wiki
-    :preface
-    (defun exwm-randr-connected-monitors ()
-      (with-temp-buffer
-        (call-process "xrandr" nil t nil)
-        (let* ((goal (rx (group (or "DP1" "HDMI1" "VIRTUAL1" "eDP1")) " connected"))
-               (found (cl-loop with output = (buffer-string)
-                               for line in (split-string output "\n")
-                               when (string-match goal line)
-                               collect (match-string 1 line))))
-          found)))
-
-    :when (string= (system-name) "venus")
-    :commands (exwm-randr-enable)
-    :init
-    (exwm-randr-enable)
-    (add-hook
-     'exwm-randr-screen-change-hook
-     (defun on-exwm-randr-screen-change-hook ()
-       (let* ((monitors (exwm-randr-connected-monitors))
-              (count (length monitors))
-              (wop))
-         (cond
-          ((eq count 2)
-           (dotimes (i 10)
-             (if (cl-evenp i)
-                 (setq wop (plist-put wop i (car monitors)))
-               (setq wop (plist-put wop i (cadr monitors)))))
-           (message "Exwm-randr: configure 2 monitors"))
-          ((eq count 1)
-           (dotimes (i 10)
-             (setq wop (plist-put wop i (car monitors))))
-           (message "Exwm-randr: configure 1 monitor")))
-         (setq exwm-randr-workspace-monitor-plist wop)))))
-
-  (use-package exwm-workspace
-    :custom
-    (exwm-workspace-number 2)
-    (exwm-workspace-show-all-buffers t)
-    :commands (exwm-workspace-rename-buffer
-               exwm-workspace-switch
-               exwm-workspace-switch-create)))
-
 (use-package face-remap
   ;; https://protesilaos.com/dotemacs/
   :commands (buffer-face-mode
@@ -1772,7 +1407,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
      ("EMMS" (or (mode . emms-lyrics-mode)
                  (mode . emms-mark-mode)
                  (mode . emms-playlist-mode)))
-     ("EXWM" (mode . exwm-mode))
      ("Elisp" (mode . emacs-lisp-mode))
      ("Eshell" (mode . eshell-mode))
      ("Helm" (mode . helm-major-mode))
@@ -1790,13 +1424,13 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
    (list
     (make-ibuffer-saved-filter-group
      "Emacs" "Elisp" "Org" "Doc" "Dired" "PDF" "Python" "Eshell" "TeX"
-     "Magit" "VC" "Shell" "Helm" "EMMS" "EXWM" "Setup")
+     "Magit" "VC" "Shell" "Helm" "EMMS" "Setup")
     (make-ibuffer-saved-filter-group
      "Python" "Python" "Org" "Doc" "Dired" "PDF" "Elisp" "Eshell" "TeX"
-     "Magit" "VC" "Shell" "Helm" "EMMS" "EXWM" "Setup")
+     "Magit" "VC" "Shell" "Helm" "EMMS" "Setup")
     (make-ibuffer-saved-filter-group
      "Text" "Org" "TeX" "PDF" "Doc" "Dired" "Python" "Elisp" "Eshell"
-     "Magit" "VC" "Shell" "Helm" "EMMS" "EXWM" "Setup")))
+     "Magit" "VC" "Shell" "Helm" "EMMS" "Setup")))
   :commands (ibuffer-switch-to-saved-filter-groups)
   :config
   (add-hook 'ibuffer-mode-hook
@@ -2777,11 +2411,6 @@ even if buffer is already narrowed."
 
 (use-package thingatpt
   :functions (thing-at-point-looking-at))
-
-(use-package time
-  :custom
-  (display-time-format (when (getenv "EXWM")
-                         " %R %F")))
 
 (use-package toc-org
   :hook ((org-mode) . toc-org-mode))
