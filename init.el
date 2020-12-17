@@ -1607,6 +1607,10 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   :custom
   (Man-width 80))
 
+(use-package margina
+  :init
+  (marginalia-mode))
+
 (use-package markdown-mode
   :custom
   (markdown-command "pandoc -f markdown -t html5 -s --self-contained --smart")
