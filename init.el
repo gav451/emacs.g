@@ -971,12 +971,6 @@ point."
 
 (use-package flyspell
   :unless noninteractive
-  :preface
-  (defun gav:toggle-flyspell-dwim-mode ()
-    (interactive)
-    (if (derived-mode-p 'prog-mode)
-        (call-interactively #'flyspell-prog-mode)
-      (call-interactively #'flyspell-mode)))
   :hook
   ((prog-mode) . flyspell-prog-mode)
   ((text-mode) . flyspell-mode)
@@ -1358,7 +1352,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
       (if (bound-and-true-p flycheck-mode) "[X]" "[ ]"))
      ("fl" #'font-lock-mode
       (if (bound-and-true-p font-lock-mode) "[X]" "[ ]"))
-     ("fs" #'gav:toggle-flyspell-dwim-mode
+     ("fs" #'flyspell-mode
       (if (bound-and-true-p flyspell-mode) "[X]" "[ ]"))
      ("g" #'gav:toggle-goto-address-dwim-mode
       (if (or (bound-and-true-p goto-address-prog-mode)
