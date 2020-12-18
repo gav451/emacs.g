@@ -2450,7 +2450,13 @@ even if buffer is already narrowed."
   (wdired-allow-to-change-permissions t))
 
 (use-package which-key
+  :custom
+  (which-key-idle-delay 10000)
+  (which-key-idle-secondary-delay 0.05)
+  (which-key-show-early-on-C-h t)
   :commands (which-key-mode)
+  :init
+  (which-key-mode +1)
   :delight (which-key-mode))
 
 (use-package winner
