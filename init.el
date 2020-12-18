@@ -1150,9 +1150,6 @@ WITH-TYPES, if non-nil, ask for file types to search in."
     (interactive "P")
     (gav:helm-rg (gav:helm--project-root) with-types))
 
-  (bind-keys :map global-map
-             ("C-:" . gav:helm-default-directory-search)
-             ("C-!" . gav:helm-project-search))
   :custom
   (helm-grep-ag-command (concat "rg"
                                 " --color=never"
@@ -1230,9 +1227,6 @@ WITH-TYPES, if non-nil, ask for file types to search in."
                ("x" . helpful-command)
                ("y" . helpful-macro)
                ("z" . helpful-at-point))))
-
-(use-package hercules
-  :commands (hercules-def))
 
 (use-package hideshow
   ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
@@ -1449,22 +1443,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   (iedit-mode-line
    '(" 🖹:" (:eval
             (format "%d/%d" iedit-occurrence-index (iedit-counter)))))
-  (iedit-toggle-key-default nil)
-  ;; "Mastering Emacs" recommends this and `lispy' uses this.
-  :bind ((:map global-map
-               ("M-i" . iedit-mode))
-         (:map isearch-mode-map
-               ("M-i" . iedit-mode-from-isearch))
-         (:map esc-map
-               ("M-i" . iedit-execute-last-modification))
-         (:map help-map
-               ("M-i" . iedit-mode-toggle-on-function)))
-  :config
-  (hercules-def
-   :toggle-funs #'iedit-mode
-   :hide-funs #'iedit-quit
-   :keymap 'iedit-mode-keymap
-   :flatten t))
+  :demand t)
 
 (use-package iedit-lib
   :commands (iedit-quit))
@@ -1545,11 +1524,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
                ("C-c e" . macrostep-expand)))
   :commands (macrostep-mode)
   :config
-  (hercules-def
-   :show-funs #'macrostep-expand
-   :hide-funs #'macrostep-mode
-   :keymap 'macrostep-keymap
-   :flatten t)
   (use-package use-package))
 
 (use-package magit

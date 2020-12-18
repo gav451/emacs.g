@@ -150,9 +150,6 @@
 [submodule "helpful"]
 	path = lib/helpful
 	url = git@github.com:Wilfred/helpful.git
-[submodule "hercules"]
-	path = lib/hercules
-	url = git@gitlab.com:jjzmajic/hercules.el.git
 [submodule "highlight-indentation"]
 	path = lib/highlight-indentation
 	url = git@github.com:antonj/Highlight-Indentation-for-Emacs.git
