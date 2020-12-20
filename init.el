@@ -1760,12 +1760,20 @@ Enable it and re-execute it."
      (""                     "capt-of"      nil)
      ("hyperfootnotes=false" "hyperref"     nil)))
   (org-modules
-   '(ol-bibtex
-     ol-eshell
-     ol-eww
-     ol-info
-     org-id
-     org-protocol))
+   (if (eq system-type 'darwin)
+       '(ol-bibtex
+         ol-eshell
+         ol-eww
+         ol-info
+         org-id
+         org-mac-link
+         org-protocol)
+     '(ol-bibtex
+       ol-eshell
+       ol-eww
+       ol-info
+       org-id
+       org-protocol)))
   (org-src-fontify-natively t)
   (org-todo-keywords (quote ((sequence "TODO" "|" "DONE" "DEFERRED" "ZAPPED"))))
   (org-use-sub-superscripts '{})
