@@ -198,6 +198,10 @@
 [submodule "markdown-mode"]
 	path = lib/markdown-mode
 	url = git@github.com:jrblevin/markdown-mode.git
+[submodule "maxima"]
+	path = lib/maxima
+	url = git@gitlab.com:sasanidas/maxima.git
+	no-byte-compile = poly-maxima.el
 [submodule "modus-themes"]
 	path = lib/modus-themes
 	url = git@gitlab.com:protesilaos/modus-themes.git

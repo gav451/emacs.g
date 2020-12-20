@@ -1586,6 +1586,10 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode)))
 
+(use-package maxima
+  :interpreter ("maxima" . maxima-mode)
+  :mode ((rx ".mac" eos) . maxima-mode))
+
 (use-package message
   ;; https://emacs.stackexchange.com/a/3653
   ;; (emacs)Top > Sending Mail
@@ -1724,6 +1728,7 @@ Enable it and re-execute it."
                                     (gnuplot . t)
                                     (latex . t)
                                     (lisp . t)
+                                    (maxima . t)
                                     (org . t)
                                     (python . t)
                                     (shell . t)
@@ -2285,6 +2290,31 @@ Enable it and re-execute it."
     (indent-according-to-mode)
     (forward-line -1)
     (indent-according-to-mode))
+  :custom
+  (sp-lisp-modes '(cider-repl-mode
+                   clojure-mode
+                   clojurec-mode
+                   clojurescript-mode
+                   clojurex-mode
+                   common-lisp-mode
+                   emacs-lisp-mode
+                   eshell-mode
+                   geiser-repl-mode
+                   gerbil-mode
+                   inf-clojure-mode
+                   inferior-emacs-lisp-mode
+                   inferior-lisp-mode
+                   inferior-scheme-mode
+                   lisp-interaction-mode
+                   lisp-mode
+                   maxima-mode
+                   monroe-mode
+                   racket-mode
+                   racket-repl-mode
+                   scheme-interaction-mode
+                   scheme-mode
+                   slime-repl-mode
+                   stumpwm-mode))
   :bind ((:map smartparens-mode-map
                ;; I have copied sp-smartparens-bindings.
                ("C-M-f" . sp-forward-sexp)
