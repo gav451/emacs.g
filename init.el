@@ -1524,7 +1524,8 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
                ("C-c e" . macrostep-expand)))
   :commands (macrostep-mode)
   :config
-  (use-package use-package))
+  (use-package use-package)
+  :delight (macrostep-mode " 🦵"))
 
 (use-package magit
   ;; https://stackoverflow.com/questions/4114095/how-to-revert-a-git-repository-to-a-previous-commit
