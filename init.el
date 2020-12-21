@@ -427,9 +427,8 @@ Must be set before loading use-package.")
   :mode ((rx (seq ".py" (any "xdi") eos)) . cython-mode))
 
 (use-package dash
-  :commands (dash-enable-font-lock)
-  :config
-  (dash-enable-font-lock))
+  :hook
+  ((emacs-lisp-mode ielm-mode lisp-interaction-mode) . dash-fontify-mode))
 
 (use-package dbus
   :commands (dbus-get-property
