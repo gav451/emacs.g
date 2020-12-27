@@ -1,6 +1,6 @@
 # name: jupyter-python block
 # key: <jp
 # --
-#+begin_src jupyter-python :eval no-export :exports both :pandoc t :session py
+#+begin_src jupyter-python :eval no-export :exports both :session py
 $0
 #+end_src
