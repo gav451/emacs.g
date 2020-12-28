@@ -2130,6 +2130,10 @@ Enable it and re-execute it."
   :mode ((rx (seq ".py" (opt "w") eos)) . python-mode)
   :delight (python-mode "🐍 " :major))
 
+(use-package rainbow-delimiters
+  :hook
+  ((prog-mode text-mode) . rainbow-delimiters-mode))
+
 (use-package rainbow-mode
   :custom
   (rainbow-x-colors-major-mode-list '(emacs-lisp-mode
