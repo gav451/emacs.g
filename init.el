@@ -2132,7 +2132,7 @@ Enable it and re-execute it."
 
 (use-package rainbow-delimiters
   :hook
-  ((prog-mode text-mode) . rainbow-delimiters-mode))
+  ((bibtex-mode prog-mode text-mode) . rainbow-delimiters-mode))
 
 (use-package rainbow-mode
   :custom
