@@ -466,6 +466,8 @@ Must be set before loading use-package.")
            helm-ff-history
            helm-surfraw-engines-history)))
   (desktop-load-locked-desktop t)
+  (desktop-modes-not-to-save (quote (eww-mode
+                                     tags-table-mode)))
   (desktop-restore-eager 20)
   (desktop-restore-frames nil)
   :commands (desktop-save-mode)
