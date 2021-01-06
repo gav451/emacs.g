@@ -353,75 +353,43 @@ Must be set before loading use-package.")
 (use-package compile
   :delight (compilation-in-progress " 👷"))
 
-(use-package counsel
-  :disabled
-  :custom
-  (counsel-grep-swiper-limit (lsh 1 20))
-  (counsel-locate-cmd (cond ((eq system-type 'darwin)
-                             'counsel-locate-cmd-mdfind)
-                            (t
-                             'counsel-locate-cmd-default)))
-  :bind ((:map global-map
-               ;; dired-mode-map and isearch-mode-map shadow "M-s".
-               ("M-s" . counsel-grep-or-swiper))))
+(use-package consult
+  :bind (("C-x M-:" . consult-complex-command)
+         ("C-c h" . consult-history)
+         ("C-c m" . consult-mode-command)
+         ("C-x b" . consult-buffer)
+         ("C-x 4 b" . consult-buffer-other-window)
+         ("C-x 5 b" . consult-buffer-other-frame)
+         ("C-x r x" . consult-register)
+         ("C-x r b" . consult-bookmark)
+         ("M-g g" . consult-goto-line)
+         ("M-g M-g" . consult-goto-line)
+         ("M-g o" . consult-outline)       ;; "M-s o" is a good alternative.
+         ("M-g l" . consult-line)          ;; "M-s l" is a good alternative.
+         ("M-g m" . consult-mark)          ;; I recommend to bind Consult navigation
+         ("M-g k" . consult-global-mark)   ;; commands under the "M-g" prefix.
+         ("M-g r" . consult-git-grep)      ;; or consult-grep, consult-ripgrep
+         ("M-g f" . consult-find)          ;; or consult-locate, my-fdfind
+         ("M-g i" . consult-project-imenu) ;; or consult-imenu
+         ("M-g e" . consult-error)
+         ("M-s m" . consult-multi-occur)
+         ("M-y" . consult-yank-pop)
+         ("<help> a" . consult-apropos))
+  :init
+  (fset 'multi-occur #'consult-multi-occur)
+  :config
+  (consult-preview-mode))
+
+(use-package consult-flycheck
+  :bind (:map flycheck-command-map
+              ("!" . consult-flycheck)))
+
+(use-package consult-selectrum
+  :after selectrum
+  :demand t)
 
 (use-package counsel
-  :disabled
-  ;; https://www.reddit.com/r/emacs/comments/baby94/some_ivy_hacks/
-  :preface
-  (defun counsel-helpful-keymap-describe ()
-    "select keymap with ivy, display help with helpful"
-    (interactive)
-    (ivy-read "describe keymap: "
-              (let (cands)
-                (mapatoms
-                 (lambda (x)
-                   (and (boundp x) (keymapp (symbol-value x))
-                        (push (symbol-name x) cands))))
-                cands)
-              :require-match t
-              :history 'counsel-describe-keymap-history
-              :preselect (ivy-thing-at-point)
-              :keymap counsel-describe-map
-              :sort t
-              :action (lambda (map-name)
-                        (helpful-variable (intern map-name)))
-              :caller 'counsel-helpful-keymap-describe))
-  :custom
-  (counsel-describe-function-function 'helpful-callable)
-  (counsel-describe-variable-function 'helpful-variable)
-  (counsel-find-file-at-point t)
-  (counsel-find-file-ignore-regexp
-   (rx (or
-        ;; file names beginning with # or .
-        (seq bos (any "#."))
-        ;; file names ending with # or ~
-        (seq bos (+? nonl) (any "#~") eos)
-        ;; file names ending with .elc or .pyc
-        (group "." (group (or "el" "py") "c" eos)))))
-  (counsel-grep-swiper-limit (lsh 1 20))
-  (counsel-linux-app-format-function #'counsel-linux-app-format-function-command-only)
-  (counsel-locate-cmd (cond ((eq system-type 'darwin)
-                             'counsel-locate-cmd-mdfind)
-                            (t
-                             'counsel-locate-cmd-default)))
-  :commands (counsel-describe-face
-             counsel-linux-app-format-function-command-only)
-  :bind ((:map global-map
-               ("C-r" . counsel-grep-or-swiper)
-               ("C-s" . counsel-grep-or-swiper)
-               ;; Avoid shadowing `eshell-forward-argument'.
-               ("C-c C-f" . counsel-recentf)
-               ;; Avoid shadowing `emms-playlist-mode-yank-pop'.
-               ("M-y" . counsel-yank-pop))
-         (:map help-map
-               ("S" . counsel-info-lookup-symbol)
-               ("f" . counsel-describe-function)
-               ("v" . counsel-describe-variable)))
-  :bind* (("C-x C-f" . counsel-find-file)
-          ("M-x" . counsel-M-x)
-          ("C-c C-g" . counsel-rg)
-          ("C-c u" . counsel-unicode-char)))
+  :disabled)
 
 (use-package cython-mode
   :mode ((rx (seq ".py" (any "xdi") eos)) . cython-mode))
@@ -2172,31 +2140,12 @@ Enable it and re-execute it."
   :delight (reveal-mode " ⏿"))
 
 (use-package replace
-  ;; https://masteringemacs.org/article/searching-buffers-occur-mode
+  ;; https://github.com/minad/consult
   ;; https://github.com/raxod502/selectrum/wiki/Additional-Configuration#improve-the-completion-of-multi-occur
-  :preface
-  (defun multi-occur-with-this-mode (regexp &optional nlines)
-    "Show all lines matching REGEXP in buffers with this major mode."
-    (interactive
-     (occur-read-primary-args))
-    (occur-1 regexp nlines
-             (cl-loop
-              for buffer being the buffers when
-              (eq (buffer-local-value 'major-mode buffer) major-mode)
-              collect buffer)))
+  ;; https://masteringemacs.org/article/searching-buffers-occur-mode
   :custom
   (list-matching-lines-default-context-lines 0)
-  :hook ((occur) . occur-rename-buffer)
-  :commands (occur-1
-             occur-read-primary-args)
-  :config
-  (defun multi-occur (bufs regexp &optional nlines)
-    (interactive (cons
-                  (mapcar #'get-buffer
-                          (completing-read-multiple "Buffer: "
-                                                    #'internal-complete-buffer))
-                  (occur-read-primary-args)))
-    (occur-1 regexp nlines bufs)))
+  :hook ((occur) . occur-rename-buffer))
 
 (use-package saveplace
   :commands (save-place-mode)

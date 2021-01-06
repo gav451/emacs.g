@@ -39,6 +39,9 @@
 [submodule "company-org-roam"]
 	path = lib/company-org-roam
 	url = git@github.com:org-roam/company-org-roam.git
+[submodule "consult"]
+	path = lib/consult
+	url = git@github.com:minad/consult.git
 [submodule "cython-mode"]
 	path = lib/cython-mode
 	url = git@github.com:emacsmirror/cython-mode.git
