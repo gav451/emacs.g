@@ -375,6 +375,7 @@ Must be set before loading use-package.")
          ("M-s m" . consult-multi-occur)
          ("M-y" . consult-yank-pop)
          ("<help> a" . consult-apropos))
+  :commands (consult-preview-mode)
   :init
   (fset 'multi-occur #'consult-multi-occur)
   :config
@@ -1534,6 +1535,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   (Man-width 80))
 
 (use-package marginalia
+  :commands (marginalia-mode)
   :init
   (marginalia-mode))
 
