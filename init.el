@@ -988,13 +988,16 @@ point."
   (free-keys-modifiers '("" "C" "M" "C-M" "s"))
   :commands (free-keys))
 
+(use-package geiser-mode
+  :custom
+  (geiser-mode-start-repl-p t))
+
 (use-package geiser-impl
   :custom
   (geiser-active-implementations
-   (cl-loop for scheme in '(chicken guile)
-            when (executable-find (symbol-name scheme))
-            collect scheme))
-  (geiser-default-implementation (car geiser-active-implementations)))
+   (list (car (cl-loop for scheme in '(chicken guile)
+                       when (executable-find (symbol-name scheme))
+                       collect scheme)))))
 
 (use-package git-commit
   :preface
