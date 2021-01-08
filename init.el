@@ -60,9 +60,9 @@
 (declare-function borg-elpa-initialize "borg-elpa" ())
 (declare-function borg-get "borg" (clone variable &optional all))
 
-(with-no-warnings                       ; `no-littering'
+(with-no-warnings                       ; `borg-elpa-initialize'
   (setq epkg-repository
-        (expand-file-name (convert-standard-filename "var/epkgs/")
+        (expand-file-name (convert-standard-filename "epkgs/")
                           user-emacs-directory)))
 
 (progn                                  ; `borg'
