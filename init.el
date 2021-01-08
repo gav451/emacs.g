@@ -359,6 +359,16 @@ Must be set before loading use-package.")
   :delight (compilation-in-progress " 👷"))
 
 (use-package consult
+  :preface
+  (defun gav:consult-project-root ()
+    "Return the project root directory or `default-directory'."
+    (let ((root default-directory)
+          (project (project-current)))
+      (when project
+        (setq root (cdr project)))
+      root))
+  :custom
+  (consult-project-root-function #'gav:consult-project-root)
   :bind (("C-x M-:" . consult-complex-command)
          ("C-c h" . consult-history)
          ("C-c m" . consult-mode-command)
@@ -382,9 +392,7 @@ Must be set before loading use-package.")
          ("<help> a" . consult-apropos))
   :commands (consult-preview-mode)
   :init
-  (fset 'multi-occur #'consult-multi-occur)
-  :config
-  (consult-preview-mode))
+  (fset 'multi-occur #'consult-multi-occur))
 
 (use-package consult-flycheck
   :bind (:map flycheck-command-map
