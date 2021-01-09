@@ -209,9 +209,6 @@
 [submodule "multiple-cursors"]
 	path = lib/multiple-cursors
 	url = git@github.com:magnars/multiple-cursors.el.git
-[submodule "native-complete"]
-	path = lib/native-complete
-	url = git@github.com:CeleritasCelery/emacs-native-shell-complete.git
 [submodule "no-littering"]
 	path = lib/no-littering
 	url = git@github.com:emacscollective/no-littering.git
@@ -331,10 +328,6 @@
 [submodule "undo-tree"]
 	path = lib/undo-tree
 	url = http://www.dr-qubit.org/git/undo-tree.git
-[submodule "unfill"]
-	path = lib/unfill
-	url = git@github.com:purcell/unfill.git
-	no-byte-compile = test.el
 [submodule "use-package"]
 	path = lib/use-package
 	url = git@github.com:jwiegley/use-package.git

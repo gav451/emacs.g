@@ -347,10 +347,6 @@ Must be set before loading use-package.")
          ((sly-mode sly-mrepl-mode) . company-mode))
   :delight (company-mode " 👫"))
 
-(use-package company-native-complete
-  :after native-complete
-  :demand t)
-
 (use-package company-prescient
   :hook ((company-mode) . company-prescient-mode))
 
@@ -1595,15 +1591,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
                         (match-end 0)
                         #'completion-file-name-table)))) 'append))
 
-(use-package native-complete
-  ;; https://blog.binchen.org/posts/thoughts-on-native-shell-completion-in-emacs-emacsenautocompleteshell.html
-  ;; https://coredumped.dev/2020/01/04/native-shell-completion-in-emacs/
-  :after shell
-  :commands (native-complete-setup-bash)
-  :demand t
-  :config
-  (native-complete-setup-bash))
-
 (use-package modus-themes
   :commands (modus-themes-load-vivendi)
   :init
@@ -2178,16 +2165,8 @@ Enable it and re-execute it."
   (selectrum-prescient-mode +1))
 
 (use-package shell
-  :custom
-  (shell-file-name (executable-find "bash"))
-  :bind ((:map shell-mode-map
-               ("<tab>" . company-complete)))
   :config
-  (setenv "PAGER" "cat")
-  (add-hook 'shell-mode-hook
-            (defun on-shell-mode-hook ()
-              (setq-local company-backends
-                          '((company-native-complete))))))
+  (setenv "PAGER" "cat"))
 
 (use-package shr
   ;; (modus-themes)Top > Notes for individual packages > Note on shr colours
@@ -2407,11 +2386,6 @@ even if buffer is already narrowed."
   :init
   (global-undo-tree-mode +1)
   :delight (undo-tree-mode " ⎌"))
-
-(use-package unfill
-  :disabled
-  :bind ((:map global-map
-               ("M-q" . unfill-toggle))))
 
 (use-package uniquify
   ;; https://github.com/yiufung/dot-emacs/blob/master/init.el
