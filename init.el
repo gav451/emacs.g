@@ -320,32 +320,31 @@ Must be set before loading use-package.")
 (use-package company
   ;; https://github.com/dakra/dmacs/blob/master/init.org#company-auto-completion
   ;; https://github.com/CeleritasCelery/emacs.d/blob/master/emacs.org
+  ;; https://tychoish.com/post/better-company/
   :unless noninteractive
   :preface
   ;; Because company disables a new local variable (Emacs-28.1).
   (put 'project-vc-merge-submodules 'safe-local-variable #'null)
   :custom
+  (company-backends (quote (company-capf
+                            company-keywords
+                            company-semantic
+                            company-files
+                            company-etags
+                            company-elisp
+                            company-yasnippet)))
   (company-show-numbers t)
-  :bind ((:map company-active-map
-               ("<return>" . nil)
-               ;; ("C-j" . company-complete-selection)
-               ;; ("C-m" . nil)
-               ))
+  :bind (("C-c ." . company-complete)
+         ("C-c C-." . company-complete)
+         ("C-c s s" . company-yasnippet)
+         (:map company-active-map
+         ("C-n" . company-select-next)
+         ("C-p" . company-select-previous)
+         ("C-d" . company-show-doc-buffer)
+         ("M-." . company-show-location)))
   :hook (((LaTeX-mode org-mode) . company-mode)
          ((emacs-lisp-mode lisp-interaction-mode ielm-mode) . company-mode)
          ((sly-mode sly-mrepl-mode) . company-mode))
-  :config
-  ;; https://emacs.stackexchange.com/questions/10431/get-company-to-show-suggestions-for-yasnippet-names
-  (setq company-backends
-        (mapcar
-         (lambda (cb)
-           (if (and (listp cb) (member 'company-yasnippet cb))
-               cb
-             (append (if (consp cb)
-                         cb
-                       (list cb))
-                     '(:with company-yasnippet))))
-         company-backends))
   :delight (company-mode " 👫"))
 
 (use-package company-native-complete
