@@ -567,10 +567,8 @@ Must be set before loading use-package.")
 (use-package easy-kill
   ;; https://emacsredux.com/blog/2018/11/09/an-easy-kill/
   ;; https://emacsredux.com/blog/2019/01/10/the-emacs-year-in-review/
-  :bind (;; M-w
-         ([remap kill-ring-save] . easy-kill)
-         ;; C-M-@
-         ([remap mark-sexp] . easy-mark)))
+  :bind (([remap kill-ring-save] . easy-kill)   ;; M-w
+         ([remap mark-sexp] . easy-mark)))      ;; C-M-@
 
 (use-package eldoc
   :delight (eldoc-mode " 🛈"))
