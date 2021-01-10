@@ -60,9 +60,9 @@
 (declare-function borg-elpa-initialize "borg-elpa" ())
 (declare-function borg-get "borg" (clone variable &optional all))
 
-(with-no-warnings                       ; `borg-elpa-initialize'
+(with-no-warnings                       ; `no-littering'
   (setq epkg-repository
-        (expand-file-name (convert-standard-filename "epkgs/")
+        (expand-file-name (convert-standard-filename "var/epkgs/")
                           user-emacs-directory)))
 
 (progn                                  ; `borg'
@@ -764,8 +764,6 @@ point."
 
 (use-package epkg
   ;; https://github.com/dakra/dmacs/blob/master/init.org#unsortet-stuff-in-no-packages
-  :custom
-  (epkg-repository (expand-file-name "epkgs" user-emacs-directory))
   :config
   (when (and (fboundp 'eieio-oref)
              (fboundp 'epkg))
