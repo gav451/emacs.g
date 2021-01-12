@@ -564,6 +564,16 @@ Must be set before loading use-package.")
   :hook
   ((LaTeX-mode org-mode prog-mode) . display-line-numbers-mode))
 
+(if (eq system-type 'gnu/linux)
+    (use-package eaf
+      :custom
+      (eaf-config-location (no-littering-expand-var-file-name "eaf"))
+      :config
+      (eaf-setq eaf-browser-enable-adblocker "true")
+      (eaf-setq eaf-browser-remember-history "false"))
+  (use-package eaf
+    :disabled))
+
 (use-package easy-kill
   ;; https://emacsredux.com/blog/2018/11/09/an-easy-kill/
   ;; https://emacsredux.com/blog/2019/01/10/the-emacs-year-in-review/
