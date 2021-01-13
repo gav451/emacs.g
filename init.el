@@ -393,10 +393,6 @@ Must be set before loading use-package.")
   :bind (:map flycheck-command-map
               ("!" . consult-flycheck)))
 
-(use-package consult-selectrum
-  :after selectrum
-  :demand t)
-
 (use-package counsel
   :disabled)
 
