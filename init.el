@@ -564,9 +564,10 @@ Must be set before loading use-package.")
     (use-package eaf
       :custom
       (eaf-config-location (no-littering-expand-var-file-name "eaf"))
+      :commands (eaf-set)
       :config
-      (eaf-setq eaf-browser-enable-adblocker "true")
-      (eaf-setq eaf-browser-remember-history "false"))
+      (eaf-set 'eaf-browser-enable-adblocker "true")
+      (eaf-set 'eaf-browser-remember-history "false"))
   (use-package eaf
     :disabled))
 
