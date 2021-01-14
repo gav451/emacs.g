@@ -951,10 +951,8 @@ point."
                ("M-p" . flymake-goto-prev-error))))
 
 (use-package flyspell
+  ;; Leave `flyspell-mode' off, since I prefer `iedit' over `flyspell'.
   :unless noninteractive
-  :hook
-  ((prog-mode) . flyspell-prog-mode)
-  ((text-mode) . flyspell-mode)
   :delight (flyspell-mode " ✔"))
 
 (use-package forge
@@ -1428,9 +1426,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
    '(" 🖹:" (:eval
             (format "%d/%d" iedit-occurrence-index (iedit-counter)))))
   :demand t)
-
-(use-package iedit-lib
-  :commands (iedit-quit))
 
 (use-package indent
   ;; https://with-emacs.com/posts/tutorials/customize-completion-at-point/
