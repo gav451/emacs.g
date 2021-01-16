@@ -1433,6 +1433,10 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   (tab-always-indent 'complete)
   :commands (indent-according-to-mode))
 
+(use-package info
+  :config
+  (push (expand-file-name "etc/info" user-emacs-directory) Info-directory-list))
+
 (use-package isearch
   :custom
   (isearch-lazy-count t)

@@ -6,3 +6,4 @@ gav.el
 /elpa
 /epkgs
 /var
+!/etc/info
