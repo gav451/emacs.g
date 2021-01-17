@@ -64,12 +64,6 @@
 	no-byte-compile = dired-columns.el
 	no-byte-compile = dired-images.el
 	no-byte-compile = dired-tagsistant.el
-[submodule "eaf"]
-	path = lib/eaf
-	url = git@github.com:manateelazycat/emacs-application-framework.git
-	load-path = .
-	load-path = app/interleave
-	load-path = app/mindmap
 [submodule "easy-kill"]
 	path = lib/easy-kill
 	url = git@github.com:leoliu/easy-kill.git
