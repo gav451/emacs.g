@@ -72,12 +72,6 @@
     (package-initialize)))
 
 (progn                                  ; `use-package'
-  (defvar use-package-enable-imenu-support t
-    "If non-nil, cause imenu to see `use-package' declarations.
-This is done by adjusting `lisp-imenu-generic-expression' to
-include support for finding `use-package' and `require' forms.
-
-Must be set before loading use-package.")
   (require 'use-package)
   (setq use-package-always-defer t)
   (setq use-package-minimum-reported-time 0.001)
