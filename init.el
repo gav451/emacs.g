@@ -2131,6 +2131,11 @@ Enable it and re-execute it."
   :config
   (save-place-mode))
 
+(use-package select
+  :custom
+  ;; info: (emacs) Clipboard
+  (select-enable-clipboard t))
+
 (use-package selectrum
   :unless noninteractive
   :commands (selectrum-mode
@@ -2172,6 +2177,8 @@ Enable it and re-execute it."
   :custom
   (eval-expression-print-length nil)
   (kill-do-not-save-duplicates t)
+  ;; info: (emacs) Clipboard
+  (save-interprogram-paste-before-kill t)
   :hook (((help-mode text-mode) . visual-line-mode)
          ((LaTeX-mode) . turn-on-auto-fill))
   :commands (column-number-mode
