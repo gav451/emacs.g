@@ -153,7 +153,7 @@
 
 (use-package reftex-vars
   :custom
-  (reftex-default-bibliography "~/VCS/research/refs.bib")
+  (reftex-default-bibliography '("~/VCS/research/refs.bib"))
   (reftex-plug-into-AUCTeX t))
 
 (use-package tex
