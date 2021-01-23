@@ -358,25 +358,33 @@
       root))
   :custom
   (consult-project-root-function #'gav:consult-project-root)
-  :bind (("C-x M-:" . consult-complex-command)
+  ;; info: (consult) Example configuration
+  :bind (;; C-c bindings (mode-specific-map)
          ("C-c h" . consult-history)
          ("C-c m" . consult-mode-command)
+         ;; C-x bindings (ctl-x-map)
+         ("C-x M-:" . consult-complex-command)
          ("C-x b" . consult-buffer)
          ("C-x 4 b" . consult-buffer-other-window)
          ("C-x 5 b" . consult-buffer-other-frame)
          ("C-x r x" . consult-register)
          ("C-x r b" . consult-bookmark)
+         ;; M-g bindings (goto-map)
          ("M-g g" . consult-goto-line)
          ("M-g M-g" . consult-goto-line)
-         ("M-g o" . consult-outline)       ;; "M-s o" is a good alternative.
-         ("M-g l" . consult-line)          ;; "M-s l" is a good alternative.
-         ("M-g m" . consult-mark)          ;; I recommend to bind Consult navigation
-         ("M-g k" . consult-global-mark)   ;; commands under the "M-g" prefix.
-         ("M-g r" . consult-git-grep)      ;; or consult-grep, consult-ripgrep
-         ("M-g f" . consult-find)          ;; or consult-locate, my-fdfind
-         ("M-g i" . consult-project-imenu) ;; or consult-imenu
+         ("M-g o" . consult-outline)
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         ("M-g i" . consult-project-imenu)
          ("M-g e" . consult-error)
+         ;; M-s bindings (search-map)
+         ("M-s g" . consult-git-grep)
+         ("M-s f" . consult-find)
+         ("M-s k" . consult-keep-lines)
+         ("M-s l" . consult-line)
          ("M-s m" . consult-multi-occur)
+         ("M-s u" . consult-focus-lines)
+         ;; Other bindings
          ("M-y" . consult-yank-pop)
          ("<help> a" . consult-apropos))
   :commands (consult-preview-mode)
