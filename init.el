@@ -106,7 +106,7 @@
   ;; https://tech.toryanderson.com/2020/08/24/helm-duplicates-history/
   (history-delete-duplicates t)
   (history-length 100)
-  ;; (emacs)Top > Display > Auto Scrolling
+  ;; info: (emacs) Auto Scrolling
   (maximum-scroll-margin 0.25)
   (scroll-conservatively 0)
   (scroll-margin 0)
@@ -1558,7 +1558,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 
 (use-package message
   ;; https://emacs.stackexchange.com/a/3653
-  ;; (emacs)Top > Sending Mail
+  ;; info: (emacs) Sending Mail
   :custom
   (message-sendmail-envelope-from 'header)
   (message-send-mail-function 'message-send-mail-with-sendmail)
@@ -2169,9 +2169,9 @@ Enable it and re-execute it."
   (setenv "PAGER" "cat"))
 
 (use-package shr
-  ;; (modus-themes)Top > Notes for individual packages > Note on shr colours
   :custom
   (shr-max-image-proportion 0.8)
+  ;; info: (modus-themes) Note on SHR colors
   (shr-use-colors nil)
   :commands (shr-browse-url))
 
