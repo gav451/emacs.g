@@ -2381,6 +2381,8 @@ even if buffer is already narrowed."
   (transient-argument ((t :inherit font-lock-warning-face :underline t))))
 
 (use-package undo-tree
+  ;; Disable `undo-tree', since upstream is an unreliable source.
+  :disabled
   ;; http://www.dr-qubit.org/undo-tree.html
   ;; http://pragmaticemacs.com/emacs/advanced-undoredo-with-undo-tree/
   :commands (global-undo-tree-mode
