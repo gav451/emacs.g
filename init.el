@@ -405,12 +405,6 @@
   :hook
   ((emacs-lisp-mode ielm-mode lisp-interaction-mode) . dash-fontify-mode))
 
-(use-package dbus
-  :commands (dbus-get-property
-             dbus-list-names
-             dbus-register-signal
-             dbus-unregister-object))
-
 (use-package deadgrep
   :bind ((:map global-map
                ("M-g d" . deadgrep))
@@ -2380,17 +2374,6 @@ even if buffer is already narrowed."
   :custom-face
   (transient-argument ((t :inherit font-lock-warning-face :underline t))))
 
-(use-package undo-tree
-  ;; Disable `undo-tree', since upstream is an unreliable source.
-  :disabled
-  ;; http://www.dr-qubit.org/undo-tree.html
-  ;; http://pragmaticemacs.com/emacs/advanced-undoredo-with-undo-tree/
-  :commands (global-undo-tree-mode
-             undo-tree-mode)
-  :init
-  (global-undo-tree-mode +1)
-  :delight (undo-tree-mode " ⎌"))
-
 (use-package uniquify
   ;; https://github.com/yiufung/dot-emacs/blob/master/init.el
   :custom
@@ -2414,7 +2397,7 @@ even if buffer is already narrowed."
   ;; https://www.reddit.com/r/emacs/comments/fojc1y/using_viewmode_for_modal_navigation/
   ;; https://www.youtube.com/watch?v=kZARKLxTeYQ
   :custom
-  (view-read-only t "See whether C-x C-q toggles both modes.")
+  (view-read-only t)
   :config
   (add-hook 'view-mode-hook
             (defun on-view-mode-hook-change-cursor-type ()
