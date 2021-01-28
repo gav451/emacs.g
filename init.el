@@ -556,6 +556,15 @@
   :hook
   ((LaTeX-mode org-mode prog-mode) . display-line-numbers-mode))
 
+(use-package eaf
+  :when (and (eq system-type 'gnu/linux) (not noninteractive))
+  :custom
+  (eaf-config-location (no-littering-expand-var-file-name "eaf"))
+  :commands (eaf-set)
+  :config
+  (eaf-set 'eaf-browser-enable-adblocker "true")
+  (eaf-set 'eaf-browser-remember-history "false"))
+
 (use-package easy-kill
   ;; https://emacsredux.com/blog/2018/11/09/an-easy-kill/
   ;; https://emacsredux.com/blog/2019/01/10/the-emacs-year-in-review/
