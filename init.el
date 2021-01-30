@@ -560,10 +560,12 @@
   :when (and (eq system-type 'gnu/linux) (not noninteractive))
   :custom
   (eaf-config-location (no-littering-expand-var-file-name "eaf"))
-  :commands (eaf-set)
+  :commands (eaf-open-jupyter
+             eaf-set)
   :config
   (eaf-set 'eaf-browser-enable-adblocker "true")
-  (eaf-set 'eaf-browser-remember-history "false"))
+  (eaf-set 'eaf-browser-remember-history "false")
+  (eaf-set 'eaf-jupyter-font-size "11"))
 
 (use-package easy-kill
   ;; https://emacsredux.com/blog/2018/11/09/an-easy-kill/
