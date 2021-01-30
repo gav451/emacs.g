@@ -758,7 +758,7 @@ point."
 
 (use-package emms-streams
   :custom
-  ;; To show the current playlist, do "M-x emms".
+  ;; Move `emms-streams-file' to `etc' instead of default `var'.
   (emms-streams-file (no-littering-expand-etc-file-name "emms/streams.el")))
 
 (use-package epg-config
