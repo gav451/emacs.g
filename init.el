@@ -348,16 +348,8 @@
   :delight (compilation-in-progress " 👷"))
 
 (use-package consult
-  :preface
-  (defun gav:consult-project-root ()
-    "Return the project root directory or `default-directory'."
-    (let ((root default-directory)
-          (project (project-current)))
-      (when project
-        (setq root (cdr project)))
-      root))
   :custom
-  (consult-project-root-function #'gav:consult-project-root)
+  (consult-project-root-function #'gav:project-root-or-default-directory)
   ;; info: (consult) Example configuration
   :bind (;; C-c bindings (mode-specific-map)
          ("C-c h" . consult-history)
@@ -1095,14 +1087,6 @@ point."
 (use-package helm-grep
   ;; https://www.manueluberti.eu/emacs/2020/02/22/ripgrepping-with-helm/
   :preface
-  (defun gav:helm--project-root ()
-    "Return the project root directory or `default-directory'."
-    (let ((root default-directory)
-          (project (project-current)))
-      (when project
-        (setq root (cdr project)))
-      root))
-
   (defun gav:helm-rg (directory &optional with-types)
     "Grep for a string in DIRECTORY using rg.
 WITH-TYPES, if non-nil, ask for file types to search in."
@@ -1128,7 +1112,7 @@ WITH-TYPES, if non-nil, ask for file types to search in."
     "Grep for a string in current project using rg.
 WITH-TYPES, if non-nil, ask for file types to search in."
     (interactive "P")
-    (gav:helm-rg (gav:helm--project-root) with-types))
+    (gav:helm-rg (gav:project-root-or-default-directory) with-types))
 
   :custom
   (helm-grep-ag-command (concat "rg"
@@ -2027,6 +2011,15 @@ Enable it and re-execute it."
   :commands (prescient-persist-mode)
   :config
   (prescient-persist-mode))
+
+(use-package project
+  :preface
+  (defun gav:project-root-or-default-directory ()
+    "Return the project root directory or `default-directory'."
+    (or (when-let (project (project-current))
+          (car (project-roots project)))
+        default-directory))
+  :commands (project-roots))
 
 (use-package pulse
   ;; https://karthinks.com/software/batteries-included-with-emacs/
