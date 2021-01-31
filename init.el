@@ -559,6 +559,10 @@
   (eaf-set 'eaf-browser-remember-history "false")
   (eaf-set 'eaf-jupyter-font-size "11"))
 
+(use-package eaf-org
+  :after (eaf org)
+  :demand t)
+
 (use-package easy-kill
   ;; https://emacsredux.com/blog/2018/11/09/an-easy-kill/
   ;; https://emacsredux.com/blog/2019/01/10/the-emacs-year-in-review/
