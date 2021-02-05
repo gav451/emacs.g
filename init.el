@@ -163,7 +163,7 @@
   (TeX-auto-local ".auctex-auto-local")
   (TeX-auto-save t)
   (TeX-complete-expert-commands t)
-  (TeX-electric-escape t)
+  (TeX-electric-escape nil)
   (TeX-electric-math '("\\(" . "\\)"))
   (TeX-electric-sub-and-superscript t)
   (TeX-engine 'luatex)
