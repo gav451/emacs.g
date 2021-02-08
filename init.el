@@ -614,7 +614,6 @@ nil if not inside any parens."
      ("http://www.howardism.org/index.xml" h-abrams)
      ("https://ambrevar.xyz/atom.xml" p-neirhardt)
      ("https://feeds.feedburner.com/InterceptedWithJeremyScahill" j-scahill)
-     ("https://feeds.feedburner.com/TheMouseVsThePython" python)
      ("https://nullprogram.com/feed/" c-wellons)
      ("https://oremacs.com/atom.xml" o-krehel)
      ("https://planet.emacslife.com/atom.xml" planet-emacs)
