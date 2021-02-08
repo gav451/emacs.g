@@ -2345,7 +2345,8 @@ even if buffer is already narrowed."
              derived-mode-p
              eval-after-load
              narrow-to-defun
-             narrow-to-region))
+             narrow-to-region
+             remq))
 
 (use-package swiper
   :custom
