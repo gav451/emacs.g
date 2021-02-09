@@ -600,7 +600,7 @@ nil if not inside any parens."
 
 (use-package electric-operator
   :hook ((python-mode) . electric-operator-mode)
-  :delight (electric-operator-mode " ⨄⌤"))
+  :delight (electric-operator-mode " 💡"))
 
 (use-package elfeed
   ;; https://github.com/skeeto/elfeed
