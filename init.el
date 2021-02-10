@@ -555,9 +555,11 @@
   :commands (eaf-open-jupyter
              eaf-set)
   :config
+  (eaf-set 'eaf-browser-download-path "~/tmpfs")
   (eaf-set 'eaf-browser-enable-adblocker "true")
   (eaf-set 'eaf-browser-remember-history "false")
-  (eaf-set 'eaf-jupyter-font-size "11"))
+  (eaf-set 'eaf-jupyter-font-size "11")
+  (eaf-set 'eaf-terminal-dark-mode "false"))
 
 (use-package eaf-org
   :after (eaf org)
