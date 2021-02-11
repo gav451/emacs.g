@@ -49,7 +49,8 @@ git clone git@github.com:gav451/emacs.g.git -b GAV ~/.emacs.d
 cd .emacs.d
 make bootstrap-borg
 make bootstrap
-git clone https://github.com/emacsmirror/epkgs.git var/epkgs
+make build-init		# clones the missing epkg data base
+make build
 ```
 
 Bootstrapping branch GAV into emacs.g
@@ -60,7 +61,8 @@ git clone git@github.com:gav451/emacs.g.git -b GAV
 cd emacs.g
 make bootstrap-borg
 make bootstrap
-git clone https://github.com/emacsmirror/epkgs.git var/epkgs
+make build-init		# clones the missing epkg data base
+make build
 emacs -Q --load init.elc&
 ```
 
