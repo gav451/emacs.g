@@ -349,7 +349,7 @@
 
 (use-package consult
   :custom
-  (consult-project-root-function #'gav:project-root-or-default-directory)
+  (consult-project-root-function #'gav:project-root)
   ;; info: (consult) Example configuration
   :bind (;; C-c bindings (mode-specific-map)
          ("C-c h" . consult-history)
@@ -1117,7 +1117,7 @@ WITH-TYPES, if non-nil, ask for file types to search in."
     "Grep for a string in current project using rg.
 WITH-TYPES, if non-nil, ask for file types to search in."
     (interactive "P")
-    (gav:helm-rg (gav:project-root-or-default-directory) with-types))
+    (gav:helm-rg (gav:project-root) with-types))
 
   :custom
   (helm-grep-ag-command (concat "rg"
@@ -2019,12 +2019,9 @@ Enable it and re-execute it."
 
 (use-package project
   :preface
-  (defun gav:project-root-or-default-directory ()
-    "Return the project root directory or `default-directory'."
-    (or (when-let (project (project-current))
-          (car (project-roots project)))
-        default-directory))
-  :commands (project-roots))
+  (defun gav:project-root ()
+    (project-root (project-current t)))
+  :commands (project-root))
 
 (use-package pulse
   ;; https://karthinks.com/software/batteries-included-with-emacs/
