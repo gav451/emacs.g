@@ -349,7 +349,7 @@
 
 (use-package consult
   :custom
-  (consult-project-root-function #'gav:project-root)
+  (consult-project-root-function #'my-project-root)
   ;; info: (consult) Example configuration
   :bind (;; C-c bindings (mode-specific-map)
          ("C-c h" . consult-history)
@@ -1093,7 +1093,7 @@ point."
 (use-package helm-grep
   ;; https://www.manueluberti.eu/emacs/2020/02/22/ripgrepping-with-helm/
   :preface
-  (defun gav:helm-rg (directory &optional with-types)
+  (defun my-helm-rg (directory &optional with-types)
     "Grep for a string in DIRECTORY using rg.
 WITH-TYPES, if non-nil, ask for file types to search in."
     (interactive "P")
@@ -1108,17 +1108,17 @@ WITH-TYPES, if non-nil, ask for file types to search in."
                          :fc-transformer 'helm-adaptive-sort
                          :buffer "*helm rg types*"))))
 
-  (defun gav:helm-default-directory-search (&optional with-types)
+  (defun my-helm-default-directory-search (&optional with-types)
     "Grep for a string in `default-directory' using rg.
 WITH-TYPES, if non-nil, ask for file types to search in."
     (interactive "P")
-    (gav:helm-rg default-directory with-types))
+    (my-helm-rg default-directory with-types))
 
-  (defun gav:helm-project-search (&optional with-types)
+  (defun my-helm-project-search (&optional with-types)
     "Grep for a string in current project using rg.
 WITH-TYPES, if non-nil, ask for file types to search in."
     (interactive "P")
-    (gav:helm-rg (gav:project-root) with-types))
+    (my-helm-rg (my-project-root) with-types))
 
   :custom
   (helm-grep-ag-command (concat "rg"
@@ -2020,9 +2020,10 @@ Enable it and re-execute it."
 
 (use-package project
   :preface
-  (defun gav:project-root ()
-    (project-root (project-current t)))
-  :commands (project-root))
+  (defun my-project-root ()
+    (when-let (project (project-current))
+       (car (project-roots project))))
+  :commands (project-roots))
 
 (use-package pulse
   ;; https://karthinks.com/software/batteries-included-with-emacs/
