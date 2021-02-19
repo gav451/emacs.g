@@ -305,7 +305,7 @@
 	path = lib/simple-httpd
 	url = git@github.com:skeeto/emacs-web-server.git
 [submodule "sly"]
-	disabled = false
+	disabled = true
 	path = lib/sly
 	info-path = doc
 	load-path = .
