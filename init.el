@@ -2204,7 +2204,6 @@ Enable it and re-execute it."
                 (buffer-face-mode -1)))))
 
 (use-package sly
-  :disabled
   ;; https://github.com/LispCookbook/cl-cookbook
   ;; https://lispcookbook.github.io/cl-cookbook/emacs-ide.html
   ;; shell% cd ~/.emacs/var
