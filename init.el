@@ -563,7 +563,8 @@
 
 (use-package eaf-org
   :after (eaf org)
-  :demand t)
+  :commands (eaf-org-export-to-pdf-and-open
+             eaf-org-store-link))
 
 (use-package easy-kill
   ;; https://emacsredux.com/blog/2018/11/09/an-easy-kill/
