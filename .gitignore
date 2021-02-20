@@ -2,9 +2,7 @@
 gav.el
 /.cask
 /.hive-maint
-/eln-cache
 /custom.el
 /elpa
-/epkgs
 /var
 !/etc/info

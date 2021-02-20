@@ -56,20 +56,10 @@
     (add-to-list 'initial-frame-alist '(height . 51))
     (add-to-list 'initial-frame-alist '(width . 180))))
 
-(declare-function borg-clones "borg" ())
-(declare-function borg-elpa-initialize "borg-elpa" ())
-(declare-function borg-get "borg" (clone variable &optional all))
-
-(with-no-warnings                       ; `borg-elpa-initialize'
-  (setq epkg-repository
-        (expand-file-name (convert-standard-filename "epkgs/")
-                          user-emacs-directory)))
-
 (progn                                  ; `borg'
   (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
-  (if (require 'borg-elpa nil t)
-      (borg-elpa-initialize)
-    (package-initialize)))
+  (require 'borg)
+  (borg-initialize))
 
 (progn                                  ; `use-package'
   (require 'use-package)
@@ -157,7 +147,6 @@
   (reftex-plug-into-AUCTeX t))
 
 (use-package tex
-  :ensure auctex
   :functions (TeX-in-comment)
   :custom
   (TeX-auto-local ".auctex-auto-local")
@@ -203,6 +192,16 @@
   :hook
   ((TeX-after-compilation-finished-functions)
    . TeX-revert-document-buffer))
+
+(use-package tex-site
+  ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
+  ;; https://gitlab.com/jabranham/emacs
+  ;; I use AUCTeX, since it is better than the built in tex mode.
+  ;; Tweak the ./configure build-step in .gitmodules to make the git
+  ;; repository resemble those in the elpa package.
+  ;; Do not require auctex, since auctex.el provides no feature
+  ;; 'auctex'.
+  :demand t)
 
 ;; alphabetical order
 (use-package alert
@@ -765,8 +764,6 @@ point."
 
 (use-package epkg
   ;; https://github.com/dakra/dmacs/blob/master/init.org#unsortet-stuff-in-no-packages
-  :custom
-  (epkg-repository (expand-file-name "epkgs" user-emacs-directory))
   :config
   (when (and (fboundp 'eieio-oref)
              (fboundp 'epkg))
