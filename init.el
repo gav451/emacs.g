@@ -2120,8 +2120,8 @@ Enable it and re-execute it."
   :commands (repeat))
 
 (use-package reveal
-  ;; (magit)Top > FAQ > FAQ - Issues and Errors > Point ends up inside
-  ;; invisible text when jumping to a file-visiting buffer
+  ;; info: (magit) Point ends up inside invisible text when jumping to
+  ;; a file-visiting buffer
   :hook ((magit-diff-visit-file) . reveal-mode)
   :delight (reveal-mode " ⏿"))
 
