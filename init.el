@@ -2262,6 +2262,7 @@ Enable it and re-execute it."
                    scheme-interaction-mode
                    scheme-mode
                    slime-repl-mode
+                   sly-mrepl-mode
                    stumpwm-mode))
   :bind ((:map smartparens-mode-map
                ;; I have copied sp-smartparens-bindings.
@@ -2292,9 +2293,15 @@ Enable it and re-execute it."
                ("C-M-SPC" . sp-mark-sexp)
                ("M-F" . sp-forward-symbol)
                ("M-B" . sp-backward-symbol)))
-  :hook (((LaTeX-mode) . turn-off-smartparens-mode)
+  :hook (;; Disable smartparens-mode:
+         ((LaTeX-mode) . turn-off-smartparens-mode)
+         ;; Enable normal smartparens-mode:
          ((ielm-mode prog-mode text-mode) . turn-on-smartparens-mode)
-         ((geiser-repl-mode ielm-mode prog-mode) . turn-on-smartparens-strict-mode))
+         ;; Enable strict smartparens-mode:
+         ((geiser-repl-mode) . turn-on-smartparens-strict-mode)
+         ((ielm-mode) . turn-on-smartparens-strict-mode)
+         ((prog-mode) . turn-on-smartparens-strict-mode)
+         ((sly-mrepl-mode) . turn-on-smartparens-strict-mode))
   :commands (show-smartparens-global-mode
              smartparens-mode
              sp-local-pair)
