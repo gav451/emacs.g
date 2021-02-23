@@ -231,7 +231,7 @@
 (use-package browse-url
   :unless noninteractive
   :preface
-  (defun gav:browse-url-mpv (url &optional _)
+  (defun my-browse-url-mpv (url &optional _)
     (start-process "mpv" nil "mpv" url))
 
   (defun dict-en (word)
@@ -289,7 +289,7 @@
      (".*readthedocs.org" . browser-url-generic)
      (".*reddit.com" . browse-url-generic)
      (".*wikipedia.*" . browse-url-generic)
-     ("https:\\/\\/www\\.youtu\\.*be." . gav:browse-url-mpv)
+     ("https:\\/\\/www\\.youtu\\.*be." . my-browse-url-mpv)
      ("." . eww-browse-url)))
   (browse-url-generic-program (or (when (eq system-type 'darwin)
                                     "open")
@@ -446,11 +446,11 @@
   ;; https://alexschroeder.ch/wiki/2020-07-16_Emacs_everything
   :unless noninteractive
   :preface
-  (defun gav:dired-eww-find-file ()
+  (defun my-dired-eww-find-file ()
     "Visit dired file with eww."
     (interactive)
     (eww-open-file (dired-get-file-for-visit)))
-  (defun gav:dired-rsync (target)
+  (defun my-dired-rsync (target)
     "Copy marked files with `rsync' to TARGET directory."
     (interactive
      (list (expand-file-name
@@ -485,8 +485,8 @@
              dired-get-marked-files)
   :config
   (bind-keys :map dired-mode-map
-             ("E" . gav:dired-eww-find-file)
-             ("M-s y" . gav:dired-rsync)))
+             ("E" . my-dired-eww-find-file)
+             ("M-s y" . my-dired-rsync)))
 
 (use-package dired-aux
   :commands (dired-dwim-target-directory))
@@ -577,14 +577,14 @@
 (use-package electric
   ;; https://github.com/davidshepherd7/dotfiles/blob/master/emacs/.emacs.d/lisp/ds-python.el
   :preface
-  (defun gav:enclosing-paren ()
+  (defun my-enclosing-paren ()
     "Return the opening parenthesis of the enclosing parens, or
 nil if not inside any parens."
     (let ((ppss (syntax-ppss)))
       (when (nth 1 ppss)
         (char-after (nth 1 ppss)))))
-  (defun gav:python-electric-newline ()
-    (let ((paren (gav:enclosing-paren)))
+  (defun my-python-electric-newline ()
+    (let ((paren (my-enclosing-paren)))
       (if (not (or (eq paren ?\{)
                    (eq paren ?\[)
                    (eq paren ?\()
@@ -597,7 +597,7 @@ nil if not inside any parens."
             (defun on-python-mode-hook-electric-layout ()
               (make-local-variable 'electric-layout-rules)
               (add-to-list 'electric-layout-rules
-                           (cons ?: #'gav:python-electric-newline))
+                           (cons ?: #'my-python-electric-newline))
               (electric-layout-mode))))
 
 (use-package electric-operator
@@ -767,7 +767,7 @@ point."
   :config
   (when (and (fboundp 'eieio-oref)
              (fboundp 'epkg))
-    (defun gav:borg-check-drone-urls ()
+    (defun my-borg-check-drone-urls ()
       "Check all drones for outdated upstream urls."
       (interactive)
       (let (moved)
@@ -820,7 +820,7 @@ point."
      (defun on-eshell-mode-hook ()
        (bind-key
         "C-d"
-        (defun gav:eshell-quit-or-delete-char (arg)
+        (defun my-eshell-quit-or-delete-char (arg)
           (interactive "p")
           (if (and (eolp) (looking-back eshell-prompt-regexp nil))
               (eshell-life-is-too-much)
@@ -839,7 +839,7 @@ point."
     "List of urls to show using `eww-readable'."
     :type '(repeat string)
     :group 'eww)
-  (defun gav:reddit-browser ()
+  (defun my-reddit-browser ()
     (interactive)
     (eww-browse-url (format "https://www.reddit.com/r/%s/.mobile"
                             (completing-read "sub-reddit: "
@@ -894,7 +894,7 @@ point."
              variable-pitch-mode)
   :delight (buffer-face-mode)
   :init
-  (defun gav:toggle-variable-pitch-mode-unless-prog-mode ()
+  (defun my-toggle-variable-pitch-mode-unless-prog-mode ()
     "Toggle `variable-pitch-mode' unless in `prog-mode'."
     (interactive)
     (unless (derived-mode-p 'prog-mode)
@@ -1002,7 +1002,7 @@ point."
 
 (use-package goto-addr
   :preface
-  (defun gav:toggle-goto-address-dwim-mode ()
+  (defun my-toggle-goto-address-dwim-mode ()
     (interactive)
     (if (derived-mode-p 'prog-mode)
         (call-interactively #'goto-address-prog-mode)
@@ -1315,7 +1315,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
       (if (bound-and-true-p font-lock-mode) "[X]" "[ ]"))
      ("fs" #'flyspell-mode
       (if (bound-and-true-p flyspell-mode) "[X]" "[ ]"))
-     ("g" #'gav:toggle-goto-address-dwim-mode
+     ("g" #'my-toggle-goto-address-dwim-mode
       (if (or (bound-and-true-p goto-address-prog-mode)
               (bound-and-true-p goto-address-mode)) "[X]" "[ ]"))
      ("ii" #'iimage-mode
@@ -1567,7 +1567,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   (completion-styles (quote (flex)))
   :config
   (add-hook 'completion-at-point-functions
-            (defun gav:complete-path-at-point ()
+            (defun my-complete-path-at-point ()
               (let ((fap (ffap-file-at-point))
                     (tap (thing-at-point 'filename)))
                 (when (and (or fap
@@ -1589,7 +1589,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 (use-package novice
   ;; https://www.emacswiki.org/emacs/DisabledCommands
   :preface
-  (defun gav:enable-this-command (&rest _args)
+  (defun my-enable-this-command (&rest _args)
     "Called when a disabled command is executed.
 Enable it and re-execute it."
     (put this-command 'disabled nil)
@@ -1598,7 +1598,7 @@ Enable it and re-execute it."
     (sit-for 0)
     (call-interactively this-command))
   :init
-  (setq disabled-command-function #'gav:enable-this-command))
+  (setq disabled-command-function #'my-enable-this-command))
 
 (use-package ob-core
   :custom
@@ -1639,12 +1639,12 @@ Enable it and re-execute it."
 
 (use-package org
   :preface
-  (defun gav:org-active-current-time-stamp ()
+  (defun my-org-active-current-time-stamp ()
     "Insert an active org-mode `current-time' timestamp."
     (interactive)
     (org-insert-time-stamp (current-time) 'with-hm))
 
-  (defun gav:org-inactive-current-time-stamp ()
+  (defun my-org-inactive-current-time-stamp ()
     "Insert an inactive org-mode `current-time' timestamp."
     (interactive)
     (org-insert-time-stamp (current-time) 'with-hm 'inactive))
@@ -2026,7 +2026,7 @@ Enable it and re-execute it."
   ;; https://karthinks.com/software/batteries-included-with-emacs/
   ;; https://www.reddit.com/r/emacs/comments/jwhr6g/batteries_included_with_emacs/
   :preface
-  (defun gav:pulse-line (&rest _)
+  (defun my-pulse-line (&rest _)
     "Pulse the current line."
     (pulse-momentary-highlight-one-line (point)))
   :custom
@@ -2037,7 +2037,7 @@ Enable it and re-execute it."
                            scroll-down-command
                            recenter-top-bottom
                            other-window)))
-    (advice-add command :after #'gav:pulse-line)))
+    (advice-add command :after #'my-pulse-line)))
 
 (use-package pyenv-mode
   ;; Loads `elpy' and `python' automatically.
