@@ -551,6 +551,7 @@
   :when (and (eq system-type 'gnu/linux) (not noninteractive))
   :custom
   (eaf-config-location (no-littering-expand-var-file-name "eaf"))
+  (eaf-find-file-ext-blacklist '("epub"))
   :commands (eaf-open-jupyter
              eaf-set)
   :config
