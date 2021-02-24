@@ -1,0 +1,14 @@
+* EAF
+
+The command 'npm-install' overwrites always some of the
+'package-lock.json' files in the 'app' directory tree since those
+files are a mix of lockfile versions 1 and 2.  Therefore, it modifies
+the git EAF repository.  The following commands ensure correct
+installation of the JavaScript modules and a hard reset of the git
+repository:
+#+begin_export shell
+cd lib/eaf
+rm -rf app/*/node_modules/*
+npm install
+git reset --hard HEAD
+#+end_export
