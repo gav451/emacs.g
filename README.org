@@ -1,14 +1,36 @@
+* Key bindings
+
+** Rectangles
+
+| C-SPC     | set-mark-command        |
+| C-x SPC   | rectangle-mark-mode     |
+| C-x r M-w | copy-rectangle-as-kill  |
+| C-x r N   | rectangle-number-lines  |
+| C-x r c   | clear-rectangle         |
+| C-x r d   | delete-rectangle        |
+| C-x r k   | kill-rectangle          |
+| C-x r o   | open-rectangle          |
+| C-x r t   | string-rectangle        |
+| C-x r y   | yank-rectangle          |
+| M-x       | string-insert-rectangle |
+
+
 * EAF
 
-The command 'npm-install' overwrites always some of the
-'package-lock.json' files in the 'app' directory tree since those
-files are a mix of lockfile versions 1 and 2.  Therefore, it modifies
-the git EAF repository.  The following commands ensure correct
-installation of the JavaScript modules and a hard reset of the git
-repository:
-#+begin_export shell
-cd lib/eaf
-rm -rf app/*/node_modules/*
-npm install
-git reset --hard HEAD
-#+end_export
+Possible JavaScript module installation fixes in the 'app' directory
+tree are:
+1. The following commands ensure a clean installation of the
+   JavaScript modules to may fix EAF eventually:
+   #+begin_export shell
+   cd lib/eaf
+   rm -rf app/*/node_modules/*
+   npm install
+   #+end_export
+2. In case 'package-lock.json' files in the 'app' directory tree are a
+   mix of lockfile versions 1 and 2 (lockfile version 2 appears to be
+   an upstream bug), the command 'npm-install' overwrites some of the
+   lockfiles in the git EAF repository.  The following command ensures
+   a hard reset of the git repository:
+   #+begin_export shell
+   git reset --hard HEAD
+   #+end_export
