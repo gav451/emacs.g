@@ -1582,6 +1582,8 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 (use-package modus-themes
   :commands (modus-themes-load-vivendi)
   :init
+  (modus-themes-load-themes)
+  :config
   (modus-themes-load-vivendi))
 
 (use-package nov

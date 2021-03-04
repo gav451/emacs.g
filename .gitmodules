@@ -231,6 +231,9 @@
 	path = lib/modus-themes
 	url = git@gitlab.com:protesilaos/modus-themes.git
 	info-path = doc
+	no-byte-compile = modus-operandi-theme.el
+	# no-byte-compile = modus-themes.el
+	no-byte-compile = modus-vivendi-theme.el
 [submodule "multiple-cursors"]
 	path = lib/multiple-cursors
 	url = git@github.com:magnars/multiple-cursors.el.git
