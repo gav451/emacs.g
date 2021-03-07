@@ -1580,7 +1580,8 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
                         #'completion-file-name-table)))) 'append))
 
 (use-package modus-themes
-  :commands (modus-themes-load-vivendi)
+  :commands (modus-themes-load-themes
+             modus-themes-load-vivendi)
   :init
   (modus-themes-load-themes)
   :config
