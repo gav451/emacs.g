@@ -632,10 +632,48 @@ nil if not inside any parens."
   :bind* (("C-x w" . elfeed)))
 
 (use-package elfeed-search
+  :preface
+  (defcustom my-elfeed-search-filter-alist
+    '(("All" "@48-months-ago")
+      ("American Civil Liberties Union" "@12-months-ago +aclu")
+      ("Ben Maugham" "@48-months-ago +b-maugham")
+      ("Bits of Freedom" "@12-months-ago +bof")
+      ("Chris Wellons" "@48-months-ago +c-wellons")
+      ("Democracy Now" "@12-months-ago +dn")
+      ("Greg Stein" "@48-months-ago +g-stein")
+      ("Howard Abrams" "@48-months-ago +h-abrams")
+      ("Jeremy Scahill" "@12-months-ago +j-scahill")
+      ("La Quadrature du Net" "@12-months-ago +lqdn")
+      ("Oleh Krehel" "@48-months-ago +o-krehel")
+      ("Org Updates" "@12-months-ago +org-updates")
+      ("Pierre Neirhardt" "@48-months-ago +p-neirhardt")
+      ("Planet Emacs Life" "@12-months-ago +planet-emacs")
+      ("Protesilaos Stravrou"  "@48-months-ago +p-stavrou")
+      ("Python" "@12-months-ago +python")
+      ("Sacha Chua" "@48-months-ago +s-chua")
+      ("Sciences" "@48months-ago +sciences")
+      ("Starred" "@12-months-ago +*")
+      ("Today" "@1-day-ago")
+      ("Unread" "@12-months-ago +unread")
+      ("Vasilij Schneiderman" "@48-months-ago +v-schneidermann"))
+    "List of prompts with filters for `my-set-elfeed-search-filter'."
+    :group 'elfeed
+    :type '(alist :key-type 'string :value-type 'string))
   :bind ((:map elfeed-search-mode-map
                ("?" . describe-mode)))
   :commands (elfeed-search-set-filter
-             elfeed-search-toggle-all))
+             elfeed-search-toggle-all)
+  :config
+  (bind-key
+   "f"
+   (defun my-set-elfeed-search-filter()
+     (interactive)
+     (elfeed-search-set-filter
+      (cadr (assoc
+             (completing-read "Set search filter: "
+                              my-elfeed-search-filter-alist nil t)
+             my-elfeed-search-filter-alist))))
+   elfeed-search-mode-map))
 
 (use-package elfeed-show
   :bind ((:map elfeed-show-mode-map
@@ -1210,6 +1248,7 @@ WITH-TYPES, if non-nil, ask for file types to search in."
   ((help-mode magit-status-mode special-mode) . hl-line-mode))
 
 (use-package hydra
+  :disabled
   ;; http://oremacs.com/2016/04/04/hydra-doc-syntax/
   :unless noninteractive
   :custom
@@ -1221,41 +1260,6 @@ WITH-TYPES, if non-nil, ask for file types to search in."
              hydra-set-transient-map
              hydra-show-hint)
   :init
-  (with-eval-after-load 'elfeed
-    (bind-key
-     "f"
-     (defhydra hydra-elfeed-filter ()
-       ("A" (elfeed-search-set-filter "@48-months-ago") "All"
-        :column "A-Z")
-       ("T" (elfeed-search-set-filter "@1-day-ago") "Today")
-       ("S" (elfeed-search-set-filter "@12-months-ago +*") "Starred")
-       ("U" (elfeed-search-set-filter "@12-months-ago +unread") "Unread")
-       ("bf" (elfeed-search-set-filter "@12-months-ago +bof") "bof"
-        :column "b-g")
-       ("bm" (elfeed-search-set-filter "@48-months-ago +b-maugham") "b-maugham")
-       ("cl" (elfeed-search-set-filter "@12-months-ago +aclu") "aclu")
-       ("cw" (elfeed-search-set-filter "@48-months-ago +c-wellons") "c-wellons")
-       ("dn" (elfeed-search-set-filter "@12-months-ago +dn") "dn")
-       ("gs" (elfeed-search-set-filter "@48-months-ago +g-stein") "g-stein")
-       ("ha" (elfeed-search-set-filter "@48-months-ago +h-abrams") "h-abrams"
-        :column "h-o")
-       ("js" (elfeed-search-set-filter "@12-months-ago +j-scahill") "j-scahill")
-       ("qn" (elfeed-search-set-filter "@12-months-ago +lqdn") "lqdn")
-       ("ok" (elfeed-search-set-filter "@48-months-ago +o-krehel") "o-krehel")
-       ("ou" (elfeed-search-set-filter "@12-months-ago +org-updates") "org-updates")
-       ("pe" (elfeed-search-set-filter "@12-months-ago +planet-emacs") "planet-emacs"
-        :column "p-s")
-       ("pn" (elfeed-search-set-filter "@48-months-ago +p-neirhardt") "p-neirhardt")
-       ("py" (elfeed-search-set-filter "@12-months-ago +python") "python")
-       ("ps" (elfeed-search-set-filter "@48-months-ago +p-stavrou") "p-stavrou")
-       ("sc" (elfeed-search-set-filter "@48-months-ago +s-chua") "s-chua"
-        :column "s-v")
-       ("ss" (elfeed-search-set-filter "@48months-ago +sciences") "sciences")
-       ("vs" (elfeed-search-set-filter "@48-months-ago +v-schneidermann") "v-schneidermann")
-       ("*" (elfeed-search-toggle-all '*) "toggle *"
-        :column "Other")
-       ("C-g" nil "quit" :color blue))
-     elfeed-search-mode-map))
   (bind-key*
    "C-z C-r"
    (defhydra hydra-rectangle (:body-pre (rectangle-mark-mode 1)
