@@ -3,6 +3,7 @@
 ** Rectangles
 
 | C-SPC     | set-mark-command        |
+| C-x C-x   | exchange-point-and-mark |
 | C-x SPC   | rectangle-mark-mode     |
 | C-x r M-w | copy-rectangle-as-kill  |
 | C-x r N   | rectangle-number-lines  |
@@ -14,23 +15,34 @@
 | C-x r y   | yank-rectangle          |
 | M-x       | string-insert-rectangle |
 
+* AUCTeX
+
+To configure the variables `TeX-lisp-directory` and the
+`TeX-data-directory` in `tex-site.el` correctly for `borg`, do:
+#+begin_src shell
+./configure \
+    --without-texmf-dir \
+    --with-lispdir=$(pwd) \
+    --with-packagedatadir=$(pwd) \
+    --with-packagelispdir=$(pwd)
+#+end_src
 
 * EAF
 
-Possible JavaScript module installation fixes in the 'app' directory
-tree are:
+JavaScript module installation fixes in the 'app' directory tree are:
 1. The following commands ensure a clean installation of the
    JavaScript modules to may fix EAF eventually:
-   #+begin_export shell
+   #+begin_src shell
    cd lib/eaf
    rm -rf app/*/node_modules/*
    npm install
-   #+end_export
-2. In case 'package-lock.json' files in the 'app' directory tree are a
-   mix of lockfile versions 1 and 2 (lockfile version 2 appears to be
-   an upstream bug), the command 'npm-install' overwrites some of the
-   lockfiles in the git EAF repository.  The following command ensures
-   a hard reset of the git repository:
-   #+begin_export shell
+   #+end_src
+2. In case the `nodejs` version is "15.X.X" or 'package-lock.json'
+   files in the 'app' directory tree are a mix of lockfile versions 1
+   and 2 (lockfile version 2 appears to be an upstream bug), the
+   command 'npm-install' overwrites lockfiles in the git EAF
+   repository.  The following command ensures a hard reset of the git
+   repository:
+   #+begin_src shell
    git reset --hard HEAD
-   #+end_export
+   #+end_src
