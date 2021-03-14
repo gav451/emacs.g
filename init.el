@@ -204,6 +204,9 @@
   :demand t)
 
 ;; alphabetical order
+(use-package aas
+  :commands (aas-set-snippets))
+
 (use-package alert
   :custom
   (alert-default-style 'libnotify))
@@ -1477,6 +1480,15 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 (use-package keycast
   :custom
   (keycast-window-predicate 'keycast-active-frame-bottom-right-p))
+
+(use-package laas
+  :hook
+  ((LaTeX-mode org-mode) . laas-mode)
+  :config
+  (aas-set-snippets 'laas-mode
+                    "he3 " "\\\(^{3}\\\)He"
+                    "he34" "\\\(^{3}\\\)He-\\\(^{4}\\\)He"
+                    "he4 " "\\\(^{4}\\\)He"))
 
 (use-package macrostep
   :bind ((:map emacs-lisp-mode-map
