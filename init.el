@@ -1714,7 +1714,7 @@ Enable it and re-execute it."
                                         (message "Open %s" link)
                                         (eww-open-file path)))
                    ("\\.pdf\\'" . emacs)))
-  (org-image-actual-width '(400))
+  (org-image-actual-width nil)
   (org-latex-default-packages-alist
    '(("AUTO"                 "inputenc"     t ("pdflatex"))
      ("T1"                   "fontenc"      t ("pdflatex"))
