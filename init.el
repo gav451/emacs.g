@@ -1023,10 +1023,14 @@ point."
   :custom
   (geiser-mode-start-repl-p t))
 
+(use-package geiser-chez
+  :custom
+  (geiser-chez-binary "chez"))
+
 (use-package geiser-impl
   :custom
   (geiser-active-implementations
-   (list (car (cl-loop for scheme in '(chicken guile)
+   (list (car (cl-loop for scheme in '(chez chicken guile racket)
                        when (executable-find (symbol-name scheme))
                        collect scheme)))))
 
