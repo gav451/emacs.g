@@ -869,6 +869,16 @@ point."
             (delete-char arg)))
         eshell-mode-map)))))
 
+(use-package ess-custom
+  :custom
+  (inferior-julia-program (executable-find "julia"))
+  :demand t)
+
+(use-package ess-julia
+  :mode ("\\.jl\\'" . ess-julia-mode)
+  :config
+  (setq inferior-julia-args "-i --color=yes"))
+
 (use-package eww
   ;; http://ergoemacs.org/emacs/emacs_eww_web_browser.html
   ;; https://emacs.stackexchange.com/questions/36284/how-to-open-eww-in-readable-mode
@@ -1629,6 +1639,10 @@ Enable it and re-execute it."
   (org-confirm-babel-evaluate nil)
   :commands (org-babel-execute-src-block))
 
+(use-package ob-julia
+  ;; https://stackoverflow.com/questions/52043705/emacs-org-babel-with-ob-julia-el-does-not-work-anymore-with-julia-v1-0
+  :custom (org-babel-julia-command inferior-julia-program))
+
 (use-package ob-jupyter
   :custom
   (org-babel-default-header-args:jupyter-python
@@ -1699,11 +1713,13 @@ Enable it and re-execute it."
                                     (emacs-lisp . t)
                                     (eshell . t)
                                     (gnuplot . t)
+                                    (julia . t)
                                     (latex . t)
                                     (lisp . t)
                                     (maxima . t)
                                     (org . t)
                                     (python . t)
+                                    (scheme . t)
                                     (shell . t)
                                     (jupyter . t))))
   (org-catch-invisible-edits 'smart)
