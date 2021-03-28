@@ -293,6 +293,7 @@
      (".*reddit.com" . browse-url-generic)
      (".*wikipedia.*" . browse-url-generic)
      ("https:\\/\\/www\\.youtu\\.*be." . my-browse-url-mpv)
+     ("https://soundcloud.com" . my-browse-url-mpv)
      ("." . eww-browse-url)))
   (browse-url-generic-program (or (when (eq system-type 'darwin)
                                     "open")
