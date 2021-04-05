@@ -170,6 +170,18 @@
 	build-step = ./configure
 	build-step = make
 	build-step = borg-update-autoloads
+[submodule "geiser-chez"]
+	path = lib/geiser-chez
+	url = git@gitlab.com:emacs-geiser/chez.git
+[submodule "geiser-guile"]
+	path = lib/geiser-guile
+	url = git@gitlab.com:emacs-geiser/guile.git
+[submodule "geiser-mit"]
+	path = lib/geiser-mit
+	url = git@gitlab.com:emacs-geiser/mit.git
+[submodule "geiser-racket"]
+	path = lib/geiser-racket
+	url = git@gitlab.com:emacs-geiser/racket.git
 [submodule "ghub"]
 	path = lib/ghub
 	url = git@github.com:magit/ghub.git
