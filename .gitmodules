@@ -162,6 +162,10 @@
 [submodule "free-keys"]
 	path = lib/free-keys
 	url = git@github.com:Fuco1/free-keys.git
+[submodule "geiser"]
+	path = lib/geiser
+	url = git@gitlab.com:emacs-geiser/geiser.git
+	info-path = doc
 [submodule "geiser-chez"]
 	path = lib/geiser-chez
 	url = git@gitlab.com:emacs-geiser/chez.git
