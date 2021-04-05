@@ -162,14 +162,6 @@
 [submodule "free-keys"]
 	path = lib/free-keys
 	url = git@github.com:Fuco1/free-keys.git
-[submodule "geiser"]
-	path = lib/geiser
-	url = git@gitlab.com:jaor/geiser.git
-	info-path = doc
-	build-step = ./autogen.sh
-	build-step = ./configure
-	build-step = make
-	build-step = borg-update-autoloads
 [submodule "geiser-chez"]
 	path = lib/geiser-chez
 	url = git@gitlab.com:emacs-geiser/chez.git
