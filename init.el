@@ -1043,7 +1043,9 @@ point."
   (geiser-active-implementations
    (list (car (cl-loop for scheme in '(chez chicken guile racket)
                        when (executable-find (symbol-name scheme))
-                       collect scheme)))))
+                       collect scheme))))
+  ;; Error loading autoloads: (void-function geiser-impl--add-to-alist)
+  :commands (geiser-impl--add-to-alist))
 
 (use-package git-commit
   :preface
