@@ -2460,7 +2460,8 @@ even if buffer is already narrowed."
     :init
     (setq completion-styles '(orderless)
           completion-category-defaults nil
-          completion-category-overrides '((file (styles . (partial-completion)))))))
+          completion-category-overrides '((file (styles . (partial-completion)))))
+    :demand t))
 
 (use-package view
   ;; https://gist.github.com/ivan-krukov/63a586f2121519ca51b201c634402a84
