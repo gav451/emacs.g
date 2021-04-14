@@ -30,6 +30,9 @@
 [submodule "biblio"]
 	path = lib/biblio
 	url = git@github.com:cpitclaudel/biblio.el.git
+[submodule "bibtex-actions"]
+	path = lib/bibtex-actions
+	url = git@github.com:bdarcus/bibtex-actions.git
 [submodule "bibtex-completion"]
 	path = lib/bibtex-completion
 	url = git@github.com:tmalsburg/helm-bibtex.git
@@ -118,6 +121,9 @@
 [submodule "emacsql-sqlite3"]
 	path = lib/emacsql-sqlite3
 	url = git@github.com:cireu/emacsql-sqlite3.git
+[submodule "embark"]
+	path = lib/embark
+	url = git@github.com:oantolin/embark.git
 [submodule "emms"]
 	path = lib/emms
 	url = https://git.savannah.gnu.org/git/emms.git
@@ -265,6 +271,9 @@
 [submodule "nov"]
 	path = lib/nov
 	url = https://depp.brause.cc/nov.el.git
+[submodule "orderless"]
+	path = lib/orderless
+	url = git@github.com:oantolin/orderless.git
 [submodule "org"]
 	path = lib/org
 	url = git@code.orgmode.org:bzg/org-mode.git
@@ -379,6 +388,9 @@
 [submodule "use-package"]
 	path = lib/use-package
 	url = git@github.com:jwiegley/use-package.git
+[submodule "vertico"]
+	path = lib/vertico
+	url = git@github.com:minad/vertico.git
 [submodule "websocket"]
 	path = lib/websocket
 	url = git@github.com:ahyatt/emacs-websocket.git

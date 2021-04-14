@@ -100,7 +100,15 @@
   (maximum-scroll-margin 0.25)
   (scroll-conservatively 0)
   (scroll-margin 0)
-  (scroll-preserve-screen-position t))
+  (scroll-preserve-screen-position t)
+  ;; info: (vertico) Configuration
+  (enable-recursive-minibuffers t)
+  (minibuffer-prompt-properties
+   (quote (read-only t cursor-intangible t face minibuffer-prompt)))
+  (enable-recursive-minibuffers t)
+  :init
+  ;; info: (vertico) Configuration
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
 
 (use-package server
   :when window-system
@@ -345,6 +353,7 @@
   :delight (company-mode " 👫"))
 
 (use-package company-prescient
+  :disabled
   :hook ((company-mode) . company-prescient-mode))
 
 (use-package compile
@@ -392,6 +401,12 @@
 
 (use-package counsel
   :disabled)
+
+(use-package crm
+  :init
+  (defun crm-indicator (args)
+    (cons (concat "[CRM] " (car args)) (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator))
 
 (use-package cython-mode
   :mode ((rx (seq ".py" (any "xdi") eos)) . cython-mode))
@@ -1595,23 +1610,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
     (mail-envelope-from 'header)
     (sendmail-program (executable-find "msmtp"))))
 
-(use-package minibuffer
-  ;; https://github.com/raxod502/selectrum/wiki/Additional-Configuration#complete-file-names-at-point
-  :custom
-  (completion-styles (quote (flex)))
-  :config
-  (add-hook 'completion-at-point-functions
-            (defun my-complete-path-at-point ()
-              (let ((fap (ffap-file-at-point))
-                    (tap (thing-at-point 'filename)))
-                (when (and (or fap
-                               (equal "/" tap))
-                           (save-excursion
-                             (search-backward tap (line-beginning-position) t)))
-                  (list (match-beginning 0)
-                        (match-end 0)
-                        #'completion-file-name-table)))) 'append))
-
 (use-package modus-themes
   :commands (modus-themes-load-themes
              modus-themes-load-vivendi)
@@ -2050,6 +2048,7 @@ Enable it and re-execute it."
   ("%PDF" . pdf-view-mode))
 
 (use-package prescient
+  :disabled
   ;; `prescient' does not use `completion-styles', see:
   ;; https://github.com/oantolin/orderless
   :custom
@@ -2176,10 +2175,15 @@ Enable it and re-execute it."
   (list-matching-lines-default-context-lines 0)
   :hook ((occur) . occur-rename-buffer))
 
+(use-package savehist
+  :commands (savehist-mode)
+  :config
+  (savehist-mode +1))
+
 (use-package saveplace
   :commands (save-place-mode)
   :config
-  (save-place-mode))
+  (save-place-mode +1))
 
 (use-package select
   :custom
@@ -2187,6 +2191,7 @@ Enable it and re-execute it."
   (select-enable-clipboard t))
 
 (use-package selectrum
+  :disabled
   :unless noninteractive
   :commands (selectrum-mode
              selectrum-repeat)
@@ -2201,6 +2206,7 @@ Enable it and re-execute it."
   (selectrum-mode +1))
 
 (use-package selectrum-prescient
+  :disabled
   :after selectrum
   :commands (selectrum-prescient-mode)
   :init
@@ -2446,6 +2452,15 @@ even if buffer is already narrowed."
   :custom
   (vc-hg-program (or (executable-find "chg")
                      (executable-find "hg"))))
+
+(use-package vertico
+  :init
+  (vertico-mode +1)
+  (use-package orderless
+    :init
+    (setq completion-styles '(orderless)
+          completion-category-defaults nil
+          completion-category-overrides '((file (styles . (partial-completion)))))))
 
 (use-package view
   ;; https://gist.github.com/ivan-krukov/63a586f2121519ca51b201c634402a84
