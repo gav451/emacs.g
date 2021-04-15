@@ -233,19 +233,23 @@
   (avy-setup-default))
 
 (use-package bibtex-actions
+  :unless (eq system-type 'darwin)
+  :after bibtex-completion
   :init
-  (cl-loop for path in '(bibtex-completion-bibliography
-                         bibtex-completion-library-path
-                         bibtex-completion-notes-path)
-           do (file-notify-add-watch path '(change) 'bibtex-actions-refresh))
-  :demand t)
+  (cl-loop for path in (-flatten (list bibtex-completion-bibliography
+                                       bibtex-completion-library-path
+                                       bibtex-completion-notes-path))
+           do (file-notify-add-watch path '(change) #'bibtex-actions-refresh)))
 
 (use-package bibtex-completion
   :custom
   (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
   (bibtex-completion-library-path '("~/VCS/research/papers"))
   (bibtex-completion-notes-path "~/VCS/research/notes/notes.org")
-  (bibtex-completion-pdf-extension (quote (".pdf" ".djvu"))))
+  (bibtex-completion-pdf-extension (quote (".pdf" ".djvu")))
+  :commands
+  (bibtex-actions-refresh)
+  :demand t)
 
 (use-package browse-url
   :unless noninteractive
@@ -414,12 +418,13 @@
   :init
   (defun crm-indicator (args)
     (cons (concat "[CRM] " (car args)) (cdr args)))
-  (advice-add #'completing-read-multiple :filter-args #'crm-indicator))
+  (advice-add #'completing-read-multiple :filter-args 'crm-indicator))
 
 (use-package cython-mode
   :mode ((rx (seq ".py" (any "xdi") eos)) . cython-mode))
 
 (use-package dash
+  :commands (-flatten)
   :hook
   ((emacs-lisp-mode ielm-mode lisp-interaction-mode) . dash-fontify-mode))
 
@@ -2462,6 +2467,7 @@ even if buffer is already narrowed."
                      (executable-find "hg"))))
 
 (use-package vertico
+  :commands (vertico-mode)
   :init
   (vertico-mode +1)
   (use-package orderless
