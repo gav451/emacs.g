@@ -232,6 +232,14 @@
   :init
   (avy-setup-default))
 
+(use-package bibtex-actions
+  :init
+  (cl-loop for path in '(bibtex-completion-bibliography
+                         bibtex-completion-library-path
+                         bibtex-completion-notes-path)
+           do (file-notify-add-watch path '(change) 'bibtex-actions-refresh))
+  :demand t)
+
 (use-package bibtex-completion
   :custom
   (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
