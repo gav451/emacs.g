@@ -233,13 +233,15 @@
   (avy-setup-default))
 
 (use-package bibtex-actions
-  :unless (eq system-type 'darwin)
   :after bibtex-completion
   :init
   (cl-loop for path in (-flatten (list bibtex-completion-bibliography
                                        bibtex-completion-library-path
                                        bibtex-completion-notes-path))
-           do (file-notify-add-watch path '(change) #'bibtex-actions-refresh)))
+           do (file-notify-add-watch path
+                                     '(change)
+                                     (lambda (_)
+                                       (bibtex-actions-refresh)))))
 
 (use-package bibtex-completion
   :custom
@@ -999,6 +1001,9 @@ point."
 
 (use-package ffap
   :commands (ffap-file-at-point))
+
+(use-package filenotify
+  :commands (file-notify-add-watch))
 
 (use-package files
   :commands (executable-find
