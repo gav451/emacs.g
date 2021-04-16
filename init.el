@@ -409,9 +409,6 @@
   :bind (:map flycheck-command-map
               ("!" . consult-flycheck)))
 
-(use-package counsel
-  :disabled)
-
 (use-package crm
   :init
   (defun crm-indicator (args)
@@ -1508,25 +1505,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   (lazy-count-prefix-format "%s/%s ")
   (lazy-highlight-cleanup t))
 
-(use-package ivy
-  :disabled
-  ;; https://github.com/dakra/dmacs/blob/master/init.org#ivy
-  ;; https://github.com/sam217pa/emacs-config
-  ;; https://sam217pa.github.io/2016/09/11/nuclear-power-editing-via-ivy-and-ag/
-  :custom
-  (ivy-count-format "(%d/%d) ")
-  (ivy-use-virtual-buffers t)
-  :bind ((:map global-map
-               ("C-c C-r" . ivy-resume)
-               ("C-x B" . ivy-switch-buffer-other-window)))
-  :commands (ivy-mode
-             ivy-read
-             ivy-switch-buffer
-             ivy-thing-at-point)
-  :init
-  (ivy-mode)
-  :delight (ivy-mode " 𝝓"))
-
 (use-package jupyter-repl
   ;; Looks nice with 'c.interactive.colors = "Linux"' in
   ;; ipython_kernel_config.py.
@@ -2399,10 +2377,6 @@ even if buffer is already narrowed."
              narrow-to-defun
              narrow-to-region
              remq))
-
-(use-package swiper
-  :custom
-  (swiper-action-recenter t))
 
 (use-package synosaurus
   :custom

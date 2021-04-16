@@ -36,6 +36,7 @@
 [submodule "bibtex-completion"]
 	path = lib/bibtex-completion
 	url = git@github.com:tmalsburg/helm-bibtex.git
+	no-byte-compile = ivy-bibtex.el
 [submodule "blacken"]
 	path = lib/blacken
 	url = git@github.com:pythonic-emacs/blacken.git
@@ -216,6 +217,7 @@
 	path = lib/iedit
 	url = git@github.com:victorhge/iedit.git
 [submodule "ivy"]
+	disabled = true
 	path = lib/ivy
 	url = git@github.com:abo-abo/swiper.git
 	info-path = doc
@@ -293,6 +295,7 @@
 [submodule "org-ref"]
 	path = lib/org-ref
 	url = git@github.com:jkitchin/org-ref.git
+	no-byte-compile = org-ref-ivy-cite.el
 [submodule "org-roam"]
 	path = lib/org-roam
 	url = git@github.com:org-roam/org-roam.git
