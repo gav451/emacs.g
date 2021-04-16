@@ -768,6 +768,31 @@ point."
 (use-package elisp-mode
   :delight (emacs-lisp-mode "🐮 " :major))
 
+(use-package embark
+  :custom
+  (embark-keymap-alist
+   '((file . embark-file-map)
+     (environment-variables . embark-file-map)
+     (url . embark-url-map)
+     (buffer . embark-buffer-map)
+     (identifier . embark-identifier-map)
+     (symbol . embark-symbol-map)
+     (command . embark-command-map)
+     (variable . embark-variable-map)
+     (minor-mode . embark-command-map)
+     (unicode-name . embark-unicode-name-map)
+     (package . embark-package-map)
+     (bookmark . embark-bookmark-map)
+     (region . embark-region-map)
+     ;; Add the 'bibtex-actions' bindings.
+     (bibtex . bibtex-actions-map)))
+  :bind (("C-S-a" . embark-act)))
+
+(use-package embark-consult
+  :after (consult embark)
+  :hook ((embark-collect) . embark-consult-preview-minor-mode)
+  :demand t)
+
 (use-package emms
   ;; Let mpd play most sound, and mpv everything else (ideally video only).
   :custom
