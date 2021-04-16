@@ -216,11 +216,6 @@
 [submodule "iedit"]
 	path = lib/iedit
 	url = git@github.com:victorhge/iedit.git
-[submodule "ivy"]
-	disabled = true
-	path = lib/ivy
-	url = git@github.com:abo-abo/swiper.git
-	info-path = doc
 [submodule "julia-mode"]
 	path = lib/julia-mode
 	url = git@github.com:JuliaEditorSupport/julia-emacs.git
