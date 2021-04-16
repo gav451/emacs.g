@@ -314,9 +314,6 @@
 	build-step = make -s
 	build-step = borg-byte-compile
 	build-step = borg-update-autoloads
-[submodule "prescient"]
-	path = lib/prescient
-	url = git@github.com:raxod502/prescient.el.git
 [submodule "projectile"]
 	path = lib/projectile
 	url = git@github.com:bbatsov/projectile.git
@@ -338,9 +335,6 @@
 [submodule "s"]
 	path = lib/s
 	url = git@github.com:magnars/s.el.git
-[submodule "selectrum"]
-	path = lib/selectrum
-	url = git@github.com:raxod502/selectrum.git
 [submodule "shut-up"]
 	path = lib/shut-up
 	url = git@github.com:cask/shut-up.git

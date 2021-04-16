@@ -366,10 +366,6 @@
          ((sly-mode sly-mrepl-mode) . company-mode))
   :delight (company-mode " 👫"))
 
-(use-package company-prescient
-  :disabled
-  :hook ((company-mode) . company-prescient-mode))
-
 (use-package compile
   :delight (compilation-in-progress " 👷"))
 
@@ -1506,13 +1502,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   (ivy-mode)
   :delight (ivy-mode " 𝝓"))
 
-(use-package ivy-prescient
-  :disabled
-  :after ivy
-  :commands (ivy-prescient-mode)
-  :init
-  (ivy-prescient-mode))
-
 (use-package jupyter-repl
   ;; Looks nice with 'c.interactive.colors = "Linux"' in
   ;; ipython_kernel_config.py.
@@ -2065,16 +2054,6 @@ Enable it and re-execute it."
   :magic
   ("%PDF" . pdf-view-mode))
 
-(use-package prescient
-  :disabled
-  ;; `prescient' does not use `completion-styles', see:
-  ;; https://github.com/oantolin/orderless
-  :custom
-  (prescient-filter-method (quote (anchored initialism literal regexp)))
-  :commands (prescient-persist-mode)
-  :config
-  (prescient-persist-mode))
-
 (use-package project
   :preface
   (defun my-project-root ()
@@ -2187,7 +2166,6 @@ Enable it and re-execute it."
 
 (use-package replace
   ;; https://github.com/minad/consult
-  ;; https://github.com/raxod502/selectrum/wiki/Additional-Configuration#improve-the-completion-of-multi-occur
   ;; https://masteringemacs.org/article/searching-buffers-occur-mode
   :custom
   (list-matching-lines-default-context-lines 0)
@@ -2207,28 +2185,6 @@ Enable it and re-execute it."
   :custom
   ;; info: (emacs) Clipboard
   (select-enable-clipboard t))
-
-(use-package selectrum
-  :disabled
-  :unless noninteractive
-  :commands (selectrum-mode
-             selectrum-repeat)
-  :init
-  (add-hook 'selectrum-mode-hook
-            (defun on-selectrum-mode-hook ()
-              (if selectrum-mode
-                  (bind-keys :map global-map
-                             ("C-x z" . selectrum-repeat))
-                (bind-keys :map global-map
-                           ("C-x z" . repeat)))))
-  (selectrum-mode +1))
-
-(use-package selectrum-prescient
-  :disabled
-  :after selectrum
-  :commands (selectrum-prescient-mode)
-  :init
-  (selectrum-prescient-mode +1))
 
 (use-package shell
   :config
