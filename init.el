@@ -433,6 +433,7 @@
   :unless noninteractive
   :custom
   (desktop-auto-save-timeout 30)
+  (desktop-base-file-name (convert-standard-filename "emacs.desktop"))
   (desktop-files-not-to-save
    (rx (or (group (or (seq bos "/" (0+ (not (any "/:"))) ":")
                       (seq "(ftp)" eos)))
