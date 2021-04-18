@@ -1093,7 +1093,7 @@ point."
 (use-package geiser-impl
   :custom
   (geiser-active-implementations
-   (list (car (cl-loop for scheme in '(chez chicken guile racket)
+   (list (car (cl-loop for scheme in '(chez guile mit-scheme racket)
                        when (executable-find (symbol-name scheme))
                        collect scheme))))
   ;; Error loading autoloads: (void-function geiser-impl--add-to-alist)
