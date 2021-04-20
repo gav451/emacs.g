@@ -576,7 +576,7 @@
   ((LaTeX-mode org-mode prog-mode) . display-line-numbers-mode))
 
 (use-package eaf
-  :when (and (eq system-type 'gnu/linux) (not noninteractive))
+  :when (not noninteractive)
   :custom
   (eaf-config-location (no-littering-expand-var-file-name "eaf"))
   (eaf-find-file-ext-blacklist '("epub"))
