@@ -232,26 +232,11 @@
   :init
   (avy-setup-default))
 
-(use-package bibtex-actions
-  :after bibtex-completion
-  :init
-  (cl-loop for path in (-flatten (list bibtex-completion-bibliography
-                                       bibtex-completion-library-path
-                                       bibtex-completion-notes-path))
-           do (file-notify-add-watch path
-                                     '(change)
-                                     (lambda (_)
-                                       (bibtex-actions-refresh)))))
-
 (use-package bibtex-completion
   :custom
   (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
   (bibtex-completion-library-path '("~/VCS/research/papers"))
-  (bibtex-completion-notes-path "~/VCS/research/notes/notes.org")
-  (bibtex-completion-pdf-extension (quote (".pdf" ".djvu")))
-  :commands
-  (bibtex-actions-refresh)
-  :demand t)
+  (bibtex-completion-notes-path "~/VCS/research/notes/notes.org"))
 
 (use-package browse-url
   :unless noninteractive
@@ -768,23 +753,6 @@ point."
   :delight (emacs-lisp-mode "🐮 " :major))
 
 (use-package embark
-  :custom
-  (embark-keymap-alist
-   '((file . embark-file-map)
-     (environment-variables . embark-file-map)
-     (url . embark-url-map)
-     (buffer . embark-buffer-map)
-     (identifier . embark-identifier-map)
-     (symbol . embark-symbol-map)
-     (command . embark-command-map)
-     (variable . embark-variable-map)
-     (minor-mode . embark-command-map)
-     (unicode-name . embark-unicode-name-map)
-     (package . embark-package-map)
-     (bookmark . embark-bookmark-map)
-     (region . embark-region-map)
-     ;; Add the 'bibtex-actions' bindings.
-     (bibtex . bibtex-actions-map)))
   :bind (("C-S-a" . embark-act)))
 
 (use-package embark-consult
