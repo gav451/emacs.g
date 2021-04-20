@@ -414,39 +414,6 @@
          (:map deadgrep-mode-map
                ("C-c C-w" . deadgrep-edit-mode))))
 
-(use-package desktop
-  :unless noninteractive
-  :custom
-  (desktop-auto-save-timeout 30)
-  (desktop-base-file-name (convert-standard-filename "emacs.desktop"))
-  (desktop-files-not-to-save
-   (rx (or (group (or (seq bos "/" (0+ (not (any "/:"))) ":")
-                      (seq "(ftp)" eos)))
-           (seq ".bz2" eos)
-           (seq ".gpg" eos)
-           (seq ".gz" eos))))
-  (desktop-globals-to-save
-   (quote (desktop-missing-file-warning
-           tags-file-name
-           tags-table-list
-           search-ring
-           regexp-search-ring
-           register-alist
-           file-name-history
-           ;; https://github.com/thierryvolpiatto/psession/blob/master/psession.el
-           extended-command-history
-           helm-browse-project-history
-           helm-ff-history
-           helm-surfraw-engines-history)))
-  (desktop-load-locked-desktop t)
-  (desktop-modes-not-to-save (quote (eww-mode
-                                     tags-table-mode)))
-  (desktop-restore-eager 20)
-  (desktop-restore-frames nil)
-  :commands (desktop-save-mode)
-  :init
-  (desktop-save-mode +1))
-
 (use-package diff-hl
   ;; https://github.com/yiufung/dot-emacs/blob/master/init.el
   :custom
@@ -2145,8 +2112,18 @@ Enable it and re-execute it."
   :hook ((occur) . occur-rename-buffer))
 
 (use-package savehist
+  :custom
+  (savehist-additional-variables
+   (quote
+    (helm-browse-project-history
+     helm-ff-history
+     helm-surfraw-engines-history
+     kill-ring
+     regexp-search-string
+     register-alist
+     search-string)))
   :commands (savehist-mode)
-  :config
+  :init
   (savehist-mode +1))
 
 (use-package saveplace
