@@ -31,9 +31,6 @@
 [submodule "biblio"]
 	path = lib/biblio
 	url = git@github.com:cpitclaudel/biblio.el.git
-[submodule "bibtex-actions"]
-	path = lib/bibtex-actions
-	url = git@github.com:bdarcus/bibtex-actions.git
 [submodule "bibtex-completion"]
 	path = lib/bibtex-completion
 	url = git@github.com:tmalsburg/helm-bibtex.git
