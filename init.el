@@ -582,6 +582,7 @@
   (eaf-find-file-ext-blacklist '("epub"))
   :commands (eaf-open-jupyter
              eaf-set)
+  :defer 2
   :config
   (eaf-set 'eaf-browser-download-path "~/tmpfs")
   (eaf-set 'eaf-browser-enable-adblocker "true")
