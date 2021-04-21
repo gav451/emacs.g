@@ -96,18 +96,18 @@
   ;; https://tech.toryanderson.com/2020/08/24/helm-duplicates-history/
   (history-delete-duplicates t)
   (history-length 100)
-  ;; info: (emacs) Auto Scrolling
+  ;; (info "(emacs) Auto Scrolling")
   (maximum-scroll-margin 0.25)
   (scroll-conservatively 0)
   (scroll-margin 0)
   (scroll-preserve-screen-position t)
-  ;; info: (vertico) Configuration
+  ;; (info "(vertico) Configuration")
   (enable-recursive-minibuffers t)
   (minibuffer-prompt-properties
    (quote (read-only t cursor-intangible t face minibuffer-prompt)))
   (enable-recursive-minibuffers t)
   :init
-  ;; info: (vertico) Configuration
+  ;; (info "(vertico) Configuration")
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
 
 (use-package server
@@ -357,7 +357,7 @@
 (use-package consult
   :custom
   (consult-project-root-function #'my-project-root)
-  ;; info: (consult) Example configuration
+  ;; (info "(consult) Use-package example configuration")
   :bind (;; C-c bindings (mode-specific-map)
          ("C-c h" . consult-history)
          ("C-c m" . consult-mode-command)
@@ -1546,7 +1546,7 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
 
 (use-package message
   ;; https://emacs.stackexchange.com/a/3653
-  ;; info: (emacs) Sending Mail
+  ;; (info "(emacs) Sending Mail")
   :custom
   (message-sendmail-envelope-from 'header)
   (message-send-mail-function 'message-send-mail-with-sendmail)
@@ -2099,8 +2099,7 @@ Enable it and re-execute it."
   :commands (repeat))
 
 (use-package reveal
-  ;; info: (magit) Point ends up inside invisible text when jumping to
-  ;; a file-visiting buffer
+  ;; (info "(magit) Point ends up inside invisible text when jumping to a file-visiting buffer")
   :hook ((magit-diff-visit-file) . reveal-mode)
   :delight (reveal-mode " ⏿"))
 
@@ -2133,7 +2132,7 @@ Enable it and re-execute it."
 
 (use-package select
   :custom
-  ;; info: (emacs) Clipboard
+  ;; (info "(emacs) Clipboard")
   (select-enable-clipboard t))
 
 (use-package shell
@@ -2143,7 +2142,7 @@ Enable it and re-execute it."
 (use-package shr
   :custom
   (shr-max-image-proportion 0.8)
-  ;; info: (modus-themes) Note on SHR colors
+  ;; (info "(modus-themes) Note on SHR colors")
   (shr-use-colors nil)
   :commands (shr-browse-url))
 
@@ -2157,7 +2156,7 @@ Enable it and re-execute it."
   :custom
   (eval-expression-print-length nil)
   (kill-do-not-save-duplicates t)
-  ;; info: (emacs) Clipboard
+  ;; (info "(emacs) Clipboard")
   (save-interprogram-paste-before-kill t)
   :hook (((help-mode text-mode) . visual-line-mode)
          ((LaTeX-mode) . turn-on-auto-fill))
