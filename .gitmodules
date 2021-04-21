@@ -296,6 +296,7 @@
 [submodule "org-roam-bibtex"]
 	path = lib/org-roam-bibtex
 	url = git@github.com:org-roam/org-roam-bibtex.git
+	no-byte-compile = orb-ivy.el
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git
