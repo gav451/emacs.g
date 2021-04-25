@@ -868,16 +868,57 @@ point."
 (use-package eww
   ;; http://ergoemacs.org/emacs/emacs_eww_web_browser.html
   ;; https://emacs.stackexchange.com/questions/36284/how-to-open-eww-in-readable-mode
+  ;; https://protesilaos.com/dotemacs
   ;; https://www.reddit.com/r/emacs/comments/54kczj/reddit_client_for_emacs/
   :preface
-  (defcustom eww-readable-sites
+  (defcustom my-eww-readable-sites
     '("www.cnrtl.fr"
       "www.thefreedictionary.com"
       "www.woorden.org")
     "List of urls to show using `eww-readable'."
     :type '(repeat string)
     :group 'eww)
-  (defun my-reddit-browser ()
+
+  (defvar my-eww-visited-history nil)
+
+  (defun my-eww-add-to-history ()
+    "Store URL in `my-eww-visited-history'.
+
+To be hooked on `eww-after-render-hook'."
+    (let ((url (plist-get eww-data :url)))
+      (add-to-history 'my-eww-visited-history url)))
+
+  (defun my-eww-browse-dwim (url &optional arg)
+    "Visit a URL, maybe from `eww-prompt-history', with completion.
+
+With optional prefix ARG (\\[universal-argument]) open URL in a
+new eww buffer.
+
+If URL does not look like a valid link, run a web query using
+`eww-search-prefix'.
+
+When called from an eww buffer, provide the current link as
+initial input."
+    (interactive
+     (list
+      (completing-read "Run EWW on: "
+                       (append my-eww-visited-history eww-prompt-history)
+                       nil nil nil 'eww-prompt-history)
+      current-prefix-arg))
+    (eww url (if arg 4 nil)))
+
+  (defun my-eww-make-readable ()
+    (let ((url (eww-current-url)))
+      (when (catch 'found
+              (mapc
+               (lambda (site)
+                 (when (string-match (regexp-quote site) url)
+                   (throw 'found site)))
+               my-eww-readable-sites)
+              nil)
+        (eww-readable))))
+
+  (defun my-eww-reddit-browser ()
     (interactive)
     (eww-browse-url (format "https://www.reddit.com/r/%s/.mobile"
                             (completing-read "sub-reddit: "
@@ -885,6 +926,10 @@ point."
                                                "i3wm"
                                                "orgmode")
                                              nil t))))
+  (defun my-eww-rename-buffer ()
+    (let* ((title (plist-get eww-data :title))
+           (name (or (and (eq "" title) (plist-get eww-data :url)) title)))
+      (rename-buffer (format "*%s # eww*" name) t)))
   :defines
   eww-link-keymap
   eww-mode-map
@@ -892,21 +937,16 @@ point."
              eww-current-url
              eww-open-file
              eww-readable)
-  :config
-  (add-hook 'eww-mode-hook
-            (defun on-eww-mode-hook-rename-buffer ()
-              (rename-buffer "eww" t)))
-  (add-hook 'eww-after-render-hook
-            (defun on-eww-after-render-hook-make-readable ()
-              (let ((url (eww-current-url)))
-                (when (catch 'found
-                        (mapc
-                         (lambda (site)
-                           (when (string-match (regexp-quote site) url)
-                             (throw 'found site)))
-                         eww-readable-sites)
-                        nil)
-                  (eww-readable))))))
+  :init
+  (add-hook 'eww-after-render-hook #'my-eww-rename-buffer)
+  (advice-add 'eww-back-url :after #'my-eww-rename-buffer)
+  (advice-add 'eww-back-url :after #'my-eww-rename-buffer)
+  (add-hook 'eww-after-render-hook #'my-eww-make-readable)
+  (advice-add 'eww-back-url :after #'my-eww-make-readable)
+  (advice-add 'eww-back-url :after #'my-eww-make-readable)
+  (add-hook 'eww-after-render-hook #'my-eww-add-to-history)
+  (advice-add 'eww-back-url :after #'my-eww-add-to-history)
+  (advice-add 'eww-back-url :after #'my-eww-add-to-history))
 
 (use-package exec-path-from-shell
   :if (and (eq system-type 'darwin) (display-graphic-p))
