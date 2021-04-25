@@ -199,6 +199,7 @@
 [submodule "helm"]
 	path = lib/helm
 	url = git@github.com:emacs-helm/helm.git
+	info-path = doc
 [submodule "helpful"]
 	path = lib/helpful
 	url = git@github.com:Wilfred/helpful.git
