@@ -1759,8 +1759,7 @@ Enable it and re-execute it."
                                   (ps-print-color-p nil)
                                   (ps-print-header nil)))
   (org-agenda-files '("~/VCS/pim/jobs.org"))
-  (org-agenda-span 70)
-  :demand t)
+  (org-agenda-span 70))
 
 (use-package org-capture
   ;; https://github.com/sprig/org-capture-extension
@@ -1787,8 +1786,7 @@ Enable it and re-execute it."
      ("X" "Capture with org-capture-button" entry (file "~/tmpfs/notes.org")
       "* %:description%? :webcapture:
 :PROPERTIES:\n:CAPTURE_DATE: %U\n:END:\n- see %a %l\n%i\n"
-      :prepend t :empty-lines 1))))
-  :demand t)
+      :prepend t :empty-lines 1)))))
 
 (use-package org-element
   :commands (org-element-map
@@ -1818,13 +1816,6 @@ Enable it and re-execute it."
 
 (use-package org-ref
   :after org
-  :custom
-  (org-ref-bibliography-notes "~/VCS/research/notes/notes.org")
-  (org-ref-cite-color "LawnGreen")
-  (org-ref-ref-color "OrangeRed")
-  (org-ref-label-color "DeepPink")
-  (org-ref-default-bibliography '("~/VCS/research/refs.bib"))
-  (org-ref-pdf-directory '("~/VCS/research/papers"))
   :demand t)
 
 (use-package org-ref-bibtex
@@ -1832,6 +1823,13 @@ Enable it and re-execute it."
                ("C-c j" . org-ref-bibtex-hydra/body))))
 
 (use-package org-ref-core
+  :custom
+  (org-ref-bibliography-notes "~/VCS/research/notes/notes.org")
+  (org-ref-cite-color "LawnGreen")
+  (org-ref-ref-color "OrangeRed")
+  (org-ref-label-color "DeepPink")
+  (org-ref-default-bibliography '("~/VCS/research/refs.bib"))
+  (org-ref-pdf-directory '("~/VCS/research/papers"))
   :bind ((:map org-mode-map
                ("C-c ]" . org-ref-insert-link))))
 
