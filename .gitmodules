@@ -7,6 +7,7 @@
 	path = lib/alert
 	url = git@github.com:jwiegley/alert.git
 [submodule "all-the-icons"]
+	disabled = true
 	path = lib/all-the-icons
 	url = git@github.com:domtronn/all-the-icons.el.git
 [submodule "async"]
