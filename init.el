@@ -528,6 +528,7 @@
   ((LaTeX-mode org-mode prog-mode) . display-line-numbers-mode))
 
 (use-package eaf
+  :disabled
   :when (not noninteractive)
   :custom
   (eaf-config-location (no-littering-expand-var-file-name "eaf"))
@@ -543,6 +544,7 @@
   (eaf-set 'eaf-terminal-dark-mode "false"))
 
 (use-package eaf-org
+  :disabled
   :after (eaf org)
   :commands (eaf-org-export-to-pdf-and-open
              eaf-org-store-link))

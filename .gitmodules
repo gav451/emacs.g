@@ -89,6 +89,7 @@
 	no-byte-compile = dired-images.el
 	no-byte-compile = dired-tagsistant.el
 [submodule "eaf"]
+	disabled = true
 	path = lib/eaf
 	url = git@github.com:manateelazycat/emacs-application-framework.git
 	load-path = .
