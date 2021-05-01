@@ -155,7 +155,7 @@
 	url = git@github.com:rejeep/f.el.git
 [submodule "find-file-in-project"]
 	path = lib/find-file-in-project
-	url = git@github.com:technomancy/find-file-in-project.git
+	url = git@github.com:redguardtoo/find-file-in-project.git
 [submodule "flycheck"]
 	path = lib/flycheck
 	url = git@github.com:flycheck/flycheck.git
@@ -223,7 +223,7 @@
 	url = git@github.com:JuliaEditorSupport/julia-emacs.git
 [submodule "jupyter"]
 	path = lib/jupyter
-	url = git@github.com:dzop/emacs-jupyter.git
+	url = git@github.com:nnicandro/emacs-jupyter.git
 [submodule "keycast"]
 	path = lib/keycast
 	url = git@github.com:tarsius/keycast.git
@@ -413,7 +413,7 @@
 	url = git@github.com:joaotavora/yasnippet.git
 [submodule "zmq"]
 	path = lib/zmq
-	url = git@github.com:dzop/emacs-zmq.git
+	url = git@github.com:nnicandro/emacs-zmq.git
 	build-step = make
 [submodule "zop-to-char"]
 	path = lib/zop-to-char
