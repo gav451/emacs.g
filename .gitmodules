@@ -3,9 +3,6 @@
 [submodule "aas"]
 	path = lib/aas
 	url = git@github.com:ymarco/auto-activating-snippets.git
-[submodule "alert"]
-	path = lib/alert
-	url = git@github.com:jwiegley/alert.git
 [submodule "all-the-icons"]
 	disabled = true
 	path = lib/all-the-icons
@@ -237,9 +234,6 @@
 	path = lib/libgit
 	url = git@github.com:magit/libegit2.git
 	build-step = make
-[submodule "log4e"]
-	path = lib/log4e
-	url = git@github.com:aki2o/log4e.git
 [submodule "macrostep"]
 	path = lib/macrostep
 	url = git@github.com:joddie/macrostep.git

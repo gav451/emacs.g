@@ -215,10 +215,6 @@
 (use-package aas
   :commands (aas-set-snippets))
 
-(use-package alert
-  :custom
-  (alert-default-style 'libnotify))
-
 (use-package autorevert
   :hook ((dired-mode) . auto-revert-mode)
   :delight (auto-revert-mode))
