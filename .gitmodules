@@ -202,7 +202,7 @@
 	build-step = borg-byte-compile
 	build-step = borg-update-autoloads
 	build-step = make info
-	build-step = rm doc/*.texi
+	build-step = git clean -f
 [submodule "helpful"]
 	path = lib/helpful
 	url = git@github.com:Wilfred/helpful.git
