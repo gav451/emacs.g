@@ -202,6 +202,10 @@
 	path = lib/helm
 	url = git@github.com:emacs-helm/helm.git
 	info-path = doc
+	build-step = borg-byte-compile
+	build-step = borg-update-autoloads
+	build-step = make info
+	build-step = rm doc/*.texi
 [submodule "helpful"]
 	path = lib/helpful
 	url = git@github.com:Wilfred/helpful.git
