@@ -58,6 +58,7 @@
 	path = lib/consult
 	url = git@github.com:minad/consult.git
 [submodule "ctable"]
+	disabled = true
 	path = lib/ctable
 	url = git@github.com:kiwanami/emacs-ctable.git
 	no-byte-compile = test-ctable.el
@@ -72,6 +73,7 @@
 	path = lib/deadgrep
 	url = git@github.com:Wilfred/deadgrep.git
 [submodule "deferred"]
+	disabled = true
 	path = lib/deferred
 	url = git@github.com:kiwanami/emacs-deferred.git
 [submodule "delight"]
@@ -130,6 +132,7 @@
 	build-step = borg-byte-compile
 	build-step = borg-makeinfo
 [submodule "epc"]
+	disabled = true
 	path = lib/epc
 	url = git@github.com:kiwanami/emacs-epc.git
 [submodule "epkg"]
