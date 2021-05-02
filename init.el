@@ -949,18 +949,16 @@ initial input."
 (use-package exec-path-from-shell
   :if (and (eq system-type 'darwin) (display-graphic-p))
   :custom
-  (exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-variables '("PATH"
                                     "MANPATH"
-                                    "GPG_AGENT_INFO"))
-  :commands (exec-path-from-shell-copy-envs
-             exec-path-from-shell-initialize)
+                                    "GPG_AGENT_INFO"
+                                    "SSH_AGENT_PID"
+                                    "SSH_AUTH_SOCK"
+                                    "PYENV_ROOT"
+                                    "PYENV_VERSION"))
+  :commands (exec-path-from-shell-initialize)
   :init
-  (cd "~")
   (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-envs '("SSH_AGENT_PID"
-                                    "SSH_AUTH_SOCK"))
-
   :demand t)
 
 (use-package face-remap
@@ -2053,51 +2051,31 @@ Enable it and re-execute it."
                            other-window)))
     (advice-add command :after #'my-pulse-line)))
 
-(use-package pyenv-mode
-  :disabled
-  ;; Loads `elpy' and `python' automatically.
-  :preface
-  (defun update-pyenv-mode-environment (&rest _)
-    (let ((version (pyenv-mode-version))
-          (root (pyenv-mode-root)))
-      (if (member version '(nil "system"))
-          (mapcar #'setenv '("PYTHONDIR"
-                             "JUPYTER_CONFIG_DIR"
-                             "JUPYTER_DATA_DIR"
-                             "JUPYTER_PATH"
-                             "JUPYTER_RUNTIME_DIR"))
-        (list
-         (setenv "IPYTHONDIR"
-                 (expand-file-name
-                  (concat "~/.ipython-" version)))
-         (setenv "JUPYTER_CONFIG_DIR"
-                 (expand-file-name
-                  (concat root "/versions/" version "/etc/jupyter")))
-         (setenv "JUPYTER_DATA_DIR"
-                 (expand-file-name
-                  (concat "~/.local/share/jupyter-" version)))
-         (setenv "JUPYTER_PATH"
-                 (expand-file-name
-                  (concat root "/versions/" version "/share/jupyter")))
-         (setenv "JUPYTER_RUNTIME_DIR"
-                 (expand-file-name
-                  (concat "~/tmpfs/jupyter-" version)))))))
-  :commands (pyenv-mode-root
-             pyenv-mode-set
-             pyenv-mode-unset
-             pyenv-mode-version)
-  :config
-  (advice-add 'pyenv-mode-set
-              :after #'update-pyenv-mode-environment)
-  (advice-add 'pyenv-mode-unset
-              :after #'update-pyenv-mode-environment)
-  (pyenv-mode-set "3.8.9"))
-
 (use-package python
   :custom
   (python-shell-interpreter-args "-E -i")
   :interpreter ("python" . python-mode)
   :mode ((rx (seq ".py" (opt "w") eos)) . python-mode)
+  :init
+  (when (eq system-type 'darwin)
+    (let ((pyenv-root (getenv "PYENV_ROOT"))
+          (pyenv-version (getenv "PYENV_VERSION")))
+      (when (and pyenv-root pyenv-version)
+        (setenv "IPYTHONDIR"
+                (expand-file-name
+                 (concat "~/.ipython-" pyenv-version)))
+        (setenv "JUPYTER_CONFIG_DIR"
+                (expand-file-name
+                 (concat pyenv-root "/versions/" pyenv-version "/etc/jupyter")))
+        (setenv "JUPYTER_DATA_DIR"
+                (expand-file-name
+                 (concat "~/.local/share/jupyter-" pyenv-version)))
+        (setenv "JUPYTER_PATH"
+                (expand-file-name
+                 (concat pyenv-root "/versions/" pyenv-version "/share/jupyter")))
+        (setenv "JUPYTER_RUNTIME_DIR"
+                (expand-file-name
+                 (concat "~/tmpfs/jupyter-" pyenv-version))))))
   :delight (python-mode "🐍 " :major))
 
 (use-package rainbow-delimiters
