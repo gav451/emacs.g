@@ -304,19 +304,6 @@
   :commands (browse-url
              browse-url-generic))
 
-(use-package cdlatex
-  ;; Binds `cdlatex-tab' to <TAB> hiding `indent-for-tab-command'.
-  :custom
-  (cdlatex-make-sub-superscript-roman-if-pressed-twice t)
-  (cdlatex-use-dollar-to-ensure-math nil)
-  :init
-  (add-hook 'cdlatex-mode-hook
-            (defun on-cdlatex-mode-hook ()
-              (if cdlatex-mode
-                  (company-mode -1)
-                (when (member 'company-mode LaTeX-mode-hook)
-                  (company-mode +1))))))
-
 (use-package company
   ;; https://github.com/dakra/dmacs/blob/master/init.org#company-auto-completion
   ;; https://github.com/CeleritasCelery/emacs.d/blob/master/emacs.org
@@ -1762,12 +1749,6 @@ Enable it and re-execute it."
              org-narrow-to-block
              org-narrow-to-subtree)
   :init
-  (add-hook 'org-cdlatex-mode-hook
-            (defun on-org-cdlatex-mode-hook ()
-              (if org-cdlatex-mode
-                  (company-mode -1)
-                (when (member 'company-mode org-mode-hook)
-                  (company-mode +1)))))
   (add-hook
    'org-mode-hook
    (defun on-org-mode-hook-eval-blocks ()
