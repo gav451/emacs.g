@@ -319,9 +319,11 @@
 	path = lib/projectile
 	url = git@github.com:bbatsov/projectile.git
 [submodule "pyenv-mode"]
+	disabled = true
 	path = lib/pyenv-mode
 	url = git@github.com:pythonic-emacs/pyenv-mode.git
 [submodule "pythonic"]
+	disabled = true
 	path = lib/pythonic
 	url = git@github.com:pythonic-emacs/pythonic.git
 [submodule "pyvenv"]

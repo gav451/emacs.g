@@ -1764,7 +1764,6 @@ Enable it and re-execute it."
              org-narrow-to-block
              org-narrow-to-subtree)
   :init
-  (require 'pyenv-mode)
   (add-hook 'org-cdlatex-mode-hook
             (defun on-org-cdlatex-mode-hook ()
               (if org-cdlatex-mode
@@ -2055,6 +2054,7 @@ Enable it and re-execute it."
     (advice-add command :after #'my-pulse-line)))
 
 (use-package pyenv-mode
+  :disabled
   ;; Loads `elpy' and `python' automatically.
   :preface
   (defun update-pyenv-mode-environment (&rest _)
@@ -2086,7 +2086,6 @@ Enable it and re-execute it."
              pyenv-mode-set
              pyenv-mode-unset
              pyenv-mode-version)
-  :defer 2
   :config
   (advice-add 'pyenv-mode-set
               :after #'update-pyenv-mode-environment)
