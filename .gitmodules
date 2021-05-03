@@ -278,9 +278,12 @@
 	path = lib/org
 	url = git@code.orgmode.org:bzg/org-mode.git
 	load-path = lisp
-	load-path = contrib/lisp
 	info-path = doc
 	build-step = make compile autoloads info
+[submodule "org-contrib"]
+	path = lib/org-contrib
+	url = git@git.sr.ht:~bzg/org-contrib
+	load-path = lisp
 [submodule "org-mime"]
 	path = lib/org-mime
 	url = git@github.com:org-mime/org-mime.git
