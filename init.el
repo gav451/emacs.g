@@ -510,28 +510,6 @@
   :hook
   ((LaTeX-mode org-mode prog-mode) . display-line-numbers-mode))
 
-(use-package eaf
-  :disabled
-  :when (not noninteractive)
-  :custom
-  (eaf-config-location (no-littering-expand-var-file-name "eaf"))
-  (eaf-find-file-ext-blacklist '("epub"))
-  :commands (eaf-open-jupyter
-             eaf-set)
-  :defer 2
-  :config
-  (eaf-set 'eaf-browser-download-path "~/tmpfs")
-  (eaf-set 'eaf-browser-enable-adblocker "true")
-  (eaf-set 'eaf-browser-remember-history "false")
-  (eaf-set 'eaf-jupyter-font-size "11")
-  (eaf-set 'eaf-terminal-dark-mode "false"))
-
-(use-package eaf-org
-  :disabled
-  :after (eaf org)
-  :commands (eaf-org-export-to-pdf-and-open
-             eaf-org-store-link))
-
 (use-package easy-kill
   ;; https://emacsredux.com/blog/2018/11/09/an-easy-kill/
   ;; https://emacsredux.com/blog/2019/01/10/the-emacs-year-in-review/

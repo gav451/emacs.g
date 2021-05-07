@@ -3,10 +3,6 @@
 [submodule "aas"]
 	path = lib/aas
 	url = git@github.com:ymarco/auto-activating-snippets.git
-[submodule "all-the-icons"]
-	disabled = true
-	path = lib/all-the-icons
-	url = git@github.com:domtronn/all-the-icons.el.git
 [submodule "async"]
 	path = lib/async
 	url = git@github.com:jwiegley/emacs-async.git
@@ -58,11 +54,6 @@
 [submodule "consult"]
 	path = lib/consult
 	url = git@github.com:minad/consult.git
-[submodule "ctable"]
-	disabled = true
-	path = lib/ctable
-	url = git@github.com:kiwanami/emacs-ctable.git
-	no-byte-compile = test-ctable.el
 [submodule "cython-mode"]
 	path = lib/cython-mode
 	url = git@github.com:emacsmirror/cython-mode.git
@@ -73,10 +64,6 @@
 [submodule "deadgrep"]
 	path = lib/deadgrep
 	url = git@github.com:Wilfred/deadgrep.git
-[submodule "deferred"]
-	disabled = true
-	path = lib/deferred
-	url = git@github.com:kiwanami/emacs-deferred.git
 [submodule "delight"]
 	path = lib/delight
 	url = https://git.savannah.nongnu.org/git/delight.git
@@ -89,13 +76,6 @@
 	no-byte-compile = dired-columns.el
 	no-byte-compile = dired-images.el
 	no-byte-compile = dired-tagsistant.el
-[submodule "eaf"]
-	disabled = true
-	path = lib/eaf
-	url = git@github.com:manateelazycat/emacs-application-framework.git
-	load-path = .
-	load-path = app/interleave
-	load-path = app/mindmap
 [submodule "easy-kill"]
 	path = lib/easy-kill
 	url = git@github.com:leoliu/easy-kill.git
@@ -132,10 +112,6 @@
 	build-step = make emms-auto.el emms-print-metadata
 	build-step = borg-byte-compile
 	build-step = borg-makeinfo
-[submodule "epc"]
-	disabled = true
-	path = lib/epc
-	url = git@github.com:kiwanami/emacs-epc.git
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git
