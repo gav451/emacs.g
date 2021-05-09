@@ -1588,10 +1588,6 @@ Enable it and re-execute it."
   (org-confirm-babel-evaluate nil)
   :commands (org-babel-execute-src-block))
 
-(use-package ob-julia
-  ;; https://stackoverflow.com/questions/52043705/emacs-org-babel-with-ob-julia-el-does-not-work-anymore-with-julia-v1-0
-  :custom (org-babel-julia-command inferior-julia-program))
-
 (use-package ob-jupyter
   :custom
   (org-babel-default-header-args:jupyter-python
