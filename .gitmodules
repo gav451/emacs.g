@@ -48,9 +48,6 @@
 [submodule "company"]
 	path = lib/company
 	url = git@github.com:company-mode/company-mode.git
-[submodule "company-org-roam"]
-	path = lib/company-org-roam
-	url = git@github.com:org-roam/company-org-roam.git
 [submodule "consult"]
 	path = lib/consult
 	url = git@github.com:minad/consult.git
@@ -273,14 +270,6 @@
 	path = lib/org-ref
 	url = git@github.com:jkitchin/org-ref.git
 	no-byte-compile = org-ref-ivy-cite.el
-[submodule "org-roam"]
-	path = lib/org-roam
-	url = git@github.com:org-roam/org-roam.git
-	info-path = doc
-[submodule "org-roam-bibtex"]
-	path = lib/org-roam-bibtex
-	url = git@github.com:org-roam/org-roam-bibtex.git
-	no-byte-compile = orb-ivy.el
 [submodule "packed"]
 	path = lib/packed
 	url = git@github.com:emacscollective/packed.git
