@@ -565,7 +565,6 @@ nil if not inside any parens."
      ("https://oremacs.com/atom.xml" o-krehel)
      ("https://planet.emacslife.com/atom.xml" planet-emacs)
      ("https://protesilaos.com/codelog.xml" p-stavrou)
-     ("https://realpython.com/atom.xml" python)
      ("https://sciencescitoyennes.org/feed/" sciences)
      ("https://updates.orgmode.org/feed/updates" org-updates)
      ("https://www.aclu.org/taxonomy/feed-term/2152/feed" aclu)
