@@ -819,13 +819,12 @@ point."
 
 (use-package ess-custom
   :custom
-  (inferior-julia-program (executable-find "julia"))
-  :demand t)
+  (inferior-julia-program (executable-find "julia")))
 
 (use-package ess-julia
   :mode ("\\.jl\\'" . ess-julia-mode)
-  :config
-  (setq inferior-julia-args "-i --color=yes"))
+  :custom
+  (inferior-julia-args "-i --color=yes"))
 
 (use-package eww
   ;; http://ergoemacs.org/emacs/emacs_eww_web_browser.html
