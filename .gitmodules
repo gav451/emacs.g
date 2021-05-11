@@ -153,9 +153,6 @@
 [submodule "geiser-guile"]
 	path = lib/geiser-guile
 	url = git@gitlab.com:emacs-geiser/guile.git
-[submodule "geiser-mit"]
-	path = lib/geiser-mit
-	url = git@gitlab.com:emacs-geiser/mit.git
 [submodule "geiser-racket"]
 	path = lib/geiser-racket
 	url = git@gitlab.com:emacs-geiser/racket.git
