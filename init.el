@@ -819,7 +819,8 @@ point."
 
 (use-package ess-custom
   :custom
-  (inferior-julia-program (executable-find "julia")))
+  (inferior-julia-program (executable-find "julia"))
+  :demand t)
 
 (use-package ess-julia
   :mode ("\\.jl\\'" . ess-julia-mode)
