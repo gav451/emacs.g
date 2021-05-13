@@ -59,35 +59,29 @@
 (require 'cl-lib)
 
 (defun org-latex-header-blocks-filter (backend)
-  (when (org-export-derived-backend-p backend 'latex)
-    (let ((positions
-	   (org-element-map (org-element-parse-buffer 'greater-element nil) 'export-block
-	     (lambda (block)
-	       (when (and (string= (org-element-property :type block) "LATEX")
-			  (string= (org-export-read-attribute
-				    :header block :header)
-				   "yes"))
-		 (list (org-element-property :begin block)
-		       (org-element-property :end block)
-		       (org-element-property :post-affiliated block)))))))
-      (mapc (lambda (pos)
-	      (goto-char (nth 2 pos))
-	      (cl-destructuring-bind
-		  (beg end &rest ignore)
-		  ;; FIXME: `org-edit-src-find-region-and-lang' was
-		  ;; removed in 9c06f8cce (2014-11-11).
-		  (org-edit-src-find-region-and-lang)
-		(let ((contents-lines (split-string
-				       (buffer-substring-no-properties beg end)
-				       "\n")))
-		  (delete-region (nth 0 pos) (nth 1 pos))
-		  (dolist (line contents-lines)
-		    (insert (concat "#+latex_header: "
-				    (replace-regexp-in-string "\\` *" "" line)
-				    "\n"))))))
-	    ;; go in reverse, to avoid wrecking the numeric positions
-	    ;; earlier in the file
-	    (reverse positions)))))
+    (when (org-export-derived-backend-p backend 'latex)
+      (let ((blocks
+	     (org-element-map (org-element-parse-buffer 'greater-element nil) 'export-block
+	       (lambda (block)
+	         (when (and (string= (org-element-property :type block) "LATEX")
+			    (string= (org-export-read-attribute
+				      :header block :header)
+				     "yes"))
+		   block)))))
+        (mapc (lambda (block)
+	        (goto-char (org-element-property :post-affiliated block))
+                (let ((contents-lines (split-string
+                                       (org-element-property :value block)
+                                       "\n")))
+                  (delete-region (org-element-property :begin block)
+                                 (org-element-property :end block))
+                  (dolist (line contents-lines)
+                    (insert (concat "#+latex_header: "
+                                    (replace-regexp-in-string "\\` *" "" line)
+                                    "\n")))))
+	      ;; go in reverse, to avoid wrecking the numeric positions
+	      ;; earlier in the file
+	      (reverse blocks)))))
 
 
 ;; During export headlines which have the "ignore" tag are removed
