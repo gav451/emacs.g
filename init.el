@@ -81,6 +81,8 @@
 (use-package no-littering
   :commands (no-littering-expand-etc-file-name
              no-littering-expand-var-file-name)
+  :init
+  (add-to-list 'load-path (no-littering-expand-etc-file-name "org-contrib"))
   :demand t)
 
 (use-package custom

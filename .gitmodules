@@ -251,6 +251,7 @@
 	info-path = doc
 	build-step = make compile autoloads info
 [submodule "org-contrib"]
+	disabled = true
 	path = lib/org-contrib
 	url = git@git.sr.ht:~bzg/org-contrib
 	load-path = lisp
