@@ -1673,21 +1673,12 @@ Enable it and re-execute it."
      ("normalem"             "ulem"         t)
      (""                     "capt-of"      nil)
      ("hyperfootnotes=false" "hyperref"     nil)))
-  (org-modules
-   (if (eq system-type 'darwin)
-       '(ol-bibtex
-         ol-eshell
-         ol-eww
-         ol-info
-         org-id
-         org-mac-link
-         org-protocol)
-     '(ol-bibtex
-       ol-eshell
-       ol-eww
-       ol-info
-       org-id
-       org-protocol)))
+  (org-modules (quote (ol-bibtex
+                       ol-doi
+                       ol-eww
+                       ol-info
+                       org-id
+                       org-protocol)))
   (org-src-fontify-natively t)
   (org-todo-keywords (quote ((sequence "TODO" "|" "DONE" "DEFERRED" "ZAPPED"))))
   (org-use-sub-superscripts '{})
