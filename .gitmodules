@@ -241,6 +241,9 @@
 [submodule "nov"]
 	path = lib/nov
 	url = https://depp.brause.cc/nov.el.git
+[submodule "ob-julia"]
+	path = lib/ob-julia
+	url = git@github.com:nico202/ob-julia.git
 [submodule "orderless"]
 	path = lib/orderless
 	url = git@github.com:oantolin/orderless.git
