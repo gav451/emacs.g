@@ -232,8 +232,15 @@
 
 (use-package bibtex-completion
   :custom
-  (bibtex-completion-bibliography '("~/VCS/research/refs.bib"))
-  (bibtex-completion-library-path '("~/VCS/research/papers"))
+  (bibtex-completion-bibliography (quote ("~/VCS/research/refs.bib")))
+  (bibtex-completion-format-citation-functions
+   (quote ((org-mode . bibtex-completion-format-citation-cite)
+           (latex-mode . bibtex-completion-format-citation-cite)
+           (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
+           (python-mode . bibtex-completion-format-citation-sphinxcontrib-bibtex)
+           (rst-mode . bibtex-completion-format-citation-sphinxcontrib-bibtex)
+           (default . bibtex-completion-format-citation-default))))
+  (bibtex-completion-library-path (quote ("~/VCS/research/papers")))
   (bibtex-completion-notes-path "~/VCS/research/notes/notes.org"))
 
 (use-package browse-url
@@ -1600,7 +1607,32 @@ Enable it and re-execute it."
      ("gm-nl" . "https://maps.google.nl/maps?q=%s")
      ("gm-us" . "https://maps.google.com/maps?q=%s")
      ;; Open street map.
-     ("omap" . "http://nominatim.openstreetmap.org/search?q=%s&polygon=1"))))
+     ("omap" . "http://nominatim.openstreetmap.org/search?q=%s&polygon=1")))
+  :config
+  (org-link-set-parameters
+   "ac*" :export (lambda (path _desc backend _info)
+                   (pcase backend
+                     (`latex
+                      (format "\\gls*{%s}" path))
+                     (_ path))))
+  (org-link-set-parameters
+   "cite" :export (lambda (path _desc backend _info)
+                    (pcase backend
+                      (`latex
+                       (format "\\cite{%s}" path))
+                      (_ path))))
+  (org-link-set-parameters
+   "label" :export (lambda (path _desc backend _info)
+                     (pcase backend
+                       (`latex
+                        (format "\\label{%s}" path))
+                       (_ path))))
+  (org-link-set-parameters
+   "ref" :export (lambda (path _desc backend _info)
+                   (pcase backend
+                     (`latex
+                      (format "\\ref{%s}" path))
+                     (_ path)))))
 
 (use-package org
   :preface
@@ -1777,14 +1809,16 @@ Enable it and re-execute it."
                "border-left: 2px solid gray; padding-left: 4px;"))))
 
 (use-package org-ref
-  :after org
-  :demand t)
+  :disabled
+  :after org)
 
 (use-package org-ref-bibtex
+  :disabled
   :bind ((:map org-mode-map
                ("C-c j" . org-ref-bibtex-hydra/body))))
 
 (use-package org-ref-core
+  :disabled
   :custom
   (org-ref-bibliography-notes "~/VCS/research/notes/notes.org")
   (org-ref-cite-color "LawnGreen")
@@ -1796,6 +1830,7 @@ Enable it and re-execute it."
                ("C-c ]" . org-ref-insert-link))))
 
 (use-package org-ref-glossary
+  :disabled
   :commands (or-follow-glossary)
   :config
   ;; Short-circuit org-ref-link-set-parameters in org-ref-utils:
