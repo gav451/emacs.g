@@ -76,6 +76,9 @@
 [submodule "easy-kill"]
 	path = lib/easy-kill
 	url = git@github.com:leoliu/easy-kill.git
+[submodule "ebib"]
+	path = lib/ebib
+	url = git@github.com:joostkremers/ebib.git
 [submodule "electric-operator"]
 	path = lib/electric-operator
 	url = git@github.com:davidshepherd7/electric-operator.git
