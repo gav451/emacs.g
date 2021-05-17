@@ -695,7 +695,7 @@ point."
 
 (use-package embark-consult
   :after (consult embark)
-  :hook ((embark-collect) . embark-consult-preview-minor-mode)
+  :hook ((embark-collect) . consult-preview-at-point-mode)
   :demand t)
 
 (use-package emms
