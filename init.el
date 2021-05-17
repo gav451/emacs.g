@@ -1622,6 +1622,12 @@ Enable it and re-execute it."
                        (format "\\cite{%s}" path))
                       (_ path))))
   (org-link-set-parameters
+   "eqref" :export (lambda (path _desc backend _info)
+                   (pcase backend
+                     (`latex
+                      (format "\\eqref{%s}" path))
+                     (_ path))))
+  (org-link-set-parameters
    "label" :export (lambda (path _desc backend _info)
                      (pcase backend
                        (`latex
