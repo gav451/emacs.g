@@ -526,6 +526,13 @@
   :bind (([remap kill-ring-save] . easy-kill)   ;; M-w
          ([remap mark-sexp] . easy-mark)))      ;; C-M-@
 
+(use-package ebib
+  :custom
+  (ebib-bib-search-dirs (backquote (,(expand-file-name "~/VCS/research/"))))
+  (ebib-preload-bib-files (quote ("refs.bib")))
+  :commands (ebib)
+  :demand t)
+
 (use-package eldoc
   :delight (eldoc-mode " 🛈"))
 
