@@ -360,7 +360,6 @@
          ("C-x 5 b" . consult-buffer-other-frame)
          ("C-x r x" . consult-register)
          ("C-x r b" . consult-bookmark)
-         ("C-y" . consult-yank-from-kill-ring)
          ;; M-g bindings (goto-map)
          ("M-g g" . consult-goto-line)
          ("M-g M-g" . consult-goto-line)
