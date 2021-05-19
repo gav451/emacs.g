@@ -233,13 +233,6 @@
 (use-package bibtex-completion
   :custom
   (bibtex-completion-bibliography (quote ("~/VCS/research/refs.bib")))
-  (bibtex-completion-format-citation-functions
-   (quote ((org-mode . bibtex-completion-format-citation-cite)
-           (latex-mode . bibtex-completion-format-citation-cite)
-           (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
-           (python-mode . bibtex-completion-format-citation-sphinxcontrib-bibtex)
-           (rst-mode . bibtex-completion-format-citation-sphinxcontrib-bibtex)
-           (default . bibtex-completion-format-citation-default))))
   (bibtex-completion-library-path (quote ("~/VCS/research/papers")))
   (bibtex-completion-notes-path "~/VCS/research/notes/notes.org"))
 
@@ -1615,6 +1608,7 @@ Enable it and re-execute it."
      ("gm-us" . "https://maps.google.com/maps?q=%s")
      ;; Open street map.
      ("omap" . "http://nominatim.openstreetmap.org/search?q=%s&polygon=1")))
+  :commands (org-link-set-parameters)
   :config
   (org-link-set-parameters
    "ac*" :export (lambda (path _desc backend _info)
@@ -1624,6 +1618,12 @@ Enable it and re-execute it."
                      (_ path))))
   (org-link-set-parameters
    "cite" :export (lambda (path _desc backend _info)
+                    (pcase backend
+                      (`latex
+                       (format "\\cite{%s}" path))
+                      (_ path))))
+  (org-link-set-parameters
+   "ebib" :export (lambda (path _desc backend _info)
                     (pcase backend
                       (`latex
                        (format "\\cite{%s}" path))
@@ -1736,7 +1736,6 @@ Enable it and re-execute it."
                ("M-q" . org-fill-paragraph)))
   :mode ((rx ".org" eos) . org-mode)
   :commands (org-insert-time-stamp
-             org-link-set-parameters
              org-narrow-to-block
              org-narrow-to-subtree)
   :init
