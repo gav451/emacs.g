@@ -529,8 +529,7 @@
   :custom
   (ebib-bib-search-dirs (backquote (,(expand-file-name "~/VCS/research/"))))
   (ebib-preload-bib-files (quote ("refs.bib")))
-  :commands (ebib)
-  :demand t)
+  :commands (ebib))
 
 (use-package eldoc
   :delight (eldoc-mode " 🛈"))
