@@ -1077,6 +1077,7 @@ initial input."
   (helm-use-frame-when-more-than-two-windows nil))
 
 (use-package helm-adaptive
+  :disabled
   ;; Works only with `helm-bookmark' and `helm-grep' out of the box.
   :unless noninteractive
   :after helm
