@@ -1821,43 +1821,6 @@ Enable it and re-execute it."
                "blockquote"
                "border-left: 2px solid gray; padding-left: 4px;"))))
 
-(use-package org-ref
-  :disabled
-  :after org)
-
-(use-package org-ref-bibtex
-  :disabled
-  :bind ((:map org-mode-map
-               ("C-c j" . org-ref-bibtex-hydra/body))))
-
-(use-package org-ref-core
-  :disabled
-  :custom
-  (org-ref-bibliography-notes "~/VCS/research/notes/notes.org")
-  (org-ref-cite-color "LawnGreen")
-  (org-ref-ref-color "OrangeRed")
-  (org-ref-label-color "DeepPink")
-  (org-ref-default-bibliography '("~/VCS/research/refs.bib"))
-  (org-ref-pdf-directory '("~/VCS/research/papers"))
-  :bind ((:map org-mode-map
-               ("C-c ]" . org-ref-insert-link))))
-
-(use-package org-ref-glossary
-  :disabled
-  :commands (or-follow-glossary)
-  :config
-  ;; Short-circuit org-ref-link-set-parameters in org-ref-utils:
-  (org-link-set-parameters "ac*"
-                           :follow #'or-follow-glossary
-                           :face 'org-ref-glossary-face
-                           :help-echo 'or-glossary-tooltip
-                           :export (lambda (path _ format)
-                                     (cond
-                                      ((eq format 'latex)
-                                       (format "\\gls*{%s}" path))
-                                      (t
-                                       (format "%s" path))))))
-
 (use-package org-table
   :commands (orgtbl-mode))
 
