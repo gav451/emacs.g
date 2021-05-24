@@ -911,6 +911,7 @@ initial input."
 (use-package exec-path-from-shell
   :if (and (eq system-type 'darwin) (display-graphic-p))
   :custom
+  (exec-path-from-shell-arguments '())
   (exec-path-from-shell-variables '("PATH"
                                     "MANPATH"
                                     "GPG_AGENT_INFO"
