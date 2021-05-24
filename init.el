@@ -915,9 +915,7 @@ initial input."
                                     "MANPATH"
                                     "GPG_AGENT_INFO"
                                     "SSH_AGENT_PID"
-                                    "SSH_AUTH_SOCK"
-                                    "PYENV_ROOT"
-                                    "PYENV_VERSION"))
+                                    "SSH_AUTH_SOCK"))
   :commands (exec-path-from-shell-initialize)
   :init
   (exec-path-from-shell-initialize)
@@ -1960,30 +1958,54 @@ Enable it and re-execute it."
     (advice-add command :after #'my-pulse-line)))
 
 (use-package python
+  :preface
+  (defun call-process-for-exit-code-and-stdout (program &rest args)
+    "Call PROGRAM with ARGS for a list of exit-code and stdout."
+    (with-temp-buffer
+      (list (apply 'call-process program nil t nil args)
+            (buffer-string))))
+
+  (defun pyenv-root ()
+    "Return \"pyenv root\" or nil."
+    (cl-destructuring-bind
+        (code text) (call-process-for-exit-code-and-stdout "pyenv" "root")
+      (if (= 0 code)
+          (car (split-string text))
+        nil)))
+
+  (defun pyenv-prefix ()
+    "Return \"pyenv prefix\" or nil."
+    (cl-destructuring-bind
+        (code text) (call-process-for-exit-code-and-stdout "pyenv" "prefix")
+      (if (= 0 code)
+          (car (split-string text))
+        nil)))
+
+  (defun pyenv-version-name ()
+    "Return \"pyenv version\" or nil."
+    (cl-destructuring-bind
+        (code text) (call-process-for-exit-code-and-stdout "pyenv" "version-name")
+      (if (= 0 code)
+          (car (split-string text))
+        nil)))
   :custom
   (python-shell-interpreter-args "-E -i")
   :interpreter ("python" . python-mode)
   :mode ((rx (seq ".py" (opt "w") eos)) . python-mode)
   :init
   (when (eq system-type 'darwin)
-    (let ((pyenv-root (getenv "PYENV_ROOT"))
-          (pyenv-version (getenv "PYENV_VERSION")))
-      (when (and pyenv-root pyenv-version)
+    (let ((prefix (pyenv-prefix))
+          (version-name (pyenv-version-name)))
+      (when (and prefix version-name)
         (setenv "IPYTHONDIR"
                 (expand-file-name
-                 (concat "~/.ipython-" pyenv-version)))
-        (setenv "JUPYTER_CONFIG_DIR"
-                (expand-file-name
-                 (concat pyenv-root "/versions/" pyenv-version "/etc/jupyter")))
-        (setenv "JUPYTER_DATA_DIR"
-                (expand-file-name
-                 (concat "~/.local/share/jupyter-" pyenv-version)))
+                 (concat "~/.ipython-" version-name)))
         (setenv "JUPYTER_PATH"
                 (expand-file-name
-                 (concat pyenv-root "/versions/" pyenv-version "/share/jupyter")))
+                 (concat prefix "/share/jupyter")))
         (setenv "JUPYTER_RUNTIME_DIR"
                 (expand-file-name
-                 (concat "~/tmpfs/jupyter-" pyenv-version))))))
+                 (concat "~/tmpfs/jupyter-" version-name))))))
   :delight (python-mode "🐍 " :major))
 
 (use-package rainbow-delimiters
