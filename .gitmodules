@@ -190,6 +190,7 @@
 	path = lib/htmlize
 	url = git@github.com:hniksic/emacs-htmlize.git
 [submodule "hydra"]
+	disabled = true
 	path = lib/hydra
 	url = git@github.com:abo-abo/hydra.git
 [submodule "iedit"]
