@@ -1991,6 +1991,7 @@ Enable it and re-execute it."
         nil)))
   :custom
   (python-shell-interpreter-args "-E -i")
+  (python-indent-guess-indent-offset nil)
   :interpreter ("python" . python-mode)
   :mode ((rx (seq ".py" (opt "w") eos)) . python-mode)
   :init
