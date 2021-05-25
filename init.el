@@ -1243,7 +1243,7 @@ WITH-TYPES, if non-nil, ask for file types to search in."
 (use-package hl-line
   :hook
   ((Info-mode elfeed-show-mode emms-playlist-mode) . hl-line-mode)
-  ((help-mode magit-status-mode special-mode) . hl-line-mode))
+  ((eww-mode help-mode magit-status-mode special-mode) . hl-line-mode))
 
 (use-package hydra
   :disabled
