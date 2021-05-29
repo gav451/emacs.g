@@ -375,10 +375,6 @@
   :init
   (fset 'multi-occur #'consult-multi-occur))
 
-(use-package consult-flycheck
-  :bind (:map flycheck-command-map
-              ("!" . consult-flycheck)))
-
 (use-package crm
   :init
   (defun crm-indicator (args)
