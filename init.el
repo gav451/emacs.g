@@ -389,7 +389,6 @@
   :mode ((rx (seq ".py" (any "xdi") eos)) . cython-mode))
 
 (use-package dash
-  :commands (-flatten)
   :hook
   ((emacs-lisp-mode ielm-mode lisp-interaction-mode) . dash-fontify-mode))
 
