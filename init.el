@@ -221,15 +221,6 @@
   :hook ((dired-mode) . auto-revert-mode)
   :delight (auto-revert-mode))
 
-(use-package avy
-  :disabled
-  :custom
-  (avy-all-windows t)
-  :commands (avy-setup-default)
-  :bind* (("C-:" . avy-goto-word-1))
-  :init
-  (avy-setup-default))
-
 (use-package bibtex-completion
   :custom
   (bibtex-completion-bibliography (quote ("~/VCS/research/refs.bib")))
@@ -1239,108 +1230,6 @@ WITH-TYPES, if non-nil, ask for file types to search in."
   :hook
   ((Info-mode elfeed-show-mode emms-playlist-mode) . hl-line-mode)
   ((eww-mode help-mode magit-status-mode special-mode) . hl-line-mode))
-
-(use-package hydra
-  :disabled
-  ;; http://oremacs.com/2016/04/04/hydra-doc-syntax/
-  :unless noninteractive
-  :custom
-  (hydra-verbose t)
-  :commands (hydra--call-interactively-remap-maybe
-             hydra-add-font-lock
-             hydra-default-pre
-             hydra-keyboard-quit
-             hydra-set-transient-map
-             hydra-show-hint)
-  :init
-  (bind-key*
-   "C-z C-r"
-   (defhydra hydra-rectangle (:body-pre (rectangle-mark-mode 1)
-                                        :color pink
-                                        :post (deactivate-mark))
-     "
-^^^^        [_k_] kill               [_c_] clear    [_N_] number-lines
-  ^_p_^     [_w_] copy-as-kill       [_d_] delete   [_m_] toggle-mark
-_b_   _f_   [_y_] yank               [_o_] open     [_x_] exchange-point-mark
-  ^_n_^     [_r_] copy-to-register   [_t_] string
-^^^^        [_g_] insert-register    [_u_] undo     [_C-g_] quit
-"
-     ("b" backward-char nil)
-     ("f" forward-char nil)
-     ("p" previous-line nil)
-     ("n" next-line nil)
-
-     ("k" kill-rectangle nil)             ;; C-x r k
-     ("w" copy-rectangle-as-kill nil)     ;; C-x r M-w
-     ("y" yank-rectangle nil)             ;; C-x r y
-     ("r" copy-rectangle-to-register nil) ;; C-x r r
-     ("g" insert-register nil)            ;; C-x r g
-
-     ("c" clear-rectangle nil)  ;; C-x r c
-     ("d" delete-rectangle nil) ;; C-x r d
-     ("o" open-rectangle nil)   ;; C-x r o
-     ("t" string-rectangle nil) ;; C-x r t
-     ("u" undo nil)
-
-     ("N" rectangle-number-lines nil) ;; C-x r N
-     ("m" (if (region-active-p)
-              (deactivate-mark)
-            (rectangle-mark-mode 1)) nil)
-     ("x" exchange-point-and-mark nil) ;; C-x C-x
-
-     ("C-g" nil nil :color blue)))
-  (bind-key*
-   "C-z C-t"
-   (defhydra hydra-toggle-mode (:color pink :hint none)
-     "
-_a_  ?a? auto-fill             _ii_ ?ii? iimage           _vl_ ?vl? visual-line
-_c_  ?c? column-number         _it_ ?it? indent-tabs      _vm_ ?vm? view-mode
-_d_  ?d? display-line-numbers  _o_  ?o? org-table        _wg_ ?wg? writegood
-_fc_ ?fc? flycheck              _r_  ?r? read-only        _wk_ ?wk? which-key
-_fl_ ?fl? font-lock             _s_  ?s? smartparens      _ws_ ?ws? white-space
-_fs_ ?fs? flyspell
-_g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
-"
-     ("a" #'auto-fill-mode
-      (if (bound-and-true-p auto-fill-function) "[X]" "[ ]"))
-     ("c" #'column-number-mode
-      (if (bound-and-true-p column-number-mode) "[X]" "[ ]"))
-     ("d" #'display-line-numbers-mode
-      (if (bound-and-true-p display-line-numbers-mode) "[X]" "[ ]"))
-     ("fc" #'flycheck-mode
-      (if (bound-and-true-p flycheck-mode) "[X]" "[ ]"))
-     ("fl" #'font-lock-mode
-      (if (bound-and-true-p font-lock-mode) "[X]" "[ ]"))
-     ("fs" #'flyspell-mode
-      (if (bound-and-true-p flyspell-mode) "[X]" "[ ]"))
-     ("g" #'my-toggle-goto-address-dwim-mode
-      (if (or (bound-and-true-p goto-address-prog-mode)
-              (bound-and-true-p goto-address-mode)) "[X]" "[ ]"))
-     ("ii" #'iimage-mode
-      (if (bound-and-true-p iimage-mode) "[X]" "[ ]"))
-     ("it" (setq indent-tabs-mode (not (bound-and-true-p indent-tabs-mode)))
-      (if (bound-and-true-p indent-tabs-mode) "[X]" "[ ]"))
-     ("o" #'orgtbl-mode
-      (if (bound-and-true-p orgtbl-mode) "[X]" "[ ]"))
-     ("r" #'read-only-mode
-      (if (bound-and-true-p buffer-read-only) "[X]" "[ ]"))
-     ("s" #'smartparens-mode
-      (if (bound-and-true-p smartparens-mode) "[X]" "[ ]"))
-     ("tl" #'toggle-truncate-lines
-      (if (bound-and-true-p truncate-lines) "[X]" "[ ]"))
-     ("vl" #'visual-line-mode
-      (if (bound-and-true-p visual-line-mode) "[X]" "[ ]"))
-     ("vm" #'view-mode
-      (if (bound-and-true-p view-mode) "[X]" "[ ]"))
-     ("wg" #'writegood-mode
-      (if (bound-and-true-p writegood-mode) "[X]" "[ ]"))
-     ("wk" #'which-key-mode
-      (if (bound-and-true-p which-key-mode) "[X]" "[ ]"))
-     ("ws" #'whitespace-mode
-      (if (bound-and-true-p whitespace-mode) "[X]" "[ ]"))
-     ("C-g" nil nil :color blue)))
-  :config
-  (hydra-add-font-lock))
 
 (use-package ibuf-ext
   :after ibuffer

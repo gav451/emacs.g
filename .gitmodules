@@ -19,9 +19,6 @@
 [submodule "auto-compile"]
 	path = lib/auto-compile
 	url = git@github.com:emacscollective/auto-compile.git
-[submodule "avy"]
-	path = lib/avy
-	url = git@github.com:abo-abo/avy.git
 [submodule "biblio"]
 	path = lib/biblio
 	url = git@github.com:cpitclaudel/biblio.el.git
@@ -189,10 +186,6 @@
 [submodule "htmlize"]
 	path = lib/htmlize
 	url = git@github.com:hniksic/emacs-htmlize.git
-[submodule "hydra"]
-	disabled = true
-	path = lib/hydra
-	url = git@github.com:abo-abo/hydra.git
 [submodule "iedit"]
 	path = lib/iedit
 	url = git@github.com:victorhge/iedit.git
