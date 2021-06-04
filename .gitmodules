@@ -199,9 +199,6 @@
 [submodule "julia-mode"]
 	path = lib/julia-mode
 	url = git@github.com:JuliaEditorSupport/julia-emacs.git
-[submodule "jupyter"]
-	path = lib/jupyter
-	url = git@github.com:nnicandro/emacs-jupyter.git
 [submodule "keycast"]
 	path = lib/keycast
 	url = git@github.com:tarsius/keycast.git
@@ -355,9 +352,6 @@
 [submodule "vertico"]
 	path = lib/vertico
 	url = git@github.com:minad/vertico.git
-[submodule "websocket"]
-	path = lib/websocket
-	url = git@github.com:ahyatt/emacs-websocket.git
 [submodule "wgrep"]
 	path = lib/wgrep
 	url = git@github.com:mhayashi1120/Emacs-wgrep.git
@@ -383,10 +377,6 @@
 [submodule "yasnippet"]
 	path = lib/yasnippet
 	url = git@github.com:joaotavora/yasnippet.git
-[submodule "zmq"]
-	path = lib/zmq
-	url = git@github.com:nnicandro/emacs-zmq.git
-	build-step = make
 [submodule "zop-to-char"]
 	path = lib/zop-to-char
 	url = git@github.com:thierryvolpiatto/zop-to-char.git

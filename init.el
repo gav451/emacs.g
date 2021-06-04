@@ -1427,20 +1427,6 @@ _g_  ?g? goto-address          _tl_ ?tl? truncate-lines   _C-g_  quit
   (lazy-count-prefix-format "%s/%s ")
   (lazy-highlight-cleanup t))
 
-(use-package jupyter-repl
-  ;; Looks nice with 'c.interactive.colors = "Linux"' in
-  ;; ipython_kernel_config.py.
-  :custom-face
-  (jupyter-repl-input-prompt
-   ((((class color) (background dark)) :foreground "LightGreen")
-    (((class color) (background light)) :foreground "DarkGreen")))
-  (jupyter-repl-output-prompt
-   ((((class color) (background dark)) :foreground "OrangeRed")
-    (((class color) (background light)) :foreground "VioletRed")))
-  (jupyter-repl-traceback
-   ((((class color) (background dark)) :background "DimGrey")
-    (((class color) (background light)) :background "LightGrey"))))
-
 (use-package keycast
   :custom
   (keycast-window-predicate 'keycast-active-frame-bottom-right-p))
@@ -1572,16 +1558,6 @@ Enable it and re-execute it."
   (org-confirm-babel-evaluate nil)
   :commands (org-babel-execute-src-block))
 
-(use-package ob-jupyter
-  :custom
-  (org-babel-default-header-args:jupyter-python
-   (quote ((:async . "yes")
-           (:eval . "noexport")
-           (:exports . "both")
-           (:hlines . "no")
-           (:kernel . "python3")
-           (:session . "py")))))
-
 (use-package ob-lisp
   :custom
   (org-babel-lisp-eval-fn #'sly-eval))
@@ -1674,8 +1650,6 @@ Enable it and re-execute it."
 
   :custom
   (org-adapt-indentation nil)
-  ;; See jupyter's README: jupyter must be the last item, since it
-  ;; depends on other languages.
   (org-babel-load-languages (quote ((calc . t)
                                     (emacs-lisp . t)
                                     (eshell . t)
@@ -1995,13 +1969,7 @@ Enable it and re-execute it."
       (when (and prefix version-name)
         (setenv "IPYTHONDIR"
                 (expand-file-name
-                 (concat "~/.ipython-" version-name)))
-        (setenv "JUPYTER_PATH"
-                (expand-file-name
-                 (concat prefix "/share/jupyter")))
-        (setenv "JUPYTER_RUNTIME_DIR"
-                (expand-file-name
-                 (concat "~/tmpfs/jupyter-" version-name))))))
+                 (concat "~/.ipython-" version-name))))))
   :delight (python-mode "🐍 " :major))
 
 (use-package rainbow-delimiters
