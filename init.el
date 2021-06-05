@@ -626,23 +626,26 @@ nil if not inside any parens."
   (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update))
 
 (use-package elpy
-  ;; https://github.com/davidhalter/jedi/issues/1085
-  ;; https://github.com/jorgenschaefer/elpy/issues/1115
-  ;; https://github.com/jorgenschaefer/elpy/issues/1123
-  ;; https://github.com/jorgenschaefer/elpy/pull/1279
   :after python
   :commands (elpy-enable)
   :custom
   (elpy-company-post-completion-function 'elpy-company-post-complete-parens)
-  (elpy-modules '(elpy-module-sane-defaults
-                  elpy-module-company
-                  elpy-module-eldoc))
+  (elpy-modules (quote (elpy-module-sane-defaults
+                        elpy-module-company
+                        elpy-module-eldoc)))
+  (elpy-project-root-finder-functions (quote (elpy-project-find-projectile-root
+                                              elpy-project-find-python-root
+                                              elpy-project-find-git-root
+                                              elpy-project-find-hg-root)))
   (elpy-remove-modeline-lighter nil)
   :init
   (elpy-enable)
   :delight (elpy-mode " 🐍"))
 
 (use-package elpy-rpc
+  ;; https://github.com/jorgenschaefer/elpy/issues/1115
+  ;; https://github.com/jorgenschaefer/elpy/issues/1123
+  ;; https://github.com/jorgenschaefer/elpy/pull/1279
   :preface
   (defcustom elpy-no-get-completions-rx
     "-?\\([0-9]+\\.?[0-9]*\\|0[Bb][01]+\\|0[Oo][0-8]+\\|0[Xx][0-9A-Fa-f]+\\)"
