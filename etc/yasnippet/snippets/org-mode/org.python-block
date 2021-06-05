@@ -1,6 +1,6 @@
 # name: python block
 # key: <py
 # --
-#+begin_src python :eval no-export
+#+begin_src python :eval no-export :session :async
 $0
 #+end_src
