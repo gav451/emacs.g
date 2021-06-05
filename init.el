@@ -203,16 +203,6 @@
   ((TeX-after-compilation-finished-functions)
    . TeX-revert-document-buffer))
 
-(use-package tex-site
-  ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
-  ;; https://gitlab.com/jabranham/emacs
-  ;; I use AUCTeX, since it is better than the built in tex mode.
-  ;; Tweak the ./configure build-step in .gitmodules to make the git
-  ;; repository resemble those in the elpa package.
-  ;; Do not require auctex, since auctex.el provides no feature
-  ;; 'auctex'.
-  :demand t)
-
 ;; alphabetical order
 (use-package aas
   :commands (aas-set-snippets))
