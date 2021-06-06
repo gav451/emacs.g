@@ -102,6 +102,7 @@
 [submodule "embark"]
 	path = lib/embark
 	url = git@github.com:oantolin/embark.git
+	no-byte-compile = avy-embark-collect.el
 [submodule "emms"]
 	path = lib/emms
 	url = https://git.savannah.gnu.org/git/emms.git
