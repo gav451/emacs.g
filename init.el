@@ -495,6 +495,7 @@
          ([remap mark-sexp] . easy-mark)))      ;; C-M-@
 
 (use-package ebib
+  :disabled
   :custom
   (ebib-bib-search-dirs (backquote (,(expand-file-name "~/VCS/research/"))))
   (ebib-preload-bib-files (quote ("refs.bib")))
@@ -1471,12 +1472,6 @@ Enable it and re-execute it."
                      (_ path))))
   (org-link-set-parameters
    "cite" :export (lambda (path _desc backend _info)
-                    (pcase backend
-                      (`latex
-                       (format "\\cite{%s}" path))
-                      (_ path))))
-  (org-link-set-parameters
-   "ebib" :export (lambda (path _desc backend _info)
                     (pcase backend
                       (`latex
                        (format "\\cite{%s}" path))

@@ -74,6 +74,7 @@
 	path = lib/easy-kill
 	url = git@github.com:leoliu/easy-kill.git
 [submodule "ebib"]
+	disabled = true
 	path = lib/ebib
 	url = git@github.com:joostkremers/ebib.git
 [submodule "electric-operator"]
@@ -300,7 +301,6 @@
 	path = lib/simple-httpd
 	url = git@github.com:skeeto/emacs-web-server.git
 [submodule "sly"]
-	disabled = false
 	path = lib/sly
 	info-path = doc
 	load-path = .
