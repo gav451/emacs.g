@@ -2126,6 +2126,9 @@ even if buffer is already narrowed."
   :hook ((org-mode) . toc-org-mode))
 
 (use-package tramp
+  ;; (info "(tramp) File name syntax")
+  ;; /scp:user@host#port:path/to/file
+  ;; /ssh:user@host#port:path/to/file
   :config
   (add-to-list 'tramp-default-proxies-alist '(nil "\\`root\\'" "/ssh:%h:"))
   (add-to-list 'tramp-default-proxies-alist '("localhost" nil nil))
@@ -2162,7 +2165,7 @@ even if buffer is already narrowed."
   (vertico-mode +1)
   (use-package orderless
     :init
-    (setq completion-styles '(orderless)
+    (setq completion-styles '(basic orderless)
           completion-category-defaults nil
           completion-category-overrides '((file (styles . (partial-completion)))))
     :demand t))
