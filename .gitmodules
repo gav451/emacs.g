@@ -118,6 +118,7 @@
 	path = lib/ess
 	url = git@github.com:emacs-ess/ESS.git
 	info-path = doc
+	build-step = borg-byte-compile
 	build-step = borg-makeinfo
 [submodule "esxml"]
 	path = lib/esxml
