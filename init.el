@@ -889,6 +889,7 @@ initial input."
   (advice-add 'eww-back-url :after #'my-eww-add-to-history))
 
 (use-package exec-path-from-shell
+  :disabled
   :if (and (eq system-type 'darwin) (display-graphic-p))
   :custom
   (exec-path-from-shell-arguments '())

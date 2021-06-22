@@ -128,6 +128,7 @@
 	no-byte-compile = esxml-html.el
 	no-byte-compile = esxpath.el
 [submodule "exec-path-from-shell"]
+	disabled = true
 	path = lib/exec-path-from-shell
 	url = git@github.com:purcell/exec-path-from-shell.git
 [submodule "f"]
