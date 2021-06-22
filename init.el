@@ -1322,7 +1322,13 @@ WITH-TYPES, if non-nil, ask for file types to search in."
   (aas-set-snippets 'laas-mode
                     "he3 " "\\\(^{3}\\\)He"
                     "he34" "\\\(^{3}\\\)He-\\\(^{4}\\\)He"
-                    "he4 " "\\\(^{4}\\\)He"))
+                    "he4 " "\\\(^{4}\\\)He")
+  (defun toggle-laas-smart-fraction ()
+    (interactive)
+    (when laas-mode
+      (if (lookup-key (gethash 'laas-mode aas-keymaps) "/")
+          (apply #'aas-set-snippets 'laas-mode (quote ("/" nil)))
+        (apply #'aas-set-snippets 'laas-mode laas-frac-snippet)))))
 
 (use-package macrostep
   :bind ((:map emacs-lisp-mode-map
