@@ -1542,6 +1542,10 @@ Enable it and re-execute it."
 
   :custom
   (org-adapt-indentation nil)
+  (org-babel-latex-pdf-svg-process "dvisvgm %f -P -n -b min -o %O")
+  (org-babel-latex-preamble (lambda (_)
+                              "\\documentclass[preview]{standalone}
+"))
   (org-babel-load-languages (quote ((calc . t)
                                     (dot . t)
                                     (emacs-lisp . t)
@@ -1712,18 +1716,10 @@ Enable it and re-execute it."
   :after ox
   :custom
   (org-latex-caption-above nil)
-  (org-latex-compiler "pdflatex")
+  (org-latex-compiler "lualatex")
   (org-latex-hyperref-template nil)
   (org-latex-listings 'minted)
   (org-latex-logfiles-extensions '("blg" "lof" "log" "lot" "out" "toc"))
-  (org-latex-pdf-process
-   (mapconcat
-    (function identity)
-    (list "latexmk"
-          "-pdflatex='pdflatex -shell-escape -interaction nonstopmode'"
-          "-pdf -bibtex -f %f")
-    " "))
-  ;; Requires CUSTOM_ID property to suppress LaTeX section labels.
   (org-latex-prefer-user-labels t)
   :demand t
   :config
