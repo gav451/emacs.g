@@ -360,7 +360,7 @@
   :init
   (defun crm-indicator (args)
     (cons (concat "[CRM] " (car args)) (cdr args)))
-  (advice-add #'completing-read-multiple :filter-args 'crm-indicator))
+  (advice-add 'completing-read-multiple :filter-args #'crm-indicator))
 
 (use-package cython-mode
   :mode ((rx (seq ".py" (any "xdi") eos)) . cython-mode))
