@@ -726,15 +726,20 @@ point."
   (emms-playlist-mode-center-when-go t))
 
 (use-package emms-setup
-  :commands (emms-all)
-  :defer 2
-  :config
-  (emms-all))
+  :commands (emms-all))
 
 (use-package emms-streams
+  :preface
+  (defun my-emms-setup ()
+    (unless (featurep 'emms-setup)
+      (require 'emms-setup)
+      (emms-all)))
   :custom
   ;; Move `emms-streams-file' to `etc' instead of default `var'.
-  (emms-streams-file (no-littering-expand-etc-file-name "emms/streams.el")))
+  (emms-streams-file (no-littering-expand-etc-file-name "emms/streams.el"))
+  :commands (emms-streams)
+  :init
+  (advice-add 'emms-streams :before #'my-emms-setup))
 
 (use-package epg-config
   :custom
