@@ -1040,6 +1040,9 @@ initial input."
                 "gsettings list-recursively org.gnome.GPaste"))
     (gpastel-mode)))
 
+(use-package graphviz-dot-mode
+  :mode (((rx (seq "." (or "dot" "gv") eos)) . graphviz-dot-mode)))
+
 (use-package haskell-mode
   ;; https://github.com/jwiegley/dot-emacs/blob/master/init.el
   :mode (((rx (seq ".cabal" eos)) . haskell-cabal-mode)
@@ -1535,6 +1538,7 @@ Enable it and re-execute it."
   :custom
   (org-adapt-indentation nil)
   (org-babel-load-languages (quote ((calc . t)
+                                    (dot . t)
                                     (emacs-lisp . t)
                                     (eshell . t)
                                     (gnuplot . t)
