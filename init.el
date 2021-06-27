@@ -357,10 +357,11 @@
   (fset 'multi-occur #'consult-multi-occur))
 
 (use-package crm
-  :init
-  (defun crm-indicator (args)
+  :preface
+  (defun my-crm-indicator (args)
     (cons (concat "[CRM] " (car args)) (cdr args)))
-  (advice-add 'completing-read-multiple :filter-args #'crm-indicator))
+  :init
+  (advice-add 'completing-read-multiple :filter-args #'my-crm-indicator))
 
 (use-package cython-mode
   :mode ((rx (seq ".py" (any "xdi") eos)) . cython-mode))
@@ -1426,6 +1427,9 @@ WITH-TYPES, if non-nil, ask for file types to search in."
     (mail-envelope-from 'header)
     (sendmail-program (executable-find "msmtp"))))
 
+(use-package minibuffer
+  :commands (minibuffer-hide-completions))
+
 (use-package modus-themes
   :commands (modus-themes-load-themes
              modus-themes-load-vivendi)
@@ -1602,7 +1606,8 @@ Enable it and re-execute it."
   :mode ((rx ".org" eos) . org-mode)
   :commands (org-insert-time-stamp
              org-narrow-to-block
-             org-narrow-to-subtree)
+             org-narrow-to-subtree
+             org-tags-completion-function)
   :init
   (add-hook
    'org-mode-hook
@@ -1684,6 +1689,12 @@ Enable it and re-execute it."
               (org-mime-change-element-style
                "blockquote"
                "border-left: 2px solid gray; padding-left: 4px;"))))
+
+(use-package org-refile
+  :custom
+  ;; vertico/README.org
+  (org-outline-path-complete-in-steps nil)
+  (org-refile-use-outline-path 'file))
 
 (use-package org-table
   :commands (orgtbl-mode))
@@ -2171,6 +2182,12 @@ even if buffer is already narrowed."
                      (executable-find "hg"))))
 
 (use-package vertico
+  :preface
+  (defun my-disable-selection ()
+    (when (eq minibuffer-completion-table #'org-tags-completion-function)
+      (setq-local vertico-map minibuffer-local-completion-map
+                  completion-cycle-threshold nil
+                  completion-styles '(basic))))
   :commands (vertico-mode)
   :init
   (vertico-mode +1)
@@ -2179,7 +2196,11 @@ even if buffer is already narrowed."
     (setq completion-styles '(basic orderless)
           completion-category-defaults nil
           completion-category-overrides '((file (styles . (partial-completion)))))
-    :demand t))
+    :demand t)
+  :config
+  ;; vertico/README.org
+  (advice-add 'tmm-add-prompt :after #'minibuffer-hide-completions)
+  (advice-add 'vertico--setup :before #'my-disable-selection))
 
 (use-package view
   ;; https://gist.github.com/ivan-krukov/63a586f2121519ca51b201c634402a84
