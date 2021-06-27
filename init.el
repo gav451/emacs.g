@@ -2157,8 +2157,7 @@ even if buffer is already narrowed."
 (use-package uniquify
   ;; https://github.com/yiufung/dot-emacs/blob/master/init.el
   :custom
-  (uniquify-buffer-name-style 'forward)
-  :defer 2)
+  (uniquify-buffer-name-style 'forward))
 
 (use-package url-cookie
   ;; https://alexschroeder.ch/wiki/2020-07-16_Emacs_everything
@@ -2234,13 +2233,11 @@ even if buffer is already narrowed."
 (use-package yasnippet
   :custom
   (yas-alias-to-yas/prefix-p nil)
-  :commands (yas-expand-from-trigger-key
-             yas-global-mode)
-  :defer 2
+  :commands (yas-global-mode)
   ;; I fail to use alternative keys in yas-keymap and yas-minor-mode-map as explained in
   ;; https://github.com/capitaomorte/yasnippet/blob/master/doc/faq.org.
   ;; However, everything works fine, sofar.
-  :config
+  :init
   (yas-global-mode 1)
   :delight (yas-minor-mode " ✀"))
 
