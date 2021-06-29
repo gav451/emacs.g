@@ -157,24 +157,9 @@
   (reftex-plug-into-AUCTeX t))
 
 (use-package tex
-  :functions (TeX-in-comment)
-  :custom
-  (TeX-auto-local ".auctex-auto-local")
-  (TeX-auto-save t)
-  (TeX-complete-expert-commands t)
-  (TeX-electric-escape nil)
-  (TeX-electric-math '("\\(" . "\\)"))
-  (TeX-electric-sub-and-superscript t)
-  (TeX-engine 'luatex)
-  (TeX-master t)
-  (TeX-parse-self t)
-  (TeX-source-correlate-method 'synctex)
-  (TeX-source-correlate-mode t)
-  :hook ((LaTeX-mode) . TeX-PDF-mode)
-  :commands (TeX-doc)
-  :config
+  :preface
   ;; https://emacs.stackexchange.com/questions/17396/indentation-in-square-brackets
-  (defun TeX-brace-count-line ()
+  (defun my-TeX-brace-count-line ()
     "Count number of open/closed braces."
     (save-excursion
       (let ((count 0) (limit (line-end-position)) char)
@@ -195,7 +180,25 @@
                           (when (< (point) limit)
                             (forward-char)
                             t))))))
-        count))))
+        count)))
+  :functions (TeX-in-comment)
+  :custom
+  (TeX-auto-local ".auctex-auto-local")
+  (TeX-auto-save t)
+  (TeX-complete-expert-commands t)
+  (TeX-electric-escape nil)
+  (TeX-electric-math '("\\(" . "\\)"))
+  (TeX-electric-sub-and-superscript t)
+  (TeX-engine 'luatex)
+  (TeX-master t)
+  (TeX-parse-self t)
+  (TeX-source-correlate-method 'synctex)
+  (TeX-source-correlate-mode t)
+  :hook ((LaTeX-mode) . TeX-PDF-mode)
+  :commands (TeX-doc)
+  :demand t
+  :init
+  (advice-add 'TeX-brace-count-line :override #'my-TeX-brace-count-line))
 
 (use-package tex-buf
   :after tex-site
