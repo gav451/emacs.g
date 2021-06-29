@@ -558,7 +558,9 @@ nil if not inside any parens."
      ("https://www.democracynow.org/podcast-video.xml" dn)
      ("https://www.laquadrature.net/fr/rss.xml" lqdn)
      ("https://www.lemonde.fr/blog/huet/feed/" sciences)))
-  :bind* (("C-x w" . elfeed)))
+  :bind* (("C-x w" . elfeed))
+  :init
+  (advice-add 'elfeed :before #'my-emms-setup))
 
 (use-package elfeed-search
   :preface
