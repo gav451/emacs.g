@@ -1879,7 +1879,8 @@ Enable it and re-execute it."
 
 (use-package rainbow-delimiters
   :hook
-  ((bibtex-mode prog-mode text-mode) . rainbow-delimiters-mode))
+  ;; Flags false unpaired delimiters in org-mode source blocks.
+  ((LaTeX-mode bibtex-mode prog-mode) . rainbow-delimiters-mode))
 
 (use-package rainbow-mode
   :custom
@@ -1891,7 +1892,7 @@ Enable it and re-execute it."
                                       java-mode))
   :hook
   ((emacs-lisp-mode ielm-mode) . rainbow-mode)
-  ((latex-mode lisp-interaction-mode) . rainbow-mode)
+  ((LaTeX-mode lisp-interaction-mode) . rainbow-mode)
   :delight (rainbow-mode " 🌈"))
 
 (use-package recentf
