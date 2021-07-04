@@ -629,7 +629,8 @@ nil if not inside any parens."
   (elpy-company-post-completion-function 'elpy-company-post-complete-parens)
   (elpy-modules (quote (elpy-module-sane-defaults
                         elpy-module-company
-                        elpy-module-eldoc)))
+                        elpy-module-eldoc
+                        elpy-module-pyvenv)))
   (elpy-project-root-finder-functions (quote (elpy-project-find-projectile-root
                                               elpy-project-find-python-root
                                               elpy-project-find-git-root
@@ -1876,6 +1877,11 @@ Enable it and re-execute it."
                 (expand-file-name
                  (concat "~/.ipython-" version-name))))))
   :delight (python-mode "🐍 " :major))
+
+(use-package pyvenv
+  :commands (pyvenv-activate)
+  :config
+  (pyvenv-activate (expand-file-name "~/.pyenv/versions/3.9.6/envs/python-3.9.6")))
 
 (use-package rainbow-delimiters
   :hook
