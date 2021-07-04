@@ -1833,6 +1833,14 @@ Enable it and re-execute it."
     (advice-add command :after #'my-pulse-line)))
 
 (use-package python
+  :custom
+  (python-shell-interpreter-args "-E -i")
+  (python-indent-guess-indent-offset nil)
+  :interpreter ("python" . python-mode)
+  :mode ((rx (seq ".py" (opt "w") eos)) . python-mode)
+  :delight (python-mode "🐍 " :major))
+
+(use-package pyvenv
   :preface
   (defun call-process-for-exit-code-and-stdout (program &rest args)
     "Call PROGRAM with ARGS for a list of exit-code and stdout."
@@ -1857,31 +1865,29 @@ Enable it and re-execute it."
         nil)))
 
   (defun pyenv-version-name ()
-    "Return \"pyenv version\" or nil."
+    "Return \"pyenv version-name\" or nil."
     (cl-destructuring-bind
         (code text) (call-process-for-exit-code-and-stdout "pyenv" "version-name")
       (if (= 0 code)
           (car (split-string text))
         nil)))
-  :custom
-  (python-shell-interpreter-args "-E -i")
-  (python-indent-guess-indent-offset nil)
-  :interpreter ("python" . python-mode)
-  :mode ((rx (seq ".py" (opt "w") eos)) . python-mode)
-  :init
-  (when (eq system-type 'darwin)
-    (let ((prefix (pyenv-prefix))
-          (version-name (pyenv-version-name)))
-      (when (and prefix version-name)
-        (setenv "IPYTHONDIR"
-                (expand-file-name
-                 (concat "~/.ipython-" version-name))))))
-  :delight (python-mode "🐍 " :major))
 
-(use-package pyvenv
+  (defun pyenv-virtualenv-prefix ()
+    "Return \"pyenv virtualenv-prefix\" or nil."
+    (cl-destructuring-bind
+        (code text) (call-process-for-exit-code-and-stdout "pyenv" "virtualenv-prefix")
+      (if (= 0 code)
+          (car (split-string text))
+        nil)))
   :commands (pyvenv-activate)
   :config
-  (pyvenv-activate (expand-file-name "~/.pyenv/versions/3.9.6/envs/python-3.9.6")))
+  (pyvenv-activate (expand-file-name (pyenv-prefix)))
+  (when (eq system-type 'darwin)
+    (let ((version (file-name-nondirectory (pyenv-virtualenv-prefix))))
+      (when version
+        (setenv "IPYTHONDIR"
+                (expand-file-name
+                 (concat "~/.ipython-" version)))))))
 
 (use-package rainbow-delimiters
   :hook
