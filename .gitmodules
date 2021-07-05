@@ -288,6 +288,9 @@
 [submodule "projectile"]
 	path = lib/projectile
 	url = git@github.com:bbatsov/projectile.git
+[submodule "pydoc-info"]
+	path = lib/pydoc-info
+	url = git@github.com:emacsattic/pydoc-info.git
 [submodule "pyvenv"]
 	path = lib/pyvenv
 	url = git@github.com:jorgenschaefer/pyvenv.git

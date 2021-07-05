@@ -1832,6 +1832,10 @@ Enable it and re-execute it."
                            other-window)))
     (advice-add command :after #'my-pulse-line)))
 
+(use-package pydoc-info
+  :after python
+  :demand t)
+
 (use-package python
   :custom
   (python-shell-interpreter-args "-E -i")
