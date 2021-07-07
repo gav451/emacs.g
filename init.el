@@ -1833,8 +1833,9 @@ Enable it and re-execute it."
     (advice-add command :after #'my-pulse-line)))
 
 (use-package pydoc-info
-  :after python
-  :demand t)
+  :commands (pydoc-info-add-help)
+  :init
+  (pydoc-info-add-help '("python")))
 
 (use-package python
   :custom
