@@ -81,8 +81,6 @@
 (use-package no-littering
   :commands (no-littering-expand-etc-file-name
              no-littering-expand-var-file-name)
-  :init
-  (add-to-list 'load-path (no-littering-expand-etc-file-name "org-contrib"))
   :demand t)
 
 (use-package custom
@@ -1724,9 +1722,35 @@ Enable it and re-execute it."
              org-export-read-attribute))
 
 (use-package ox-extra
+  :preface
+  (defun my-org-latex-header-blocks-filter (backend)
+    (when (org-export-derived-backend-p backend 'latex)
+      (let ((blocks
+	     (org-element-map (org-element-parse-buffer 'greater-element nil) 'export-block
+	       (lambda (block)
+	         (when (and (string= (org-element-property :type block) "LATEX")
+			    (string= (org-export-read-attribute
+				      :header block :header)
+				     "yes"))
+		   block)))))
+        (mapc (lambda (block)
+	        (goto-char (org-element-property :post-affiliated block))
+                (let ((contents-lines (split-string
+                                       (org-element-property :value block)
+                                       "\n")))
+                  (delete-region (org-element-property :begin block)
+                                 (org-element-property :end block))
+                  (dolist (line contents-lines)
+                    (insert (concat "#+latex_header: "
+                                    (replace-regexp-in-string "\\` *" "" line)
+                                    "\n")))))
+	      ;; go in reverse, to avoid wrecking the numeric positions
+	      ;; earlier in the file
+	      (reverse blocks)))))
   :after ox
   :commands (ox-extras-activate)
   :init
+  (advice-add 'org-latex-header-blocks-filter :override #'my-org-latex-header-blocks-filter)
   (ox-extras-activate '(ignore-headlines latex-header-blocks)))
 
 (use-package ox-latex

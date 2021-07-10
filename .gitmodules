@@ -35,10 +35,6 @@
 [submodule "buttercup"]
 	path = lib/buttercup
 	url = git@github.com:jorgenschaefer/emacs-buttercup.git
-[submodule "cdlatex"]
-	disabled = true
-	path = lib/cdlatex
-	url = git@github.com:cdominik/cdlatex.git
 [submodule "closql"]
 	path = lib/closql
 	url = git@github.com:emacscollective/closql.git
@@ -73,10 +69,6 @@
 [submodule "easy-kill"]
 	path = lib/easy-kill
 	url = git@github.com:leoliu/easy-kill.git
-[submodule "ebib"]
-	disabled = true
-	path = lib/ebib
-	url = git@github.com:joostkremers/ebib.git
 [submodule "electric-operator"]
 	path = lib/electric-operator
 	url = git@github.com:davidshepherd7/electric-operator.git
@@ -127,10 +119,6 @@
 	no-byte-compile = esxml-form.el
 	no-byte-compile = esxml-html.el
 	no-byte-compile = esxpath.el
-[submodule "exec-path-from-shell"]
-	disabled = true
-	path = lib/exec-path-from-shell
-	url = git@github.com:purcell/exec-path-from-shell.git
 [submodule "f"]
 	path = lib/f
 	url = git@github.com:rejeep/f.el.git
@@ -253,10 +241,10 @@
 	info-path = doc
 	build-step = make compile autoloads info
 [submodule "org-contrib"]
-	disabled = true
 	path = lib/org-contrib
 	url = git@git.sr.ht:~bzg/org-contrib
 	load-path = lisp
+	no-byte-compile = lisp/ox-extra.el
 [submodule "org-mime"]
 	path = lib/org-mime
 	url = git@github.com:org-mime/org-mime.git
