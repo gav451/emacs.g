@@ -1519,6 +1519,7 @@ Enable it and re-execute it."
                      (_ path)))))
 
 (use-package org
+  ;; https://emacs.stackexchange.com/questions/12938/how-can-i-evaluate-elisp-in-an-orgmode-file-when-it-is-opened/
   :preface
   (defun my-org-active-current-time-stamp ()
     "Insert an active org-mode `current-time' timestamp."
@@ -1529,6 +1530,21 @@ Enable it and re-execute it."
     "Insert an inactive org-mode `current-time' timestamp."
     (interactive)
     (org-insert-time-stamp (current-time) 'with-hm 'inactive))
+
+  (defun my-org-eval-blocks-named (name)
+    "Evaluate all source blocks named NAME."
+    (interactive)
+    (if (eq major-mode 'org-mode)
+        (let ((blocks
+               (org-element-map
+                   (org-element-parse-buffer) 'src-block
+                 (lambda (element)
+                   (when (string= name
+                                  (org-element-property :name element))
+                     element)))))
+          (dolist (block blocks)
+            (goto-char (org-element-property :begin block))
+            (org-babel-execute-src-block)))))
 
   (defun find-broken-org-file-links ()
     "Find broken org-mode file links in an org-mode buffer."
@@ -1613,22 +1629,8 @@ Enable it and re-execute it."
              org-narrow-to-subtree
              org-tags-completion-function)
   :init
-  (add-hook
-   'org-mode-hook
-   (defun on-org-mode-hook-eval-blocks ()
-     "Evaluate all \"org-mode-hook-eval-block\" source blocks."
-     (interactive)
-     (if (eq major-mode 'org-mode)
-         (let ((blocks
-                (org-element-map
-                    (org-element-parse-buffer) 'src-block
-                  (lambda (element)
-                    (when (string= "org-mode-hook-eval-block"
-                                   (org-element-property :name element))
-                      element)))))
-           (dolist (block blocks)
-             (goto-char (org-element-property :begin block))
-             (org-babel-execute-src-block)))))))
+  (add-to-list 'safe-local-eval-forms
+               (quote (apply 'my-org-eval-blocks-named '("emacs-lisp-setup")))))
 
 (use-package org-agenda
   :after org
