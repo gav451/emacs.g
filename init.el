@@ -1472,6 +1472,19 @@ Enable it and re-execute it."
   :custom
   (org-babel-python-command "python -E"))
 
+(use-package oc
+  :after org
+  :custom
+  (org-cite-export-processors (quote ((latex biblatex)
+                                      (t basic))))
+  (org-cite-global-bibliography (quote ("~/VCS/research/refs.bib"))))
+
+(use-package oc-basic
+  :after org)
+
+(use-package oc-biblatex
+  :after org)
+
 (use-package ol
   :custom
   (org-link-abbrev-alist
